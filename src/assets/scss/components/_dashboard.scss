@@ -1,0 +1,5 @@
+.dashboard {
+  display: grid;
+  grid-template-columns: 2fr repeat(5, 1fr);
+  grid-template-rows: repeat(6, 1fr);
+}

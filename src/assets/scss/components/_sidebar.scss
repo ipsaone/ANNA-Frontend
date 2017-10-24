@@ -1,0 +1,109 @@
+@mixin border-color($color) {
+  border-left-color: $color;
+
+  &:hover, &:focus, &:active, &.router-link-active {
+    background-color: $color;
+  }
+}
+
+.sidebar {
+  background-color: $black-ter;
+  height: 100%;
+  width: $sidebar-width;
+  position: fixed;
+
+  .logo {
+    display: inline-block;
+    height: auto;
+    margin: 4%;
+    margin-bottom: 1%;
+    width: 92%;
+    cursor: pointer;
+  }
+
+  .title {
+    color: $white-ter;
+    font-weight: $weight-medium;
+    margin-bottom: 2em;
+    text-align: center;
+  }
+
+  nav {
+    text-align: center;
+
+    li {
+      border-bottom: solid 1px $black-ter;
+
+      &:last-child {
+        border-bottom: none;
+      }
+    }
+
+    a {
+      border-left-style: solid;
+      border-left-width: 0.5em;
+      display: block;
+      color: $white-ter;
+      font-weight: $weight-semibold;
+      text-transform: uppercase;
+      padding: 0.7em 0;
+      background-color: $grey-darker;
+
+      &.grey {
+        border-bottom: none;
+        margin-bottom: 2em;
+        @include border-color($grey)
+      }
+
+      &.blue { @include border-color($blue) }
+      &.green { @include border-color($green) }
+      &.purple { @include border-color($purple) }
+      &.yellow { @include border-color($yellow) }
+      &.red { @include border-color($red) }
+    }
+  }
+
+  .bottom {
+    position: absolute;
+    bottom: 0;
+    width: $sidebar-width;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    background-color: $grey-darker;
+
+    .button {
+      border-radius: 0;
+      background-color: inherit;
+      color: $white-ter;
+      font-size: 1.2em;
+
+      &[data-badge] {
+        animation: shake 0.82s cubic-bezier(.36,.07,.19,.97) both;
+        transform: translate3d(0, 0, 0);
+        backface-visibility: hidden;
+        perspective: 1000px;
+      }
+
+      &:hover, &:focus, &:active {
+        background-color: $grey;
+
+        &:last-child { background-color: $red; }
+      }
+
+      &.badge[data-badge]:after {
+        content: attr(data-badge);
+        position: absolute;
+        top: 5px;
+        right: 15px;
+        font-size: .7em;
+        background: $red;
+        color: $white-ter;
+        width: 19px;
+        height: 19px;
+        text-align: center;
+        line-height: 15px;
+        border-radius: 50%;
+      }
+    }
+  }
+}

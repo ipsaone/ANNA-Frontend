@@ -1,0 +1,35 @@
+.button, button,
+input[type="button"],
+input[type='reset'],
+input[type='submit'] {
+  @include control;
+
+  background-color: $white;
+  border: none;
+  color: $grey-darker;
+  cursor: pointer;
+  display: inline-block;
+  text-align: center;
+  text-decoration: none;
+  white-space: nowrap;
+
+  &:focus, &:hover {
+    outline: 0;
+  }
+
+  &[disabled] {
+    cursor: default;
+    opacity: .5;
+  }
+
+  &.alert {
+    background-color: $red;
+    border-color: darken($red, 50%);
+  }
+
+  &.success {
+    background-color: $green;
+    border-color: darken($green, 50%);
+
+  }
+}

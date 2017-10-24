@@ -1,0 +1,54 @@
+// Status colors
+$primary: $turquoise;
+
+$info: $blue;
+$success: $green;
+$warning: $yellow;
+$danger: $red;
+
+$light: $white-ter;
+$dark: $grey-darker;
+
+// General colors
+$background: $white-ter;
+
+$border: $grey-lighter;
+$border-hover: $grey-light;
+
+// Text colors
+$text: $grey-dark;
+$text-light: $grey;
+$text-strong: $grey-darker;
+
+// Code colors
+$code: $red;
+$code-background: $background;
+
+$pre: $text;
+$pre-background: $background;
+
+// Link colors
+$link: $primary;
+$link-visited: $purple;
+
+$link-hover: $grey-darker;
+$link-hover-border: $grey-light;
+
+$link-focus: $grey-darker;
+$link-focus-border: $primary;
+
+$link-active: $grey-darker;
+$link-active-border: $grey-dark;
+
+// Typography
+$family-primary: $family-sans-serif;
+$family-code: $family-monospace;
+
+$size-small: $size-7;
+$size-normal: $size-6;
+$size-medium: $size-5;
+$size-large: $size-4;
+
+// Width
+$sidebar-width: 12em;
+$info-panel-width: 25em;

@@ -1,0 +1,6 @@
+.app {
+  display: grid;
+  grid-template-columns: $sidebar-width auto $info-panel-width;
+  width: 100vw;
+  height: 100vh;
+}

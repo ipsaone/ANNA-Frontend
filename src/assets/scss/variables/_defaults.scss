@@ -1,0 +1,68 @@
+/*
+ * COLORS
+ */
+// Black
+$black: hsl(0, 0%, 4%);
+$black-bis: hsl(0, 0%, 7%);
+$black-ter: hsl(0, 0%, 14%);
+
+// Grey
+$grey-darker: hsl(0, 0%, 21%);
+$grey-dark: hsl(0, 0%, 29%);
+$grey: hsl(0, 0%, 48%);
+$grey-light: hsl(0, 0%, 71%);
+$grey-lighter: hsl(0, 0%, 86%);
+
+// White
+$white-darker: hsl(0, 0%, 88%);
+$white-dark: hsl(0, 0%, 90%);
+$white-ter: hsl(0, 0%, 94%);
+$white-bis: hsl(0, 0%, 96%);
+$white: hsl(0, 0%, 100%);
+
+// Accent colors
+$orange: hsl(28, 80%, 52%);
+$yellow: hsl(37, 90%, 51%);
+$green: hsl(145, 63%, 42%);
+$turquoise: hsl(171, 100%, 41%);
+$cyan: hsl(204, 86%, 53%);
+$blue: hsl(204, 70%, 53%);
+$purple: hsl(283, 39%, 53%);
+$red: hsl(6, 78%, 57%);
+
+/*
+ * GENERAL
+ */
+// Fonts
+$family-sans-serif: BlinkMacSystemFont, -apple-system, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", "Helvetica", "Arial", sans-serif;
+$family-monospace: monospace;
+$render-mode: optimizeLegibility;
+
+// Sizes
+$size-1: 3rem;
+$size-2: 2.5rem;
+$size-3: 2rem;
+$size-4: 1.5rem;
+$size-5: 1.25rem;
+$size-6: 1rem;
+$size-7: 0.75rem;
+
+// Weights
+$weight-light: 300;
+$weight-normal: 400;
+$weight-medium: 500;
+$weight-semibold: 600;
+$weight-bold: 700;
+
+// Miscellaneous
+$easing: ease-out;
+$radius-small: 2px;
+$radius: 3px;
+$radius-large: 5px;
+$speed: 86ms;
+
+/*
+ * BODY
+ */
+$body-background: $white;
+$body-size: 16px;
