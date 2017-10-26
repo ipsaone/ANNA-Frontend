@@ -1,7 +1,8 @@
-import PostsApi from '@/api/posts';
+import PostsApi from '@/api/test/posts';
 
 const state = {
-    posts: []
+    posts: [],
+    post: {}
 };
 
 const mutations = {
@@ -9,37 +10,42 @@ const mutations = {
         state.posts = posts;
     },
 
-    ADD_USER(state, post) {
+    GET_POST(state, post) {
+        state.post = post;
+    },
+
+    ADD_POST(state, post) {
         state.posts.push(post);
-    },
-
-    UPDATE_USER(state, editUser) {
-        state.user = Object.assign({}, state.user, editUser);
-    },
-
-    DELETE_USER(state, posts) {
-        state.posts = posts;
     }
 };
 
 const actions = {
-    getAllUsers({commit}) {
-        UsersApi.getAll().then(posts => {
-            commit('GET_ALL', posts.data);
+    getAllPosts({commit}) {
+        PostsApi.getAll().then(posts => {
+            commit('GET_ALL', posts);
         });
     },
 
-    addUser({commit}, user) {
-        UsersApi.postUser(user).then(res => {
-            console.log(res);
-            commit('ADD_USER', user);
+    getPost({commit}, id) {
+        PostsApi.getPostById(id).then(post => {
+            commit('GET_POST', post);
+        });
+    },
+
+    addPost({commit}, post) {
+        PostsApi.postPost(post).then(res => {
+            commit('ADD_POST', post);
         });
     }
 };
 
 const getters = {
-    allUsers(state) {
-        return state.users;
+    allPosts(state) {
+        return state.posts;
+    },
+
+    selectedPost(state) {
+        return state.post;
     }
 };
 

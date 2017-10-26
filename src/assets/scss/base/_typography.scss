@@ -1,0 +1,38 @@
+//
+// Headings
+//
+h1, h2, h3, h4, h5, h6 {
+  letter-spacing: -0.0625em;
+  line-height: 1.2em;
+  margin-bottom: 0.3em;
+}
+
+h1 {
+  font-size: 2.8em;
+  font-weight: $weight-medium;
+}
+
+h2 {
+  font-size: 2.2em;
+  font-weight: $weight-medium;
+}
+
+h3 {
+  font-size: 1.7em;
+  font-weight: $weight-normal;
+}
+
+h4 {
+  font-size: 1.3em;
+  font-weight: $weight-normal;
+}
+
+h5 {
+  font-size: 1.125em;
+  font-weight: $weight-normal;
+}
+
+h6 {
+  font-size: 1em;
+  font-weight: $weight-light;
+}

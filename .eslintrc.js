@@ -20,7 +20,7 @@ module.exports = {
         // semicolons
         'semi': ['error', 'always'],
         // quotes
-        'quotes': ['error', 'single'],
+        'quotes': ['error', 'single', {'allowTemplateLiterals': true}],
         // indetation
         'indent': ['error', 4]
     }

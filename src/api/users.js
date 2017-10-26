@@ -2,7 +2,7 @@ import axios from 'axios';
 
 const url = 'https://jsonplaceholder.typicode.com/users/';
 
-const UsersApi = {
+export default {
     getAll() {
         return axios.get(url);
     },
@@ -23,5 +23,3 @@ const UsersApi = {
         return axios.delete(url + user.id);
     }
 };
-
-export default UsersApi;

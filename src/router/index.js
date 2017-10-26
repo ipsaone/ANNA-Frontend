@@ -32,6 +32,11 @@ export default new Router({
             component: resolve => require(['@/pages/BlogPage.vue'], resolve)
         },
         {
+            path: '/blog/post/:id',
+            name: 'readPost',
+            component: resolve => require(['@/pages/PostPage.vue'], resolve)
+        },
+        {
             path: '/storage',
             name: 'storage',
             component: resolve => require(['@/pages/StoragePage.vue'], resolve)

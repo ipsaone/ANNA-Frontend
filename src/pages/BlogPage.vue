@@ -1,13 +1,17 @@
 <template>
     <section class="blog">
-        <h1>Blog</h1>
+        <post-abstract v-for="post in allPosts" :key="post.id" :post="post"></post-abstract>
     </section>
 </template>
 
 <script>
     import {mapGetters, mapActions} from 'vuex';
+    import PostAbstract from '@/components/PostAbstract';
 
     export default {
+        components: {
+            PostAbstract
+        },
         mounted() {
             this.getAllPosts();
         },
@@ -16,7 +20,7 @@
                 'allPosts'
             ])
         },
-        methods : {
+        methods: {
             ...mapActions([
                 'getAllPosts'
             ])
