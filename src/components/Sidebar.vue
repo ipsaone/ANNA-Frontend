@@ -9,10 +9,10 @@
 
             <ul>
                 <li>
-                    <router-link :to="{name: 'blog'}" class="blue">Internal blog</router-link>
+                    <router-link :to="{name: 'blog'}" class="blue">Blog</router-link>
                 </li>
                 <li>
-                    <router-link :to="{name: 'storage'}" class="green">Storage</router-link>
+                    <router-link :to="{name: 'storage'}" class="green">Drive</router-link>
                 </li>
                 <li>
                     <router-link :to="{name: 'forum'}" class="purple">Forum</router-link>
