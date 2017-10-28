@@ -5,7 +5,7 @@
         <h1 class="title">Administration Network for Nanosat Association</h1>
 
         <nav>
-            <router-link :to="{name: 'dashboard'}" class="grey">Dashboard</router-link>
+            <router-link :to="{name: 'dashboard'}" class="grey main">Dashboard</router-link>
 
             <ul>
                 <li>

@@ -12,7 +12,7 @@ const PostsApi = {
     },
 
     getAllDataById(id) {
-        
+
     },
 
     addDataById(id) {
@@ -26,6 +26,8 @@ const PostsApi = {
     downloadFileById(id) {
 
     },
+
+    
 
 
 };

@@ -47,21 +47,27 @@
       color: $white-ter;
       font-weight: $weight-semibold;
       text-transform: uppercase;
-      padding: 0.7em 0;
+      padding: 0.6em 0;
       background-color: $grey-darker;
 
-      &.grey {
+      &.main {
         border-bottom: none;
         margin-bottom: 2em;
-        @include border-color($grey)
       }
 
+      &.grey {@include border-color($grey)}
       &.blue { @include border-color($blue) }
       &.green { @include border-color($green) }
       &.purple { @include border-color($purple) }
       &.yellow { @include border-color($yellow) }
       &.red { @include border-color($red) }
     }
+  }
+
+  &, .bottom {
+    border-right-style: solid;
+    border-right-width: $sidebar-border-width;
+    border-right-color: $sidebar-border-color;
   }
 
   .bottom {
