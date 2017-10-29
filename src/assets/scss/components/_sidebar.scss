@@ -23,7 +23,7 @@
     display: inline-block;
     height: auto;
     margin: 4%;
-    margin-bottom: 1%;
+    margin-bottom: -5%;
     width: 92%;
     cursor: pointer;
   }
@@ -98,6 +98,7 @@
       background-color: inherit;
       color: $white-ter;
       font-size: 1.2em;
+      transition: background-color 500ms;
 
       &[data-badge] {
         animation: shake 0.82s cubic-bezier(.36,.07,.19,.97) both;
