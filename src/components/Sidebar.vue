@@ -14,19 +14,28 @@
             </ul>
         </nav>
 
-        <div class="bottom">
-            <a class="button badge" @click.prevent="showNotifications"
-               :data-badge="(notifications) ? notifications : false">
-                <i class="fa fa-bell" aria-hidden="true"></i>
-            </a>
 
-            <router-link to="/profile" class="button">
-                <i class="fa fa-user" aria-hidden="true"></i>
-            </router-link>
+        <div class="bottom">      
+            <transition name="fade">
+                <div id="tooltip" v-if="tooltipVisible">
+                    {{ this.tooltipText }}
+                </div>
+            </transition>
+                 
+            <div id="buttons" @mouseover="mouseOverButton" @mouseleave="mouseLeaveButton">
+                <a class="button badge" data-text="cdef" @click.prevent="showNotifications"
+                   :data-badge="(notifications) ? notifications : false">
+                    <i class="fa fa-bell" aria-hidden="true"></i>
+                </a>
 
-            <a class="button" @click.prevent="logout">
-                <i class="fa fa-power-off" aria-hidden="true"></i>
-            </a>
+                <router-link to="/profile" class="button" data-text="abc">
+                    <i class="fa fa-user" aria-hidden="true"></i>
+                </router-link>
+
+                <a class="button" data-text="blabla" @click.prevent="logout">
+                    <i class="fa fa-power-off" aria-hidden="true"></i>
+                </a>
+            </div>
         </div>
     </section>
 </template>
@@ -38,6 +47,8 @@
         data() {
             return {
                 notifications: 0,
+                tooltipVisible: false,
+                tooltipText: 'blablabla',
                 links: [
                     {title: 'Dashboard', name: 'dashboard', color: 'grey', class: 'main'},
                     {title: 'Blog', name: 'blog', color: 'blue'},
@@ -68,6 +79,15 @@
             },
             logout() {
                 this.notifications += 1;
+            },
+            mouseOverButton(event) {
+                if(event.target.className.split(' ').includes('button')) {
+                    this.tooltipVisible = true;
+                    this.tooltipText = event.target.dataset.text;
+                }
+            },
+            mouseLeaveButton() {
+                this.tooltipVisible = false;
             }
         }
     };

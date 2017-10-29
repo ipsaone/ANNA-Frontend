@@ -78,54 +78,75 @@
     transition : border-right 500ms;
   }
 
-   &.grey {@include bar-border-color($grey)}
-    &.blue { @include bar-border-color($blue) }
-    &.green { @include bar-border-color($green) }
-    &.purple { @include bar-border-color($purple) }
-    &.yellow { @include bar-border-color($yellow) }
-    &.red { @include bar-border-color($red) }
+  &.grey {@include bar-border-color($grey)}
+  &.blue { @include bar-border-color($blue) }
+  &.green { @include bar-border-color($green) }
+  &.purple { @include bar-border-color($purple) }
+  &.yellow { @include bar-border-color($yellow) }
+  &.red { @include bar-border-color($red) }
 
   .bottom {
+
     position: absolute;
     bottom: 0;
     width: $sidebar-width;
-    display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
-    background-color: $grey-darker;
+    
+    
 
-    .button {
-      border-radius: 0;
-      background-color: inherit;
+    #tooltip {
+      border-left-style: solid;
+      border-left-width: 0.5em;
+      display: block;
       color: $white-ter;
-      font-size: 1.2em;
+      font-weight: $weight-semibold;
+      text-transform: uppercase;
+      padding: 0.6em 0;
+      background-color: $grey-darker;
       transition: background-color 500ms;
+      text-align: center;
+      margin-bottom: 0.3em;
+    }
 
-      &[data-badge] {
-        animation: shake 0.82s cubic-bezier(.36,.07,.19,.97) both;
-        transform: translate3d(0, 0, 0);
-        backface-visibility: hidden;
-        perspective: 1000px;
-      }
+    #buttons {
 
-      &:hover, &:focus, &:active {
-        background-color: $grey;
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      background-color: $grey-darker;
 
-        &:last-child { background-color: $red; }
-      }
-
-      &.badge[data-badge]:after {
-        content: attr(data-badge);
-        position: absolute;
-        top: 5px;
-        right: 15px;
-        font-size: .7em;
-        background: $red;
+      .button {
+        border-radius: 0;
+        background-color: inherit;
         color: $white-ter;
-        width: 19px;
-        height: 19px;
-        text-align: center;
-        line-height: 15px;
-        border-radius: 50%;
+        font-size: 1.2em;
+        transition: background-color 500ms;
+
+        &[data-badge] {
+          animation: shake 0.82s cubic-bezier(.36,.07,.19,.97) both;
+          transform: translate3d(0, 0, 0);
+          backface-visibility: hidden;
+          perspective: 1000px;
+        }
+
+        &:hover, &:focus, &:active {
+          background-color: $grey;
+
+          &:last-child { background-color: $red; }
+        }
+
+        &.badge[data-badge]:after {
+          content: attr(data-badge);
+          position: absolute;
+          top: 5px;
+          right: 15px;
+          font-size: .7em;
+          background: $red;
+          color: $white-ter;
+          width: 19px;
+          height: 19px;
+          text-align: center;
+          line-height: 15px;
+          border-radius: 50%;
+        }
       }
     }
   }
