@@ -6,7 +6,7 @@
 
         <nav>
             <ul>
-                <li v-for="link in links" @click="updateBorderColor(link.color)">
+                <li v-for="link in links">
                     <router-link :to="{name: link.name}" :class="[link.color, link.class]">{{ link.title }}</router-link>
                 </li>
             </ul>
@@ -35,8 +35,7 @@
     export default {
         data() {
             return {
-                notifications: 5,
-                borderColor: '',
+                notifications: 0,
                 links: [
                     {title: 'Dashboard', name: 'dashboard', color: 'grey', class: 'main'},
                     {title: 'Blog', name: 'blog', color: 'blue'},
@@ -47,6 +46,13 @@
                 ]
             };
             
+        },
+        computed: {
+            borderColor() {
+                let curlink = this.links.filter(el => el.name === this.$route.name)[0];
+                if(curlink) {return curlink.color;}
+                return 'grey';
+            }
         },
         methods: {
             redirectToHome() {
@@ -60,9 +66,6 @@
             },
             logout() {
                 this.notifications += 1;
-            },
-            updateBorderColor(color) {
-                this.borderColor = color;
             }
         }
     };
