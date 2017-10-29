@@ -6,8 +6,10 @@
 
         <nav>
             <ul>
-                <li v-for="link in links">
-                    <router-link :to="{name: link.name}" :class="[link.color, link.class]">{{ link.title }}</router-link>
+                <li v-for="link in links" :key="link.id">
+                    <router-link :to="{name: link.name}"  :class="[link.color, link.class]">
+                        {{ link.title }}
+                    </router-link>
                 </li>
             </ul>
         </nav>
