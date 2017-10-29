@@ -17,22 +17,22 @@
 
         <div class="bottom">      
             <transition name="fade">
-                <div id="tooltip" v-if="tooltipVisible">
+                <div id="tooltip" v-if="tooltipVisible" :class="{redBorder: tooltipRedBorder}">
                     {{ this.tooltipText }}
                 </div>
             </transition>
                  
             <div id="buttons" @mouseover="mouseOverButton" @mouseleave="mouseLeaveButton">
-                <a class="button badge" data-text="cdef" @click.prevent="showNotifications"
+                <a class="button badge" data-text="Notifications" @click.prevent="showNotifications"
                    :data-badge="(notifications) ? notifications : false">
                     <i class="fa fa-bell" aria-hidden="true"></i>
                 </a>
 
-                <router-link to="/profile" class="button" data-text="abc">
+                <router-link to="/profile" class="button" data-text="Profil">
                     <i class="fa fa-user" aria-hidden="true"></i>
                 </router-link>
 
-                <a class="button" data-text="blabla" @click.prevent="logout">
+                <a class="button" data-text="Déconnexion" @click.prevent="logout">
                     <i class="fa fa-power-off" aria-hidden="true"></i>
                 </a>
             </div>
@@ -49,6 +49,7 @@
                 notifications: 0,
                 tooltipVisible: false,
                 tooltipText: 'blablabla',
+                tooltipRedBorder: false,
                 links: [
                     {title: 'Dashboard', name: 'dashboard', color: 'grey', class: 'main'},
                     {title: 'Blog', name: 'blog', color: 'blue'},
@@ -84,6 +85,7 @@
                 if(event.target.className.split(' ').includes('button')) {
                     this.tooltipVisible = true;
                     this.tooltipText = event.target.dataset.text;
+                    this.tooltipRedBorder = (event.target.dataset.text === 'Déconnexion');
                 }
             },
             mouseLeaveButton() {
