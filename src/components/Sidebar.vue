@@ -1,28 +1,13 @@
 <template>
-    <section class="sidebar" v-bind:class="borderColor">
+    <section class="sidebar" :class="borderColor">
         <img src="../assets/images/logo.png" alt="IPSA ONE logo" class="logo" @click.prevent="redirectToHome">
 
         <h1 class="title">Administration Network for Nanosat Association</h1>
 
         <nav>
             <ul>
-                <li @click="updateBorderColor('grey')">
-                    <router-link :to="{name: 'dashboard'}" class="grey main">Dashboard</router-link>
-                </li>
-                <li @click="updateBorderColor('blue')">
-                    <router-link  :to="{name: 'blog'}" class="blue">Blog</router-link>
-                </li>
-                <li @click="updateBorderColor('green')">
-                    <router-link :to="{name: 'storage'}" class="green">Drive</router-link>
-                </li>
-                <li @click="updateBorderColor('purple')" >
-                    <router-link :to="{name: 'forum'}" class="purple">Forum</router-link>
-                </li>
-                <li @click="updateBorderColor('yellow')">
-                    <router-link :to="{name: 'events'}" class="yellow">Events</router-link>
-                </li>
-                <li @click="updateBorderColor('red')">
-                    <router-link :to="{name: 'gantt'}" class="red">Gantt</router-link>
+                <li v-for="link in links" @click="updateBorderColor(link.color)">
+                    <router-link :to="{name: link.name}" :class="[link.color, link.class]">{{ link.title }}</router-link>
                 </li>
             </ul>
         </nav>
@@ -51,7 +36,15 @@
         data() {
             return {
                 notifications: 5,
-                borderColor: ''
+                borderColor: '',
+                links: [
+                    {title: 'Dashboard', name: 'dashboard', color: 'grey', class: 'main'},
+                    {title: 'Blog', name: 'blog', color: 'blue'},
+                    {title: 'Drive', name: 'storage', color: 'green'},
+                    {title: 'Forum', name: 'forum', color: 'purple'},
+                    {title: 'Events', name: 'events', color: 'yellow'},
+                    {title: 'Gantt', name: 'gantt', color: 'red'}
+                ]
             };
             
         },
@@ -69,7 +62,6 @@
                 this.notifications += 1;
             },
             updateBorderColor(color) {
-                console.log('called with '+color);
                 this.borderColor = color;
             }
         }
