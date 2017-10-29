@@ -14,7 +14,7 @@
 
         <div class="bottom">
             <a class="button badge" @click.prevent="showNotifications"
-               :data-badge="(notifications) ? notifications : ''">
+               :data-badge="(notifications) ? notifications : false">
                 <i class="fa fa-bell" aria-hidden="true"></i>
             </a>
 
