@@ -74,6 +74,7 @@
   &, .bottom {
     border-right-style: solid;
     border-right-width: $sidebar-border-width;
+    transition : border-right 500ms;
   }
 
    &.grey {@include bar-border-color($grey)}
