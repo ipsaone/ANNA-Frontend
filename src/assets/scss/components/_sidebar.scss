@@ -56,6 +56,7 @@
       text-transform: uppercase;
       padding: 0.6em 0;
       background-color: $grey-darker;
+      transition: background-color 500ms;
 
       &.main {
         border-bottom: none;
