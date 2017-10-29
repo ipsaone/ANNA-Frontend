@@ -1,8 +1,15 @@
-@mixin border-color($color) {
+@mixin tab-border-color($color) {
   border-left-color: $color;
 
   &:hover, &:focus, &:active, &.router-link-active {
     background-color: $color;
+  }
+
+}
+
+@mixin bar-border-color($color) {
+  &, .bottom {
+    border-right-color: $color;
   }
 }
 
@@ -55,20 +62,26 @@
         margin-bottom: 2em;
       }
 
-      &.grey {@include border-color($grey)}
-      &.blue { @include border-color($blue) }
-      &.green { @include border-color($green) }
-      &.purple { @include border-color($purple) }
-      &.yellow { @include border-color($yellow) }
-      &.red { @include border-color($red) }
+      &.grey {@include tab-border-color($grey)}
+      &.blue { @include tab-border-color($blue) }
+      &.green { @include tab-border-color($green) }
+      &.purple { @include tab-border-color($purple) }
+      &.yellow { @include tab-border-color($yellow) }
+      &.red { @include tab-border-color($red) }
     }
   }
 
   &, .bottom {
     border-right-style: solid;
     border-right-width: $sidebar-border-width;
-    border-right-color: $sidebar-border-color;
   }
+
+   &.grey {@include bar-border-color($grey)}
+    &.blue { @include bar-border-color($blue) }
+    &.green { @include bar-border-color($green) }
+    &.purple { @include bar-border-color($purple) }
+    &.yellow { @include bar-border-color($yellow) }
+    &.red { @include bar-border-color($red) }
 
   .bottom {
     position: absolute;
