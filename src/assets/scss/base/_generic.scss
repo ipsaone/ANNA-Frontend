@@ -17,6 +17,8 @@ body, button, input, select, textarea {
   font-family: $family-primary;
 }
 
+html, body { height: 100% }
+
 code, pre {
   -moz-osx-font-smoothing: auto;
   -webkit-font-smoothing: antialiased;

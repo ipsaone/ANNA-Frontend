@@ -1,12 +1,10 @@
 <template>
     <div :class="($route.path === '/login') ? 'login' : 'app'">
-      <notifications />
+        <notifications/>
         <div v-if="$route.path !== '/login'">
             <sidebar></sidebar>
         </div>
-        <div>
-            <router-view></router-view>
-        </div>
+        <router-view></router-view>
     </div>
 </template>
 
