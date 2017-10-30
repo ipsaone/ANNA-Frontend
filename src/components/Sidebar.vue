@@ -28,11 +28,11 @@
                     <i class="fa fa-bell" aria-hidden="true"></i>
                 </a>
 
-                <router-link to="/profile" class="button" data-text="Profil">
+                <router-link to="/profile" class="button" data-text="Profile">
                     <i class="fa fa-user" aria-hidden="true"></i>
                 </router-link>
 
-                <a class="button" data-text="Déconnexion" @click.prevent="logout">
+                <a class="button" data-text="Logout" @click.prevent="logout">
                     <i class="fa fa-power-off" aria-hidden="true"></i>
                 </a>
             </div>
@@ -85,7 +85,7 @@
                 if(event.target.className.split(' ').includes('button')) {
                     this.tooltipVisible = true;
                     this.tooltipText = event.target.dataset.text;
-                    this.tooltipRedBorder = (event.target.dataset.text === 'Déconnexion');
+                    this.tooltipRedBorder = (event.target.dataset.text === 'Logout');
                 }
             },
             mouseLeaveButton() {
