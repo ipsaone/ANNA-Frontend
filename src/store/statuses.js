@@ -4,13 +4,13 @@ const state = {
             type: 'warning',
             title: 'Test 1',
             text: 'It\'s a warning',
-            duration: -1
+            duration: 1000
         },
         {
             type: 'success',
             title: 'Test 2',
             text: 'It\'s a success',
-            duration: -1
+            duration: 1000
         }
     ]
 };
