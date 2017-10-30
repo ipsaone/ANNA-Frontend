@@ -1,6 +1,6 @@
 <template>
     <div class="app">
-        <notifications />
+      <notifications />
         <div v-if="this.$route.path !== '/login'">
             <sidebar></sidebar>
         </div>
