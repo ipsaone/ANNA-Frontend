@@ -86,16 +86,12 @@
   &.red { @include bar-border-color($red) }
 
   .bottom {
-
     position: absolute;
     bottom: 0;
     width: $sidebar-width;
-    
-    
 
-    #tooltip {
-      border-left-style: solid;
-      border-left-width: 0.5em;
+    .tooltip {
+      border-left: 0.5em solid $white-ter;
       display: block;
       color: $white-ter;
       font-weight: $weight-semibold;
@@ -105,15 +101,13 @@
       transition: background-color 500ms;
       text-align: center;
       margin-bottom: 0.3em;
-      boder-left-color: $white-ter;
 
       &.redBorder {
         border-left-color: $red;
       }
     }
 
-    #buttons {
-
+    .actions {
       display: grid;
       grid-template-columns: 1fr 1fr 1fr;
       background-color: $grey-darker;

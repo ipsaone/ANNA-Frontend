@@ -17,12 +17,12 @@
 
         <div class="bottom">      
             <transition name="fade">
-                <div id="tooltip" v-if="tooltipVisible" :class="{redBorder: tooltipRedBorder}">
+                <div v-if="tooltipVisible" :class="{redBorder: tooltipRedBorder}" class="tooltip">
                     {{ this.tooltipText }}
                 </div>
             </transition>
                  
-            <div id="buttons" @mouseover="mouseOverButton" @mouseleave="mouseLeaveButton">
+            <div class="actions" @mouseover="mouseOverButton" @mouseleave="mouseLeaveButton">
                 <a class="button badge" data-text="Notifications" @click.prevent="showNotifications"
                    :data-badge="(notifications) ? notifications : false">
                     <i class="fa fa-bell" aria-hidden="true"></i>
