@@ -1,9 +1,6 @@
-.app{
-  background: url("../../assets/images/connexion.png") no-repeat center fixed;
-  background-size: cover;
-}
-
 .login{
+  background: url("../../assets/images/bkg_login.png") no-repeat center fixed;
+  background-size: cover;
   display: grid;
   grid-template-columns: $sidebar-width repeat(14, 1/2*$sidebar-width);
   grid-template-rows: repeat(10 , 10vh)

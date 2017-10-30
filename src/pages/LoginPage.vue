@@ -1,23 +1,21 @@
 <template>
-  <div class="background">
+    <section>
+        <img src="../assets/images/logo.png" alt="IPSA ONE logo" class="logo">
 
-    <div class="login">
-        <img src="../assets/images/logo.png" alt="IPSA ONE logo" class="logo" @click.prevent="redirectToHome">
+        <section class="content">
+            <h1>A.N.N.A.</h1>
+            <h2> Admin Network for Nanosat Association </h2>
 
-        <form class="connexion">
-          <span class= "first-title">A.N.N.A.</span>
-          <span class= "second-title"> Admin Network for Nanosat Association </span>
+            <form>
+                <input type="text" id="username" name="username" placeholder="Username">
+                <input type="password" id="password" name="password" placeholder="Password">
+                <input type="submit" value="Login">
+            </form>
 
-          <input type="text" id="user" class="inp" placeholder="Login">
-          <input type="password" id="password" class=  "inp" placeholder="Password">
-         <div class="button">
-           <input class="button1" type="button" value="Mot de passe oublié">
-           <input class="button1" type="submit" value="Connexion">
-         </div>
-      </form>
+            <a href="#">Forgot your password?</a>
 
-      <div class="copyright"> Copyright ©IPSA ONE </div>
+        </section>
 
-    </div>
-  </div>
+        <footer class="copyright"> Copyright ©IPSA ONE </footer>
+    </section>
 </template>
