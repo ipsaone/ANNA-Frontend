@@ -1,30 +1,39 @@
 <template>
     <section class="blog">
         <h1 class="section-title">Blog</h1>
-        <post-abstract v-for="post in allPosts" :key="post.id" :post="post"></post-abstract>
+        <p><a href="#" @click.prevent="reloadPosts">Reload posts</a></p>
+        <post-abstract v-for="post in posts" :key="post.id" :post="post" @click="selectPost(post.id)"></post-abstract>
     </section>
 </template>
 
 <script>
-    import {mapGetters, mapActions} from 'vuex';
+    import store from '@/store';
     import PostAbstract from '@/components/PostAbstract';
 
     export default {
+        mounted() {
+            store.dispatch('retrievePosts')
+                .catch(err => {
+                    this.$notify({
+                        type: 'error',
+                        title: 'Can not retrieve the posts',
+                        text: err.message,
+                        duration: -1
+                    });
+                });
+        },
         components: {
             PostAbstract
         },
-        mounted() {
-            this.getAllPosts();
-        },
         computed: {
-            ...mapGetters([
-                'allPosts'
-            ])
+            posts() {
+                return store.getters.posts;
+            }
         },
         methods: {
-            ...mapActions([
-                'getAllPosts'
-            ])
+            reloadPosts() {
+                store.dispatch('updatePosts');
+            }
         }
     };
 </script>

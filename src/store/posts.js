@@ -6,45 +6,61 @@ const state = {
 };
 
 const mutations = {
-    GET_ALL(state, posts) {
+    SET_ALL_POSTS(state, posts) {
         state.posts = posts;
     },
 
-    GET_POST(state, post) {
+    SELECT_POST(state, post) {
         state.post = post;
-    },
-
-    ADD_POST(state, post) {
-        state.posts.push(post);
     }
 };
 
 const actions = {
-    getAllPosts({commit}) {
-        PostsApi.getAll().then(posts => {
-            commit('GET_ALL', posts);
+    retrievePosts({commit, state}) {
+        return new Promise((resolve, reject) => {
+            if (state.posts.length === 0) { // If no posts is loaded
+                PostsApi.getAll()
+                    .then(posts => {
+                        commit('SET_ALL_POSTS', posts.data);
+                        resolve();
+                    })
+                    .catch(err => {
+                        reject(err);
+                    });
+            }
+            else {
+                resolve();
+            }
         });
     },
 
-    getPost({commit}, id) {
-        PostsApi.getPostById(id).then(post => {
-            commit('GET_POST', post);
+    updatePosts({commit}) {
+        return new Promise((resolve, reject) => {
+            PostsApi.getAll()
+                .then(posts => {
+                    commit('SET_ALL_POSTS', posts.data);
+                    resolve();
+                })
+                .catch(err => {
+                    reject(err);
+                });
         });
     },
 
-    addPost({commit}, post) {
-        PostsApi.postPost(post).then(res => {
-            commit('ADD_POST', post);
+    selectPost({commit, state}, id) {
+        return new Promise(resolve => {
+            commit('SELECT_POST', state.posts.filter(post => post.id === parseInt(id))[0]);
+            resolve();
         });
     }
 };
 
 const getters = {
-    allPosts(state) {
+    posts(state) {
         return state.posts;
     },
 
-    selectedPost(state) {
+    post(state) {
         return state.post;
     }
 };

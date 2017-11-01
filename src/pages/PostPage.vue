@@ -1,27 +1,19 @@
 <template>
     <article>
-        <h1>{{ selectedPost.title }}</h1>
+        <h1>{{ post.title }}</h1>
 
-        <div class="content" v-html="selectedPost.content"></div>
+        <div class="content" v-html="post.content"></div>
     </article>
 </template>
 
 <script>
-    import {mapGetters, mapActions} from 'vuex';
+    import store from '@/store';
 
     export default {
-        mounted() {
-            this.getPost(this.$route.params.id);
-        },
         computed: {
-            ...mapGetters([
-                'selectedPost'
-            ])
-        },
-        methods: {
-            ...mapActions([
-                'getPost'
-            ])
+            post() {
+                return store.getters.post;
+            }
         }
     };
 </script>
