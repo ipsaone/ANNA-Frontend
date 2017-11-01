@@ -5,7 +5,6 @@ const url = base + '/posts/';
 
 const PostsApi = {
     getAll() {
-        console.log('API Post called - getAll()');
         return axios.get(url);
     }
 };

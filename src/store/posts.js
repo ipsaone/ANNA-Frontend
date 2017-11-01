@@ -16,9 +16,9 @@ const mutations = {
 };
 
 const actions = {
-    retrievePosts({commit, state}) {
+    retrievePosts({commit, state}, force = false) {
         return new Promise((resolve, reject) => {
-            if (state.posts.length === 0) { // If no posts is loaded
+            if (state.posts.length === 0 || force) { // If no posts is loaded
                 PostsApi.getAll()
                     .then(posts => {
                         commit('SET_ALL_POSTS', posts.data);
@@ -31,19 +31,6 @@ const actions = {
             else {
                 resolve();
             }
-        });
-    },
-
-    updatePosts({commit}) {
-        return new Promise((resolve, reject) => {
-            PostsApi.getAll()
-                .then(posts => {
-                    commit('SET_ALL_POSTS', posts.data);
-                    resolve();
-                })
-                .catch(err => {
-                    reject(err);
-                });
         });
     },
 

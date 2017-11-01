@@ -1,9 +1,17 @@
 <template>
-    <section class="blog">
-        <h1 class="section-title">Blog</h1>
-        <p><a href="#" @click.prevent="reloadPosts">Reload posts</a></p>
-        <post-abstract v-for="post in posts" :key="post.id" :post="post" @click="selectPost(post.id)"></post-abstract>
-    </section>
+    <div class="blog">
+        <section class="content">
+            <h1 class="section-title">Blog</h1>
+            <post-abstract v-for="post in posts" :key="post.id" :post="post" @click="selectPost(post.id)"></post-abstract>
+        </section>
+
+        <section class="actions">
+            <h1 class="section-title">Actions</h1>
+            <ul>
+                <li><a href="#" @click.prevent="refreshPosts" class="refresh"><i class="fa fa-refresh" aria-hidden="true"></i> Refresh</a></li>
+            </ul>
+        </section>
+    </div>
 </template>
 
 <script>
@@ -31,8 +39,15 @@
             }
         },
         methods: {
-            reloadPosts() {
-                store.dispatch('updatePosts');
+            refreshPosts() {
+                store.dispatch('retrievePosts', true)
+                    .then(_ => {
+                        this.$notify({
+                            type: 'success',
+                            title: 'Blog updated!',
+                            duration: 1000
+                        });
+                    });
             }
         }
     };

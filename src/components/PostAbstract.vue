@@ -1,7 +1,11 @@
 <template>
-    <article class="abstract">
+    <article class="post-abstract">
+        <p class="id">#{{ post.id }}</p>
         <h1><router-link :to="{name: 'readPost', params: {id: post.id}}" @click.native="selectPost(post.id)">{{ post.title }}</router-link></h1>
-        <p>{{ abstract }}</p>
+        <p class="info">
+            <span class="date">{{ post.publishedAt }}</span>
+            <span class="author">By <a href="#">{{ post.author.username }}</a></span>
+        </p>
     </article>
 </template>
 

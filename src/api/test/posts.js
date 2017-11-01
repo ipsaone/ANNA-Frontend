@@ -6,7 +6,11 @@ const _posts = {
             markdown: `This document serves as the **complete** definition of IPSA ONE's coding standards for source code in the JavaScript programming language.`,
             content: `<p>This document serves as the <b>complete</b> definition of IPSA ONE's coding standards for source code in the JavaScript programming language.</p>`,
             authorId: 1,
-            publishedAt: '2017-10-22T20:01:44.926Z'
+            author: {
+                id: 1,
+                username: 'FooBar'
+            },
+            publishedAt: '2017/10/22 - 20:01'
         },
 
         {
@@ -15,14 +19,22 @@ const _posts = {
             markdown: `Oh! *Du* **Markdown**.`,
             content: `<p>Oh! <i>Du</i> <b>Markdown</b>.</p>`,
             authorId: 2,
-            publishedAt: '2017-10-25T20:01:44.926Z'
+            author: {
+                id: 2,
+                username: 'Fifou'
+            },
+            publishedAt: '2017/10/25 - 20:01'
         },
         {
             id: 3,
             title: 'Lancement du twitter d\'IPSA ONE !',
             content: `Super twitter!`,
             authorId: 2,
-            publishedAt: '2017-10-27T20:01:44.926Z'
+            author: {
+                id: 2,
+                username: 'Fifou'
+            },
+            publishedAt: '2017/10/27 - 20:01'
         }
     ]
 };
