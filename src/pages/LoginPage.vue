@@ -8,8 +8,8 @@
                 <h2>Admin Network for Nanosat Association </h2>
 
                 <form>
-                    <input type="text" id="username" name="username" placeholder="Username">
-                    <input type="password" id="password" name="password" placeholder="Password">
+                    <input type="text" id="username" name="username" v-model="username" placeholder="Username">
+                    <input type="password" id="password" name="password" v-model="password" placeholder="Password">
                     <div class="actions">
                         <a class="button" href="#">Forgot your password?</a>
                         <a class="button" href="#" @click.prevent="login">Login</a>
@@ -24,10 +24,35 @@
 </template>
 
 <script>
+    import {mapGetters} from 'vuex';
+    import store from '@/store';
+
     export default {
+        data() {
+            return {
+                username: '',
+                password: ''
+            };
+        },
         methods: {
             login() {
-                this.$router.push({name: 'root'});
+                store.dispatch('loginUser', {username: this.username, password: this.password})
+                    .then(_ => {
+                        this.$router.push({name: 'dashboard'});
+                        this.$notify({
+                            type: 'success',
+                            title: `Welcome back <b>${this.$store.getters.loggedUser.username}</b>!`,
+                            duration: 5000
+                        });
+                    })
+                    .catch(err => {
+                        this.$notify({
+                            type: 'error',
+                            title: 'Unknown credentials.',
+                            text: err.message,
+                            duration: -1
+                        });
+                    });
             }
         }
     };

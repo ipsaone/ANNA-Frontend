@@ -42,6 +42,7 @@
 
 <script>
     import swal from 'sweetalert2';
+    import store from '@/store';
 
     export default {
         data() {
@@ -76,7 +77,15 @@
                 this.notifications = 0;
             },
             logout() {
-                this.$router.push({name: 'login'});
+                store.dispatch('logoutUser')
+                    .then(_ => {
+                        this.$notify({clean: true});
+                        this.$router.push({name: 'login'});
+                        this.$notify({
+                            type: 'success',
+                            title: 'You are disconnected from ANNA.'
+                        });
+                    });
             },
             mouseOverButton(event) {
                 if(event.target.className.split(' ').includes('button')) {
