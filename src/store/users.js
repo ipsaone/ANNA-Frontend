@@ -1,63 +1,44 @@
-import UsersApi from '@/api/test/users';
+import AuthApi from '@/api/auth';
 
 const state = {
-    users: [],
-    user: {}
+    logged: {}
 };
 
 const mutations = {
-    GET_ALL(state, users) {
-        state.users = users;
+    SET_LOGGED_USER(state, user) {
+        state.logged = user;
     },
-
-    GET_USER(state, user) {
-        state.user = user;
-    },
-
-    ADD_USER(state, user) {
-        state.users.push(user);
-    },
-
-    UPDATE_USER(state, users) {
-        state.user = users;
-    },
-
-    DELETE_USER(state, users) {
-        state.users = users;
-    }
 };
 
 const actions = {
-    getAllUsers({commit}) {
-        UsersApi.getAll().then(users => {
-            commit('GET_ALL', users);
+    loginUser({commit}, credentials) {
+        return new Promise((resolve, reject) => {
+            AuthApi.log(credentials)
+                .then(user => {
+                    commit('SET_LOGGED_USER', user);
+                    resolve();
+                })
+                .catch(error => {
+                    reject(error);
+                });
         });
     },
 
-    getUser({commit}, id) {
-        UsersApi.getUserById(id).then(user => {
-            commit('GET_USER', user);
+    logoutUser({commit}) {
+        return new Promise(resolve => {
+            commit('SET_LOGGED_USER', {});
+            resolve();
         });
-    },
-
-    addUser({commit}, user) {
-        UsersApi.postUser(user).then(_ => {
-            commit('ADD_USER', user);
-        });
-    },
+    }
 };
 
 const getters = {
-    allUsers(state) {
-        return state.users;
+    loggedUser(state) {
+        return state.logged;
     },
 
-    usersNumber(state) {
-        return this.allUsers(state).length;
-    },
-
-    selectedUser(state) {
-        return state.user;
+    isLogged(state) {
+        return state.logged.id !== undefined && state.logged.username !== undefined;
     }
 };
 

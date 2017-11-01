@@ -24,6 +24,9 @@
 </template>
 
 <script>
+    import {mapGetters} from 'vuex';
+    import store from '@/store';
+
     export default {
         data() {
             return {
@@ -33,7 +36,23 @@
         },
         methods: {
             login() {
-                this.$router.push({name: 'root'});
+                store.dispatch('loginUser', {username: this.username, password: this.password})
+                    .then(_ => {
+                        this.$router.push({name: 'dashboard'});
+                        this.$notify({
+                            type: 'success',
+                            title: `Welcome back <b>${this.$store.getters.loggedUser.username}</b>!`,
+                            duration: 5000
+                        });
+                    })
+                    .catch(err => {
+                        this.$notify({
+                            type: 'error',
+                            title: 'Unknown credentials.',
+                            text: err.message,
+                            duration: -1
+                        });
+                    });
             }
         }
     };
