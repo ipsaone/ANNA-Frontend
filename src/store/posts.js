@@ -41,7 +41,10 @@ const actions = {
 
     storePost({dispatch}, post) {
         return PostsApi.save(post)
-            .then(_ => dispatch('retrievePosts', true));
+            .then(res => {
+                console.log(res);
+                dispatch('retrievePosts', true);
+            });
     },
 
     updatePost({dispatch}, post) {

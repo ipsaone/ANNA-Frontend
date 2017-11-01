@@ -1,5 +1,7 @@
 <template>
     <section class="grid">
+        <loader v-if="loading"></loader>
+
         <img src="../assets/images/logo.png" alt="IPSA ONE logo" class="logo">
 
         <section class="content">
@@ -24,18 +26,20 @@
 </template>
 
 <script>
-    import {mapGetters} from 'vuex';
     import store from '@/store';
+    import Loader from '@/components/Loader';
 
     export default {
         data() {
             return {
                 username: '',
-                password: ''
+                password: '',
+                loading: false
             };
         },
         methods: {
             login() {
+                this.loading = true;
                 store.dispatch('loginUser', {username: this.username, password: this.password})
                     .then(_ => {
                         this.$router.push({name: 'dashboard'});
@@ -52,6 +56,9 @@
                             text: err.message,
                             duration: -1
                         });
+                    })
+                    .then(_ => {
+                        this.loading = false;
                     });
             }
         }
