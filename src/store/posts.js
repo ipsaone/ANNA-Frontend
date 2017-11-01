@@ -48,6 +48,11 @@ const actions = {
         return PostsApi.update(post)
             .then(_ => dispatch('retrievePosts', true))
             .then(_ => dispatch('selectPost', post.id));
+    },
+
+    deletePost({dispatch}, id) {
+        return PostsApi.delete(id)
+            .then(_ => dispatch('retrievePosts', true));
     }
 };
 

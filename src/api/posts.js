@@ -17,11 +17,12 @@ const PostsApi = {
     },
 
     update(post) {
-        console.log(url + post.id);
-        console.log(post);
         return axios.put(url + post.id, post);
-    }
+    },
 
+    delete(id) {
+        return axios.delete(url + id);
+    }
 };
 
 export default PostsApi;

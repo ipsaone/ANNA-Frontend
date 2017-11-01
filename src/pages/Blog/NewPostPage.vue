@@ -57,7 +57,6 @@
                     store.dispatch('storePost', post)
                         .then(this.$router.push({name: 'blog'}))
                         .catch(err => {
-                            console.log(err);
                             this.$notify({
                                 type: 'error',
                                 title: 'Uncaught error',
