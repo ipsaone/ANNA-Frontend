@@ -8,7 +8,7 @@ const _logs = [
             id: 1,
             username: 'FooBar'
         },
-        created_at: '2017-10-22T20:01:44.926Z'
+        created_at: '22/10/2017 - 21:36'
     },
     {
         id: 2,
@@ -19,7 +19,7 @@ const _logs = [
             id: 1,
             username: 'FooBar'
         },
-        created_at: '2017-10-21T17:51:44.926Z'
+        created_at: '21/10/2017 - 17:51'
     },
 
 ];

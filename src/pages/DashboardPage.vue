@@ -1,48 +1,77 @@
 <template>
     <section class="dashboard">
-        <h1>Dashboard</h1>
+        <div class="missions">
+            <h1 class="section-title">Missions</h1>
+        </div>
 
-        <section class="projects">
-            <div class="main">
-                <data-circle :value="25" size="big"></data-circle>
-                <data-circle :value="50" size="big" color="red"></data-circle>
+        <div class="logs">
+            <h1 class="section-title">Logs</h1>
+
+            <section> <!-- DO NOT REMOVE THE SECTION TAG -->
+                <log v-for="log in allLogs" :key="log.id" :log="log"></log>
+            </section>
+
+            <div class="bottom" @click.prevent="addLog">
+                <p><a href="#">+</a></p>
+                <p>Add</p>
             </div>
-
-            <div class="pole">
-                <div class="dev">
-                    <h1>Dev</h1>
-                    <data-circle :value="75" color="green"></data-circle>
-                    <data-circle :value="100" color="orange"></data-circle>
-                </div>
-
-                <div class="meca">
-                    <h1>Meca</h1>
-                    <data-circle :value="75" color="green"></data-circle>
-                    <data-circle :value="100" color="green"></data-circle>
-                </div>
-
-                <div class="com">
-                    <h1>Com</h1>
-                    <data-circle :value="75" color="green"></data-circle>
-                    <data-circle :value="100" color="green"></data-circle>
-                </div>
-
-                <div class="meca">
-                    <h1>Meca</h1>
-                    <data-circle :value="75" color="green"></data-circle>
-                    <data-circle :value="100" color="green"></data-circle>
-                </div>
-            </div>
-        </section>
+        </div>
     </section>
 </template>
 
 <script>
-    import DataCircle from '@/components/DataCircle.vue';
+    import {mapGetters, mapActions} from 'vuex';
+    import swal from 'sweetalert2';
+    import Log from '@/components/Log';
 
     export default {
         components: {
-            DataCircle
+            Log
+        },
+        mounted() {
+            this.getAllLogs();
+        },
+        computed: {
+            ...mapGetters([
+                'allLogs'
+            ])
+        },
+        methods: {
+            ...mapActions([
+                'getAllLogs'
+            ]),
+            addLog() {
+                swal.setDefaults({
+                    confirmButtonText: 'Next &rarr;',
+                    showCancelButton: true,
+                    progressSteps: ['1', '2']
+                });
+
+                const steps = [
+                    {
+                        title: 'Log title',
+                        input: 'text'
+                    },
+                    {
+                        title: 'Description',
+                        input: 'textarea'
+                    }
+                ];
+
+                swal.queue(steps).then(result => {
+                    swal.resetDefaults();
+                    swal({
+                        title: 'All done!',
+                        html:
+                        'Your answers: <pre>' +
+                        JSON.stringify(result) +
+                        '</pre>',
+                        confirmButtonText: 'Send!'
+                    });
+                }).catch(_ => {
+                    swal.resetDefaults();
+                });
+            }
         }
     };
 </script>
