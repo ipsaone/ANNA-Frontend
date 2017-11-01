@@ -2,7 +2,7 @@
     <section class="sidebar" :class="borderColor">
         <img src="../assets/images/logo.png" alt="IPSA ONE logo" class="logo" @click.prevent="redirectToHome">
 
-        <h1 class="title">Administration Network for Nanosatellite Association</h1>
+        <h1 class="title">Administration Network for Nanosat Association</h1>
 
         <nav>
             <ul>
