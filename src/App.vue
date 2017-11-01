@@ -9,7 +9,6 @@
 </template>
 
 <script>
-    import {mapGetters} from 'vuex';
     import Sidebar from '@/components/Sidebar';
 
     export default {
