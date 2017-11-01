@@ -1,4 +1,4 @@
-import PostsApi from '@/api/test/posts';
+import PostsApi from '@/api/posts';
 
 const state = {
     posts: [],
@@ -6,45 +6,62 @@ const state = {
 };
 
 const mutations = {
-    GET_ALL(state, posts) {
+    SET_ALL_POSTS(state, posts) {
         state.posts = posts;
     },
 
-    GET_POST(state, post) {
+    SELECT_POST(state, post) {
         state.post = post;
-    },
-
-    ADD_POST(state, post) {
-        state.posts.push(post);
     }
 };
 
 const actions = {
-    getAllPosts({commit}) {
-        PostsApi.getAll().then(posts => {
-            commit('GET_ALL', posts);
+    retrievePosts({commit, state}, force = false) {
+        return new Promise((resolve, reject) => {
+            if (state.posts.length === 0 || force) { // If no posts is loaded
+                PostsApi.getPublished()
+                    .then(posts => {
+                        commit('SET_ALL_POSTS', posts.data);
+                        resolve();
+                    })
+                    .catch(err => reject(err));
+            }
+            else {
+                resolve();
+            }
         });
     },
 
-    getPost({commit}, id) {
-        PostsApi.getPostById(id).then(post => {
-            commit('GET_POST', post);
+    selectPost({commit, state}, id) {
+        return new Promise(resolve => {
+            commit('SELECT_POST', state.posts.filter(post => post.id === parseInt(id))[0]);
+            resolve();
         });
     },
 
-    addPost({commit}, post) {
-        PostsApi.postPost(post).then(res => {
-            commit('ADD_POST', post);
-        });
+    storePost({dispatch}, post) {
+        return PostsApi.save(post)
+            .then(_ => dispatch('retrievePosts', true));
+    },
+
+    updatePost({dispatch}, post) {
+        return PostsApi.update(post)
+            .then(_ => dispatch('retrievePosts', true))
+            .then(_ => dispatch('selectPost', post.id));
+    },
+
+    deletePost({dispatch}, id) {
+        return PostsApi.delete(id)
+            .then(_ => dispatch('retrievePosts', true));
     }
 };
 
 const getters = {
-    allPosts(state) {
+    posts(state) {
         return state.posts;
     },
 
-    selectedPost(state) {
+    post(state) {
         return state.post;
     }
 };

@@ -37,6 +37,10 @@ const getters = {
         return state.logged;
     },
 
+    loggedUserId(state) {
+        return state.logged.id;
+    },
+
     isLogged(state) {
         return state.logged.id !== undefined && state.logged.username !== undefined;
     }

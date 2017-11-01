@@ -1,7 +1,7 @@
 .button, button,
 input[type="button"],
-input[type='reset'],
-input[type='submit'] {
+input[type="reset"],
+input[type="submit"] {
   @include control;
 
   background-color: $white;

@@ -3,6 +3,7 @@
 
 // Modules
 @import "../../../node_modules/sweetalert2/src/sweetalert2";
+@import '../../../node_modules/simplemde/dist/simplemde.min.css';
 
 // Variables
 @import "variables/defaults";
@@ -19,10 +20,16 @@
 
 // Elements
 @import "elements/button";
-@import "elements/data_circle";
-@import "elements/log";
 
 // Components
 @import "components/sidebar";
-@import "components/dashboard";
-@import "components/login";
+@import "components/data_circle";
+@import "components/log";
+@import "components/post_abstract";
+
+// Pages
+@import "pages/dashboard";
+@import "pages/login";
+@import "pages/blog";
+@import "pages/post";
+@import "pages/form-post";

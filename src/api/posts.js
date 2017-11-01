@@ -1,26 +1,27 @@
 import axios from 'axios';
+import base from '@/api/url';
 
-const url = 'https://jsonplaceholder.typicode.com/posts/';
+const url = base + '/posts/';
 
 const PostsApi = {
-    getAll() {
-        return axios.get(url);
+    getPublished() {
+        return axios.get(url + '?published=true');
     },
 
-    getPostById(id) {
-        return axios.get(url + id);
+    getDrafted() {
+        return axios.get(url + '?published=false');
     },
 
-    postPost(post) {
+    save(post) {
         return axios.post(url, post);
     },
 
-    updatePost(post) {
+    update(post) {
         return axios.put(url + post.id, post);
     },
 
-    deletePost(post) {
-        return axios.delete(url + post.id);
+    delete(id) {
+        return axios.delete(url + id);
     }
 };
 
