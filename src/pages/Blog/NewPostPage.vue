@@ -1,5 +1,5 @@
 <template>
-    <section class="new-post">
+    <section class="form-post">
         <div class="editor">
             <h1 class="section-title">New post</h1>
 
@@ -55,8 +55,15 @@
                         authorId: store.getters.loggedUserId
                     };
                     store.dispatch('storePost', post)
-                        .then(_ => {
-                            this.$router.push({name: 'blog'});
+                        .then(this.$router.push({name: 'blog'}))
+                        .catch(err => {
+                            console.log(err);
+                            this.$notify({
+                                type: 'error',
+                                title: 'Uncaught error',
+                                text: err.message,
+                                duration: -1
+                            });
                         });
                 }
             }

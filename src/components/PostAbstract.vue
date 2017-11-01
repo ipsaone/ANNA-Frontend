@@ -1,6 +1,6 @@
 <template>
     <article class="post-abstract">
-        <p class="id">#{{ post.id }}</p>
+        <p class="id">#{{ index }}</p>
         <h1><router-link :to="{name: 'readPost', params: {id: post.id}}" @click.native="selectPost(post.id)">{{ post.title }}</router-link></h1>
         <p class="info">
             <span class="date">{{ post.publishedAt | moment('DD/MM/YYYY - HH:mm') }}</span>
@@ -14,7 +14,7 @@
     import striptags from 'striptags';
 
     export default {
-        props: ['post'],
+        props: ['post', 'index'],
         computed: {
             abstract() {
                 return striptags(this.post.content).substr(0, 30).trim() + '...';

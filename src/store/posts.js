@@ -24,9 +24,7 @@ const actions = {
                         commit('SET_ALL_POSTS', posts.data);
                         resolve();
                     })
-                    .catch(err => {
-                        reject(err);
-                    });
+                    .catch(err => reject(err));
             }
             else {
                 resolve();
@@ -42,15 +40,14 @@ const actions = {
     },
 
     storePost({dispatch}, post) {
-        return new Promise((resolve, reject) => {
-            PostsApi.store(post)
-                .then(_ => {
-                    dispatch('retrievePosts', true)
-                        .then(_ => resolve())
-                        .catch(err => reject(err));
-                })
-                .catch(err => reject(err));
-        });
+        return PostsApi.save(post)
+            .then(_ => dispatch('retrievePosts', true));
+    },
+
+    updatePost({dispatch}, post) {
+        return PostsApi.update(post)
+            .then(_ => dispatch('retrievePosts', true))
+            .then(_ => dispatch('selectPost', post.id));
     }
 };
 

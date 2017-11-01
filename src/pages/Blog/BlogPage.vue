@@ -2,7 +2,7 @@
     <div class="blog">
         <section class="content">
             <h1 class="section-title">Blog</h1>
-            <post-abstract v-for="post in posts" :key="post.id" :post="post" @click="selectPost(post.id)"></post-abstract>
+            <post-abstract v-for="(post, index) in posts" :key="post.id" :post="post" :index="index +1" @click="selectPost(post.id)"></post-abstract>
         </section>
 
         <section class="actions">

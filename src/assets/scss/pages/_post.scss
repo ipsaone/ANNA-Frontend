@@ -1,0 +1,14 @@
+.post {
+  display: grid;
+  grid-template-columns: auto $actions-width;
+  grid-column-gap: 8em;
+
+  article {
+
+  }
+
+  .actions {
+    grid-column: 2;
+    @include aside;
+  }
+}

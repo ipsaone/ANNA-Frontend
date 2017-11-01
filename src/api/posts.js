@@ -12,8 +12,14 @@ const PostsApi = {
         return axios.get(url + '?published=false');
     },
 
-    store(post) {
+    save(post) {
         return axios.post(url, post);
+    },
+
+    update(post) {
+        console.log(url + post.id);
+        console.log(post);
+        return axios.put(url + post.id, post);
     }
 
 };

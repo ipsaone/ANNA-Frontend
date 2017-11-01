@@ -30,17 +30,22 @@ const router = new Router({
         {
             path: '/blog',
             name: 'blog',
-            component: resolve => require(['@/pages/BlogPage.vue'], resolve)
+            component: resolve => require(['@/pages/Blog/BlogPage.vue'], resolve)
         },
         {
             path: '/blog/post/:id(\\d+)',
             name: 'readPost',
-            component: resolve => require(['@/pages/PostPage.vue'], resolve)
+            component: resolve => require(['@/pages/Blog/PostPage.vue'], resolve)
+        },
+        {
+            path: '/blog/post/edit/:id(\\d+)',
+            name: 'editPost',
+            component: resolve => require(['@/pages/Blog/EditPostPage.vue'], resolve)
         },
         {
             path: '/blog/post/new',
             name: 'newPost',
-            component: resolve => require(['@/pages/NewPostPage.vue'], resolve)
+            component: resolve => require(['@/pages/Blog/NewPostPage.vue'], resolve)
         },
         {
             path: '/drive',
