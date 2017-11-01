@@ -8,8 +8,8 @@
                 <h2>Admin Network for Nanosat Association </h2>
 
                 <form>
-                    <input type="text" id="username" name="username" v-model="username" placeholder="Username">
-                    <input type="password" id="password" name="password" v-model="password" placeholder="Password">
+                    <input type="text" id="username" name="username" v-model="username" placeholder="Username" @keyup.enter="login">
+                    <input type="password" id="password" name="password" v-model="password" placeholder="Password" @keyup.enter="login">
                     <div class="actions">
                         <a class="button" href="#">Forgot your password?</a>
                         <a class="button" href="#" @click.prevent="login">Login</a>
