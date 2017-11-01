@@ -1,7 +1,7 @@
 .log{
   display: block;
   cursor: pointer;
-  padding: 1em;
+  padding: 0.8em 1em;
   border-bottom: solid 1px $grey-lighter;
 
   &:first-child {
@@ -13,6 +13,6 @@
   }
 
   h1 {
-    font-size: 1.5em;
+    font-size: 1.3em;
   }
 }
