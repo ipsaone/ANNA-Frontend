@@ -10,10 +10,9 @@ const _missions = [
             {title: 'truc', done: false}, 
             {title: 'truc', done: false}, 
             {title: 'machin', done: false}
-        ];
+        ]
 
     },
-
     {
         id: 2,
         title: `Création de ANNA parce que c'est super cool`,
@@ -25,19 +24,18 @@ const _missions = [
             {title: 'truc', done: false}, 
             {title: 'truc', done: false}, 
             {title: 'machin', done: false}
-        ];
-
+        ]
     }
-]
+];
 
 export default {
     getAll() {
-        return new Promise(resolve => resolve(_posts););
+        return new Promise(resolve => resolve(_posts));
     },
 
     getMissionById(id) {
         return new Promise(resolve => 
-            resolve(_missions.filter(mission => mission.id === parseInt(id))[0]);
+            resolve(_missions.filter(mission => mission.id === parseInt(id))[0])
         );
     },
 
