@@ -3,7 +3,6 @@ $width-logs: 20em;
 .dashboard {
   display: grid;
   grid-template-columns: auto $width-logs;
-  background-color: $white-ter;
 
   .missions {
     grid-column: 1;

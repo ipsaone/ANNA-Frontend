@@ -54,7 +54,7 @@
                 links: [
                     {title: 'Dashboard', name: 'dashboard', color: 'grey', class: 'main'},
                     {title: 'Blog', name: 'blog', color: 'blue'},
-                    {title: 'Drive', name: 'storage', color: 'green'},
+                    {title: 'Drive', name: 'drive', color: 'green'},
                     {title: 'Forum', name: 'forum', color: 'purple'},
                     {title: 'Events', name: 'events', color: 'yellow'},
                     {title: 'Gantt', name: 'gantt', color: 'red'}

@@ -2,7 +2,7 @@ import axios from 'axios';
 
 const url = 'https://one.ipsa.fr/backend/storage';
 
-const PostsApi = {
+const DriveApi = {
     getList() {
         return axios.get(url);
     },

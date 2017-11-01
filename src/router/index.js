@@ -38,9 +38,9 @@ const router = new Router({
             component: resolve => require(['@/pages/PostPage.vue'], resolve)
         },
         {
-            path: '/storage',
-            name: 'storage',
-            component: resolve => require(['@/pages/StoragePage.vue'], resolve)
+            path: '/drive',
+            name: 'drive',
+            component: resolve => require(['@/pages/DrivePage.vue'], resolve)
         },
         {
             path: '/forum',
