@@ -30,6 +30,9 @@
     import Loader from '@/components/Loader';
 
     export default {
+        components: {
+            Loader,
+        },
         data() {
             return {
                 username: '',

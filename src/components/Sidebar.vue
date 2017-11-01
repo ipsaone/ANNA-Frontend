@@ -83,7 +83,7 @@
                         this.$router.push({name: 'login'});
                         this.$notify({
                             type: 'success',
-                            title: 'You are disconnected from ANNA.'
+                            title: 'You have been disconnected from ANNA.'
                         });
                     });
             },
