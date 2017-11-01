@@ -1,0 +1,31 @@
+$actions-width: 20em;
+
+.blog {
+  display: grid;
+  grid-template-columns: auto $actions-width;
+  grid-column-gap: 8em;
+
+  .content {
+
+  }
+
+  .actions {
+    grid-column: 2;
+    background-color: $white-dark;
+
+    ul {
+      margin-top: 1.2em;
+
+      li {
+        display: block;
+        padding: 0.8em 1em;
+        border-bottom: solid 1px $grey-lighter;
+        font-size: 1.2em;
+
+        &:first-child {border-top: solid 1px $grey-lighter; }
+
+        .fa { margin-right: 1.2em; }
+      }
+    }
+  }
+}

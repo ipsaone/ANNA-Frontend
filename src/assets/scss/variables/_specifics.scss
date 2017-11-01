@@ -31,14 +31,7 @@ $pre-background: $background;
 $link: $primary;
 $link-visited: $purple;
 
-$link-hover: $grey-darker;
-$link-hover-border: $grey-light;
-
-$link-focus: $grey-darker;
-$link-focus-border: $primary;
-
-$link-active: $grey-darker;
-$link-active-border: $grey-dark;
+$link-hover: darken($primary, 5%);
 
 // Typography
 $family-primary: $family-sans-serif;
