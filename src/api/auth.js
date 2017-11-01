@@ -9,12 +9,12 @@ export default {
     log(credentials) {
         return new Promise((resolve, reject) => {
             if (credentials.username === test_credentials.username && credentials.password === test_credentials.password) {
-                resolve({id: 0, username: 'foo'});
+                resolve({data: {id: 0, username: 'foo'}});
             }
             else {
                 axios.post(url + '/login', credentials)
                     .then(user => {
-                        resolve(user.data);
+                        resolve(user);
                     })
                     .catch(err => reject(err));
             }

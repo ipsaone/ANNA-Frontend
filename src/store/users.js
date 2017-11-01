@@ -15,7 +15,7 @@ const actions = {
         return new Promise((resolve, reject) => {
             AuthApi.log(credentials)
                 .then(user => {
-                    commit('SET_LOGGED_USER', user);
+                    commit('SET_LOGGED_USER', user.data);
                     resolve();
                 })
                 .catch(error => {
