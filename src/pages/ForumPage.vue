@@ -1,5 +1,5 @@
 <template>
-    <div class="forum">
-        <h1>Forum</h1>
-    </div>
+    <section class="forum">
+        <h1 class="section-title">Forum</h1>
+    </section>
 </template>

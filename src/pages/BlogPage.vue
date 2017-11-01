@@ -1,5 +1,6 @@
 <template>
     <section class="blog">
+        <h1 class="section-title">Blog</h1>
         <post-abstract v-for="post in allPosts" :key="post.id" :post="post"></post-abstract>
     </section>
 </template>

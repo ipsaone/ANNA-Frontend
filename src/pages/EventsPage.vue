@@ -1,5 +1,5 @@
 <template>
-    <div class="events">
-        <h1>Events</h1>
-    </div>
+    <section class="events">
+        <h1 class="section-title">Events</h1>
+    </section>
 </template>
