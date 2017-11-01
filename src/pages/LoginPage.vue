@@ -12,7 +12,7 @@
                     <input type="password" id="password" name="password" placeholder="Password">
                     <div class="actions">
                         <a class="button" href="#">Forgot your password?</a>
-                        <a class="button" href="#">Login</a>
+                        <a class="button" href="#" @click.prevent="login">Login</a>
                     </div>
                 </form>
 
@@ -22,3 +22,13 @@
 
     </section>
 </template>
+
+<script>
+    export default {
+        methods: {
+            login() {
+                this.$router.push({name: 'root'});
+            }
+        }
+    };
+</script>

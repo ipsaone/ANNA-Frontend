@@ -70,16 +70,13 @@
         },
         methods: {
             redirectToHome() {
-                swal({
-                    title: 'You clicked on the logo!',
-                    type: 'success'
-                });
+                this.$router.push({name: 'root'});
             },
             showNotifications() {
                 this.notifications = 0;
             },
             logout() {
-                this.notifications += 1;
+                this.$router.push({name: 'login'});
             },
             mouseOverButton(event) {
                 if(event.target.className.split(' ').includes('button')) {
