@@ -6,10 +6,12 @@ import store from './store/index';
 import {sync} from 'vuex-router-sync';
 import Notifications from 'vue-notification';
 import Cookie from 'vue-cookie';
+import Moment from 'vue-moment';
 
 sync(store, router);
 Vue.config.productionTip = false;
 
+Vue.use(Moment);
 Vue.use(Cookie);
 Vue.use(Notifications);
 

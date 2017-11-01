@@ -1,4 +1,4 @@
-const _posts = {
+let _posts = {
     data: [
         {
             id: 1,
@@ -45,4 +45,11 @@ export default {
             resolve(_posts);
         });
     },
+
+    store(post) {
+        return new Promise(resolve => {
+            _posts.data.unshift(post);
+            resolve();
+        });
+    }
 };

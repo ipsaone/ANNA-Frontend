@@ -16,7 +16,9 @@ export default {
                     .then(user => {
                         resolve(user);
                     })
-                    .catch(err => reject(err));
+                    .catch(err => {
+                        reject(err);
+                    });
             }
         });
     },

@@ -23,7 +23,7 @@ const router = new Router({
             component: resolve => require(['@/pages/DashboardPage.vue'], resolve)
         },
         {
-            path: '/user/:id',
+            path: '/user/:id(\\d+)',
             name: 'user',
             component: resolve => require(['@/pages/UserPage.vue'], resolve)
         },
@@ -33,9 +33,14 @@ const router = new Router({
             component: resolve => require(['@/pages/BlogPage.vue'], resolve)
         },
         {
-            path: '/blog/post/:id',
+            path: '/blog/post/:id(\\d+)',
             name: 'readPost',
             component: resolve => require(['@/pages/PostPage.vue'], resolve)
+        },
+        {
+            path: '/blog/post/new',
+            name: 'newPost',
+            component: resolve => require(['@/pages/NewPostPage.vue'], resolve)
         },
         {
             path: '/drive',
@@ -71,7 +76,7 @@ const router = new Router({
 });
 
 router.beforeEach((to, from, next) => {
-    if(to.path !== '/login' && !store.getters.isLogged)
+    if (to.path !== '/login' && !store.getters.isLogged)
         next({name: 'login'});
     else if (to.path === '/login' && store.getters.isLogged)
         next({name: 'dashboard'});

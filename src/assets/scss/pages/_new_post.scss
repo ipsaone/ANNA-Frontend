@@ -1,0 +1,41 @@
+.new-post {
+  display: grid;
+  grid-template-columns: auto $actions-width;
+  grid-column-gap: 8em;
+
+  .editor {
+    input {
+      display: block;
+      background-color: $white;
+      border: 1px solid $grey-lighter;
+      width: 100%;
+      height: 3em;
+      margin: 1em auto;
+      padding: 0.5em;
+      font-size: 1em;
+
+      &:focus { border-color: $purple; }
+    }
+  }
+
+  .options {
+    grid-column: 2;
+    @include aside;
+
+    .submit {
+      background-color: $white-dark;
+      cursor: not-allowed;
+      color: $grey;
+
+      &.active {
+        background-color: $green;
+        cursor: pointer;
+        color: $white-ter;
+
+        &:hover {
+          background-color: $link-hover;
+        }
+      }
+    }
+  }
+}

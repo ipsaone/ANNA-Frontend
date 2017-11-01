@@ -23,6 +23,7 @@
         mounted() {
             store.dispatch('retrievePosts')
                 .catch(err => {
+                    console.log(err.message);
                     this.$notify({
                         type: 'error',
                         title: 'Can not retrieve the posts',
