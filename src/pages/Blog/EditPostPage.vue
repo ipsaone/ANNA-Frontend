@@ -61,6 +61,7 @@
                     post.title = this.title;
                     post.markdown = this.markdown;
                     post.isDraft = this.isDraft;
+                    delete post.content;
 
                     store.dispatch('updatePost', post)
                         .then(this.$router.push({name: 'readPost', params: {id: 1}}))
