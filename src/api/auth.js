@@ -12,7 +12,7 @@ export default {
                 resolve({data: {id: 0, username: 'foo'}});
             }
             else {
-                axios.post(url + '/login', credentials)
+                axios.post(url + '/login', credentials, {withCredentials: true})
                     .then(user => {
                         resolve(user);
                     })
@@ -24,6 +24,6 @@ export default {
     },
 
     logout() {
-        return axios.get(url + '/logout');
+        return axios.get(url + '/logout', {withCredentials: true});
     }
 };
