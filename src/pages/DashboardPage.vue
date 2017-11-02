@@ -1,5 +1,7 @@
 <template>
     <section class="dashboard">
+        <loader v-if="loading"></loader>
+
         <div class="missions">
             <h1 class="section-title">Missions</h1>
         </div>
@@ -8,7 +10,7 @@
             <h1 class="section-title">Logs</h1>
 
             <section> <!-- DO NOT REMOVE THE SECTION TAG -->
-                <log v-for="log in allLogs" :key="log.id" :log="log"></log>
+                <log v-for="log in logs" :key="log.id" :log="log"></log>
             </section>
 
             <div class="bottom" @click.prevent="addLog">
@@ -20,26 +22,44 @@
 </template>
 
 <script>
-    import {mapGetters, mapActions} from 'vuex';
+    import store from '@/store';
     import swal from 'sweetalert2';
     import Log from '@/components/Log';
+    import Loader from '@/components/Loader';
 
     export default {
         components: {
-            Log
+            Log,
+            Loader
+        },
+        data() {
+            return {
+                loading: false
+            };
         },
         mounted() {
-            this.getAllLogs();
+            this.loading = true;
+            store.dispatch('retrieveLogs')
+                .catch(err => {
+                    console.log(err.message);
+                    this.$notify({
+                        type: 'error',
+                        title: 'Can not retrieve the posts',
+                        text: err.message,
+                        duration: -1
+                    });
+                })
+                .then(_ => {
+                    this.loading = false;
+                });
+
         },
         computed: {
-            ...mapGetters([
-                'allLogs'
-            ])
+            logs() {
+                return store.getters.logs;
+            },
         },
         methods: {
-            ...mapActions([
-                'getAllLogs'
-            ]),
             addLog() {
                 swal.setDefaults({
                     confirmButtonText: 'Next &rarr;',
