@@ -3,7 +3,10 @@
         <article>
             <h1>{{ post.title }}</h1>
 
-            <p class="info">By <a href="#">{{ post.author.username }}</a> on {{ post.publishedAt | moment('DD/MM/YYYY [at] HH:mm') }}</p>
+            <p class="info">
+                By <router-link :to="{name: 'profile', params:{id: post.author.id}}">{{ post.author.username }}</router-link>
+                on {{ post.publishedAt | moment('DD/MM/YYYY [at] HH:mm') }}
+            </p>
 
             <div class="content" v-html="post.content"></div>
         </article>

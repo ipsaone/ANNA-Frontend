@@ -1,17 +1,19 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
 
-import users from './users';
-import posts from './posts';
-import logs from './logs';
+import auth from '@/store/modules/auth';
+import users from '@/store/modules/users';
+import posts from '@/store/modules/posts';
+import logs from '@/store/modules/logs';
 
 Vue.use(Vuex);
 
 const store = new Vuex.Store({
     modules: {
-        users,
+        auth,
         posts,
         logs,
+        users
     }
 });
 

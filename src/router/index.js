@@ -23,9 +23,9 @@ const router = new Router({
             component: resolve => require(['@/pages/DashboardPage.vue'], resolve)
         },
         {
-            path: '/user/:id(\\d+)',
-            name: 'user',
-            component: resolve => require(['@/pages/UserPage.vue'], resolve)
+            path: '/users/:id(\\d+)',
+            name: 'profile',
+            component: resolve => require(['@/pages/ProfilePage.vue'], resolve)
         },
         {
             path: '/blog',
@@ -66,11 +66,6 @@ const router = new Router({
             path: '/gantt',
             name: 'gantt',
             component: resolve => require(['@/pages/GanttPage.vue'], resolve)
-        },
-        {
-            path: '/profile',
-            name: 'profile',
-            component: resolve => require(['@/pages/ProfilePage.vue'], resolve)
         },
         {
             path: '*',

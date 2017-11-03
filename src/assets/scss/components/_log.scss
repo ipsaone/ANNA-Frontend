@@ -16,3 +16,22 @@
     font-size: 1.3em;
   }
 }
+
+.log-modal {
+  .content {
+    text-align: center;
+    padding: 2em;
+
+    h1 {
+      font-size: 2em;
+    }
+
+    .info {
+      font-style: italic;
+    }
+
+    .description {
+      margin-top: 1em;
+    }
+  }
+}
