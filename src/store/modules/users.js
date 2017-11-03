@@ -27,12 +27,23 @@ const actions = {
         });
     },
 
-    getUserById({state}, id) {
+    getUserById({state, dispatch}, id) {
         return new Promise((resolve, reject) => {
-            const user = state.users.filter(user => user.id === parseInt(id))[0];
+            if (state.users.length === 0)
+                dispatch('retrieveUsers', true)
+                    .then(_ => {
+                        const user = state.users.filter(user => user.id === parseInt(id))[0];
 
-            if (typeof user !== 'undefined') resolve(user);
-            else reject();
+                        if (typeof user !== 'undefined') resolve(user);
+                        else reject();
+                    })
+                    .catch(err => reject(err));
+            else {
+                const user = state.users.filter(user => user.id === parseInt(id))[0];
+
+                if (typeof user !== 'undefined') resolve(user);
+                else reject();
+            }
         });
     }
 };
