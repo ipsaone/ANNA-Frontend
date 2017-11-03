@@ -1,6 +1,7 @@
 import Vue from 'vue';
 import Router from 'vue-router';
 import store from '@/store';
+import authApi from '@/api/auth';
 
 Vue.use(Router);
 
@@ -10,7 +11,7 @@ const router = new Router({
         {
             path: '/',
             name: 'root',
-            redirect: {name: 'dashboard'}
+            redirect: {name: 'login'}
         },
         {
             path: '/login',
@@ -76,11 +77,23 @@ const router = new Router({
 });
 
 router.beforeEach((to, from, next) => {
-    if (to.path !== '/login' && !store.getters.isLogged)
-        next({name: 'login'});
-    else if (to.path === '/login' && store.getters.isLogged)
-        next({name: 'dashboard'});
-    else
+    if (to.path !== '/login' && !store.getters.isLogged) {
+        // If the user is not logged and try to go to another page than /login
+        // We need to check if he is logged or not on the server
+        authApi.check()
+            .then(user => { // If he is logged on the server
+                console.log('The user is connected on the server');
+                console.log(user);
+                store.commit('SET_LOGGED_USER', {id: user.data.id, username: user.data.username}); // Reload the user data
+                next(); // And let him continue his navigation
+            })
+            .catch(_ => { // If he is not logged
+                next({name: 'login'}); // We redirect him to the login page
+            });
+    }
+    else if (to.path === '/login' && store.getters.isLogged) // If the user is logged and try to go to /login
+        next({name: 'dashboard'}); // Redirect him to the dashboard
+    else // If he is logged, no problem
         next();
 });
 

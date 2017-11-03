@@ -26,8 +26,14 @@ const actions = {
 
     logoutUser({commit}) {
         return new Promise(resolve => {
-            commit('SET_LOGGED_USER', {});
-            resolve();
+            AuthApi.logout()
+                .then(_ => {
+                    commit('SET_LOGGED_USER', {});
+                    resolve();
+                })
+                .catch(err => {
+                    reject(err);
+                });
         });
     }
 };
