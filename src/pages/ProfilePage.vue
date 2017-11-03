@@ -1,27 +1,30 @@
 <template>
     <div>
-        <h1>{{ user.name }}</h1>
+        <h1>{{ user.username }}</h1>
         <p>{{ user.email }}</p>
     </div>
 </template>
 
 <script>
-    import {mapActions, mapGetters} from 'vuex';
+    import store from '@/store';
 
     export default {
-        computed: {
-            ...mapGetters([
-                'allUsers'
-            ]),
-            user() {
-                const id = parseInt(this.$route.params.id);
-                return this.allUsers.find(user => user.id === id) || {};
-            }
+        mounted() {
+            store.dispatch('getUserById', this.$route.params.id)
+                .then(user => this.user = user)
+                .catch(err => {
+                    this.$notify({
+                        type: 'error',
+                        title: 'Could not find the user.',
+                        text: `User #${this.$route.params.id} does not exist.`,
+                        duration: -1
+                    });
+                });
         },
-        methods: {
-            ...mapActions([
-                'getAllUsers'
-            ])
-        }
+        data() {
+            return {
+                user: {}
+            };
+        },
     };
 </script>
