@@ -49,7 +49,7 @@
             return {
                 notifications: 0,
                 tooltipVisible: false,
-                tooltipText: 'blablabla',
+                tooltipText: '',
                 tooltipRedBorder: false,
                 links: [
                     {title: 'Dashboard', name: 'dashboard', color: 'grey', class: 'main'},

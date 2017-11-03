@@ -5,7 +5,7 @@
 
             <p class="info">
                 By
-                <router-link :to="{name: 'profile', params:{id: authorId}}">{{ authorName }}</router-link>
+                <router-link :to="{name: 'profile', params:{id: post.author.id}}">{{ post.author.username }}</router-link>
                 on {{ post.publishedAt | moment('DD/MM/YYYY [at] HH:mm') }}
             </p>
 
@@ -17,7 +17,7 @@
 
             <ul>
                 <li>
-                    <router-link :to="{name: 'editPost', params:{id: postId}}"><i class="fa fa-pencil" aria-hidden="true"></i> Edit</router-link>
+                    <router-link :to="{name: 'editPost', params:{id: post.id}}"><i class="fa fa-pencil" aria-hidden="true"></i> Edit</router-link>
                 </li>
                 <li><a href="#" @click.prevent="deletePost"><i class="fa fa-trash" aria-hidden="true"></i> Delete</a>
                 </li>
@@ -32,13 +32,7 @@
 
     export default {
         mounted() {
-            store.dispatch('getPostById', this.$route.params.id)
-                .then(post => {
-                    this.post = post;
-                    this.postId = this.post.id;
-                    this.authorName = this.post.author.username;
-                    this.authorId = this.post.author.id;
-                })
+            store.dispatch('selectPost', this.$route.params.id)
                 .catch(err => {
                     this.$notify({
                         type: 'error',
@@ -48,13 +42,10 @@
                     });
                 });
         },
-        data() {
-            return {
-                post: {},
-                postId: 0,
-                authorName: '',
-                authorId: 0,
-            };
+        computed: {
+            post() {
+                return store.getters.selectedPost;
+            }
         },
         methods: {
             deletePost() {

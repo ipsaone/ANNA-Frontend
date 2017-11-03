@@ -1,12 +1,17 @@
 import PostsApi from '@/api/posts';
 
 const state = {
-    posts: []
+    posts: [],
+    post: {}
 };
 
 const mutations = {
     SET_ALL_POSTS(state, posts) {
         state.posts = posts;
+    },
+
+    SELECT_POST(state, post) {
+        state.post = post;
     }
 };
 
@@ -27,12 +32,12 @@ const actions = {
         });
     },
 
-    getPostById({dispatch, state}, id) {
+    selectPost({dispatch, commit, state}, id) {
         return dispatch('retrievePosts')
             .then(_ => {
                 const post = state.posts.filter(post => post.id === parseInt(id))[0];
 
-                if (typeof post !== 'undefined') return post;
+                if (typeof post !== 'undefined') commit('SELECT_POST', post);
                 else throw Error;
             });
     },
@@ -44,7 +49,8 @@ const actions = {
 
     updatePost({dispatch}, post) {
         return PostsApi.update(post)
-            .then(_ => dispatch('retrievePosts', true));
+            .then(_ => dispatch('retrievePosts', true))
+            .then(_ => dispatch('selectPost', post.id));
     },
 
     deletePost({dispatch}, id) {
@@ -58,7 +64,7 @@ const getters = {
         return state.posts;
     },
 
-    post(state) {
+    selectedPost(state) {
         return state.post;
     }
 };

@@ -12,6 +12,8 @@
 </template>
 
 <script>
+    import store from '@/store';
+
     export default {
         data() {
             return {
@@ -22,6 +24,8 @@
         },
         methods: {
             beforeOpen(event) {
+                store.dispatch('selectLog', event.params.log.id);
+
                 this.log = event.params.log;
                 this.username = this.log.author.username;
                 this.authorId = this.log.author.id;

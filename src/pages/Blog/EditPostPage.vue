@@ -26,25 +26,15 @@
             markdownEditor
         },
         mounted() {
-            store.dispatch('getPostById', this.$route.params.id)
-                .then(post => {
-                    this.post = post;
-                    this.title = post.title;
-                    this.markdown = post.markdown;
-                    this.isDraft = !post.published;
-                })
-                .catch(err => {
-                    this.$notify({
-                        type: 'error',
-                        title: 'Could not find the post.',
-                        text: `Post #${this.$route.params.id} does not exist.`,
-                        duration: -1
-                    });
+            store.dispatch('selectPost', this.$route.params.id)
+                .then(_ => {
+                    this.title = this.post.title;
+                    this.markdown = this.post.markdown;
+                    this.isDraft = !this.post.published;
                 });
         },
         data() {
             return {
-                post: {},
                 title: '',
                 markdown: '',
                 isDraft: false
@@ -53,6 +43,9 @@
         computed: {
             canConfirm() {
                 return this.title !== '' && this.markdown !== '';
+            },
+            post() {
+                return store.getters.selectedPost;
             }
         },
         methods: {
@@ -74,7 +67,7 @@
                     delete post.content;
 
                     store.dispatch('updatePost', post)
-                        .then(this.$router.push({name: 'blog'}))
+                        .then(this.$router.push({name: 'readPost', params:{id: post.id}}))
                         .catch(err => {
                             this.$notify({
                                 type: 'error',

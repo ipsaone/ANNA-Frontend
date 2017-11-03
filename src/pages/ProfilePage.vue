@@ -10,8 +10,7 @@
 
     export default {
         mounted() {
-            store.dispatch('getUserById', this.$route.params.id)
-                .then(user => this.user = user)
+            store.dispatch('selectUser', this.$route.params.id)
                 .catch(err => {
                     this.$notify({
                         type: 'error',
@@ -21,10 +20,10 @@
                     });
                 });
         },
-        data() {
-            return {
-                user: {}
-            };
-        },
+        computed: {
+            user() {
+                return store.getters.selectedUser;
+            }
+        }
     };
 </script>
