@@ -1,6 +1,8 @@
 <template>
-    <section class="dashboard">
+    <section class="dashboard" @keyup.enter="hideLog">
         <loader v-if="loading"></loader>
+
+        <log></log>
 
         <div class="missions">
             <h1 class="section-title">Missions</h1>
@@ -10,7 +12,9 @@
             <h1 class="section-title">Logs</h1>
 
             <section> <!-- DO NOT REMOVE THE SECTION TAG -->
-                <log v-for="log in logs" :key="log.id" :log="log"></log>
+                <div class="log" v-for="log in logs" :key="log.id" @click="showLog(log)">
+                    <h1>{{ log.title }}</h1>
+                </div>
             </section>
 
             <div class="bottom" @click.prevent="addLog">
@@ -24,13 +28,13 @@
 <script>
     import store from '@/store';
     import swal from 'sweetalert2';
-    import Log from '@/components/Log';
     import Loader from '@/components/Loader';
+    import Log from '@/components/Log';
 
     export default {
         components: {
-            Log,
-            Loader
+            Loader,
+            Log
         },
         data() {
             return {
@@ -39,20 +43,17 @@
         },
         mounted() {
             this.loading = true;
-            store.dispatch('retrieveLogs')
+            store.dispatch('retrieveUsers')
+                .then(store.dispatch('retrieveLogs'))
                 .catch(err => {
-                    console.log(err.message);
                     this.$notify({
                         type: 'error',
-                        title: 'Can not retrieve the posts',
+                        title: 'Can not retrieve data from server',
                         text: err.message,
                         duration: -1
                     });
                 })
-                .then(_ => {
-                    this.loading = false;
-                });
-
+                .then(this.loading = false);
         },
         computed: {
             logs() {
@@ -91,6 +92,12 @@
                 }).catch(_ => {
                     swal.resetDefaults();
                 });
+            },
+            showLog(log) {
+                this.$modal.show('log', {log: log});
+            },
+            hideLog() {
+                this.$modal.hide('log');
             }
         }
     };

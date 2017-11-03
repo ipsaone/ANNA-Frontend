@@ -1,25 +1,30 @@
 <template>
-    <div class="log" @click.prevent="showLog">
-        <h1>{{ log.title }}</h1>
-    </div>
+    <modal class="log-modal" name="log" @before-open="beforeOpen">
+        <div class="content">
+            <h1>{{ log.title }}</h1>
+
+            <p class="info">By <router-link :to="{name: 'profile', params:{id: authorId}}">{{ username }}</router-link>
+                the {{ log.createdAt | moment('DD/MM/YYYY [at] HH:mm') }}</p>
+
+            <p class="description">{{ log.description }}</p>
+        </div>
+    </modal>
 </template>
 
 <script>
-    import swal from 'sweetalert2';
-    import moment from 'moment';
-
     export default {
-        props: ['log'],
+        data() {
+            return {
+                log: {},
+                username: '',
+                authorId: 0
+            };
+        },
         methods: {
-            showLog() {
-                const description = `By <a href="#">${this.log.author.username}</a> `
-                    + `on ${moment(this.log.createdAt).format('DD/MM/YYYY [at] HH:mm')}<br><br>`
-                    + `${this.log.description}`;
-
-                swal({
-                    title: this.log.title,
-                    html: description
-                });
+            beforeOpen(event) {
+                this.log = event.params.log;
+                this.username = this.log.author.username;
+                this.authorId = this.log.author.id;
             }
         }
     };
