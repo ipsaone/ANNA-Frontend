@@ -25,5 +25,9 @@ export default {
 
     logout() {
         return axios.get(url + '/logout', {withCredentials: true});
+    },
+
+    check() {
+        return axios.get(url + '/check', {withCredentials: true});
     }
 };
