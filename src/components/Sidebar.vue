@@ -71,7 +71,6 @@
                 return 'grey';
             },
             logged() {
-                console.log(store.getters.loggedUser);
                 return store.getters.loggedUser;
             }
         },

@@ -1,17 +1,12 @@
 import PostsApi from '@/api/posts';
 
 const state = {
-    posts: [],
-    post: {}
+    posts: []
 };
 
 const mutations = {
     SET_ALL_POSTS(state, posts) {
         state.posts = posts;
-    },
-
-    SELECT_POST(state, post) {
-        state.post = post;
     }
 };
 
@@ -32,25 +27,24 @@ const actions = {
         });
     },
 
-    selectPost({commit, state}, id) {
-        return new Promise(resolve => {
-            commit('SELECT_POST', state.posts.filter(post => post.id === parseInt(id))[0]);
-            resolve();
-        });
+    getPostById({dispatch, state}, id) {
+        return dispatch('retrievePosts')
+            .then(_ => {
+                const post = state.posts.filter(post => post.id === parseInt(id))[0];
+
+                if (typeof post !== 'undefined') return post;
+                else throw Error;
+            });
     },
 
     storePost({dispatch}, post) {
         return PostsApi.save(post)
-            .then(res => {
-                console.log(res);
-                dispatch('retrievePosts', true);
-            });
+            .then(_ => dispatch('retrievePosts', true));
     },
 
     updatePost({dispatch}, post) {
         return PostsApi.update(post)
-            .then(_ => dispatch('retrievePosts', true))
-            .then(_ => dispatch('selectPost', post.id));
+            .then(_ => dispatch('retrievePosts', true));
     },
 
     deletePost({dispatch}, id) {

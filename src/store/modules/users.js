@@ -28,23 +28,13 @@ const actions = {
     },
 
     getUserById({state, dispatch}, id) {
-        return new Promise((resolve, reject) => {
-            if (state.users.length === 0)
-                dispatch('retrieveUsers', true)
-                    .then(_ => {
-                        const user = state.users.filter(user => user.id === parseInt(id))[0];
-
-                        if (typeof user !== 'undefined') resolve(user);
-                        else reject();
-                    })
-                    .catch(err => reject(err));
-            else {
+        return dispatch('retrieveUsers')
+            .then(_ => {
                 const user = state.users.filter(user => user.id === parseInt(id))[0];
 
-                if (typeof user !== 'undefined') resolve(user);
-                else reject();
-            }
-        });
+                if (typeof user !== 'undefined') return user;
+                else throw Error;
+            });
     }
 };
 

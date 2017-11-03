@@ -4,7 +4,8 @@
             <h1>{{ post.title }}</h1>
 
             <p class="info">
-                By <router-link :to="{name: 'profile', params:{id: post.author.id}}">{{ post.author.username }}</router-link>
+                By
+                <router-link :to="{name: 'profile', params:{id: authorId}}">{{ authorName }}</router-link>
                 on {{ post.publishedAt | moment('DD/MM/YYYY [at] HH:mm') }}
             </p>
 
@@ -15,8 +16,11 @@
             <h1 class="section-title">Actions</h1>
 
             <ul>
-                <li><router-link :to="{name: 'editPost', params:{id: post.id}}"><i class="fa fa-pencil" aria-hidden="true"></i> Edit</router-link></li>
-                <li><a href="#" @click.prevent="deletePost"><i class="fa fa-trash" aria-hidden="true"></i> Delete</a></li>
+                <li>
+                    <router-link :to="{name: 'editPost', params:{id: postId}}"><i class="fa fa-pencil" aria-hidden="true"></i> Edit</router-link>
+                </li>
+                <li><a href="#" @click.prevent="deletePost"><i class="fa fa-trash" aria-hidden="true"></i> Delete</a>
+                </li>
             </ul>
         </div>
     </section>
@@ -27,10 +31,30 @@
     import swal from 'sweetalert2';
 
     export default {
-        computed: {
-            post() {
-                return store.getters.post;
-            }
+        mounted() {
+            store.dispatch('getPostById', this.$route.params.id)
+                .then(post => {
+                    this.post = post;
+                    this.postId = this.post.id;
+                    this.authorName = this.post.author.username;
+                    this.authorId = this.post.author.id;
+                })
+                .catch(err => {
+                    this.$notify({
+                        type: 'error',
+                        title: 'Could not find the post.',
+                        text: `Post #${this.$route.params.id} does not exist.`,
+                        duration: -1
+                    });
+                });
+        },
+        data() {
+            return {
+                post: {},
+                postId: 0,
+                authorName: '',
+                authorId: 0,
+            };
         },
         methods: {
             deletePost() {
