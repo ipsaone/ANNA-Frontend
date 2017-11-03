@@ -7,7 +7,7 @@
         <nav>
             <ul>
                 <li v-for="link in links" :key="link.id">
-                    <router-link :to="{name: link.name}"  :class="[link.color, link.class]">
+                    <router-link :to="{name: link.name}" :class="[link.color, link.class]">
                         {{ link.title }}
                     </router-link>
                 </li>
@@ -15,20 +15,20 @@
         </nav>
 
 
-        <div class="bottom">      
+        <div class="bottom">
             <transition name="fade">
                 <div v-if="tooltipVisible" :class="{redBorder: tooltipRedBorder}" class="tooltip">
                     {{ this.tooltipText }}
                 </div>
             </transition>
-                 
+
             <div class="actions" @mouseover="mouseOverButton" @mouseleave="mouseLeaveButton">
                 <a class="button badge" data-text="Notifications" @click.prevent="showNotifications"
                    :data-badge="(notifications) ? notifications : false">
                     <i class="fa fa-bell" aria-hidden="true"></i>
                 </a>
 
-                <router-link to="/profile" class="button" data-text="Profile">
+                <router-link :to="{name: 'profile', params:{id: logged.id}}" class="button" data-text="Profile">
                     <i class="fa fa-user" aria-hidden="true"></i>
                 </router-link>
 
@@ -60,13 +60,19 @@
                     {title: 'Gantt', name: 'gantt', color: 'red'}
                 ]
             };
-            
+
         },
         computed: {
             borderColor() {
                 let curlink = this.links.filter(el => el.name === this.$route.name)[0];
-                if(curlink) {return curlink.color;}
+                if (curlink) {
+                    return curlink.color;
+                }
                 return 'grey';
+            },
+            logged() {
+                console.log(store.getters.loggedUser);
+                return store.getters.loggedUser;
             }
         },
         methods: {
@@ -88,7 +94,7 @@
                     });
             },
             mouseOverButton(event) {
-                if(event.target.className.split(' ').includes('button')) {
+                if (event.target.className.split(' ').includes('button')) {
                     this.tooltipVisible = true;
                     this.tooltipText = event.target.dataset.text;
                     this.tooltipRedBorder = (event.target.dataset.text === 'Logout');
