@@ -2,6 +2,11 @@
     <section class="drive">
         <loader v-if="loading"></loader>
 
+        <context-menu id="context-menu" ref="optionsMenu" @ctx-open="onMenuOpen" @ctx-cancel="selectedEl = 0">
+            <li class="action" @click="clickMenu"><i class="fa fa-download" aria-hidden="true"></i> Download</li>
+            <li class="action red" @click="clickMenu"><i class="fa fa-trash" aria-hidden="true"></i> Delete</li>
+        </context-menu>
+
         <section class="content">
             <h1 class="section-title">Drive</h1>
 
@@ -12,7 +17,6 @@
                     <th>Name</th>
                     <th>Owner</th>
                     <th>Size</th>
-                    <th>Download</th>
                 </tr>
                 </thead>
 
@@ -22,7 +26,6 @@
                     <td>...</td>
                     <td>&nbsp;</td>
                     <td>&nbsp;</td>
-                    <td>&nbsp;</td>
                 </tr>
 
                 <tr>
@@ -30,7 +33,6 @@
                     <td>foo</td>
                     <td>root</td>
                     <td>152 Mb</td>
-                    <td></td>
                 </tr>
 
                 <tr class="spacer">
@@ -38,12 +40,11 @@
                     <td>&nbsp;</td>
                     <td>&nbsp;</td>
                     <td>&nbsp;</td>
-                    <td>&nbsp;</td>
                 </tr>
 
-                <tr>
+                <tr @contextmenu.prevent="$refs.optionsMenu.open($event, 1)">
                     <td><i class="fa fa-file-pdf-o" aria-hidden="true"></i></td>
-                    <td>Bidon</td>
+                    <td>Fichier bidon</td>
                     <td></td>
                     <td></td>
                     <td></td>
@@ -65,10 +66,12 @@
 <script>
     import store from '@/store';
     import Loader from '@/components/Loader';
+    import ContextMenu from 'vue-context-menu';
 
     export default {
         components: {
             Loader,
+            ContextMenu
         },
         mounted() {
             this.loading = true;
@@ -85,7 +88,8 @@
         },
         data() {
             return {
-                loading: false
+                loading: false,
+                selectedEl: 0
             };
         },
         computed: {
@@ -96,5 +100,13 @@
                 return store.getters.content;
             }
         },
+        methods: {
+            onMenuOpen(locals) {
+                this.selectedEl = locals;
+            },
+            clickMenu() {
+                console.log('clicked!');
+            }
+        }
     };
 </script>

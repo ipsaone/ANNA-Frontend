@@ -5,6 +5,10 @@ const url = base + '/storage/';
 
 export default {
     getFolder(id) {
-        return axios.get(url + 'files/list/' + id, {withCredentials: true});
+        return axios.get(url + 'files/list/' + id, {withCredentials: true})
+            .then(res => {
+                console.log(res);
+                return res;
+            });
     }
 };

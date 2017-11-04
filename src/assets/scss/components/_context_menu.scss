@@ -1,0 +1,28 @@
+.ctx-menu {
+  li {
+    padding-left: 0.8em;
+    font-size: 1.2em;
+    color: $grey;
+
+    &.action {
+      line-height: 2.6em;
+      cursor: pointer;
+      border-bottom: 1px solid $grey-lighter;
+
+      &:last-child { border-bottom: none; }
+
+      &.red {
+        color: $red;
+
+        &:hover {
+          background-color: $red;
+          color: $white;
+        }
+      }
+
+      &:hover {
+        background-color: $white-ter;
+      }
+    }
+  }
+}

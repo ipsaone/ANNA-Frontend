@@ -4,6 +4,8 @@
 // Modules
 @import "../../../node_modules/sweetalert2/src/sweetalert2";
 @import '../../../node_modules/simplemde/dist/simplemde.min.css';
+@import '../../../node_modules/vue-context-menu/src/ctx-menu.css';
+
 
 // Variables
 @import "variables/defaults";
@@ -27,6 +29,7 @@
 @import "components/log";
 @import "components/post_abstract";
 @import "components/loader";
+@import "components/context_menu";
 
 // Pages
 @import "pages/dashboard";

@@ -6,36 +6,40 @@
   .content {
     grid-column: 1;
 
-    h1 {
-      margin-bottom: 1em;
-    }
-
     table {
       th {
         color: $grey-dark;
+        line-height: 3em;
+
+        &:first-child {
+          padding-left: 1em;
+          max-width: 1em;
+        }
       }
 
       tbody {
         tr {
+          background-color: $white-bis;
           line-height: 3em;
           font-size: 1.2em;
           cursor: pointer;
-          border-top: 1px solid $grey-lighter;
+          border: 1px solid $grey-lighter;
 
           &:hover {
             background-color: $white-dark;
           }
 
-          &:last-child { border-bottom: 1px solid $grey-lighter; }
-
           td:first-child {
             padding-left: 1em;
+            max-width: 1em;
           }
         }
 
         .spacer {
-          line-height: 3.5em;
+          line-height: 1em;
           cursor: default;
+          border: none;
+          background-color: $white-ter;
           &:hover { background-color: inherit; }
         }
       }
