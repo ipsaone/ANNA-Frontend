@@ -1,0 +1,49 @@
+.drive {
+  display: grid;
+  grid-template-columns: auto 20em;
+  grid-column-gap: 8em;
+
+  .content {
+    grid-column: 1;
+
+    h1 {
+      margin-bottom: 1em;
+    }
+
+    table {
+      th {
+        color: $grey-dark;
+      }
+
+      tbody {
+        tr {
+          line-height: 3em;
+          font-size: 1.2em;
+          cursor: pointer;
+          border-top: 1px solid $grey-lighter;
+
+          &:hover {
+            background-color: $white-dark;
+          }
+
+          &:last-child { border-bottom: 1px solid $grey-lighter; }
+
+          td:first-child {
+            padding-left: 1em;
+          }
+        }
+
+        .spacer {
+          line-height: 3.5em;
+          cursor: default;
+          &:hover { background-color: inherit; }
+        }
+      }
+    }
+  }
+
+  .actions {
+    grid-column: 2;
+    @include aside;
+  }
+}

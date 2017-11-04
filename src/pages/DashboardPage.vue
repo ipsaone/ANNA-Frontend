@@ -1,5 +1,5 @@
 <template>
-    <section class="dashboard" @keyup.enter="hideLog">
+    <section class="dashboard">
         <loader v-if="loading"></loader>
 
         <log></log>

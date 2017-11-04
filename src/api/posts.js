@@ -3,7 +3,7 @@ import base from '@/api/url';
 
 const url = base + '/posts/';
 
-const PostsApi = {
+export default {
     getPublished() {
         return axios.get(url + '?published=true', {withCredentials: true});
     },
@@ -24,5 +24,3 @@ const PostsApi = {
         return axios.delete(url + id, {withCredentials: true});
     }
 };
-
-export default PostsApi;

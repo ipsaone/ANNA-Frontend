@@ -5,6 +5,7 @@ import auth from '@/store/modules/auth';
 import users from '@/store/modules/users';
 import posts from '@/store/modules/posts';
 import logs from '@/store/modules/logs';
+import drive from '@/store/modules/drive';
 
 Vue.use(Vuex);
 
@@ -13,7 +14,8 @@ const store = new Vuex.Store({
         auth,
         posts,
         logs,
-        users
+        users,
+        drive
     }
 });
 
