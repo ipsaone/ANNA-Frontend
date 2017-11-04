@@ -17,7 +17,7 @@
             <h1 class="section-title">Actions</h1>
             <ul>
                 <li>
-                    <a href="#" @click.prevent="refreshPosts" class="refresh"><i class="fa fa-refresh" aria-hidden="true"></i> Refresh</a>
+                    <a href="#" @click.prevent="refreshPosts"><i class="fa fa-refresh" aria-hidden="true"></i> Refresh</a>
                 </li>
                 <li>
                     <router-link :to="{name: 'newPost'}"><i class="fa fa-plus" aria-hidden="true"></i> New</router-link>
@@ -37,7 +37,6 @@
             this.loading = true;
             store.dispatch('retrievePosts')
                 .catch(err => {
-                    console.log(err.message);
                     this.$notify({
                         type: 'error',
                         title: 'Can not retrieve the posts',

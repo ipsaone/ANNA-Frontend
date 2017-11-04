@@ -29,6 +29,16 @@
             background-color: $white-dark;
           }
 
+          &.no-hover {
+            cursor: inherit;
+
+            &:hover {background-color: $white-bis;}
+          }
+
+          &.selected {
+            background-color: $white-dark;
+          }
+
           td:first-child {
             padding-left: 1em;
             max-width: 1em;
