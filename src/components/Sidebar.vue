@@ -47,7 +47,7 @@
     export default {
         data() {
             return {
-                notifications: 0,
+                notifications: 6,
                 tooltipVisible: false,
                 tooltipText: '',
                 tooltipRedBorder: false,

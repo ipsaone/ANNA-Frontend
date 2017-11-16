@@ -14,6 +14,10 @@
                 <li>
                     <a href="#" @click.prevent="$modal.show('uploadFile')"><i class="fa fa-upload" aria-hidden="true"></i> Upload</a>
                 </li>
+
+                <li>
+                    <a href="#" @click.prevent="$modal.show('newFolder')"><i class="fa fa-plus" aria-hidden="true"></i> New folder</a>
+                </li>
             </ul>
 
             <div v-if="showOptions">
@@ -62,7 +66,7 @@
 
             },
             deleteFile() {
-                
+
             }
         }
     };
