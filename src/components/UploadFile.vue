@@ -1,6 +1,6 @@
 <template>
-    <modal name="uploadFile">
-        <div class="content">
+    <modal name="uploadFile" height="auto">
+        <div class="content anna-modal">
             <h1>Upload a new file</h1>
             <form @submit.prevent="onSubmit">
                 <input type="file" @change="onFileChange">

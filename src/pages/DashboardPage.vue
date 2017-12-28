@@ -1,14 +1,16 @@
 <template>
-    <section class="dashboard">
+    <section class="dashboard basic-layout">
+        <upload-log></upload-log>
+
         <loader v-if="loading"></loader>
 
         <log></log>
 
-        <div class="missions">
+        <div class="missions content">
             <h1 class="section-title">Missions</h1>
         </div>
 
-        <div class="logs">
+        <div class="logs actions">
             <h1 class="section-title">Logs</h1>
 
             <section> <!-- DO NOT REMOVE THE SECTION TAG -->
@@ -17,7 +19,7 @@
                 </div>
             </section>
 
-            <div class="bottom" @click.prevent="addLog">
+            <div class="bottom" @click="uploadLog">
                 <p><a href="#">+</a></p>
                 <p>Add</p>
             </div>
@@ -27,14 +29,15 @@
 
 <script>
     import store from '@/store';
-    import swal from 'sweetalert2';
     import Loader from '@/components/Loader';
     import Log from '@/components/Log';
+    import UploadLog from '@/components/UploadLog';
 
     export default {
         components: {
             Loader,
-            Log
+            Log,
+            UploadLog
         },
         data() {
             return {
@@ -44,7 +47,7 @@
         mounted() {
             this.loading = true;
             store.dispatch('retrieveUsers')
-                .then(store.dispatch('retrieveLogs'))
+                .then(store.dispatch('retrieveLogs', true))
                 .catch(err => {
                     this.$notify({
                         type: 'error',
@@ -61,43 +64,11 @@
             },
         },
         methods: {
-            addLog() {
-                swal.setDefaults({
-                    confirmButtonText: 'Next &rarr;',
-                    showCancelButton: true,
-                    progressSteps: ['1', '2']
-                });
-
-                const steps = [
-                    {
-                        title: 'Log title',
-                        input: 'text'
-                    },
-                    {
-                        title: 'Description',
-                        input: 'textarea'
-                    }
-                ];
-
-                swal.queue(steps).then(result => {
-                    swal.resetDefaults();
-                    swal({
-                        title: 'All done!',
-                        html:
-                        'Your answers: <pre>' +
-                        JSON.stringify(result) +
-                        '</pre>',
-                        confirmButtonText: 'Send!'
-                    });
-                }).catch(_ => {
-                    swal.resetDefaults();
-                });
+            uploadLog() {
+                this.$modal.show('uploadLog');
             },
             showLog(log) {
-                this.$modal.show('log', {log: log});
-            },
-            hideLog() {
-                this.$modal.hide('log');
+                this.$modal.show('log', {'log': log});
             }
         }
     };

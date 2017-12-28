@@ -1,5 +1,5 @@
 <template>
-    <div class="blog">
+    <div class="blog basic-layout">
         <loader v-if="loading"></loader>
 
         <section class="content">
@@ -17,9 +17,10 @@
             <h1 class="section-title">Actions</h1>
             <ul>
                 <li>
-                    <a href="#" @click.prevent="refreshPosts"><i class="fa fa-refresh" aria-hidden="true"></i> Refresh</a>
+                    <a href="#" @click.prevent="refreshPosts(true)"><i class="fa fa-refresh" aria-hidden="true"></i>
+                        Refresh</a>
                 </li>
-                <li>
+                <li v-show="canPost">
                     <router-link :to="{name: 'newPost'}"><i class="fa fa-plus" aria-hidden="true"></i> New</router-link>
                 </li>
             </ul>
@@ -34,19 +35,7 @@
 
     export default {
         mounted() {
-            this.loading = true;
-            store.dispatch('retrievePosts')
-                .catch(err => {
-                    this.$notify({
-                        type: 'error',
-                        title: 'Can not retrieve the posts',
-                        text: err.message,
-                        duration: -1
-                    });
-                })
-                .then(_ => {
-                    this.loading = false;
-                });
+            this.retrievePosts();
         },
         data() {
             return {
@@ -63,18 +52,15 @@
             },
             postsNumber() {
                 return this.posts.length;
+            },
+            canPost() {
+                return store.getters.loggedUserIsAuthor || store.getters.loggedUserIsRoot;
             }
         },
         methods: {
-            refreshPosts() {
-                store.dispatch('retrievePosts', true)
-                    .then(_ => {
-                        this.$notify({
-                            type: 'success',
-                            title: 'Blog updated!',
-                            duration: 1000
-                        });
-                    })
+            refreshPosts(force = false) {
+                this.loading = true;
+                store.dispatch('retrievePosts', force)
                     .catch(err => {
                         this.$notify({
                             type: 'error',
@@ -82,6 +68,9 @@
                             text: err.message,
                             duration: -1
                         });
+                    })
+                    .then(_ => {
+                        this.loading = false;
                     });
             }
         }

@@ -1,12 +1,12 @@
 $actions-width: 20em;
 
-.blog {
+.basic-layout {
   display: grid;
   grid-template-columns: auto $actions-width;
   grid-column-gap: 8em;
 
   .content {
-
+    grid-column: 1;
   }
 
   .actions {

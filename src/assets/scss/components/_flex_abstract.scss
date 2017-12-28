@@ -1,11 +1,12 @@
-$id-width: 10em;
+$id-width: 3em;
 $title-width: auto;
 $info-width: 15em;
+$date-width: 12em;
+$button-width: 8em;
 
-.post-abstract {
+.flex-abstract {
   border: 1px solid $grey-lighter;
   display: grid;
-  grid-template-columns: $id-width $title-width $info-width;
   background-color: $white-bis;
   margin: 1em auto;
   align-items: center;
@@ -26,6 +27,21 @@ $info-width: 15em;
     span {
       display: block;
       color: $grey;
+      margin-bottom: 1em;
+
+      &:last-child { margin-bottom: 0 }
     }
+  }
+
+  .button {
+    width: 100%;
+  }
+
+  &.post-abstract {
+    grid-template-columns: $id-width $title-width $info-width;
+  }
+
+  &.event {
+    grid-template-columns: $id-width $title-width $date-width $button-width;
   }
 }

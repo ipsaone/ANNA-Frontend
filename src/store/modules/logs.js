@@ -1,4 +1,4 @@
-import LogsApi from '@/api/test/logs';
+import LogsApi from '@/api/logs';
 
 const state = {
     logs: [],
@@ -21,7 +21,7 @@ const actions = {
             if (state.logs.length === 0 || force) {
                 LogsApi.getAll()
                     .then(logs => {
-                        commit('SET_ALL_LOGS', logs);
+                        commit('SET_ALL_LOGS', logs.data);
                         resolve();
                     })
                     .catch(err => reject(err));
@@ -41,6 +41,20 @@ const actions = {
                 else throw Error;
             });
     },
+
+    unselectLog({commit}) {
+        return commit('SELECT_LOG', {});
+    },
+
+    storeLog({dispatch}, log) {
+        return LogsApi.save(log)
+            .then(_ => dispatch('retrieveLogs', true));
+    },
+
+    deleteLog({dispatch}, id) {
+        return LogsApi.delete(id)
+            .then(_ => dispatch('retrieveLogs', true));
+    }
 };
 
 const getters = {

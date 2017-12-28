@@ -6,6 +6,7 @@ import users from '@/store/modules/users';
 import posts from '@/store/modules/posts';
 import logs from '@/store/modules/logs';
 import drive from '@/store/modules/drive';
+import events from '@/store/modules/events';
 
 Vue.use(Vuex);
 
@@ -15,7 +16,8 @@ const store = new Vuex.Store({
         posts,
         logs,
         users,
-        drive
+        drive,
+        events
     }
 });
 

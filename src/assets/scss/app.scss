@@ -22,19 +22,22 @@
 
 // Elements
 @import "elements/button";
+@import "elements/form";
+
 
 // Components
 @import "components/sidebar";
 @import "components/data_circle";
 @import "components/log";
-@import "components/post_abstract";
+@import "components/flex_abstract";
 @import "components/loader";
 @import "components/context_menu";
+@import "components/modal";
 
 // Pages
+@import "pages/layout.scss";
 @import "pages/dashboard";
 @import "pages/login";
-@import "pages/blog";
 @import "pages/post";
 @import "pages/form-post";
 @import "pages/drive";

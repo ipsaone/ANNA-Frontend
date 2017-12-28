@@ -1,5 +1,5 @@
 <template>
-    <article class="post-abstract">
+    <article class="flex-abstract post-abstract">
         <p class="id">#{{ index }}</p>
         <h1><router-link :to="{name: 'readPost', params: {id: post.id}}">{{ post.title }}</router-link></h1>
         <p class="info">

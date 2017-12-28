@@ -24,12 +24,23 @@ input[type="submit"] {
 
   &.alert {
     background-color: $red;
-    border-color: darken($red, 50%);
+    border: 1px solid $red;
+    color: $white-dark;
+
+    &:hover {
+      background-color: inherit;
+      color: $red;
+    }
   }
 
   &.success {
     background-color: $green;
-    border-color: darken($green, 50%);
+    border: 1px solid $green;
+    color: $white-dark;
 
+    &:hover {
+      background-color: inherit;
+      color: $green;
+    }
   }
 }

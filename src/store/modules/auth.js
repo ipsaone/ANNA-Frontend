@@ -1,12 +1,16 @@
 import AuthApi from '@/api/auth';
 
 const state = {
-    logged: {}
+    logged: {},
+    groups: []
 };
 
 const mutations = {
     SET_LOGGED_USER(state, user) {
         state.logged = user;
+        user.groups.forEach(group => {
+            state.groups.push(group.name);
+        });
     },
 };
 
@@ -14,8 +18,8 @@ const actions = {
     loginUser({commit}, credentials) {
         return new Promise((resolve, reject) => {
             AuthApi.log(credentials)
-                .then(user => {
-                    commit('SET_LOGGED_USER', {id: user.data.id, username: user.data.username});
+                .then(res => {
+                    commit('SET_LOGGED_USER', res.data);
                     resolve();
                 })
                 .catch(error => {
@@ -49,6 +53,18 @@ const getters = {
 
     isLogged(state) {
         return state.logged.id !== undefined && state.logged.username !== undefined;
+    },
+
+    loggedUserGroups(state) {
+        return state.groups;
+    },
+
+    loggedUserIsRoot(state) {
+        return state.groups.includes('root');
+    },
+
+    loggedUserIsAuthor(state) {
+        return state.groups.includes('author');
     }
 };
 
