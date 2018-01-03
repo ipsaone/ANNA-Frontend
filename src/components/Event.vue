@@ -1,5 +1,5 @@
 <template>
-    <modal name="event" @before-open="beforeOpen" @before-close="beforeClose" height="auto" scrollable="true">
+    <modal name="event" @before-open="beforeOpen" @before-close="beforeClose" height="auto" :scrollable="true">
         <div class="content anna-modal">
             <h1>{{ event.name }}</h1>
 
