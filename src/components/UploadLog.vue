@@ -1,5 +1,5 @@
 <template>
-    <modal name="uploadLog" height="auto">
+    <modal name="uploadLog" height="auto" :scrollable="true">
         <div class="content anna-modal">
             <h1>Create a new log</h1>
             <form @submit.prevent="onSubmit">

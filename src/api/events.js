@@ -18,5 +18,13 @@ export default {
 
     delete(id) {
         return axios.delete(url + id, {withCredentials: true});
+    },
+
+    register(event_id, user_id) {
+        return axios.put(url + event_id + '/register/' + user_id, {withCredentials: true});
+    },
+
+    withdraw(event_id, user_id) {
+        return axios.delete(url + event_id + '/register/' + user_id, {withCredentials: true});
     }
 };

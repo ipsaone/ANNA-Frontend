@@ -9,6 +9,15 @@ input, textarea {
   font-size: 1em;
 
   &:focus { border-color: $purple; }
+
+  &[disabled] {
+    background-color: $grey-lighter;
+  }
+}
+
+input[type="file"] {
+  border: none;
+  height: 100%;
 }
 
 input[type="checkbox"] {
@@ -16,9 +25,19 @@ input[type="checkbox"] {
   width: auto;
   height: auto;
   margin: 0;
+  border: none;
 }
 
 textarea {
   height: 10em;
   text-align: left;
+}
+
+.inline-form {
+  input, label {
+    display: inline;
+    width: auto;
+    margin-left: 0.5em;
+    margin-right: 0.5em;
+  }
 }

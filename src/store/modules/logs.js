@@ -17,19 +17,13 @@ const mutations = {
 
 const actions = {
     retrieveLogs({commit, state}, force = false) {
-        return new Promise((resolve, reject) => {
-            if (state.logs.length === 0 || force) {
-                LogsApi.getAll()
-                    .then(logs => {
-                        commit('SET_ALL_LOGS', logs.data);
-                        resolve();
-                    })
-                    .catch(err => reject(err));
-            }
-            else {
-                resolve();
-            }
-        });
+        if (state.logs.length === 0 || force) {
+            return LogsApi.getAll()
+                .then(logs => commit('SET_ALL_LOGS', logs.data));
+        }
+        else {
+            return Promise.resolve();
+        }
     },
 
     selectLog({dispatch, commit, state}, id) {

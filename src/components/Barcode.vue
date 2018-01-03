@@ -1,5 +1,5 @@
 <template>
-    <modal name="barcode">
+    <modal name="barcode" :scrollable="true" height="auto">
         <div class="content anna-modal">
             <h1>Generate a barcode</h1>
 

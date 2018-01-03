@@ -1,13 +1,13 @@
 <template>
     <section class="dashboard basic-layout">
-        <upload-log></upload-log>
-
         <loader v-if="loading"></loader>
-
         <log></log>
+        <upload-log></upload-log>
 
         <div class="missions content">
             <h1 class="section-title">Missions</h1>
+
+            <missions-slider></missions-slider>
         </div>
 
         <div class="logs actions">
@@ -30,12 +30,14 @@
 <script>
     import store from '@/store';
     import Loader from '@/components/Loader';
+    import MissionsSlider from '@/components/MissionsSlider';
     import Log from '@/components/Log';
     import UploadLog from '@/components/UploadLog';
 
     export default {
         components: {
             Loader,
+            MissionsSlider,
             Log,
             UploadLog
         },
@@ -47,6 +49,8 @@
         mounted() {
             this.loading = true;
             store.dispatch('retrieveUsers')
+                .then(store.dispatch('retrieveMissions', true))
+                .then(store.dispatch('retrieveTasks', true))
                 .then(store.dispatch('retrieveLogs', true))
                 .catch(err => {
                     this.$notify({

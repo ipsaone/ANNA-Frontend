@@ -17,19 +17,12 @@ const mutations = {
 
 const actions = {
     retrieveUsers({commit, state}, force = false) {
-        return new Promise((resolve, reject) => {
-            if (state.users.length === 0 || force) {
-                UsersApi.getAll()
-                    .then(users => {
-                        commit('SET_ALL_USERS', users.data);
-                        resolve();
-                    })
-                    .catch(err => reject(err));
-            }
-            else {
-                resolve();
-            }
-        });
+        if (state.users.length === 0 || force) {
+            return UsersApi.getAll().then(users => commit('SET_ALL_USERS', users.data));
+        }
+        else {
+            return Promise.resolve();
+        }
     },
 
     selectUser({state, commit, dispatch}, id) {

@@ -25,7 +25,7 @@ input[type="submit"] {
   &.alert {
     background-color: $red;
     border: 1px solid $red;
-    color: $white-dark;
+    color: $white;
 
     &:hover {
       background-color: inherit;
@@ -36,7 +36,7 @@ input[type="submit"] {
   &.success {
     background-color: $green;
     border: 1px solid $green;
-    color: $white-dark;
+    color: $white;
 
     &:hover {
       background-color: inherit;

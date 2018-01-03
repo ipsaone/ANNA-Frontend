@@ -1,6 +1,7 @@
 <template>
-    <section class="drive">
+    <section class="drive basic-layout">
         <upload-file></upload-file>
+        <new-folder></new-folder>
 
         <section class="content">
             <h1 class="section-title">Drive</h1>
@@ -39,11 +40,13 @@
     import driveApi from '@/api/drive';
     import DriveTable from '@/components/DriveTable';
     import UploadFile from '@/components/UploadFile';
+    import NewFolder from '@/components/NewFolder';
 
     export default {
         components: {
             DriveTable,
-            UploadFile
+            UploadFile,
+            NewFolder
         },
         beforeRouteEnter(to, from, next) {
             store.dispatch('retrieveFolder', 1)

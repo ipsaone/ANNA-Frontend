@@ -1,12 +1,12 @@
 <template>
-    <modal name="log" @before-open="beforeOpen" @before-close="beforeClose" height="auto">
+    <modal name="log" @before-open="beforeOpen" @before-close="beforeClose" height="auto" :scrollable="true">
         <div class="content anna-modal">
             <h1>{{ log.title }}</h1>
 
             <p class="info">By <router-link :to="{name: 'profile', params:{id: authorId}}">{{ username }}</router-link>
                 the {{ log.createdAt | moment('DD/MM/YYYY [at] HH:mm') }}</p>
 
-            <p class="description"><span v-html="log.content"></span></p>
+            <p class="description" v-html="log.content"></p>
 
             <button @click="deleteLog" class="button alert" v-show="canDelete">Delete</button>
         </div>

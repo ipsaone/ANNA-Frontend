@@ -17,19 +17,12 @@ const mutations = {
 
 const actions = {
     retrieveEvents({commit, state}, force = false) {
-        return new Promise((resolve, reject) => {
-            if (state.events.length === 0 || force) { // If no events are loaded
-                EventsApi.getAll()
-                    .then(events => {
-                        commit('SET_ALL_EVENTS', events.data);
-                        resolve();
-                    })
-                    .catch(err => reject(err));
-            }
-            else {
-                resolve();
-            }
-        });
+        if (state.events.length === 0 || force) { // If no events are loaded
+            return EventsApi.getAll().then(events => commit('SET_ALL_EVENTS', events.data));
+        }
+        else {
+            Promise.resolve();
+        }
     },
 
     selectEvent({dispatch, commit, state}, id) {
@@ -59,8 +52,12 @@ const actions = {
 
     deleteEvent({dispatch}, id) {
         return EventsApi.delete(id)
-            .then(_ => dispatch('retrieveEvents', true))
-            .catch(err => console.log(err));
+            .then(_ => dispatch('retrieveEvents', true));
+    },
+
+    registerEvent({dispatch, state}, event_id) {
+        return EventsApi.register(event_id, state.loggedUserId)
+            .then(_ => dispatch('retrieveEvents', true));
     }
 };
 

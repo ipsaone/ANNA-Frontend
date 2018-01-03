@@ -82,7 +82,7 @@ router.beforeEach((to, from, next) => {
         // We need to check if he is logged or not on the server
         authApi.check()
             .then(user => { // If he is logged on the server
-                store.commit('SET_LOGGED_USER', {id: user.data.id, username: user.data.username}); // Reload the user data
+                store.commit('SET_LOGGED_USER', user.data); // Reload the user data
                 next(); // And let him continue his navigation
             })
             .catch(_ => { // If he is not logged
@@ -91,8 +91,10 @@ router.beforeEach((to, from, next) => {
     }
     else if (to.path === '/login' && store.getters.isLogged) // If the user is logged and try to go to /login
         next({name: 'dashboard'}); // Redirect him to the dashboard
-    else // If he is logged, no problem
+    else {
+        // If he is logged, no problem
         next();
+    }
 });
 
 export default router;

@@ -11,7 +11,6 @@
 
 <script>
     import store from '@/store';
-    import striptags from 'striptags';
 
     export default {
         props: ['post', 'index']

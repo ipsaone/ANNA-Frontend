@@ -35,7 +35,7 @@
 
     export default {
         mounted() {
-            this.retrievePosts();
+            this.refreshPosts(false, true);
         },
         data() {
             return {
@@ -58,9 +58,19 @@
             }
         },
         methods: {
-            refreshPosts(force = false) {
+            refreshPosts(force = false, mounted = false) {
                 this.loading = true;
                 store.dispatch('retrievePosts', force)
+                    .then(this.loading = false)
+                    .then(_ => {
+                        if (!mounted) {
+                            this.$notify({
+                                type: 'success',
+                                title: 'Events updated!',
+                                duration: 1000
+                            });
+                        }
+                    })
                     .catch(err => {
                         this.$notify({
                             type: 'error',
@@ -68,9 +78,6 @@
                             text: err.message,
                             duration: -1
                         });
-                    })
-                    .then(_ => {
-                        this.loading = false;
                     });
             }
         }

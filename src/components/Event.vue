@@ -1,11 +1,14 @@
 <template>
-    <modal class="event-modal" name="event" @before-open="beforeOpen" @before-close="beforeClose" height="auto">
+    <modal name="event" @before-open="beforeOpen" @before-close="beforeClose" height="auto" scrollable="true">
         <div class="content anna-modal">
             <h1>{{ event.name }}</h1>
 
-            <p class="info">The {{ event.createdAt | moment('DD/MM/YYYY [at] HH:mm') }}</p>
+            <p class="info">
+                Start the {{ event.startDate | moment('DD/MM/YYYY [at] HH:mm') }}<br>
+                <span v-show="event.endDate">Finish the {{ event.endDate | moment('DD/MM/YYYY [at] HH:mm') }}</span>
+            </p>
 
-            <p class="description">{{ event.content }}</p>
+            <div class="description" v-html="event.content"></div>
 
             <button @click="deleteEvent" class="button alert">Delete</button>
         </div>

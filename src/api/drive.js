@@ -1,7 +1,6 @@
 import axios from 'axios';
 import FormData from 'form-data';
 import base from '@/api/url';
-import store from '@/store';
 
 const url = base + '/storage/';
 
@@ -14,22 +13,22 @@ export default {
         return axios.get(url + 'files/' + id + '?download=true', {withCredentials: true});
     },
 
-    uploadFile(file) {
+    uploadFile(data) {
         let form = new FormData();
-        form.append('file', file);
-        form.append('name', file.name);
-        form.append('dirId', store.getters.folder.id);
-        form.append('groupId', 1);
-        form.append('ownerId', 1);
-        form.append('allRead', 1);
-        form.append('allWrite', 1);
-        form.append('GroupRead', 1);
-        form.append('GroupWrite', 1);
-        form.append('ownerWrite', 1);
-        form.append('ownerRead', 1);
 
-        axios.post(url + 'upload/', form)
-            .then(res => console.log(res))
-            .catch(err => console.log(err));
+        form.append('contents', data.contents);
+        form.append('name', data.name);
+        form.append('isDir', (data.isDir) ? data.isDir : false);
+        form.append('dirId', data.dirId);
+        form.append('groupId', data.groupId);
+        form.append('ownerId', data.ownerId);
+        form.append('allRead', data.allRead);
+        form.append('allWrite', data.allWrite);
+        form.append('groupRead', data.groupRead);
+        form.append('groupWrite', data.groupWrite);
+        form.append('ownerWrite', data.ownerWrite);
+        form.append('ownerRead', data.ownerRead);
+
+        return axios.post(url + 'upload/', form, {withCredentials: true});
     }
 };

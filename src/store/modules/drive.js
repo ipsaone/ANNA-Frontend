@@ -17,13 +17,9 @@ const mutations = {
 
 const actions = {
     retrieveFolder({commit, dispatch}, id) {
-        return new Promise((resolve, reject) => {
-            DriveApi.getFolder(id)
-                .then(folder => dispatch('setOwners', folder.data))
-                .then(folder => commit('SET_FOLDER', folder))
-                .then(_ => resolve())
-                .catch(err => reject(err));
-        });
+        return DriveApi.getFolder(id)
+            .then(folder => dispatch('setOwners', folder.data))
+            .then(folder => commit('SET_FOLDER', folder));
     },
 
     selectFile({commit}, file) {
@@ -33,7 +29,7 @@ const actions = {
         });
     },
 
-    setOwners({state, dispatch}, folder) {
+    setOwners({dispatch}, folder) {
         return dispatch('getUserById', folder.ownerId)
             .then(user => {
                 folder.owner = user;
@@ -46,9 +42,8 @@ const actions = {
                         });
                 });
             })
-            .then(_ => { return folder; })
-            .catch(err => {
-                console.log(err);
+            .then(_ => {
+                return folder;
             });
     }
 };

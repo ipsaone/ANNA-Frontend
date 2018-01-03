@@ -17,19 +17,12 @@ const mutations = {
 
 const actions = {
     retrievePosts({commit, state}, force = false) {
-        return new Promise((resolve, reject) => {
-            if (state.posts.length === 0 || force) { // If no posts is loaded
-                PostsApi.getPublished()
-                    .then(posts => {
-                        commit('SET_ALL_POSTS', posts.data);
-                        resolve();
-                    })
-                    .catch(err => reject(err));
-            }
-            else {
-                resolve();
-            }
-        });
+        if (state.posts.length === 0 || force) { // If no posts is loaded
+            return PostsApi.getPublished().then(posts => commit('SET_ALL_POSTS', posts.data));
+        }
+        else {
+            return Promise.resolve();
+        }
     },
 
     selectPost({dispatch, commit, state}, id) {

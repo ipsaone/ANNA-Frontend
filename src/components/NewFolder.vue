@@ -1,10 +1,11 @@
 <template>
-    <modal name="uploadFile" height="auto" :scrollable="true">
+    <modal name="newFolder" height="auto" :scrollable="true">
         <div class="content anna-modal">
-            <h1>Upload a new file</h1>
+            <h1>New folder</h1>
+
             <form @submit.prevent="onSubmit">
-                <input type="file" @change="onFileChange">
-                <button type="submit" class="button success">Submit</button>
+                <input type="text" placeholder="Name" v-model="name">
+                <input type="submit" value="Create" class="button success">
             </form>
         </div>
     </modal>
@@ -17,18 +18,15 @@
     export default {
         data() {
             return {
-                file: ''
+                name: ''
             };
         },
         methods: {
-            onFileChange(e) {
-                const files = e.target.files || e.dataTransfer.files;
-                if (files.length > 0) this.file = files[0];
-            },
             onSubmit() {
                 const data = {
-                    contents: this.file,
-                    name: this.file.name,
+                    contents: null,
+                    name: this.name,
+                    isDir: true,
                     ownerId: store.getters.loggedUserId,
                     dirId: store.getters.folder.id,
                     groupId: 1,
@@ -41,7 +39,7 @@
                 };
 
                 driveApi.uploadFile(data)
-                    .then(this.$modal.hide('uploadFile'))
+                    .then(this.$modal.hide('newFolder'))
                     .catch(err => {
                         this.$notify({
                             type: 'error',
