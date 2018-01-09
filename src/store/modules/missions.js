@@ -26,11 +26,15 @@ const actions = {
         }
     },
 
-    selectMission({commit}, mission) {
-        return new Promise(resolve => {
-            commit('SET_SELECTED', mission);
-            resolve();
-        });
+    retrieveMission({dispatch}, mission_id) {
+        return MissionsApi.get(mission_id)
+            .then(mission => dispatch('setLeader', mission.data))
+            .catch(err => console.log(err));
+    },
+
+    selectMission({dispatch, commit}, mission_id) {
+        return dispatch('retrieveMission', mission_id)
+            .then(mission => commit('SET_SELECTED', mission));
     },
 
     setLeaders({dispatch}, missions) {
@@ -41,6 +45,16 @@ const actions = {
                     return mission;
                 });
         }));
+    },
+
+    setLeader({dispatch}, mission) {
+        return dispatch('getUserById', mission.leaderId)
+            .then(user => {
+                mission.leader = user;
+            })
+            .then(_ => {
+                return mission;
+            });
     },
 
     storeMission({dispatch}, mission) {

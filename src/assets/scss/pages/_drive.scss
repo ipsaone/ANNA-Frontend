@@ -26,7 +26,7 @@
           &.no-hover {
             cursor: inherit;
 
-            &:hover {background-color: $white-bis;}
+            &:hover { background-color: $white-bis; }
           }
 
           &.selected {
@@ -36,6 +36,14 @@
           td:first-child {
             padding-left: 1em;
             max-width: 1em;
+          }
+
+          td:last-child {
+            max-width: 1px;
+          }
+
+          .overflow-wrap-hack {
+            max-width: 1px;
           }
         }
 

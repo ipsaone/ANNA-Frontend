@@ -21,7 +21,7 @@ export default {
     },
 
     register(event_id, user_id) {
-        return axios.put(url + event_id + '/register/' + user_id, {withCredentials: true});
+        return axios.put(url + event_id + '/register/' + user_id, null, {withCredentials: true});
     },
 
     withdraw(event_id, user_id) {

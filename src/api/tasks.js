@@ -13,7 +13,7 @@ export default {
     },
 
     update(task) {
-        return axios.put(url + task.id, task, {withCredentials: true});
+        return axios.put(base + '/missions/' + task.missionId + '/task/' + task.id, task, {withCredentials: true});
     },
 
     delete(id) {

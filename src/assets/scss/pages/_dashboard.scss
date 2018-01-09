@@ -1,6 +1,13 @@
 .dashboard {
   .logs {
+    overflow-x: scroll;
     section { margin-top: 1.2em; }
+
+    .log {
+      .date {
+        color: $grey-light;
+      }
+    }
 
     .bottom {
       border-top: 1px solid $grey-lighter;

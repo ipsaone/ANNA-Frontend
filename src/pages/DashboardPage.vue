@@ -15,6 +15,7 @@
 
             <section> <!-- DO NOT REMOVE THE SECTION TAG -->
                 <div class="log" v-for="log in logs" :key="log.id" @click="showLog(log)">
+                    <p class="date">{{ log.createdAt | moment('DD/MM/YYYY') }}</p>
                     <h1>{{ log.title }}</h1>
                 </div>
             </section>
@@ -50,7 +51,11 @@
             this.loading = true;
             store.dispatch('retrieveUsers')
                 .then(store.dispatch('retrieveMissions', true))
-                .then(store.dispatch('retrieveTasks', true))
+                .then(_ => {
+                    if (store.getters.missions.length > 0) {
+                        store.dispatch('selectMission', store.getters.missions[0].id);
+                    }
+                })
                 .then(store.dispatch('retrieveLogs', true))
                 .catch(err => {
                     this.$notify({

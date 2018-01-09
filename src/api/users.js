@@ -6,5 +6,10 @@ const url = base + '/users/';
 export default {
     getAll() {
         return axios.get(url, {withCredentials: true});
+    },
+
+    get(user_id)
+    {
+        return axios.get(url + user_id, {withCredentials: true});
     }
 };

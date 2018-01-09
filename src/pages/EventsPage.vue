@@ -9,10 +9,13 @@
 
             <section> <!-- DO NOT REMOVE THE SECTION TAG -->
                 <div class="event flex-abstract" v-for="(event, index) in events" :key="event.id" @click="showEvent(event)">
-                    <p class="registered">0/{{ event.maxRegistered }}</p>
+                    <p class="registered" v-show="event.maxRegistered">0/{{ event.maxRegistered }}</p>
                     <h1><a href="#">{{ event.name }}</a></h1>
                     <p class="date">The {{ event.startDate | moment('DD/MM/YYYY [at] HH:mm') }}</p>
-                    <p><a href="#" @click.prevent.stop="addUser(event.id)" class="button success">Join</a></p>
+                    <p>
+                        <a href="#" @click.prevent.stop="addUser(event.id)" class="button success" v-if="!isRegistered(event.id)">Join</a>
+                        <a href="#" @click.prevent.stop="withdrawUser(event.id)" class="button alert" v-else="isRegistered(event.id">Withdraw</a>
+                    </p>
                 </div>
             </section>
         </section>
@@ -64,6 +67,7 @@
             refreshEvents(force = false, mounted = false) {
                 this.loading = true;
                 store.dispatch('retrieveEvents', force)
+                    .then(_ => store.dispatch('retrieveLoggedUser'))
                     .then(this.loading = false)
                     .then(_ => {
                         if (!mounted) {
@@ -89,8 +93,13 @@
             showEvent(event) {
                 this.$modal.show('event', {'event': event});
             },
+            isRegistered(event_id) {
+                return store.getters.loggedUserEvents.includes(event_id);
+            },
             addUser(event_id) {
-                store.dispatch('registerEvent', event_id)
+                EventsApi.register(event_id, store.getters.loggedUserId)
+                    .then(_ => store.dispatch('retrieveEvents', true))
+                    .then(_ => store.dispatch('retrieveLoggedUser'))
                     .then(_ => {
                         this.$notify({
                             type: 'success',
@@ -98,6 +107,19 @@
                             duration: 1000
                         });
                     })
+                    .catch(err => {
+                        this.$notify({
+                            type: 'error',
+                            title: 'An error occurred.',
+                            text: err.message,
+                            duration: -1
+                        });
+                    });
+            },
+            withdrawUser(event_id) {
+                EventsApi.withdraw(event_id, store.getters.loggedUserId)
+                    .then(_ => store.dispatch('retrieveEvents', true))
+                    .then(_ => store.dispatch('retrieveLoggedUser'))
                     .catch(err => {
                         this.$notify({
                             type: 'error',

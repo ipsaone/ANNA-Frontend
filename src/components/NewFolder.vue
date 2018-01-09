@@ -24,7 +24,6 @@
         methods: {
             onSubmit() {
                 const data = {
-                    contents: null,
                     name: this.name,
                     isDir: true,
                     ownerId: store.getters.loggedUserId,
@@ -39,6 +38,7 @@
                 };
 
                 driveApi.uploadFile(data)
+                    .then(store.dispatch('retrieveFolder', store.getters.folder.id))
                     .then(this.$modal.hide('newFolder'))
                     .catch(err => {
                         this.$notify({

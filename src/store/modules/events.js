@@ -55,8 +55,8 @@ const actions = {
             .then(_ => dispatch('retrieveEvents', true));
     },
 
-    registerEvent({dispatch, state}, event_id) {
-        return EventsApi.register(event_id, state.loggedUserId)
+    registerEvent({dispatch}, data) {
+        return EventsApi.register(data.event, data.user)
             .then(_ => dispatch('retrieveEvents', true));
     }
 };

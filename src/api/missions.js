@@ -8,6 +8,10 @@ export default {
         return axios.get(url, {withCredentials: true});
     },
 
+    get(mission_id) {
+        return axios.get(url + mission_id, {withCredentials: true});
+    },
+
     save(mission) {
         return axios.post(url, mission, {withCredentials: true});
     },

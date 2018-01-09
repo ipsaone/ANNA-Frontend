@@ -19,6 +19,9 @@
                 <li>
                     <a href="#" @click.prevent="$modal.show('newFolder')"><i class="fa fa-plus" aria-hidden="true"></i> New folder</a>
                 </li>
+                <li>
+                    <a href="#" @click.prevent="refreshFolder"><i class="fa fa-refresh" aria-hidden="true"></i> Refresh</a>
+                </li>
             </ul>
 
             <div v-if="showOptions">
@@ -69,7 +72,10 @@
 
             },
             deleteFile() {
-
+                
+            },
+            refreshFolder() {
+                store.dispatch('retrieveFolder', store.getters.folder.id);
             }
         }
     };

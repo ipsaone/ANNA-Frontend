@@ -41,6 +41,7 @@
                 };
 
                 driveApi.uploadFile(data)
+                    .then(store.dispatch('retrieveFolder', store.getters.folder.id))
                     .then(this.$modal.hide('uploadFile'))
                     .catch(err => {
                         this.$notify({

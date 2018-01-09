@@ -1,5 +1,5 @@
 <template>
-    <section class="mission-slider" :key="missionNumber">
+    <section class="mission-slider" :key="missionNumber" v-if="mission">
         <div class="controls">
             <a href="#" @click.prevent="prev" :class="{disabled: currentSlide === 0}">
                 <i class="fa fa-chevron-left"></i> Previous
@@ -24,6 +24,14 @@
                                 <router-link :to="{name: 'profile', params:{id: mission.leader.id}}">
                                     {{ mission.leader.username }}
                                 </router-link>
+                                <ul>
+                                    <li v-for="member in mission.members" :key="member.id">
+                                        +
+                                        <router-link :to="{name: 'profile', params:{id: member.id}}">
+                                            {{ member.username }}
+                                        </router-link>
+                                    </li>
+                                </ul>
                             </li>
                         </ul>
                     </div>
@@ -40,7 +48,14 @@
                 <div class="tasks">
                     <h2>Tasks</h2>
                     <div class="content">
-
+                        <ul>
+                            <li v-for="task in mission.tasks" :key="task.id">
+                                <input type="checkbox" name="done" id="done" @change="taskChange(task)"
+                                       :checked="task.done == 1"
+                                       :disabled="disabledInput">
+                                {{ task.name }}
+                            </li>
+                        </ul>
                     </div>
                 </div>
             </div>
@@ -50,6 +65,7 @@
 
 <script>
     import store from '@/store';
+    import TasksApi from '@/api/tasks';
 
     export default {
         data() {
@@ -59,21 +75,37 @@
         },
         computed: {
             mission() {
-                const mission = store.getters.missions[this.currentSlide];
-                return mission ? mission : {};
+                return store.getters.selectedMission;
             },
             missionNumber() {
                 return store.getters.missions.length;
             },
+            disabledInput() {
+                return !store.getters.loggedUserIsRoot || store.getters.loggedUserId !== this.mission.leader.id;
+            }
         },
         methods: {
             next() {
-                if (this.currentSlide < this.missionNumber - 1)
+                if (this.currentSlide < this.missionNumber - 1) {
                     this.currentSlide += 1;
+                    store.dispatch('selectMission', store.getters.missions[this.currentSlide].id);
+                }
             },
             prev() {
-                if (this.currentSlide > 0)
+                if (this.currentSlide > 0) {
                     this.currentSlide -= 1;
+                    store.dispatch('selectMission', store.getters.missions[this.currentSlide].id);
+                }
+            },
+            taskChange(task) {
+                const data = {
+                    id: task.id,
+                    done: !task.done,
+                    missionId: task.missionId
+                };
+
+                TasksApi.update(data)
+                    .then(_ => store.dispatch('selectMission', task.missionId));
             }
         }
     };

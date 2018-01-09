@@ -24,8 +24,8 @@
             <!-- Actual folder -->
             <tr class="no-hover">
                 <td><i class="fa fa-folder-open" aria-hidden="true"></i></td>
-                <td>{{ folder.name }}</td>
-                <td>{{ folder.owner.username }}</td>
+                <td>{{ wrapName(folder.name) }}</td>
+                <td>{{ wrapName(folder.owner.username) }}</td>
                 <td>{{ convertSize(folder.size) }} Kb</td>
             </tr>
 
@@ -42,9 +42,17 @@
                 @dblclick="openFile(file)"
                 :class="{selected: file.id === selectedFile.id}">
                 <td v-html="getIcon(file)"></td>
-                <td>{{ file.name }}</td>
-                <td>{{ file.owner.username }}</td>
-                <td>{{ convertSize(file.size) }} Kb</td>
+                <td class="overflow-wrap-hack">
+                    <div class="content-td">
+                        {{ wrapName(file.name) }}
+                    </div>
+                </td>
+                <td>
+                    {{ wrapName(file.owner.username) }}
+                </td>
+                <td>
+                    {{ convertSize(file.size) }} Kb
+                </td>
             </tr>
             </tbody>
         </table>
@@ -79,6 +87,12 @@
             select(file) {
                 if (file.id === this.selectedFile.id) store.dispatch('selectFile', {});
                 else store.dispatch('selectFile', file);
+            },
+            wrapName(name) {
+                if (name.length > 18)
+                    return name.substring(0, 18) + '...';
+                else
+                    return name;
             },
             getIcon(file) {
                 switch (file.type) {
