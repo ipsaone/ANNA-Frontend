@@ -11,6 +11,10 @@
                         {{ link.title }}
                     </router-link>
                 </li>
+
+                <li v-if="showAdmin">
+                    <router-link :to="{name: 'admin'}" :class="['red']">Administration</router-link>
+                </li>
             </ul>
         </nav>
 
@@ -72,6 +76,9 @@
             },
             logged() {
                 return store.getters.loggedUser;
+            },
+            showAdmin() {
+                return store.getters.loggedUserIsRoot;
             }
         },
         methods: {

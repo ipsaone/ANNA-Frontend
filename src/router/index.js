@@ -69,6 +69,11 @@ const router = new Router({
             component: resolve => require(['@/pages/GanttPage.vue'], resolve)
         },
         {
+            path: '/administration',
+            name: 'admin',
+            component: resolve => require(['@/pages/AdminPage.vue'], resolve)
+        },
+        {
             path: '*',
             name: 'pageNotFound',
             component: resolve => require(['@/pages/PageNotFound.vue'], resolve)
