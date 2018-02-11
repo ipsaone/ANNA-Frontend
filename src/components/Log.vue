@@ -8,7 +8,8 @@
 
             <p class="description" v-html="log.content"></p>
 
-            <button @click="deleteLog" class="button alert" v-show="canDelete">Delete</button>
+            <button @click="deleteLog" class="button alert" v-show="canDelete" v-if="!remove">Delete</button>
+            <button @click="deleteLog" class="button alert" v-show="canDelete" v-else="!remove">Click to confirm</button>
         </div>
     </modal>
 </template>
@@ -21,7 +22,8 @@
             return {
                 log: {},
                 username: '',
-                authorId: 0
+                authorId: 0,
+                remove: false
             };
         },
         computed: {
@@ -42,8 +44,11 @@
                 store.dispatch('unselectLog');
             },
             deleteLog() {
-                store.dispatch('deleteLog', this.log.id)
-                    .then(this.$modal.hide('log'));
+                if (this.remove) {
+                    store.dispatch('deleteLog', this.log.id)
+                            .then(this.$modal.hide('log'));
+                }
+                this.remove = !this.remove;
             }
         }
     };

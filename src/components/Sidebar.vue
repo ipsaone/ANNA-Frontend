@@ -47,7 +47,7 @@
     export default {
         data() {
             return {
-                notifications: 6,
+                notifications: 0,
                 tooltipVisible: false,
                 tooltipText: '',
                 tooltipRedBorder: false,
@@ -55,9 +55,9 @@
                     {title: 'Dashboard', name: 'dashboard', color: 'grey', class: 'main'},
                     {title: 'Blog', name: 'blog', color: 'blue'},
                     {title: 'Drive', name: 'drive', color: 'green'},
-                    {title: 'Forum', name: 'forum', color: 'purple'},
+                    // {title: 'Forum', name: 'forum', color: 'purple'},
                     {title: 'Events', name: 'events', color: 'yellow'},
-                    {title: 'Gantt', name: 'gantt', color: 'red'}
+                    // {title: 'Gantt', name: 'gantt', color: 'red'}
                 ]
             };
 

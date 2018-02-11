@@ -45,6 +45,25 @@ export default {
     },
 
     editFile(data) {
-        
+        let form = new FormData();
+
+        if (data.contents !== undefined) form.append('contents', data.contents);
+        if (data.name !== undefined) form.append('name', data.name);
+        if (data.isDir !== undefined) form.append('isDir', (data.isDir) ? data.isDir : false);
+        if (data.dirId !== undefined) form.append('dirId', data.dirId);
+        if (data.groupId !== undefined) form.append('groupId', data.groupId);
+        if (data.ownerId !== undefined) form.append('ownerId', data.ownerId);
+        if (data.allRead !== undefined) form.append('allRead', data.allRead);
+        if (data.allWrite !== undefined) form.append('allWrite', data.allWrite);
+        if (data.groupRead !== undefined) form.append('groupRead', data.groupRead);
+        if (data.groupWrite !== undefined) form.append('groupWrite', data.groupWrite);
+        if (data.ownerWrite !== undefined) form.append('ownerWrite', data.ownerWrite);
+        if (data.ownerRead !== undefined) form.append('ownerRead', data.ownerRead);
+
+        return axios.put(url + 'upload/' + data.fileId, form, config);
+    },
+
+    deleteFile(fileId) {
+        return axios.delete(url + 'files/' + fileId, {withCredentials: true});
     }
 };

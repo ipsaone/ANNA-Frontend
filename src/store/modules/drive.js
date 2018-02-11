@@ -19,12 +19,20 @@ const actions = {
     retrieveFolder({commit, dispatch}, id) {
         return DriveApi.getFolder(id)
             .then(folder => dispatch('setOwners', folder.data))
-            .then(folder => commit('SET_FOLDER', folder));
+            .then(folder => commit('SET_FOLDER', folder))
+            .then(dispatch('unselectFile'));
     },
 
     selectFile({commit}, file) {
         return new Promise(resolve => {
             commit('SET_SELECTED', file);
+            resolve();
+        });
+    },
+
+    unselectFile({commit}) {
+        return new Promise(resolve => {
+            commit('SET_SELECTED', {});
             resolve();
         });
     },

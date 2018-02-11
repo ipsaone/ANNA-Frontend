@@ -16,7 +16,7 @@ Vue.config.productionTip = false;
 Vue.use(Moment);
 Vue.use(Cookie);
 Vue.use(Notifications);
-Vue.use(Modal);
+Vue.use(Modal, {dialog: true});
 
 /* eslint-disable no-new */
 new Vue({
