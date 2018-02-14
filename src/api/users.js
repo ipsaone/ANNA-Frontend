@@ -8,8 +8,7 @@ export default {
         return axios.get(url, {withCredentials: true});
     },
 
-    get(user_id)
-    {
+    get(user_id) {
         return axios.get(url + user_id, {withCredentials: true});
     }
 };

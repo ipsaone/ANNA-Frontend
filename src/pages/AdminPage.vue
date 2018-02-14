@@ -7,7 +7,8 @@
                 <div slot="collapse-header">Groups</div>
 
                 <div slot="collapse-body">
-                    test
+                    <input type="text" name="group-name" v-model="group_name">
+                    <button type="button" @click.prevent="newGroup">Send</button>
                 </div>
             </collapse>
 
@@ -15,7 +16,8 @@
                 <div slot="collapse-header">Users</div>
 
                 <div slot="collapse-body">
-                    test
+                    <input type="text" name="user-name" v-model="user_name">
+                    <button type="button" @click.prevent="newUser">Send</button>
                 </div>
             </collapse>
         </div>
@@ -38,7 +40,8 @@
         },
         data() {
             return {
-                loading: false
+                loading: false,
+                group_name: ''
             };
         },
         mounted() {
@@ -54,5 +57,12 @@
                 })
                 .then(this.loading = false);
         },
+        methods: {
+            newGroup() {
+                if (group_name)
+                    GroupApi.create(group_name);
+            },
+
+        }
     };
 </script>
