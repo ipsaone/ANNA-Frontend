@@ -53,6 +53,10 @@ const actions = {
             .then(_ => {
                 return folder;
             });
+    },
+
+    getFoldersList() {
+        return DriveApi.getFoldersList();
     }
 };
 
@@ -67,7 +71,7 @@ const getters = {
 
     selectedFile(state) {
         return state.selected;
-    }
+    },
 };
 
 export default {
