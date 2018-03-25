@@ -5,19 +5,23 @@
         <upload-log></upload-log>
 
         <div class="logs content">
-            <h1 class="section-title">Logs</h1>
-            <section> 
+          <h1 class="section-title">Logs</h1>
+            <section>
                 <div class="log" v-for="log in logs" :key="log.id" @click="showLog(log)">
                     <p class="date">{{ log.createdAt | moment('DD/MM/YYYY') }}</p>
                     <h1>{{ log.title }}</h1>
                 </div>
             </section>
         </div>
+      </div>
 
         <div class="logs actions">
             <h1 class="section-title">Actions</h1>
-              <a href="#" @click.prevent="uploadLog"><i class="fa fa-plus" aria-hidden="true"></i>
-                  Add</a>
+            <ul>
+              <li>
+                <a href="#" @click.prevent="uploadLog"><i class="fa fa-plus" aria-hidden="true"></i>New log</a>
+                </li>
+              </ul>
             </div>
         </div>
     </section>

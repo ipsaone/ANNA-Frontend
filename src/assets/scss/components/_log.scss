@@ -3,6 +3,8 @@
   cursor: pointer;
   padding: 0.8em 1em;
   border-bottom: solid 1px $grey-lighter;
+  position: relative;
+
 
   &:first-child {
     border-top: 1px solid $grey-lighter;
