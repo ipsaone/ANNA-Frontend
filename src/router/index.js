@@ -74,6 +74,11 @@ const router = new Router({
             component: resolve => require(['@/pages/AdminPage.vue'], resolve)
         },
         {
+            path: '/logs',
+            name: 'logs',
+            component: resolve => require(['@/pages/LogPage.vue'], resolve)
+        },
+        {
             path: '*',
             name: 'pageNotFound',
             component: resolve => require(['@/pages/PageNotFound.vue'], resolve)
