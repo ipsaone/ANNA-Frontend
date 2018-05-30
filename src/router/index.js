@@ -16,12 +16,12 @@ const router = new Router({
         {
             path: '/login',
             name: 'login',
-            component: resolve => require(['@/pages/LoginPage.vue'], resolve)
+            component: resolve => require(['@/pages/Login/LoginPage.vue'], resolve)
         },
         {
             path: '/dashboard',
             name: 'dashboard',
-            component: resolve => require(['@/pages/DashboardPage.vue'], resolve)
+            component: resolve => require(['@/pages/Dashboard/DashboardPage.vue'], resolve)
         },
         {
             path: '/users/:id(\\d+)',
@@ -51,32 +51,27 @@ const router = new Router({
         {
             path: '/drive',
             name: 'drive',
-            component: resolve => require(['@/pages/DrivePage.vue'], resolve)
-        },
-        {
-            path: '/forum',
-            name: 'forum',
-            component: resolve => require(['@/pages/ForumPage.vue'], resolve)
+            component: resolve => require(['@/pages/Drive/DrivePage.vue'], resolve)
         },
         {
             path: '/events',
             name: 'events',
-            component: resolve => require(['@/pages/EventsPage.vue'], resolve)
+            component: resolve => require(['@/pages/Events/EventsPage.vue'], resolve)
         },
         {
             path: '/gantt',
             name: 'gantt',
-            component: resolve => require(['@/pages/GanttPage.vue'], resolve)
+            component: resolve => require(['@/pages/Gantt/GanttPage.vue'], resolve)
         },
         {
             path: '/administration',
             name: 'admin',
-            component: resolve => require(['@/pages/AdminPage.vue'], resolve)
+            component: resolve => require(['@/pages/Admin/AdminPage.vue'], resolve)
         },
         {
             path: '/logs',
             name: 'logs',
-            component: resolve => require(['@/pages/LogPage.vue'], resolve)
+            component: resolve => require(['@/pages/Logs/LogPage.vue'], resolve)
         },
         {
             path: '*',

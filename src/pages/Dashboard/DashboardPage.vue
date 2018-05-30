@@ -10,10 +10,11 @@
             <missions-slider></missions-slider>
         </div>
 
+        <!--
         <div class="logs actions">
             <h1 class="section-title">Logs</h1>
 
-            <section> <!-- DO NOT REMOVE THE SECTION TAG -->
+            <section> <!-- DO NOT REMOVE THE SECTION TAG --
                 <div class="log" v-for="log in logs" :key="log.id" @click="showLog(log)">
                     <p class="date">{{ log.createdAt | moment('DD/MM/YYYY') }}</p>
                     <h1>{{ log.title }}</h1>
@@ -25,13 +26,14 @@
                 <p>Add</p>
             </div>
         </div>
+        -->
     </section>
 </template>
 
 <script>
     import store from '@/store';
     import Loader from '@/components/Loader';
-    import MissionsSlider from '@/components/MissionsSlider';
+    import MissionsSlider from './MissionsSlider';
     import Log from '@/components/Log';
     import UploadLog from '@/components/UploadLog';
 

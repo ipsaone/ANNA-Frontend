@@ -2,7 +2,7 @@
     <section class="grid">
         <loader v-if="loading"></loader>
 
-        <img src="../assets/images/logo.png" alt="IPSA ONE logo" class="logo">
+        <img src="../../assets/images/logo.png" alt="IPSA ONE logo" class="logo">
 
         <section class="content">
             <div class="card">

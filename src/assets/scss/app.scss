@@ -29,20 +29,13 @@
 @import "components/sidebar";
 @import "components/data_circle";
 @import "components/log";
-@import "components/flex_abstract";
+@import "components/flex_abstract";                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         
 @import "components/loader";
-@import "components/context_menu";
+@import "components/context_menu";                               
 @import "components/modal";
 @import "components/missions";
 @import "components/collapse";
 
 // Pages
-@import "pages/layout.scss";
-@import "pages/dashboard";
-@import "pages/login";
-@import "pages/post";
-@import "pages/form-post";
-@import "pages/drive";
-@import "pages/blog";
-@import "pages/events";
-@import "pages/logs";
+@import "layout";
+@import "../../pages/pages.scss";
