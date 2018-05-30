@@ -8,15 +8,23 @@
             <h1 class="section-title">Events</h1>
 
             <section> <!-- DO NOT REMOVE THE SECTION TAG -->
-                <div class="event flex-abstract" v-for="(event, index) in events" :key="event.id" @click="showEvent(event)">
-                    <p class="registered" v-show="event.maxRegistered">0/{{ event.maxRegistered }}</p>
-                    <h1><a href="#">{{ event.name }}</a></h1>
-                    <p class="date">The {{ event.startDate | moment('DD/MM/YYYY [at] HH:mm') }}</p>
-                    <p>
-                        <a href="#" @click.prevent.stop="addUser(event.id)" class="button success" v-if="!isRegistered(event.id)">Join</a>
-                        <a href="#" @click.prevent.stop="withdrawUser(event.id)" class="button alert" v-else="isRegistered(event.id)">Withdraw</a>
+                <template v-if="events.length > 0">
+                    <div class="event flex-abstract" v-for="(event, index) in events" :key="event.id" @click="showEvent(event)">
+                        <p class="registered" v-show="event.maxRegistered">0/{{ event.maxRegistered }}</p>
+                        <h1><a href="#">{{ event.name }}</a></h1>
+                        <p class="date">The {{ event.startDate | moment('DD/MM/YYYY [at] HH:mm') }}</p>
+                        <p>
+                            <a href="#" @click.prevent.stop="addUser(event.id)" class="button success" v-if="!isRegistered(event.id)">Join</a>
+                            <a href="#" @click.prevent.stop="withdrawUser(event.id)" class="button alert" v-else="isRegistered(event.id)">Withdraw</a>
+                        </p>
+                    </div>
+                </template>
+                <template v-else>
+                    <p class="no-event-message">
+                        <b>No event yet, but you are encouraged to share any idea with the Comm team.</b>
+                        <br>It will be their pleasure to organize it !
                     </p>
-                </div>
+                </template>
             </section>
         </section>
 
