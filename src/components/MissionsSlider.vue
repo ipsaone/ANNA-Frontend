@@ -63,12 +63,12 @@
             </div>
         </div>
 
-        <div v-else="mission.id">
+        <div v-else>
             <p class="no-mission-message">
                 <b>Error 404 : mission not found</b><br> 
                 You aren't signed-up to any mission. Ask your mission chief !
                 <br><br>
-                Feel free to go read the <a href="#">latest blog entries</a> until he finally does his work ;-)
+                Feel free to go read the <router-link :to="{name: 'blog'}">latest blog entries</router-link> until he finally does his work ;-)
                 
             </p>
         </div>

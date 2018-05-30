@@ -4,13 +4,20 @@
 
         <section class="content">
             <h1 class="section-title">Blog</h1>
-            <post-abstract v-if="postsNumber > 0"
-                           v-for="(post, index) in posts"
-                           :key="post.id"
-                           :post="post"
-                           :index="index +1"
-                           @click="selectPost(post.id)">
-            </post-abstract>
+            <template v-if="postsNumber > 0">
+                <post-abstract v-for="(post, index) in posts"
+                            :key="post.id"
+                            :post="post"
+                            :index="index +1"
+                            @click="selectPost(post.id)">
+                </post-abstract>
+            </template>
+            <template v-else>
+                <p class="no-post-message">
+                    <b>You're out of luck !</b><br>
+                    No blog post was found... Sorry !! :-(
+                </p>
+            </template>
         </section>
 
         <section class="actions">
