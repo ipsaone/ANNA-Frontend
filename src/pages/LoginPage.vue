@@ -17,7 +17,6 @@
                         <a class="button" href="#" @click="login">Login</a>
                     </div>
                 </form>
-
             </div>
             <footer>Copyright ©IPSA ONE</footer>
         </section>
