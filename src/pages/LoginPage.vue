@@ -54,12 +54,21 @@
                     })
                     .catch(err => {
                         console.log(err);
-                        this.$notify({
-                            type: 'error',
-                            title: 'Unknown credentials.',
-                            text: err.message,
-                            duration: -1
-                        });
+                        if(err.response.status == 401) {
+                            this.$notify({
+                                type: 'error',
+                                title: 'Couldn\'t log in',
+                                text: err.response.data.error ? err.response.data.error : 'No data from server',
+                                duration: 5000
+                            });
+                        } else {
+                            this.$notify({
+                                type: 'error',
+                                title: 'Unknown error',
+                                text: err.message,
+                                duration: -1
+                            });
+                        }
                     })
                     .then(_ => {
                         this.loading = false;
