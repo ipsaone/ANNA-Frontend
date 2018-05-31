@@ -1,0 +1,20 @@
+.admin {
+
+
+    label {
+        width: 15em;
+    }
+
+    .form-group {
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        align-items: center;
+        flex-wrap: nowrap;
+        text-align: left;
+    }
+
+    h2 {
+        text-align: center;
+    }
+}
