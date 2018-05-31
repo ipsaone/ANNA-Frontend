@@ -19,7 +19,7 @@
 </template>
 
 <script>
-    import store from '@/store';
+    import store from '@/modules/store';
     import Barcode from '@/components/Barcode';
 
     export default {

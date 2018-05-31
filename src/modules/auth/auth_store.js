@@ -1,5 +1,5 @@
-import AuthApi from '@/api/auth';
-import UsersApi from '@/api/users';
+import AuthApi from '@/modules/auth/auth_api';
+import UsersApi from '@/modules/users/users_api';
 
 const state = {
     logged: {},

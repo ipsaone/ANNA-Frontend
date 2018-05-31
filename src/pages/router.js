@@ -1,7 +1,7 @@
 import Vue from 'vue';
 import Router from 'vue-router';
-import store from '@/store';
-import authApi from '@/api/auth';
+import store from '@/modules/store';
+import authApi from '@/modules/auth/auth_api';
 
 Vue.use(Router);
 
@@ -16,67 +16,67 @@ const router = new Router({
         {
             path: '/login',
             name: 'login',
-            component: resolve => require(['@/pages/Login/LoginPage.vue'], resolve)
+            component: resolve => require(['./Login/LoginPage.vue'], resolve)
         },
         {
             path: '/dashboard',
             name: 'dashboard',
-            component: resolve => require(['@/pages/Dashboard/DashboardPage.vue'], resolve)
+            component: resolve => require(['./Dashboard/DashboardPage.vue'], resolve)
         },
         {
             path: '/users/:id(\\d+)',
             name: 'profile',
-            component: resolve => require(['@/pages/ProfilePage.vue'], resolve)
+            component: resolve => require(['./ProfilePage.vue'], resolve)
         },
         {
             path: '/blog',
             name: 'blog',
-            component: resolve => require(['@/pages/Blog/BlogPage.vue'], resolve)
+            component: resolve => require(['./Blog/BlogPage.vue'], resolve)
         },
         {
             path: '/blog/post/:id(\\d+)',
             name: 'readPost',
-            component: resolve => require(['@/pages/Blog/PostPage.vue'], resolve)
+            component: resolve => require(['./Blog/PostPage.vue'], resolve)
         },
         {
             path: '/blog/post/edit/:id(\\d+)',
             name: 'editPost',
-            component: resolve => require(['@/pages/Blog/EditPostPage.vue'], resolve)
+            component: resolve => require(['./Blog/EditPostPage.vue'], resolve)
         },
         {
             path: '/blog/post/new',
             name: 'newPost',
-            component: resolve => require(['@/pages/Blog/NewPostPage.vue'], resolve)
+            component: resolve => require(['./Blog/NewPostPage.vue'], resolve)
         },
         {
             path: '/drive',
             name: 'drive',
-            component: resolve => require(['@/pages/Drive/DrivePage.vue'], resolve)
+            component: resolve => require(['./Drive/DrivePage.vue'], resolve)
         },
         {
             path: '/events',
             name: 'events',
-            component: resolve => require(['@/pages/Events/EventsPage.vue'], resolve)
+            component: resolve => require(['./Events/EventsPage.vue'], resolve)
         },
         {
             path: '/gantt',
             name: 'gantt',
-            component: resolve => require(['@/pages/Gantt/GanttPage.vue'], resolve)
+            component: resolve => require(['./Gantt/GanttPage.vue'], resolve)
         },
         {
             path: '/administration',
             name: 'admin',
-            component: resolve => require(['@/pages/Admin/AdminPage.vue'], resolve)
+            component: resolve => require(['./Admin/AdminPage.vue'], resolve)
         },
         {
             path: '/logs',
             name: 'logs',
-            component: resolve => require(['@/pages/Logs/LogPage.vue'], resolve)
+            component: resolve => require(['./Logs/LogPage.vue'], resolve)
         },
         {
             path: '*',
             name: 'pageNotFound',
-            component: resolve => require(['@/pages/PageNotFound.vue'], resolve)
+            component: resolve => require(['./PageNotFound.vue'], resolve)
         }
     ]
 });

@@ -24,20 +24,20 @@
                 <div slot="collapse-header">User add</div>
                 <div slot="collapse-body">
                     <div class="form-group">
-                        <label for="user-name">User name :</label>
+                        <label for="user-name">Username :</label>
                         <input type="text" name="user-name" v-model="user_name">
                     </div>
                     <div class="form-group">
-                        <label for="user-email">User email :</label>
+                        <label for="user-email">Email :</label>
                         <input type="text" name="user-email" v-model="user_email">
                     </div>
                     <div class="form-group">
-                        <label for="user-pwd">User password :</label>
+                        <label for="user-pwd">Password :</label>
                         <input type="password" name="user-pwd" v-model="user_pwd">
                     </div>
 
                     <div class="form-group">
-                        <label for="user-pwd-2">User password :</label>
+                        <label for="user-pwd-2">Password (again) :</label>
                         <input type="password" name="user-pwd-2" v-model="user_pwd_conf">
                     </div>
 
@@ -53,10 +53,9 @@
 </template>
 
 <script>
-    import store from '@/store';
+    import store from '@/modules/store';
     import Loader from '@/components/Loader';
     import Collapse from '@/components/Collapse';
-    import UserApi from '@/api/users';
 
     export default {
         components: {

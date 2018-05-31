@@ -1,4 +1,4 @@
-import PostsApi from '@/api/posts';
+import PostsApi from './posts_api';
 
 const state = {
     posts: [],

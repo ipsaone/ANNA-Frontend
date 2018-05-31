@@ -1,6 +1,6 @@
 import axios from 'axios';
 import FormData from 'form-data';
-import base from '@/api/url';
+import base from '@/modules/url';
 
 const url = base + '/storage/';
 

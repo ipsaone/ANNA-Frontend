@@ -31,7 +31,7 @@
 </template>
 
 <script>
-    import store from '@/store';
+    import store from '@/modules/store';
     import swal from 'sweetalert2';
 
     export default {

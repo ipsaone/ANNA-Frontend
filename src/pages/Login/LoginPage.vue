@@ -25,7 +25,7 @@
 </template>
 
 <script>
-    import store from '@/store';
+    import store from '@/modules/store';
     import Loader from '@/components/Loader';
 
     export default {

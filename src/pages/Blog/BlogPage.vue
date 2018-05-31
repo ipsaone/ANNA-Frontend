@@ -36,7 +36,7 @@
 </template>
 
 <script>
-    import store from '@/store';
+    import store from '@/modules/store';
     import PostAbstract from '@/components/PostAbstract';
     import Loader from '@/components/Loader';
 

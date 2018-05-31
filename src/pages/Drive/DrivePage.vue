@@ -44,8 +44,8 @@
 </template>
 
 <script>
-    import store from '@/store';
-    import driveApi from '@/api/drive';
+    import store from '@/modules/store';
+    import driveApi from '@/modules/drive/drive_api';
     import DriveTable from '@/components/DriveTable';
     import UploadFile from '@/components/UploadFile';
     import NewFolder from '@/components/NewFolder';

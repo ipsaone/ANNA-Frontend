@@ -1,4 +1,4 @@
-import DriveApi from '@/api/drive';
+import DriveApi from '@/modules/drive/drive_store';
 
 const state = {
     folder: {},

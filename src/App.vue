@@ -11,7 +11,7 @@
 
 <script>
     import Sidebar from '@/components/Sidebar';
-    import store from '@/store';
+    import store from '@/modules/store';
 
     export default {
         components: {

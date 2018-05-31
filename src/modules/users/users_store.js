@@ -1,4 +1,4 @@
-import UsersApi from '@/api/users';
+import UsersApi from '@/modules/users/users_api';
 
 const state = {
     users: [],

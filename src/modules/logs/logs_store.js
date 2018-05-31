@@ -1,4 +1,4 @@
-import LogsApi from '@/api/logs';
+import LogsApi from '@/modules/logs/logs_api';
 
 const state = {
     logs: [],

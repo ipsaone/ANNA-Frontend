@@ -1,4 +1,4 @@
-import MissionsApi from '@/api/missions';
+import MissionsApi from '@/modules/missions/missions_api';
 
 const state = {
     missions: [],

@@ -43,11 +43,11 @@
 </template>
 
 <script>
-    import store from '@/store';
+    import store from '@/modules/store';
     import Loader from '@/components/Loader';
     import NewEvent from '@/components/NewEvent';
     import Event from '@/components/Event';
-    import EventsApi from '@/api/events';
+    import EventsApi from '@/modules/events/events_api';
 
     export default {
         components: {

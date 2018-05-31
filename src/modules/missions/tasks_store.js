@@ -1,4 +1,4 @@
-import TasksApi from '@/api/tasks';
+import TasksApi from './tasks_api';
 
 const state = {
     tasks: []

@@ -1,8 +1,8 @@
 // Vue JS
 import Vue from 'vue';
 import App from './App';
-import router from './router';
-import store from './store/index';
+import router from './pages/router';
+import store from './modules/store';
 import {sync} from 'vuex-router-sync';
 
 import Moment from 'vue-moment';

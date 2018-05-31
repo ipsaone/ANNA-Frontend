@@ -1,5 +1,5 @@
 import axios from 'axios';
-import base from '@/api/url';
+import base from '@/modules/url';
 
 const url = base + '/events/';
 

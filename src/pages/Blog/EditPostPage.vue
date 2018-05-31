@@ -19,7 +19,7 @@
 
 <script>
     import markdownEditor from 'vue-simplemde/src/markdown-editor';
-    import store from '@/store';
+    import store from '@/modules/store';
 
     export default {
         components: {

@@ -32,7 +32,7 @@
 </template>
 
 <script>
-    import store from '@/store';
+    import store from '@/modules/store';
     import markdownEditor from 'vue-simplemde/src/markdown-editor';
 
     export default {

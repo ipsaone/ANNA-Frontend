@@ -76,8 +76,8 @@
 </template>
 
 <script>
-    import store from '@/store';
-    import TasksApi from '@/api/tasks';
+    import store from '@/modules/store';
+    import TasksApi from '@/modules/missions/tasks_api';
 
     export default {
         data() {

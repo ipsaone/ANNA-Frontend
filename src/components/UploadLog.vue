@@ -12,8 +12,8 @@
 </template>
 
 <script>
-    import store from '@/store';
-    import logsApi from '@/api/logs';
+    import store from '@/modules/store';
+    import logsApi from '@/modules/logs/logs_api';
     import markdownEditor from 'vue-simplemde/src/markdown-editor';
 
     export default {

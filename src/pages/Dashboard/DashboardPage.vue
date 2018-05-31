@@ -31,7 +31,7 @@
 </template>
 
 <script>
-    import store from '@/store';
+    import store from '@/modules/store';
     import Loader from '@/components/Loader';
     import MissionsSlider from './MissionsSlider';
     import Log from '@/components/Log';
