@@ -7,6 +7,20 @@
                 <div slot="collapse-header">Notifications</div>
 
                 <div slot="collapse-body">
+                    What should be here : <br>
+                    - Logs edition/deletion awaiting for confirmation<br>
+                    - People who forgot their password<br>
+                    - Important info received from the backend
+                </div>
+            </collapse>
+
+            <collapse>
+                <div slot="collapse-header">Missions</div>
+
+                <div slot="collapse-body">
+                What should be here : <br>
+                - Missions list (editable, can add users, etc...)<br>
+                - Add a mission button (+form)
                 </div>
             </collapse>
 
@@ -14,6 +28,8 @@
                 <div slot="collapse-header">Logs</div>
 
                 <div slot="collapse-body">
+                What should be here :<br>
+                - Logs list, editable
                 </div>
             </collapse>
 
@@ -21,6 +37,8 @@
                 <div slot="collapse-header">Blog</div>
 
                 <div slot="collapse-body">
+                What should be here :<br>
+                - Posts list, editable
                 </div>
             </collapse>
 
@@ -29,12 +47,19 @@
                 <div slot="collapse-header">Groups</div>
 
                 <div slot="collapse-body">
+                What should be here :<br>
+                - Groups list, editable, with number of users
+                - Add group button (+form)
                 </div>
             </collapse>
 
             <collapse>
                 <div slot="collapse-header">Users</div>
                 <div slot="collapse-body">
+                    What should be here :<br>
+                    - Groups list, editable, with their groups
+                    - Add group button (form done)
+
                     <div class="form-group">
                         <label for="user-name">Username :</label>
                         <input type="text" name="user-name" v-model="user_name">
