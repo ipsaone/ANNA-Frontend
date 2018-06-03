@@ -4,24 +4,36 @@
             <h1 class="section-title">Administration</h1>
 
             <collapse>
+                <div slot="collapse-header">Notifications</div>
+
+                <div slot="collapse-body">
+                </div>
+            </collapse>
+
+            <collapse>
+                <div slot="collapse-header">Logs</div>
+
+                <div slot="collapse-body">
+                </div>
+            </collapse>
+
+            <collapse>
+                <div slot="collapse-header">Blog</div>
+
+                <div slot="collapse-body">
+                </div>
+            </collapse>
+
+
+            <collapse>
                 <div slot="collapse-header">Groups</div>
 
                 <div slot="collapse-body">
-                    <input type="text" name="group-name" v-model="group_name">
-                    <button type="button" @click.prevent="newGroup">Send</button>
                 </div>
             </collapse>
 
             <collapse>
-                <div slot="collapse-header">User list</div>
-                <div slot="collapse-body">
-
-
-                </div>
-            </collapse>
-
-            <collapse>
-                <div slot="collapse-header">User add</div>
+                <div slot="collapse-header">Users</div>
                 <div slot="collapse-body">
                     <div class="form-group">
                         <label for="user-name">Username :</label>
@@ -56,6 +68,7 @@
     import store from '@/modules/store';
     import Loader from '@/components/Loader';
     import Collapse from '@/components/Collapse';
+    import UserApi from '@/modules/users/users_api';
 
     export default {
         components: {

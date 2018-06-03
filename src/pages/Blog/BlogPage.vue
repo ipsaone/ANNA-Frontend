@@ -37,7 +37,7 @@
 
 <script>
     import store from '@/modules/store';
-    import PostAbstract from '@/components/PostAbstract';
+    import PostAbstract from './PostAbstract';
     import Loader from '@/components/Loader';
 
     export default {
