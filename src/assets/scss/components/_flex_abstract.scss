@@ -8,7 +8,7 @@ $button-width: 8em;
   border: 1px solid $grey-lighter;
   display: grid;
   background-color: $white-bis;
-  margin: 1em auto;
+  margin-top: 1em;
   align-items: center;
   padding: 0.4em;
 
@@ -20,16 +20,16 @@ $button-width: 8em;
 
   h1 {
     grid-column: 2;
+    margin-bottom: 0;
     font-size: 1.4em;
   }
 
   .info {
+    line-height: 1;
+
     span {
       display: block;
       color: $grey;
-      margin-bottom: 1em;
-
-      &:last-child { margin-bottom: 0 }
     }
   }
 

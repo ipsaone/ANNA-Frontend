@@ -3,7 +3,7 @@ $actions-width: 20em;
 .basic-layout {
   display: grid;
   grid-template-columns: auto $actions-width;
-  grid-column-gap: 8em;
+  grid-column-gap: 2em;
 
   .content {
     grid-column: 1;

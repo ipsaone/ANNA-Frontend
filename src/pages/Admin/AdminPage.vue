@@ -21,6 +21,24 @@
                 What should be here : <br>
                 - Missions list (editable, can add users, etc...)<br>
                 - Add a mission button (+form)
+
+
+                    <div class="form-group">
+                        <label for="miss-name">Mission name :</label>
+                        <input type="text" name="miss-name" v-model="miss_name">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="miss-desc">Mission description (markdown) :</label>
+                        <input type="text" name="miss-desc" v-model="miss_desc">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="miss-budget">Mission name :</label>
+                        <input type="number" name="miss-budget" v-model="miss_budget">
+                    </div>
+
+                    <input type="submit" @click.prevent="newMission" value="Send"></button>
                 </div>
             </collapse>
 
@@ -78,7 +96,7 @@
                         <input type="password" name="user-pwd-2" v-model="user_pwd_conf">
                     </div>
 
-                    <button type="button" @click.prevent="newUser">Send</button>
+                    <input type="submit" @click.prevent="newUser" value="Send"></button>
                 </div>
             </collapse>
         </div>
@@ -127,6 +145,14 @@
             newGroup() {
                 if (group_name)
                     GroupApi.create(group_name);
+            },
+
+            newMission() {
+                this.loading = true;
+                store.dispatch('saveMission')
+                    .then(() => {
+                        this.loading = false;
+                    });
             },
 
             newUser() {
