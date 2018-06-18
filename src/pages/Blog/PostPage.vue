@@ -5,7 +5,8 @@
 
             <p class="info">
                 By
-                <router-link :to="{name: 'profile', params:{id: post.author.id}}">{{ post.author.username }}</router-link>
+                <router-link :to="{name: 'profile', params:{id: post.author.id}}">{{ post.author.username }}
+                </router-link>
                 on {{ post.publishedAt | moment('DD/MM/YYYY [at] HH:mm') }}
             </p>
 
@@ -16,10 +17,13 @@
             <h1 class="section-title">Actions</h1>
 
             <ul>
-                <li>
-                    <router-link :to="{name: 'editPost', params:{id: post.id}}"><i class="fa fa-pencil" aria-hidden="true"></i> Edit</router-link>
+                <li v-show="canEdit">
+                    <router-link :to="{name: 'editPost', params:{id: post.id}}"><i class="fa fa-pencil"
+                                                                                   aria-hidden="true"></i> Edit
+                    </router-link>
                 </li>
-                <li><a href="#" @click.prevent="deletePost"><i class="fa fa-trash" aria-hidden="true"></i> Delete</a>
+                <li v-show="canDelete">
+                    <a href="#" @click.prevent="deletePost"><i class="fa fa-trash" aria-hidden="true"></i> Delete</a>
                 </li>
             </ul>
         </div>
@@ -27,7 +31,7 @@
 </template>
 
 <script>
-    import store from '@/store';
+    import store from '@/modules/store';
     import swal from 'sweetalert2';
 
     export default {
@@ -45,6 +49,14 @@
         computed: {
             post() {
                 return store.getters.selectedPost;
+            },
+            canEdit() {
+                return (store.getters.selectedPost.id === store.getters.loggedUserId && store.getters.loggedUserIsAuthor)
+                    || store.getters.loggedUserIsRoot;
+            },
+            canDelete() {
+                return (store.getters.selectedPost.id === store.getters.loggedUserId && store.getters.loggedUserIsAuthor)
+                    || store.getters.loggedUserIsRoot;
             }
         },
         methods: {

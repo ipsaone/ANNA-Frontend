@@ -7,7 +7,7 @@
         <nav>
             <ul>
                 <li v-for="link in links" :key="link.id">
-                    <router-link :to="{name: link.name}" :class="[link.color, link.class]">
+                    <router-link v-if="(link.name!='admin')||showAdmin" :to="{name: link.name}" :class="[link.color, link.class]">
                         {{ link.title }}
                     </router-link>
                 </li>
@@ -42,7 +42,7 @@
 
 <script>
     import swal from 'sweetalert2';
-    import store from '@/store';
+    import store from '@/modules/store';
 
     export default {
         data() {
@@ -55,9 +55,11 @@
                     {title: 'Dashboard', name: 'dashboard', color: 'grey', class: 'main'},
                     {title: 'Blog', name: 'blog', color: 'blue'},
                     {title: 'Drive', name: 'drive', color: 'green'},
-                    {title: 'Forum', name: 'forum', color: 'purple'},
+                    // {title: 'Forum', name: 'forum', color: 'purple'},
                     {title: 'Events', name: 'events', color: 'yellow'},
-                    {title: 'Gantt', name: 'gantt', color: 'red'}
+                    {title: 'Logs', name: 'logs', color: 'red'},
+                    // {title: 'Gantt', name: 'gantt', color: 'red'},
+                    {title: 'Administration', name: 'admin', color: 'white'}
                 ]
             };
 
@@ -72,6 +74,9 @@
             },
             logged() {
                 return store.getters.loggedUser;
+            },
+            showAdmin() {
+                return store.getters.loggedUserIsRoot;
             }
         },
         methods: {

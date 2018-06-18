@@ -21,7 +21,7 @@ module.exports = {
         'semi': ['error', 'always'],
         // quotes
         'quotes': ['error', 'single', {'allowTemplateLiterals': true}],
-        // indetation
-        'indent': ['error', 4]
+        // indentation
+        'indent': ['error', 4, {SwitchCase: 1}]
     }
 };

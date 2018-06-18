@@ -1,0 +1,45 @@
+.mission-slider {
+  margin-left: 2em;
+
+  .controls {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .no-mission-message {
+    margin-top: 2em;
+  }
+
+  .mission {
+    .description {
+      margin: 1em 0;
+      text-align: justify;
+    }
+
+    .mission-more {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+
+      .team, .budget, .tasks {
+        border: solid 1px $grey-lighter;
+        background-color: $white-bis;
+        display: block;
+        width: 100%;
+        margin-left: 1em;
+        margin-right: 1em;
+
+        h2 {
+          padding: 0.5em 0;
+          text-align: center;
+          border-bottom: 1px solid $grey-lighter;
+        }
+
+        .content {
+          padding: 1em;
+        }
+      }
+    }
+  }
+}

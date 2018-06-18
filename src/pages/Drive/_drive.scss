@@ -1,0 +1,60 @@
+.drive {
+  .content {
+    table {
+      th {
+        color: $grey-dark;
+        line-height: 3em;
+
+        &:first-child {
+          padding-left: 1em;
+          max-width: 1em;
+        }
+      }
+
+      tbody {
+        tr {
+          background-color: $white-bis;
+          line-height: 3em;
+          font-size: 1.2em;
+          cursor: pointer;
+          border: 1px solid $grey-lighter;
+
+          &:hover {
+            background-color: $white-dark;
+          }
+
+          &.no-hover {
+            cursor: inherit;
+
+            &:hover { background-color: $white-bis; }
+          }
+
+          &.selected {
+            background-color: $white-dark;
+          }
+
+          td:first-child {
+            padding-left: 1em;
+            max-width: 1em;
+          }
+
+          td:last-child {
+            max-width: 1px;
+          }
+
+          .overflow-wrap-hack {
+            max-width: 1px;
+          }
+        }
+
+        .spacer {
+          line-height: 1em;
+          cursor: default;
+          border: none;
+          background-color: $white-ter;
+          &:hover { background-color: inherit; }
+        }
+      }
+    }
+  }
+}

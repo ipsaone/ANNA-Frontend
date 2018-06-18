@@ -84,6 +84,7 @@
   &.purple { @include bar-border-color($purple) }
   &.yellow { @include bar-border-color($yellow) }
   &.red { @include bar-border-color($red) }
+  &.white { @include bar-border-color($white) }
 
   .bottom {
     position: absolute;

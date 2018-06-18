@@ -1,0 +1,26 @@
+.form-post {
+  display: grid;
+  grid-template-columns: auto $actions-width;
+  grid-column-gap: 8em;
+
+  .options {
+    grid-column: 2;
+    @include aside;
+
+    .submit {
+      background-color: $white-dark;
+      cursor: not-allowed;
+      color: $grey;
+
+      &.active {
+        background-color: $green;
+        cursor: pointer;
+        color: $white-ter;
+
+        &:hover {
+          background-color: $link-hover;
+        }
+      }
+    }
+  }
+}

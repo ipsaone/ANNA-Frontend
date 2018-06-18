@@ -1,0 +1,47 @@
+$id-width: 3em;
+$title-width: auto;
+$info-width: 15em;
+$date-width: 12em;
+$button-width: 8em;
+
+.flex-abstract {
+  border: 1px solid $grey-lighter;
+  display: grid;
+  background-color: $white-bis;
+  margin-top: 1em;
+  align-items: center;
+  padding: 0.4em;
+
+  .id {
+    font-weight: $weight-normal;
+    color: $grey;
+    font-size: 1.2em;
+  }
+
+  h1 {
+    grid-column: 2;
+    margin-bottom: 0;
+    font-size: 1.4em;
+  }
+
+  .info {
+    line-height: 1;
+
+    span {
+      display: block;
+      color: $grey;
+    }
+  }
+
+  .button {
+    width: 100%;
+  }
+
+  &.post-abstract {
+    grid-template-columns: $id-width $title-width $info-width;
+  }
+
+  &.event {
+    grid-template-columns: $id-width $title-width $date-width $button-width;
+  }
+}

@@ -4,6 +4,8 @@
 // Modules
 @import "../../../node_modules/sweetalert2/src/sweetalert2";
 @import '../../../node_modules/simplemde/dist/simplemde.min.css';
+@import '../../../node_modules/vue-context-menu/src/ctx-menu.css';
+
 
 // Variables
 @import "variables/defaults";
@@ -20,17 +22,20 @@
 
 // Elements
 @import "elements/button";
+@import "elements/form";
+
 
 // Components
 @import "components/sidebar";
 @import "components/data_circle";
 @import "components/log";
-@import "components/post_abstract";
+@import "components/flex_abstract";                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         
 @import "components/loader";
+@import "components/context_menu";                               
+@import "components/modal";
+@import "components/missions";
+@import "components/collapse";
 
 // Pages
-@import "pages/dashboard";
-@import "pages/login";
-@import "pages/blog";
-@import "pages/post";
-@import "pages/form-post";
+@import "layout";
+@import "../../pages/pages.scss";

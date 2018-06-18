@@ -1,0 +1,32 @@
+.anna-modal {
+  margin: 1em;
+  text-align: center;
+
+  h1 {
+    font-size: 2em;
+  }
+
+  .info {
+    font-style: italic;
+  }
+
+  .description {
+    margin: 1em auto;
+    text-align: justify;
+
+    ul {
+      display: block;
+      list-style-type: disc;
+      margin: 1em 0;
+      padding-left: 40px;
+
+      li {
+        display: list-item;
+      }
+    }
+  }
+
+  .markdown-editor {
+    text-align: left;
+  }
+}
