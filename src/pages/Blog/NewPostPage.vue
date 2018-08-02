@@ -11,6 +11,10 @@
             <button type="submit" class="btn" :class="{active: canSubmit}" @click.prevent="submit">
                 <i class="icon-circle-arrow-right icon-large" aria-hidden="true"></i> Submit
             </button>
+
+            <button type="submit" class="btn" @click.prevent="cancel">
+                <i class="icon-circle-arrow-right icon-large" aria-hidden="true"></i> Cancel
+            </button>
         </section>
 
         <section class="actions">
@@ -72,6 +76,31 @@
                             });
                         });
                 }
+            },
+
+            cancel() {
+                if(this.title || this.markdown) {
+                    let res = confirm('Save current article as draft ?');
+                    if(res) {
+                        const post = {
+                            title: this.title,
+                            markdown: this.markdown,
+                            published: false,
+                            authorId: store.getters.loggedUserId
+                        };
+                        store.dispatch('storePost', post)
+                            .then(this.$router.push({name: 'blog'}))
+                            .catch(err => {
+                                this.$notify({
+                                    type: 'error',
+                                    title: 'Uncaught error',
+                                    text: err.message,
+                                    duration: -1
+                                });
+                            });
+                    }
+                }
+                this.$router.go('/blog');
             }
         }
     };
