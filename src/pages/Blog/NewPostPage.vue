@@ -100,7 +100,7 @@
                             });
                     }
                 }
-                this.$router.go('/blog');
+                this.$router.push('/blog');
             }
         }
     };
