@@ -1,7 +1,7 @@
 <template>
     <router-link :to="{name: 'readPost', params: {id: post.id}}">
         <article class="flex-abstract post-abstract">
-            <p class="id">#{{ index }}</p>
+            <p class="id">#{{ post.id }}</p>
             <h1>{{ post.title }}</h1>
             <p class="info">
                 <span class="date">{{ post.publishedAt | moment('DD/MM/YYYY - HH:mm') }}</span>
