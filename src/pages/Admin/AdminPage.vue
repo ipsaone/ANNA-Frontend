@@ -3,106 +3,187 @@
         <div class="content">
             <h1 class="section-title">Administration</h1>
 
-            <collapse>
-                <div slot="collapse-header">Notifications</div>
-
-                <div slot="collapse-body">
-                    What should be here : <br>
-                    - Logs edition/deletion awaiting for confirmation<br>
-                    - People who forgot their password<br>
-                    - Important info received from the backend
-                </div>
-            </collapse>
-
-            <collapse>
+            <collapse v-bind:selected="false">
                 <div slot="collapse-header">Missions</div>
 
                 <div slot="collapse-body">
-                What should be here : <br>
-                - Missions list (editable, can add users, etc...)<br>
-                - Add a mission button (+form)
 
+                    <table>
+                        <tr>
+                            <th>Name</th>
+                            <th>Leader</th>
+                            <th>Members</th>
+                            <th>Actions</th>
+                        </tr>
+                        <tr v-for="mission in missions" :key="mission.id">   
+                            <td> {{ mission.name }} </td>
+                            <td> {{ mission.leader }} </td>
+                            <td> {{ mission.members.length }} </td>
+                            <td> [Actions] </td>
+                        </tr>
+                        <tr>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td><a>Add mission</a></td>
+                        </tr>
+                    </table>
 
-                    <div class="form-group">
-                        <label for="miss-name">Mission name :</label>
-                        <input type="text" name="miss-name" v-model="miss_name">
+                    <div v-if="show_add_mission" class="add-mission">
+                        <div class="form-group">
+                            <label for="miss-name">Mission name :</label>
+                            <input type="text" name="miss-name" v-model="miss_name">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="miss-desc">Mission description (markdown) :</label>
+                            <input type="text" name="miss-desc" v-model="miss_desc">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="miss-budget">Mission name :</label>
+                            <input type="number" name="miss-budget" v-model="miss_budget">
+                        </div>
+
+                        <input type="submit" @click.prevent="newMission" value="Send"></button>
                     </div>
-
-                    <div class="form-group">
-                        <label for="miss-desc">Mission description (markdown) :</label>
-                        <input type="text" name="miss-desc" v-model="miss_desc">
-                    </div>
-
-                    <div class="form-group">
-                        <label for="miss-budget">Mission name :</label>
-                        <input type="number" name="miss-budget" v-model="miss_budget">
-                    </div>
-
-                    <input type="submit" @click.prevent="newMission" value="Send"></button>
                 </div>
             </collapse>
 
-            <collapse>
+            <collapse v-bind:selected="false">
                 <div slot="collapse-header">Logs</div>
 
                 <div slot="collapse-body">
-                What should be here :<br>
-                - Logs list, editable
+                    <table>
+                        <tr>
+                            <th>Name</th>
+                            <th>Date</th>
+                            <th>Description</th>
+                            <th>Linked data</th>
+                            <th>Actions</th>
+                        </tr>
+                        <tr v-for="log in logs" :key="log.id">   
+                            <td> {{ log.name }} </td>
+                            <td> {{ mission.date }} </td>
+                            <td> {{ mission.description }} </td>
+                            <td> [Linked things] </td>
+                            <td> [Actions] </td>
+                        </tr>
+                        <tr>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td><a>Add log</a></td>
+                        </tr>
+                    </table>
                 </div>
             </collapse>
 
-            <collapse>
+            <collapse v-bind:selected="false">
                 <div slot="collapse-header">Blog</div>
 
                 <div slot="collapse-body">
-                What should be here :<br>
-                - Posts list, editable
+                    <table>
+                        <tr>
+                            <th>Id</th>
+                            <th>Title</th>
+                            <th>Date</th>
+                            <th>Author</th>
+                            <th>Text</th>
+                            <th>Actions</th>
+                        </tr>
+                        <tr v-for="post in posts" :key="post.id">   
+                            <td> {{ post.id }} </td>
+                            <td> {{ post.title }} </td>
+                            <td> {{ post.createdAt }} </td>
+                            <td> {{ post.author.username }} </td>
+                            <td> {{ post.content }} </td>
+                            <td> <a>Show</a>, <a>Edit</a>, <a>Delete</a> </td>
+                        </tr>
+                        <tr>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td><a>Add post</a></td>
+                        </tr>
+                    </table>
                 </div>
             </collapse>
 
-
-            <collapse>
+            <collapse v-bind:selected="false">
                 <div slot="collapse-header">Groups</div>
 
                 <div slot="collapse-body">
-                What should be here :<br>
-                - Groups list, editable, with number of users
-                - Add group button (+form)
+                <table>
+                        <tr>
+                            <th>Name</th>
+                            <th>Members</th>
+                            <th>Actions</th>
+                        </tr>
+                        <tr v-for="group in groups" :key="group.id">   
+                            <td> {{ mission.name }} </td>
+                            <td> {{ mission.members.length }} </td>
+                            <td> [Actions] </td>
+                        </tr>
+                        <tr>
+                            <td></td>
+                            <td></td>
+                            <td><a>Add group</a></td>
+                        </tr>
+                    </table>
                 </div>
             </collapse>
 
-            <collapse>
+            <collapse v-bind:selected="false">
                 <div slot="collapse-header">Users</div>
                 <div slot="collapse-body">
-                    What should be here :<br>
-                    - Groups list, editable, with their groups
-                    - Add group button (form done)
+                   <table>
+                        <tr>
+                            <th>Name</th>
+                            <th>Groups</th>
+                            <th>Actions</th>
+                        </tr>
+                        <tr v-for="user in users" :key="user.id">   
+                            <td> {{ user.name }} </td>
+                            <td> {{ user.groups.length }} </td>
+                            <td> <a>Change password</a> </td>
+                        </tr>
+                        <tr>
+                            <td></td>
+                            <td></td>
+                            <td><a>Add user</a></td>
+                        </tr>
+                    </table>
+                    <div v-if="show_add_user" class="add-user">
+                        <div  class="form-group add_user">
+                            <label for="user-name">Username :</label>
+                            <input type="text" name="user-name" v-model="user_name">
+                        </div>
+                        <div class="form-group">
+                            <label for="user-email">Email :</label>
+                            <input type="text" name="user-email" v-model="user_email">
+                        </div>
+                        <div class="form-group">
+                            <label for="user-pwd">Password :</label>
+                            <input type="password" name="user-pwd" v-model="user_pwd">
+                        </div>
 
-                    <div class="form-group">
-                        <label for="user-name">Username :</label>
-                        <input type="text" name="user-name" v-model="user_name">
-                    </div>
-                    <div class="form-group">
-                        <label for="user-email">Email :</label>
-                        <input type="text" name="user-email" v-model="user_email">
-                    </div>
-                    <div class="form-group">
-                        <label for="user-pwd">Password :</label>
-                        <input type="password" name="user-pwd" v-model="user_pwd">
-                    </div>
+                        <div class="form-group">
+                            <label for="user-pwd-2">Password (again) :</label>
+                            <input type="password" name="user-pwd-2" v-model="user_pwd_conf">
+                        </div>
 
-                    <div class="form-group">
-                        <label for="user-pwd-2">Password (again) :</label>
-                        <input type="password" name="user-pwd-2" v-model="user_pwd_conf">
+                        <input type="submit" @click.prevent="newUser" value="Send"></button>
                     </div>
-
-                    <input type="submit" @click.prevent="newUser" value="Send"></button>
                 </div>
             </collapse>
         </div>
 
         <div class="actions">
-
+             <h1 class="section-title">Console</h1>
         </div>
     </section>
 </template>
@@ -125,21 +206,73 @@
                 user_name: '',
                 user_email: '',
                 user_pwd: '',
-                user_pwd_conf: ''
+                user_pwd_conf: '',
+                show_add_mission: false,
+                show_add_user: false
             };
+        },
+        computed: {
+            posts() {
+                return store.getters.posts;
+            },
+            users() {
+                //return store.getters.users;
+                return [];
+            },
+            groups() {
+                return store.getters.groups;
+            },
+            logs() {
+                return store.getters.logs;
+            },
+            missions() {
+                return store.getters.missions;
+            }
         },
         mounted() {
             this.loading = true;
-            store.dispatch('retrieveUsers')
+
+            let usersP = store.dispatch('retrieveUsers')
                 .catch(err => {
                     this.$notify({
                         type: 'error',
-                        title: 'Can not retrieve data from server',
+                        title: 'Cannot retrieve users from server',
                         text: err.message,
                         duration: -1
                     });
-                })
-                .then(this.loading = false);
+                });
+            let postsP = store.dispatch('retrievePosts')
+                .catch(err => {
+                    this.$notify({
+                        type: 'error',
+                        title: 'Cannot retrieve posts from server',
+                        text: err.message,
+                        duration: -1
+                    });
+                });
+            let logsP = store.dispatch('retrieveLogs')
+                .catch(err => {
+                    this.$notify({
+                        type: 'error',
+                        title: 'Cannot retrieve logs from server',
+                        text: err.message,
+                        duration: -1
+                    });
+                });
+            let missionsP = store.dispatch('retrieveMissions')
+                .catch(err => {
+                    this.$notify({
+                        type: 'error',
+                        title: 'Cannot retrieve missions from server',
+                        text: err.message,
+                        duration: -1
+                    });
+                });
+
+            
+            Promise.all([usersP, postsP, logsP, missionsP]).then(() => {
+                this.loading = false;
+            });
         },
         methods: {
             newGroup() {
