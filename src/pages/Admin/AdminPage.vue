@@ -1,23 +1,21 @@
 <template>
-    <section class="admin basic-layout">
+    <section class="admin">
         <div class="content">
             <h1 class="section-title">Administration</h1>
-
-            <collapse v-bind:selected="false">
-                <div slot="collapse-header">Missions</div>
-
-                <div slot="collapse-body">
-
+            <tabs>
+                <tab name="Missions">
                     <table>
                         <tr>
                             <th>Name</th>
                             <th>Leader</th>
+                            <th>Budget</th>
                             <th>Members</th>
                             <th>Actions</th>
                         </tr>
                         <tr v-for="mission in missions" :key="mission.id">   
                             <td> {{ mission.name }} </td>
                             <td> {{ mission.leader }} </td>
+                            <td> {{ mission }} </td>
                             <td> {{ mission.members.length }} </td>
                             <td> [Actions] </td>
                         </tr>
@@ -25,7 +23,8 @@
                             <td></td>
                             <td></td>
                             <td></td>
-                            <td><a>Add mission</a></td>
+                            <td></td>
+                            <td><a @click.prevent="show_add_mission = !show_add_mission">Add mission</a></td>
                         </tr>
                     </table>
 
@@ -36,24 +35,27 @@
                         </div>
 
                         <div class="form-group">
+                            <label for="miss-budget">Mission budget :</label>
+                            <input type="number" name="miss-budget" v-model="miss_budget">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="miss-budget">Mission leader :</label>
+                            <input type="number" name="miss-leader" v-model="miss_leader">
+                        </div>
+
+                        <div class="form-group">
                             <label for="miss-desc">Mission description (markdown) :</label>
                             <input type="text" name="miss-desc" v-model="miss_desc">
                         </div>
 
-                        <div class="form-group">
-                            <label for="miss-budget">Mission name :</label>
-                            <input type="number" name="miss-budget" v-model="miss_budget">
-                        </div>
+                        
 
                         <input type="submit" @click.prevent="newMission" value="Send"></button>
                     </div>
-                </div>
-            </collapse>
+                </tab>
 
-            <collapse v-bind:selected="false">
-                <div slot="collapse-header">Logs</div>
-
-                <div slot="collapse-body">
+                <tab name="Logs">
                     <table>
                         <tr>
                             <th>Name</th>
@@ -77,13 +79,9 @@
                             <td><a>Add log</a></td>
                         </tr>
                     </table>
-                </div>
-            </collapse>
+                </tab>
 
-            <collapse v-bind:selected="false">
-                <div slot="collapse-header">Blog</div>
-
-                <div slot="collapse-body">
+                <tab name="Blog">
                     <table>
                         <tr>
                             <th>Id</th>
@@ -110,14 +108,10 @@
                             <td><a>Add post</a></td>
                         </tr>
                     </table>
-                </div>
-            </collapse>
+                </tab>
 
-            <collapse v-bind:selected="false">
-                <div slot="collapse-header">Groups</div>
-
-                <div slot="collapse-body">
-                <table>
+                <tab name="groups">
+                    <table>
                         <tr>
                             <th>Name</th>
                             <th>Members</th>
@@ -134,13 +128,10 @@
                             <td><a>Add group</a></td>
                         </tr>
                     </table>
-                </div>
-            </collapse>
+                </tab>
 
-            <collapse v-bind:selected="false">
-                <div slot="collapse-header">Users</div>
-                <div slot="collapse-body">
-                   <table>
+                <tab name="users">
+                    <table>
                         <tr>
                             <th>Name</th>
                             <th>Groups</th>
@@ -154,7 +145,7 @@
                         <tr>
                             <td></td>
                             <td></td>
-                            <td><a>Add user</a></td>
+                            <td><a @click.prevent="show_add_user = !show_add_user">Add user</a></td>
                         </tr>
                     </table>
                     <div v-if="show_add_user" class="add-user">
@@ -178,12 +169,8 @@
 
                         <input type="submit" @click.prevent="newUser" value="Send"></button>
                     </div>
-                </div>
-            </collapse>
-        </div>
-
-        <div class="actions">
-             <h1 class="section-title">Console</h1>
+                </tab>
+            </tabs>
         </div>
     </section>
 </template>
@@ -191,13 +178,13 @@
 <script>
     import store from '@/modules/store';
     import Loader from '@/components/Loader';
-    import Collapse from '@/components/Collapse';
     import UserApi from '@/modules/users/users_api';
+    import {Tabs, Tab} from 'vue-tabs-component';
 
     export default {
         components: {
             Loader,
-            Collapse
+            Tabs, Tab
         },
         data() {
             return {
