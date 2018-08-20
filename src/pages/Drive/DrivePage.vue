@@ -46,7 +46,7 @@
 <script>
     import store from '@/modules/store';
     import driveApi from '@/modules/drive/drive_api';
-    import DriveTable from '@/components/DriveTable';
+    import DriveTable from './DriveTable';
     import UploadFile from '@/components/UploadFile';
     import NewFolder from '@/components/NewFolder';
     import EditFile from '@/components/EditFile';

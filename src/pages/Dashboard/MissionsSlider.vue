@@ -87,7 +87,7 @@
         },
         computed: {
             mission() {
-                console.log(store.getters.selectedMission);
+                // console.log(store.getters.selectedMission);
                 return store.getters.selectedMission;
             },
             missionNumber() {
