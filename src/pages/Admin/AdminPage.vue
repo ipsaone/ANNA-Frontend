@@ -134,15 +134,18 @@
                     <table>
                         <tr>
                             <th>Name</th>
+                            <th>Email</th>
                             <th>Groups</th>
                             <th>Actions</th>
                         </tr>
                         <tr v-for="user in users" :key="user.id">   
-                            <td> {{ user.name }} </td>
-                            <td> {{ user.groups.length }} </td>
+                            <td> {{ user.username }} </td>
+                            <td> {{ user.email }} </td>
+                            <td> {{ user.groups }} </td>
                             <td> <a>Change password</a> </td>
                         </tr>
                         <tr>
+                            <td></td>
                             <td></td>
                             <td></td>
                             <td><a @click.prevent="show_add_user = !show_add_user">Add user</a></td>
@@ -203,8 +206,7 @@
                 return store.getters.posts;
             },
             users() {
-                //return store.getters.users;
-                return [];
+                return store.getters.users;
             },
             groups() {
                 return store.getters.groups;
