@@ -98,7 +98,11 @@
                                 <td> {{ post.createdAt }} </td>
                                 <td> {{ post.author.username }} </td>
                                 <td> {{ post.content }} </td>
-                                <td> <a>Show</a>, <a>Edit</a>, <a>Delete</a> </td>
+                                <td> 
+                                    <router-link :to="{name: 'readPost', params: {id: post.id}}">Show</router-link>, 
+                                    <router-link :to="{name: 'editPost', params: {id: post.id}}">Edit</router-link>, 
+                                    <a @click.prevent="delPost(post.title, post.id)">Delete</a> 
+                                </td>
                             </tr>
                             <tr>
                                 <td></td>
@@ -106,7 +110,7 @@
                                 <td></td>
                                 <td></td>
                                 <td></td>
-                                <td><a>Add post</a></td>
+                                <td><router-link :to="{name: 'newPost'}">New</router-link></td>
                             </tr>
                         </table>
                     </tab>
@@ -335,6 +339,26 @@
                             text: err,
                             duration: 5000
                         }));
+                }
+            },
+
+            delPost(title, id) {
+                if(confirm('Delete post "'+title+'" ?')) {
+                    store.dispatch('deletePost', id)
+                        .then(() => this.$notify({
+                            type: 'success',
+                            title: 'Operation successful',
+                            text: 'Post was successfully deleted',
+                            duration: 5000
+                        }))
+                        .catch(err => {
+                            this.$notify({
+                                type: 'error',
+                                title: 'Uncaught error',
+                                text: err.message,
+                                duration: -1
+                            });
+                        });
                 }
             }
 
