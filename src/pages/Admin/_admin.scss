@@ -21,36 +21,39 @@
     h2 {
         text-align: center;
     }
-}
 
-input {
-    height: 2em;
-}
-
-.form-group {
-    height: 3em;
-}
-
-.buttons {
-    text-align: right;  
-    button {
-        transition: 0.3s;
-        border: 1px solid $grey-lighter;
+    input {
+        height: 2em;
     }
 
+    .form-group {
+        height: 3em;
+    }
     
-
-    .submit {
-        background-color: $white-dark;
-    }
-    .submit:hover {
-        background-color: $light;
-    }
-
-    .cancel {
-        background-color: $warning;
-    }
-    .cancel:hover {
-        background-color: $orange;
+    .buttons {
+        text-align: right;  
+        button {
+            transition: 0.3s;
+            border: 1px solid $grey-lighter;
+        }
+    
+        
+    
+        .submit {
+            background-color: $white-dark;
+        }
+        .submit:hover {
+            background-color: $light;
+        }
+    
+        .cancel {
+            background-color: $warning;
+        }
+        .cancel:hover {
+            background-color: $orange;
+        }
     }
 }
+
+
+

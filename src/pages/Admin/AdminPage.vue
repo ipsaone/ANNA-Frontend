@@ -18,7 +18,7 @@
                                 <td> {{ mission.leader }} </td>
                                 <td> {{ mission }} </td>
                                 <td> {{ mission.members.length }} </td>
-                                <td> [Actions] </td>
+                                <td> <a>Manage members</a>, <a>Manage budget</a> </td>
                             </tr>
                             <tr>
                                 <td></td>
@@ -28,32 +28,6 @@
                                 <td><a @click.prevent="show_add_mission = !show_add_mission">Add mission</a></td>
                             </tr>
                         </table>
-
-                        <div v-if="show_add_mission" class="add-mission">
-                            <div class="form-group">
-                                <label for="miss-name">Mission name :</label>
-                                <input type="text" name="miss-name" v-model="miss_name">
-                            </div>
-
-                            <div class="form-group">
-                                <label for="miss-budget">Mission budget :</label>
-                                <input type="number" name="miss-budget" v-model="miss_budget">
-                            </div>
-
-                            <div class="form-group">
-                                <label for="miss-budget">Mission leader :</label>
-                                <input type="number" name="miss-leader" v-model="miss_leader">
-                            </div>
-
-                            <div class="form-group">
-                                <label for="miss-desc">Mission description (markdown) :</label>
-                                <input type="text" name="miss-desc" v-model="miss_desc">
-                            </div>
-
-                            
-
-                            <input type="submit" @click.prevent="newMission" value="Send"></button>
-                        </div>
                     </tab>
 
                     <tab name="Logs">
@@ -123,8 +97,8 @@
                                 <th>Actions</th>
                             </tr>
                             <tr v-for="group in groups" :key="group.id">   
-                                <td> {{ mission.name }} </td>
-                                <td> {{ mission.members.length }} </td>
+                                <td> {{ group.name }} </td>
+                                <td> {{ group.users.length }} </td>
                                 <td> [Actions] </td>
                             </tr>
                             <tr>
@@ -138,18 +112,21 @@
                     <tab name="Users">
                         <table>
                             <tr>
+                                <th>ID</th>
                                 <th>Name</th>
                                 <th>Email</th>
                                 <th>Groups</th>
                                 <th>Actions</th>
                             </tr>
                             <tr v-for="user in users" :key="user.id">   
+                                 <td> {{ user.id }} </td>
                                 <td> {{ user.username }} </td>
                                 <td> {{ user.email }} </td>
                                 <td> {{ user.groups }} </td>
-                                <td> <a>Change password</a>, <a @click.prevent="delUser(user.username, user.id)">Delete</a> </td>
+                                <td> <a>Manage groups</a>, <a>Change password</a>, <a @click.prevent="delUser(user.username, user.id)">Delete</a> </td>
                             </tr>
                             <tr>
+                                <td></td>
                                 <td></td>
                                 <td></td>
                                 <td></td>
@@ -157,6 +134,9 @@
                             </tr>
                         </table>
                         
+                    </tab>
+
+                    <tab name="Events">
                     </tab>
                 </tabs>
             </div>
@@ -189,6 +169,40 @@
                     <button type="button" @click.prevent="newUser" class="submit">Submit</button>
                 </div>
             </div>
+
+            <div v-if="show_add_mission" class="add-mission">
+                <div class="form-group">
+                    <label for="miss_name">Mission name :</label>
+                    <input type="text" name="miss_name" v-model="miss_name">
+                </div>
+
+                <div class="form-group">
+                    <label for="miss_budget">Mission budget :</label>
+                    <input type="number" name="miss_budget" v-model="miss_budget">
+                </div>
+
+                <div class="form-group">
+                    <label for="miss_leader">Mission leader :</label>
+                    <input type="number" name="miss_leader" v-model="miss_leader">
+                </div>
+
+                <div class="form-group">
+                    <label for="miss_group">Mission group :</label>
+                    <input type="number" name="miss_group" v-model="miss_group">
+                </div>
+
+                <div class="form-group">
+                    <label for="miss_desc">Mission description (markdown) :</label>
+                    <input type="text" name="miss_desc" v-model="miss_desc">
+                </div>
+
+                
+
+                <div class="buttons">
+                    <button type="button" @click.prevent="show_add_mission = !show_add_mission" class="cancel">Cancel</button>
+                    <button type="button" @click.prevent="newMission" class="submit">Submit</button>
+                </div>
+            </div>
         </section>
     </div>
 </template>
@@ -212,6 +226,11 @@
                 user_email: '',
                 user_pwd: '',
                 user_pwd_conf: '',
+                miss_name: '',
+                miss_leader: 1,
+                miss_budget: 0,
+                miss_desc: '',
+                miss_group: 1,
                 show_add_mission: false,
                 show_add_user: false,
                 panel_title: 'Actions'
@@ -273,9 +292,18 @@
                         duration: -1
                     });
                 });
+            let groupsP = store.dispatch('retrieveGroups')
+                .catch(err => {
+                    this.$notify({
+                        type: 'error',
+                        title: 'Cannot retrieve groups from server',
+                        text: err.message,
+                        duration: -1
+                    });
+                });
 
             
-            Promise.all([usersP, postsP, logsP, missionsP]).then(() => {
+            Promise.all([usersP, postsP, logsP, missionsP, groupsP]).then(() => {
                 this.loading = false;
             });
         },
@@ -287,10 +315,28 @@
 
             newMission() {
                 this.loading = true;
-                store.dispatch('saveMission')
+                store.dispatch('storeMission', {
+                    name: this.miss_name, 
+                    markdown: this.miss_desc, 
+                    budgetAssigned: this.miss_budget, 
+                    leaderId: this.miss_leader, 
+                    groupId: this.miss_group
+                })
                     .then(() => {
                         this.loading = false;
-                    });
+                    })
+                    .then(() => this.$notify({
+                        type: 'success',
+                        title: 'Operation successful',
+                        text: 'Mission was successfully added',
+                        duration: 5000
+                    }))
+                    .catch(err => this.$notify({
+                        type: 'error',
+                        title: 'Operation failed',
+                        text: err,
+                        duration: 5000
+                    }));
             },
 
             newUser() {
@@ -302,6 +348,7 @@
                         duration: 5000
                     });
                 } else {
+                    this.loading = true;
                     store.dispatch('insertUser', {username: this.user_name, email: this.user_email, password: this.user_pwd})
                         .then(() => {
                             this.user_name = '';
@@ -309,6 +356,7 @@
                             this.user_pwd = '';
                             this.user_pwd_conf = '';
                         })
+                        .then(() => {this.loading = false;})
                         .then(() => this.$notify({
                             type: 'success',
                             title: 'Operation successful',
@@ -326,7 +374,9 @@
 
             delUser(name, id) {
                 if(confirm('Delete user '+name+' ?')) {
+                    this.loading = true;
                     store.dispatch('deleteUser', id)
+                        .then(() => {this.loading = false;})
                         .then(() => this.$notify({
                             type: 'success',
                             title: 'Operation successful',
@@ -344,7 +394,9 @@
 
             delPost(title, id) {
                 if(confirm('Delete post "'+title+'" ?')) {
+                    his.loading = true;
                     store.dispatch('deletePost', id)
+                        .then(() => {this.loading = false;})
                         .then(() => this.$notify({
                             type: 'success',
                             title: 'Operation successful',

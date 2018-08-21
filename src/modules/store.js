@@ -9,6 +9,7 @@ import missions from '@/modules/missions/missions_store.js';
 import posts from '@/modules/blog/posts_store.js';
 import tasks from '@/modules/missions/tasks_store.js';
 import users from '@/modules/users/users_store.js';
+import groups from '@/modules/groups/groups_store.js';
 
 Vue.use(Vuex);
 
@@ -21,7 +22,8 @@ const store = new Vuex.Store({
         missions,
         posts,
         tasks,
-        users
+        users,
+        groups
     }
 });
 
