@@ -143,7 +143,7 @@
                                 <td> {{ user.username }} </td>
                                 <td> {{ user.email }} </td>
                                 <td> {{ user.groups }} </td>
-                                <td> <a>Change password</a>, <a>Delete</a> </td>
+                                <td> <a>Change password</a>, <a @click.prevent="delUser(user.username, user.id)">Delete</a> </td>
                             </tr>
                             <tr>
                                 <td></td>
@@ -309,6 +309,24 @@
                             type: 'success',
                             title: 'Operation successful',
                             text: 'User was successfully added',
+                            duration: 5000
+                        }))
+                        .catch((err) => this.$notify({
+                            type: 'error',
+                            title: 'Operation failed',
+                            text: err,
+                            duration: 5000
+                        }));
+                }
+            },
+
+            delUser(name, id) {
+                if(confirm('Delete user '+name+' ?')) {
+                    store.dispatch('deleteUser', id)
+                        .then(() => this.$notify({
+                            type: 'success',
+                            title: 'Operation successful',
+                            text: 'User was successfully deleted',
                             duration: 5000
                         }))
                         .catch((err) => this.$notify({

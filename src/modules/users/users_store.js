@@ -48,10 +48,13 @@ const actions = {
     insertUser({state, commit, dispatch}, user) {
         if (user.username && user.email && user.password) {
             return UsersApi.add(user)
-                .then(() => {
-                    dispatch('retrieveUsers', true);
-                });
+                .then(() => dispatch('retrieveUsers', true));
         }
+    },
+
+    deleteUser({state, commit, dispatch}, id) {
+        return UsersApi.delete(id)
+            .then(() => dispatch('retrieveUsers', true));
     }
 };
 
