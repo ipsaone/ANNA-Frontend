@@ -43,6 +43,15 @@ const actions = {
                 if (typeof user !== 'undefined') return user;
                 else throw Error;
             });
+    },
+
+    insertUser({state, commit, dispatch}, user) {
+        if (user.username && user.email && user.password) {
+            return UsersApi.add(user)
+                .then(() => {
+                    dispatch('retrieveUsers', true);
+                });
+        }
     }
 };
 

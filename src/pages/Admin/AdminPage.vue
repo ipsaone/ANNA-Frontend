@@ -1,181 +1,192 @@
 <template>
-    <section class="admin">
-        <div class="content">
-            <h1 class="section-title">Administration</h1>
-            <tabs>
-                <tab name="Missions">
-                    <table>
-                        <tr>
-                            <th>Name</th>
-                            <th>Leader</th>
-                            <th>Budget</th>
-                            <th>Members</th>
-                            <th>Actions</th>
-                        </tr>
-                        <tr v-for="mission in missions" :key="mission.id">   
-                            <td> {{ mission.name }} </td>
-                            <td> {{ mission.leader }} </td>
-                            <td> {{ mission }} </td>
-                            <td> {{ mission.members.length }} </td>
-                            <td> [Actions] </td>
-                        </tr>
-                        <tr>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td><a @click.prevent="show_add_mission = !show_add_mission">Add mission</a></td>
-                        </tr>
-                    </table>
+    <div class='admin' v-bind:class="{'basic-layout': show_add_mission || show_add_user}">
+        <section class="admin">
+            <div class="content">
+                <h1 class="section-title">Administration</h1>
+                <tabs>
+                    <tab name="Missions">
+                        <table>
+                            <tr>
+                                <th>Name</th>
+                                <th>Leader</th>
+                                <th>Budget</th>
+                                <th>Members</th>
+                                <th>Actions</th>
+                            </tr>
+                            <tr v-for="mission in missions" :key="mission.id">   
+                                <td> {{ mission.name }} </td>
+                                <td> {{ mission.leader }} </td>
+                                <td> {{ mission }} </td>
+                                <td> {{ mission.members.length }} </td>
+                                <td> [Actions] </td>
+                            </tr>
+                            <tr>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td><a @click.prevent="show_add_mission = !show_add_mission">Add mission</a></td>
+                            </tr>
+                        </table>
 
-                    <div v-if="show_add_mission" class="add-mission">
-                        <div class="form-group">
-                            <label for="miss-name">Mission name :</label>
-                            <input type="text" name="miss-name" v-model="miss_name">
+                        <div v-if="show_add_mission" class="add-mission">
+                            <div class="form-group">
+                                <label for="miss-name">Mission name :</label>
+                                <input type="text" name="miss-name" v-model="miss_name">
+                            </div>
+
+                            <div class="form-group">
+                                <label for="miss-budget">Mission budget :</label>
+                                <input type="number" name="miss-budget" v-model="miss_budget">
+                            </div>
+
+                            <div class="form-group">
+                                <label for="miss-budget">Mission leader :</label>
+                                <input type="number" name="miss-leader" v-model="miss_leader">
+                            </div>
+
+                            <div class="form-group">
+                                <label for="miss-desc">Mission description (markdown) :</label>
+                                <input type="text" name="miss-desc" v-model="miss_desc">
+                            </div>
+
+                            
+
+                            <input type="submit" @click.prevent="newMission" value="Send"></button>
                         </div>
+                    </tab>
 
-                        <div class="form-group">
-                            <label for="miss-budget">Mission budget :</label>
-                            <input type="number" name="miss-budget" v-model="miss_budget">
-                        </div>
+                    <tab name="Logs">
+                        <table>
+                            <tr>
+                                <th>Name</th>
+                                <th>Date</th>
+                                <th>Description</th>
+                                <th>Linked data</th>
+                                <th>Actions</th>
+                            </tr>
+                            <tr v-for="log in logs" :key="log.id">   
+                                <td> {{ log.name }} </td>
+                                <td> {{ mission.date }} </td>
+                                <td> {{ mission.description }} </td>
+                                <td> [Linked things] </td>
+                                <td> [Actions] </td>
+                            </tr>
+                            <tr>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td><a>Add log</a></td>
+                            </tr>
+                        </table>
+                    </tab>
 
-                        <div class="form-group">
-                            <label for="miss-budget">Mission leader :</label>
-                            <input type="number" name="miss-leader" v-model="miss_leader">
-                        </div>
+                    <tab name="Blog">
+                        <table>
+                            <tr>
+                                <th>Id</th>
+                                <th>Title</th>
+                                <th>Date</th>
+                                <th>Author</th>
+                                <th>Text</th>
+                                <th>Actions</th>
+                            </tr>
+                            <tr v-for="post in posts" :key="post.id">   
+                                <td> {{ post.id }} </td>
+                                <td> {{ post.title }} </td>
+                                <td> {{ post.createdAt }} </td>
+                                <td> {{ post.author.username }} </td>
+                                <td> {{ post.content }} </td>
+                                <td> <a>Show</a>, <a>Edit</a>, <a>Delete</a> </td>
+                            </tr>
+                            <tr>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td><a>Add post</a></td>
+                            </tr>
+                        </table>
+                    </tab>
 
-                        <div class="form-group">
-                            <label for="miss-desc">Mission description (markdown) :</label>
-                            <input type="text" name="miss-desc" v-model="miss_desc">
-                        </div>
+                    <tab name="Groups">
+                        <table>
+                            <tr>
+                                <th>Name</th>
+                                <th>Members</th>
+                                <th>Actions</th>
+                            </tr>
+                            <tr v-for="group in groups" :key="group.id">   
+                                <td> {{ mission.name }} </td>
+                                <td> {{ mission.members.length }} </td>
+                                <td> [Actions] </td>
+                            </tr>
+                            <tr>
+                                <td></td>
+                                <td></td>
+                                <td><a>Add group</a></td>
+                            </tr>
+                        </table>
+                    </tab>
 
+                    <tab name="Users">
+                        <table>
+                            <tr>
+                                <th>Name</th>
+                                <th>Email</th>
+                                <th>Groups</th>
+                                <th>Actions</th>
+                            </tr>
+                            <tr v-for="user in users" :key="user.id">   
+                                <td> {{ user.username }} </td>
+                                <td> {{ user.email }} </td>
+                                <td> {{ user.groups }} </td>
+                                <td> <a>Change password</a>, <a>Delete</a> </td>
+                            </tr>
+                            <tr>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td><a @click.prevent="show_add_user = !show_add_user">Add user</a></td>
+                            </tr>
+                        </table>
                         
+                    </tab>
+                </tabs>
+            </div>
+        </section>
 
-                        <input type="submit" @click.prevent="newMission" value="Send"></button>
-                    </div>
-                </tab>
+        <section v-if="show_add_user || show_add_mission" class="actions">
+            <h1 class="section-title">Actions</h1>
+            
+            <div v-if="show_add_user" class="add-user">
+                <div  class="form-group">
+                    <label for="user-name">Username :</label><br>
+                    <input type="text" name="user-name" v-model="user_name">
+                </div>
+                <div class="form-group">
+                    <label for="user-email">Email :</label><br>
+                    <input type="text" name="user-email" v-model="user_email">
+                </div>
+                <div class="form-group">
+                    <label for="user-pwd">Password :</label><br>
+                    <input type="password" name="user-pwd" v-model="user_pwd">
+                </div>
 
-                <tab name="Logs">
-                    <table>
-                        <tr>
-                            <th>Name</th>
-                            <th>Date</th>
-                            <th>Description</th>
-                            <th>Linked data</th>
-                            <th>Actions</th>
-                        </tr>
-                        <tr v-for="log in logs" :key="log.id">   
-                            <td> {{ log.name }} </td>
-                            <td> {{ mission.date }} </td>
-                            <td> {{ mission.description }} </td>
-                            <td> [Linked things] </td>
-                            <td> [Actions] </td>
-                        </tr>
-                        <tr>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td><a>Add log</a></td>
-                        </tr>
-                    </table>
-                </tab>
+                <div class="form-group">
+                    <label for="user-pwd-2">Password again :</label><br>
+                    <input type="password" name="user-pwd-2" v-model="user_pwd_conf">
+                </div>
 
-                <tab name="Blog">
-                    <table>
-                        <tr>
-                            <th>Id</th>
-                            <th>Title</th>
-                            <th>Date</th>
-                            <th>Author</th>
-                            <th>Text</th>
-                            <th>Actions</th>
-                        </tr>
-                        <tr v-for="post in posts" :key="post.id">   
-                            <td> {{ post.id }} </td>
-                            <td> {{ post.title }} </td>
-                            <td> {{ post.createdAt }} </td>
-                            <td> {{ post.author.username }} </td>
-                            <td> {{ post.content }} </td>
-                            <td> <a>Show</a>, <a>Edit</a>, <a>Delete</a> </td>
-                        </tr>
-                        <tr>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td><a>Add post</a></td>
-                        </tr>
-                    </table>
-                </tab>
-
-                <tab name="groups">
-                    <table>
-                        <tr>
-                            <th>Name</th>
-                            <th>Members</th>
-                            <th>Actions</th>
-                        </tr>
-                        <tr v-for="group in groups" :key="group.id">   
-                            <td> {{ mission.name }} </td>
-                            <td> {{ mission.members.length }} </td>
-                            <td> [Actions] </td>
-                        </tr>
-                        <tr>
-                            <td></td>
-                            <td></td>
-                            <td><a>Add group</a></td>
-                        </tr>
-                    </table>
-                </tab>
-
-                <tab name="users">
-                    <table>
-                        <tr>
-                            <th>Name</th>
-                            <th>Email</th>
-                            <th>Groups</th>
-                            <th>Actions</th>
-                        </tr>
-                        <tr v-for="user in users" :key="user.id">   
-                            <td> {{ user.username }} </td>
-                            <td> {{ user.email }} </td>
-                            <td> {{ user.groups }} </td>
-                            <td> <a>Change password</a> </td>
-                        </tr>
-                        <tr>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td><a @click.prevent="show_add_user = !show_add_user">Add user</a></td>
-                        </tr>
-                    </table>
-                    <div v-if="show_add_user" class="add-user">
-                        <div  class="form-group add_user">
-                            <label for="user-name">Username :</label>
-                            <input type="text" name="user-name" v-model="user_name">
-                        </div>
-                        <div class="form-group">
-                            <label for="user-email">Email :</label>
-                            <input type="text" name="user-email" v-model="user_email">
-                        </div>
-                        <div class="form-group">
-                            <label for="user-pwd">Password :</label>
-                            <input type="password" name="user-pwd" v-model="user_pwd">
-                        </div>
-
-                        <div class="form-group">
-                            <label for="user-pwd-2">Password (again) :</label>
-                            <input type="password" name="user-pwd-2" v-model="user_pwd_conf">
-                        </div>
-
-                        <input type="submit" @click.prevent="newUser" value="Send"></button>
-                    </div>
-                </tab>
-            </tabs>
-        </div>
-    </section>
+                <div class="buttons">
+                    <button type="button" @click.prevent="show_add_user = !show_add_user" class="cancel">Cancel</button>
+                    <button type="button" @click.prevent="newUser" class="submit">Submit</button>
+                </div>
+            </div>
+        </section>
+    </div>
 </template>
 
 <script>
@@ -198,7 +209,8 @@
                 user_pwd: '',
                 user_pwd_conf: '',
                 show_add_mission: false,
-                show_add_user: false
+                show_add_user: false,
+                panel_title: 'Actions'
             };
         },
         computed: {
@@ -278,34 +290,33 @@
             },
 
             newUser() {
-                if (this.user_name && this.user_email && this.user_pwd) {
-                    if(this.user_pwd != this.user_pwd_conf) {
-                        alert('Passwords don\'t match !');
-                        return false;
-                    }
-
-                    UserApi.add({
-                        username: this.user_name,
-                        email: this.user_email,
-                        password: this.user_pwd
-                    }).then(() => this.$notify({
-                        type: 'success',
-                        title: 'Operation successful',
-                        text: 'User was successfully added',
-                        duration: 5000
-                    }))
-                    .then(() => {
-                        this.user_name = '';
-                        this.user_email = '';
-                        this.user_pwd = '';
-                        this.user_pwd_conf = '';
-                    })
-                    .catch((err) => this.$notify({
+                if(this.user_pwd != this.user_pwd_conf) {
+                    this.$notify({
                         type: 'error',
-                        title: 'Operation failed',
-                        text: err,
+                        title: 'Please retry',
+                        text: 'Passwords don\'t match !',
                         duration: 5000
-                    }));
+                    });
+                } else {
+                    store.dispatch('insertUser', {username: this.user_name, email: this.user_email, password: this.user_pwd})
+                        .then(() => {
+                            this.user_name = '';
+                            this.user_email = '';
+                            this.user_pwd = '';
+                            this.user_pwd_conf = '';
+                        })
+                        .then(() => this.$notify({
+                            type: 'success',
+                            title: 'Operation successful',
+                            text: 'User was successfully added',
+                            duration: 5000
+                        }))
+                        .catch((err) => this.$notify({
+                            type: 'error',
+                            title: 'Operation failed',
+                            text: err,
+                            duration: 5000
+                        }));
                 }
             }
 

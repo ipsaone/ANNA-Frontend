@@ -11,6 +11,7 @@ $actions-width: 20em;
 
   .actions {
     grid-column: 2;
+    padding: 1em;
     @include aside;
   }
 }
