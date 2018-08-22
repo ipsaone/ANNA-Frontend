@@ -4,6 +4,7 @@ $actions-width: 20em;
   display: grid;
   grid-template-columns: auto $actions-width;
   grid-column-gap: 2em;
+  
 
   .content {
     grid-column: 1;
@@ -12,6 +13,10 @@ $actions-width: 20em;
   .actions {
     grid-column: 2;
     padding: 1em;
+    transition: all 0.3s linear;
+    height: 100vh;
+    border-left: 1px solid $white-darker; 
+
     @include aside;
   }
 }

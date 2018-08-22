@@ -3,7 +3,11 @@
 
 .admin {
 
-    margin-right: 2em;
+    .content {
+        margin-right: 1em;
+    }
+
+    overflow: hidden;
 
     label {
         width: 15em;
