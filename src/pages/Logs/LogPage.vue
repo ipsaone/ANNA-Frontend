@@ -9,7 +9,7 @@
             <template v-if="logs.length > 0">
                 <section>
                     <div class="log" v-for="log in logs" :key="log.id" @click="showLog(log)">
-                        <p class="date">{{ log.createdAt | moment('DD/MM/YYYY') }}</p>
+                        <p class="date">{{ log.createdAt | moment('DD/MM/YYYY &emsp; hh:mm') }}</p>
                         <h1>{{ log.title }}</h1>
                     </div>
                 </section>
@@ -25,11 +25,13 @@
         <div class="logs actions">
             <h1 class="section-title">Actions</h1>
             <ul>
-              <li>
-                <a href="#" @click.prevent="uploadLog"><i class="fa fa-plus" aria-hidden="true"></i>New log</a>
+                <li>
+                    <a href="#" @click.prevent="uploadLog"><i class="fa fa-plus" aria-hidden="true"></i>New log</a>
                 </li>
-              </ul>
-            </div>
+                <li>
+                    <a href="#" @click.prevent="searchLog"><i class="fa fa-search" aria-hidden="true"></i>Filter logs</a>
+                </li>
+            </ul>
         </div>
     </section>
 </template>
@@ -67,7 +69,15 @@
         },
         computed: {
             logs() {
-                return store.getters.logs;
+                return store.getters.logs.sort((a, b) => {
+                    if (a.createdAt < b.createdAt) {
+                        return 1;
+                    } else if (a.createdAt > b.createdAt) {
+                        return -1;
+                    }
+
+                    return 0;
+                });
             },
         },
         methods: {
