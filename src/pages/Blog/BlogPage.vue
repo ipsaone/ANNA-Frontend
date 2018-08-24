@@ -38,11 +38,7 @@
 
     export default {
         mounted() {
-            // First refresh shows loading
             this.refreshPosts(false, true, false);
-
-            // refresh every 10 seconds
-            let interval = setInterval(() => this.refreshPosts(false, true, true), 10000); 
         },
         data() {
             return {

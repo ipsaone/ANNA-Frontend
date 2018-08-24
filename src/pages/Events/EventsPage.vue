@@ -75,7 +75,6 @@
             refreshEvents(force = false, mounted = false) {
                 this.loading = true;
                 store.dispatch('retrieveEvents', force)
-                    .then(_ => store.dispatch('retrieveLoggedUser'))
                     .then(this.loading = false)
                     .then(_ => {
                         if (!mounted) {
@@ -89,7 +88,7 @@
                     .catch(err => {
                         this.$notify({
                             type: 'error',
-                            title: 'Can not retrieve data from server',
+                            title: 'Can not retrieve events from server',
                             text: err.message,
                             duration: -1
                         });

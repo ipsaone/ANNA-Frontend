@@ -48,7 +48,7 @@
                     </div>
                 </td>
                 <td>
-                    {{ wrapName(file.owner.username) }}
+                    {{ wrapName(file.owner) }}
                 </td>
                 <td>
                     {{ convertSize(file.size) }} Kb

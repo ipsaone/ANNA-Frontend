@@ -83,7 +83,7 @@
                             <td></td>
                             <td></td>
                             <td></td>
-                            <td><router-link :to="{name: 'newPost'}">New</router-link></td>
+                            <td><router-link :to="{name: 'newPost'}">Add post</router-link></td>
                         </tr>
                     </table>
                 </tab>
@@ -150,7 +150,7 @@
                             <td> {{ event.markdown }} </td>
                             <td> ? / {{ event.maxRegistered }} </td>
                             <td> {{ event.startDate }} - {{ event.endDate }} </td>
-                            <td> <a>Edit</a>, <a>Manage registered</a>, <a>Delete</a> </td>
+                            <td> <a>Edit</a>, <a>Manage registered</a>, <a @click.prevent="delEvent(event.name, event.id)">Delete</a> </td>
                         </tr>
                         <tr>
                             <td></td>
@@ -506,7 +506,7 @@
 
             delPost(title, id) {
                 if(confirm('Delete post "'+title+'" ?')) {
-                    his.loading = true;
+                    this.loading = true;
                     store.dispatch('deletePost', id)
                         .then(() => {this.loading = false;})
                         .then(() => this.$notify({
@@ -524,7 +524,29 @@
                             });
                         });
                 }
-            }
+            },
+
+            delEvent(title, id) {
+                if(confirm('Delete event "'+title+'" ?')) {
+                    this.loading = true;
+                    store.dispatch('deleteEvent', id)
+                        .then(() => {this.loading = false;})
+                        .then(() => this.$notify({
+                            type: 'success',
+                            title: 'Operation successful',
+                            text: 'Event was successfully deleted',
+                            duration: 5000
+                        }))
+                        .catch(err => {
+                            this.$notify({
+                                type: 'error',
+                                title: 'Uncaught error',
+                                text: err.message,
+                                duration: -1
+                            });
+                        });
+                }
+            },
 
         }
     };
