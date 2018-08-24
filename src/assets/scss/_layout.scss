@@ -19,4 +19,8 @@ $actions-width: 20em;
 
     @include aside;
   }
+
+  .section-title {
+    margin-bottom: 1em;
+  }
 }

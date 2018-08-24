@@ -1,8 +1,10 @@
 <template>
     <section class="dashboard basic-layout">
         <loader v-if="loading"></loader>
+        <!--
         <log></log>
         <upload-log></upload-log>
+        -->
 
         <div class="missions content">
             <h1 class="section-title">Missions</h1>
@@ -34,15 +36,15 @@
     import store from '@/modules/store';
     import Loader from '@/components/Loader';
     import MissionsSlider from './MissionsSlider';
-    import Log from '@/components/Log';
-    import UploadLog from '@/components/UploadLog';
+    //import Log from '@/components/Log';
+    //import UploadLog from '@/components/UploadLog';
 
     export default {
         components: {
             Loader,
             MissionsSlider,
-            Log,
-            UploadLog
+            //Log,
+            //UploadLog
         },
         data() {
             return {

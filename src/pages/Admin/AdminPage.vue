@@ -39,11 +39,14 @@
                             <th>Actions</th>
                         </tr>
                         <tr v-for="log in logs" :key="log.id">   
-                            <td> {{ log.name }} </td>
-                            <td> {{ mission.date }} </td>
-                            <td> {{ mission.description }} </td>
+                            <td> {{ log.title }} </td>
+                            <td> {{ log.updatedAt}} </td>
+                            <td> {{ log.markdown }} </td>
                             <td> [Linked things] </td>
-                            <td> [Actions] </td>
+                            <td> 
+                                <a>Edit</a>,
+                                <a>Delete</a>
+                            </td>
                         </tr>
                         <tr>
                             <td></td>

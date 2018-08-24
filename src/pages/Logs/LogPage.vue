@@ -9,7 +9,11 @@
             <template v-if="logs.length > 0">
                 <section>
                     <div class="log" v-for="log in logs" :key="log.id" @click="showLog(log)">
-                        <p class="date">{{ log.createdAt | moment('DD/MM/YYYY &emsp; hh:mm') }}</p>
+                        <p class="date">
+                            {{ log.createdAt | moment('DD/MM/YYYY &emsp; hh:mm') }} &emsp; 
+                            par <router-link :to="{name: 'profile', params:{id: log.author.id}}">{{ log.author.username }}</router-link>
+                            
+                        </p>
                         <h1>{{ log.title }}</h1>
                     </div>
                 </section>
@@ -29,7 +33,9 @@
                     <a href="#" @click.prevent="uploadLog"><i class="fa fa-plus" aria-hidden="true"></i>New log</a>
                 </li>
                 <li>
-                    <a href="#" @click.prevent="searchLog"><i class="fa fa-search" aria-hidden="true"></i>Filter logs</a>
+                    <a href="#" @click.prevent="searchLog">
+                        <i class="fa fa-search" aria-hidden="true"></i><!-- <input type="text" placeholder="Filter logs"  /> -->Filter logs
+                    </a>
                 </li>
             </ul>
         </div>
@@ -39,8 +45,8 @@
 <script>
     import store from '@/modules/store';
     import Loader from '@/components/Loader';
-    import Log from '@/components/Log';
-    import UploadLog from '@/components/UploadLog';
+    import Log from './Log';
+    import UploadLog from './UploadLog';
 
     export default {
         components: {
