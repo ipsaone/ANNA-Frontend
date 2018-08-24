@@ -1,19 +1,20 @@
 <template>
-    <section class="post">
-        <article>
-            <h1>{{ post.title }}</h1>
+    <div class="post basic-layout">
+        <section class="content">
+            <article>
+                <h1>{{ post.title }}</h1>
 
-            <p class="info">
-                By
-                <router-link :to="{name: 'profile', params:{id: post.author.id}}">{{ post.author.username }}
-                </router-link>
-                on {{ post.publishedAt | moment('DD/MM/YYYY [at] HH:mm') }}
-            </p>
+                <p class="info">
+                    By
+                    <router-link :to="{name: 'profile', params:{id: post.author.id}}">{{ post.author.username }}
+                    </router-link>
+                    on {{ post.publishedAt | moment('DD/MM/YYYY [at] HH:mm') }}
+                </p>
 
-            <div class="content" v-html="post.content"></div>
-        </article>
-
-        <div class="actions">
+                <div class="content" v-html="post.content"></div>
+            </article>
+        </section>
+        <section class="actions">
             <h1 class="section-title">Actions</h1>
 
             <ul>
@@ -26,8 +27,8 @@
                     <a href="#" @click.prevent="deletePost"><i class="fa fa-trash" aria-hidden="true"></i> Delete</a>
                 </li>
             </ul>
-        </div>
-    </section>
+        </section>
+    </div>
 </template>
 
 <script>
