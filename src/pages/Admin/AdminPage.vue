@@ -17,7 +17,7 @@
                             <td> {{ mission.leader.username }} </td>
                             <td> {{ mission.budgetUsed+0 }} / {{ mission.budgetAssigned }} </td>
                             <td> [ TODO ] </td>
-                            <td> <a>Manage members</a>, <a>Manage budget</a> </td>
+                            <td> <a>Manage members</a>, <a>Manage budget</a>, <a>Manage tasks</a> </td>
                         </tr>
                         <tr>
                             <td></td>

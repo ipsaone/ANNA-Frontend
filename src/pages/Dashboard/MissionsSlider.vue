@@ -8,13 +8,13 @@
 
                 <h1>{{ mission.name }}</h1>
 
-                <a href="#" @click.prevent="next" :class="{disabled: currentSlide === missionNumber - 1}">
+                <a href="#" @click.prevent="next" v-if="{disabled: currentSlide === missionNumber - 1}">
                     Next <i class="fa fa-chevron-right"></i>
                 </a>
             </div>
 
             <div class="mission">
-                <p v-html="mission.description" class="description"></p>
+                <div class="description"><p>Description :</p> <span v-html="mission.description" ></span></div>
 
                 <div class="mission-more">
                     <div class="team">
@@ -41,15 +41,15 @@
                     <div class="budget">
                         <h2>Budget</h2>
                         <div class="content">
-                            <div class="used">Used: {{ mission.budgetUsed }} €</div>
-                            <div class="assigned">Assigned: {{ mission.budgetAssigned }} €</div>
+                            <div class="used">Used: {{ mission.budgetUsed+0 }} €</div>
+                            <div class="assigned">Assigned: {{ mission.budgetAssigned+0 }} €</div>
                         </div>
                     </div>
 
                     <div class="tasks">
                         <h2>Tasks</h2>
                         <div class="content">
-                            <ul>
+                            <ul v-if="mission.tasks.length > 0">
                                 <li v-for="task in mission.tasks" :key="task.id">
                                     <input type="checkbox" name="done" id="done" @change="taskChange(task)"
                                            :checked="task.done == 1"
@@ -57,6 +57,10 @@
                                     {{ task.name }}
                                 </li>
                             </ul>
+
+                            <div v-else>
+                                <em>No tasks yet !</em>
+                            </div>
                         </div>
                     </div>
                 </div>
