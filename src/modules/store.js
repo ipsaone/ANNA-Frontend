@@ -1,6 +1,8 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
 
+import createPersistedState from 'vuex-persistedstate';
+
 import auth from '@/modules/auth/auth_store.js';
 import drive from '@/modules/drive/drive_store.js';
 import events from '@/modules/events/events_store.js';
@@ -24,7 +26,8 @@ const store = new Vuex.Store({
         tasks,
         users,
         groups
-    }
+    },
+    plugins: [createPersistedState()]
 });
 
 export default store;
