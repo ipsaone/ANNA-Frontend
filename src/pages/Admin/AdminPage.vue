@@ -14,9 +14,9 @@
                         </tr>
                         <tr v-for="mission in missions" :key="mission.id">   
                             <td> {{ mission.name }} </td>
-                            <td> {{ mission.leader }} </td>
-                            <td> {{ mission }} </td>
-                            <td> {{ mission.members.length }} </td>
+                            <td> {{ mission.leader.username }} </td>
+                            <td> {{ mission.budgetUsed+0 }} / {{ mission.budgetAssigned }} </td>
+                            <td> [ TODO ] </td>
                             <td> <a>Manage members</a>, <a>Manage budget</a> </td>
                         </tr>
                         <tr>

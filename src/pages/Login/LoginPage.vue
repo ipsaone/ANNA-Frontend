@@ -6,19 +6,18 @@
 
         <section class="content">
             <div class="card">
-                <h1>A.N.N.A</h1>
+                <h1>A.N.N.<span class="inverted">A</span></h1>
                 <h2>Admin Network for Nanosat Association </h2>
 
                 <form action="#" method="post">
                     <input type="text" id="username" name="username" v-model="username" placeholder="Username" @keyup.enter="login" autofocus>
                     <input type="password" id="password" name="password" v-model="password" placeholder="Password" @keyup.enter="login">
                     <div class="actions">
-                        <a class="button" href="#">Forgot your password?</a>
+                        <a class="button nopasswd" href="#">Forgot your password?</a>
                         <a class="button" href="#" @click="login">Login</a>
                     </div>
                 </form>
             </div>
-            <footer>Copyright ©IPSA ONE</footer>
         </section>
 
     </section>

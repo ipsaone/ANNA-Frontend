@@ -1,20 +1,22 @@
 <template>
-    <section class="form-post">
-        <div class="editor">
-            <h1 class="section-title">Edit post</h1>
+    <div class="basic-layout">
+        <section class="form-post content">
+            <div class="editor">
+                <h1 class="section-title">Edit post</h1>
 
-            <input type="text" name="title" placeholder="Title" v-model="title">
-            <markdown-editor v-model="markdown"></markdown-editor>
-        </div>
+                <input type="text" name="title" placeholder="Title" v-model="title">
+                <markdown-editor v-model="markdown"></markdown-editor>
+            </div>
+        </section>
 
-        <div class="options">
+        <section class="actions">
             <h1 class="section-title">Options</h1>
             <ul>
                 <li><label><input type="checkbox" v-model="isDraft"> Add to draft</label></li>
-                <li class="submit" :class="{active: canConfirm}" @click.prevent="confirm"><i class="fa fa-check" aria-hidden="true"></i>Confirm</li>
+                <li class="submit" :class="{active: canConfirm}" @click.prevent="confirm"><a><i class="fa fa-check" aria-hidden="true"></i> Confirm</a></li>
             </ul>
-        </div>
-    </section>
+        </section>
+    </div>
 </template>
 
 <script>
