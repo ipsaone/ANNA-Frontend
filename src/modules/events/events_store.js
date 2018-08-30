@@ -1,4 +1,4 @@
-import EventsApi from '@/modules/events/events_store';
+import EventsApi from '@/modules/events/events_api';
 
 const state = {
     events: [],

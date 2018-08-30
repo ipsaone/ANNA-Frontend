@@ -21,8 +21,8 @@ const actions = {
         }
     },
 
-    storeTasks({dispatch}, tasks) {
-        return TasksApi.save(tasks)
+    storeTask({dispatch}, task) {
+        return TasksApi.save(task)
             .then(_ => dispatch('retrieveTasks', true));
     },
 

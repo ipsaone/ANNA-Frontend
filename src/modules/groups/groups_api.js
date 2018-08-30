@@ -1,16 +1,16 @@
 import axios from 'axios';
-import base from '@/api/url';
+import base from '@/modules/url';
 
-const url = base + '/groups/'
+const url = base + '/groups/';
 
 export default {
-    getAllGroups() {
-      return axios.get(url, {withCredentials: true});
-  },
+    getAll() {
+        return axios.get(url, {withCredentials: true});
+    },
     deleteGroup(id) {
-      return axios.delete(url + id, {withCredentials: true});
-  },
+        return axios.delete(url + id, {withCredentials: true});
+    },
     addGroup(group){
-      return axios.post(url + id, group, {withCredentials: true});
+        return axios.post(url + id, group, {withCredentials: true});
     }
-}
+};

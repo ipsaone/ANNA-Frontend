@@ -1,5 +1,7 @@
 <template>
     <section class="mission-slider" :key="missionNumber">
+        <new-task></new-task>
+
         <div v-if="mission.id">
             <div class="controls">
                 <a href="#" @click.prevent="prev" :class="{disabled: currentSlide === 0}">
@@ -8,13 +10,13 @@
 
                 <h1>{{ mission.name }}</h1>
 
-                <a href="#" @click.prevent="next" :class="{disabled: currentSlide === missionNumber - 1}">
+                <a href="#" @click.prevent="next" v-if="{disabled: currentSlide === missionNumber - 1}">
                     Next <i class="fa fa-chevron-right"></i>
                 </a>
             </div>
 
             <div class="mission">
-                <p v-html="mission.description" class="description"></p>
+                <div class="description"><p>Description :</p> <span v-html="mission.description" ></span></div>
 
                 <div class="mission-more">
                     <div class="team">
@@ -27,7 +29,7 @@
                                     </router-link>
                                     <ul>
                                         <li v-for="member in mission.members" :key="member.id">
-                                            +
+                                            
                                             <router-link :to="{name: 'profile', params:{id: member.id}}">
                                                 {{ member.username }}
                                             </router-link>
@@ -41,22 +43,29 @@
                     <div class="budget">
                         <h2>Budget</h2>
                         <div class="content">
-                            <div class="used">Used: {{ mission.budgetUsed }} €</div>
-                            <div class="assigned">Assigned: {{ mission.budgetAssigned }} €</div>
+                            <div class="used">Used: {{ mission.budgetUsed+0 }} €</div>
+                            <div class="assigned">Assigned: {{ mission.budgetAssigned+0 }} €</div>
                         </div>
                     </div>
 
                     <div class="tasks">
                         <h2>Tasks</h2>
                         <div class="content">
-                            <ul>
-                                <li v-for="task in mission.tasks" :key="task.id">
+                            <ul v-if="mission.tasks.length > 0">
+                                <li  v-for="task in mission.tasks" :key="task.id">
                                     <input type="checkbox" name="done" id="done" @change="taskChange(task)"
                                            :checked="task.done == 1"
                                            :disabled="disabledInput">
                                     {{ task.name }}
                                 </li>
                             </ul>
+
+                            <div v-else>
+                                <em>No tasks yet !</em>
+                            </div>
+
+                            <div class="add_task"><a @click.prevent="newTask">Add task</a></div>
+                            
                         </div>
                     </div>
                 </div>
@@ -79,7 +88,12 @@
     import store from '@/modules/store';
     import TasksApi from '@/modules/missions/tasks_api';
 
+    import newTask from './newTask';
+
     export default {
+        components: {
+            newTask
+        },
         data() {
             return {
                 currentSlide: 0,
@@ -87,7 +101,7 @@
         },
         computed: {
             mission() {
-                console.log(store.getters.selectedMission);
+                // console.log(store.getters.selectedMission);
                 return store.getters.selectedMission;
             },
             missionNumber() {
@@ -118,7 +132,10 @@
                 };
 
                 TasksApi.update(data)
-                    .then(_ => store.dispatch('selectMission', task.missionId));
+                    .then(() => store.dispatch('selectMission', task.missionId));
+            },
+            newTask() {
+                this.$modal.show('newTask', store.getters.selectedMission);
             }
         }
     };

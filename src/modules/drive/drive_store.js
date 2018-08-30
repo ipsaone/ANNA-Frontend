@@ -1,4 +1,4 @@
-import DriveApi from '@/modules/drive/drive_store';
+import DriveApi from '@/modules/drive/drive_api';
 
 const state = {
     folder: {},
@@ -17,10 +17,12 @@ const mutations = {
 
 const actions = {
     retrieveFolder({commit, dispatch}, id) {
+        console.log('Retrieving folder : ', id);
         return DriveApi.getFolder(id)
-            .then(folder => dispatch('setOwners', folder.data))
-            .then(folder => commit('SET_FOLDER', folder))
-            .then(dispatch('unselectFile'));
+            .then(folder => {dispatch('setOwners', folder.data); return folder;})
+            .then(folder => commit('SET_FOLDER', folder.data))
+            .then(() => dispatch('unselectFile'))
+            .catch(err => console.error(err));
     },
 
     selectFile({commit}, file) {

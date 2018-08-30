@@ -31,9 +31,6 @@
         <section class="actions">
             <h1 class="section-title">Actions</h1>
             <ul>
-                <li>
-                    <a href="#" @click.prevent="refreshEvents(true)"><i class="fa fa-refresh" aria-hidden="true"></i> Refresh</a>
-                </li>
                 <li v-show="canAdd">
                     <a href="#" @click.prevent="newEvent"><i class="fa fa-plus"></i> New event</a>
                 </li>
@@ -45,9 +42,10 @@
 <script>
     import store from '@/modules/store';
     import Loader from '@/components/Loader';
-    import NewEvent from '@/components/NewEvent';
-    import Event from '@/components/Event';
     import EventsApi from '@/modules/events/events_api';
+
+    import NewEvent from './NewEvent';
+    import Event from './Event';
 
     export default {
         components: {
@@ -75,7 +73,6 @@
             refreshEvents(force = false, mounted = false) {
                 this.loading = true;
                 store.dispatch('retrieveEvents', force)
-                    .then(_ => store.dispatch('retrieveLoggedUser'))
                     .then(this.loading = false)
                     .then(_ => {
                         if (!mounted) {
@@ -89,7 +86,7 @@
                     .catch(err => {
                         this.$notify({
                             type: 'error',
-                            title: 'Can not retrieve data from server',
+                            title: 'Can not retrieve events from server',
                             text: err.message,
                             duration: -1
                         });

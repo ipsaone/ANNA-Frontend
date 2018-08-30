@@ -23,10 +23,6 @@
         <section class="actions">
             <h1 class="section-title">Actions</h1>
             <ul>
-                <li>
-                    <a href="#" @click.prevent="refreshPosts(true)"><i class="fa fa-refresh" aria-hidden="true"></i>
-                        Refresh</a>
-                </li>
                 <li v-show="canPost">
                     <router-link :to="{name: 'newPost'}"><i class="fa fa-plus" aria-hidden="true"></i> New</router-link>
                 </li>
@@ -42,7 +38,7 @@
 
     export default {
         mounted() {
-            this.refreshPosts(false, true);
+            this.refreshPosts(false, true, false);
         },
         data() {
             return {
@@ -65,12 +61,12 @@
             }
         },
         methods: {
-            refreshPosts(force = false, mounted = false) {
-                this.loading = true;
+            refreshPosts(force = false, hideNotif = false, hideLoader = false) {
+                if(!hideLoader) { this.loading = true; }
                 store.dispatch('retrievePosts', force)
-                    .then(this.loading = false)
+                    .then(() => {this.loading = false;})
                     .then(_ => {
-                        if (!mounted) {
+                        if (!hideNotif) {
                             this.$notify({
                                 type: 'success',
                                 title: 'Events updated!',

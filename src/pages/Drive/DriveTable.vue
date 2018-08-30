@@ -89,12 +89,16 @@
                 else store.dispatch('selectFile', file);
             },
             wrapName(name) {
-                if (name.length > 18)
+                if (name && name.length > 18)
                     return name.substring(0, 18) + '...';
                 else
                     return name;
             },
             getIcon(file) {
+                if (file.isDir) {
+                    return '<i class="fa fa-folder" aria-hidden="true"></i>';
+                }
+
                 switch (file.type) {
                     // PDF
                     case 'application/pdf':
@@ -131,12 +135,8 @@
                     case 'video/webm':
                         return '<i class="fa fa-file-video-o" aria-hidden="true"></i>';
                         break;
-
                     default:
-                        if (file.isDir)
-                            return '<i class="fa fa-folder" aria-hidden="true"></i>';
-                        else
-                            return '<i class="fa fa-file-o" aria-hidden="true"></i>';
+                        return '<i class="fa fa-file-o" aria-hidden="true"></i>';
                 }
             },
             convertSize(size) {

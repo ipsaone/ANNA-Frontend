@@ -22,15 +22,21 @@ const mutations = {
         }
         else {
             state.logged = user;
-            user.groups.forEach(group => {
-                state.groups.push(group.name);
-            });
-            user.participatingMissions.forEach(mission => {
-                state.missions.push(mission.id);
-            });
-            user.events.forEach(event => {
-                state.events.push(event.id);
-            });
+            if(user.groups) {
+                user.groups.forEach(group => {
+                    state.groups.push(group.name);
+                });
+            }
+            if(user.participatingMissions) {
+                user.participatingMissions.forEach(mission => {
+                    state.missions.push(mission.id);
+                });
+            }
+            if(user.event) {
+                user.events.forEach(event => {
+                    state.events.push(event.id);
+                });
+            }
         }
     },
 };

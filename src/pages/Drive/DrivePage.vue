@@ -22,9 +22,6 @@
                     <a href="#" @click.prevent="$modal.show('newFolder')"><i class="fa fa-plus" aria-hidden="true"></i>
                         New folder</a>
                 </li>
-                <li>
-                    <a href="#" @click.prevent="refreshFolder"><i class="fa fa-refresh" aria-hidden="true"></i> Refresh</a>
-                </li>
             </ul>
 
             <div v-if="showOptions">
@@ -46,7 +43,7 @@
 <script>
     import store from '@/modules/store';
     import driveApi from '@/modules/drive/drive_api';
-    import DriveTable from '@/components/DriveTable';
+    import DriveTable from './DriveTable';
     import UploadFile from '@/components/UploadFile';
     import NewFolder from '@/components/NewFolder';
     import EditFile from '@/components/EditFile';
@@ -60,7 +57,7 @@
         },
         beforeRouteEnter(to, from, next) {
             store.dispatch('retrieveFolder', 1)
-                .then(_ => next())
+                .then(() => next())
                 .catch(err => console.log(err));
         },
         computed: {
