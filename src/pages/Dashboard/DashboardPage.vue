@@ -42,7 +42,7 @@
     export default {
         components: {
             Loader,
-            MissionsSlider,
+            MissionsSlider
             //Log,
             //UploadLog
         },

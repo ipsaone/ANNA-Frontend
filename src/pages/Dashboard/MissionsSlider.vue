@@ -1,5 +1,7 @@
 <template>
     <section class="mission-slider" :key="missionNumber">
+        <new-task></new-task>
+
         <div v-if="mission.id">
             <div class="controls">
                 <a href="#" @click.prevent="prev" :class="{disabled: currentSlide === 0}">
@@ -27,7 +29,7 @@
                                     </router-link>
                                     <ul>
                                         <li v-for="member in mission.members" :key="member.id">
-                                            +
+                                            
                                             <router-link :to="{name: 'profile', params:{id: member.id}}">
                                                 {{ member.username }}
                                             </router-link>
@@ -50,7 +52,7 @@
                         <h2>Tasks</h2>
                         <div class="content">
                             <ul v-if="mission.tasks.length > 0">
-                                <li v-for="task in mission.tasks" :key="task.id">
+                                <li  v-for="task in mission.tasks" :key="task.id">
                                     <input type="checkbox" name="done" id="done" @change="taskChange(task)"
                                            :checked="task.done == 1"
                                            :disabled="disabledInput">
@@ -61,6 +63,9 @@
                             <div v-else>
                                 <em>No tasks yet !</em>
                             </div>
+
+                            <div class="add_task"><a @click.prevent="newTask">Add task</a></div>
+                            
                         </div>
                     </div>
                 </div>
@@ -83,7 +88,12 @@
     import store from '@/modules/store';
     import TasksApi from '@/modules/missions/tasks_api';
 
+    import newTask from './newTask';
+
     export default {
+        components: {
+            newTask
+        },
         data() {
             return {
                 currentSlide: 0,
@@ -122,7 +132,10 @@
                 };
 
                 TasksApi.update(data)
-                    .then(_ => store.dispatch('selectMission', task.missionId));
+                    .then(() => store.dispatch('selectMission', task.missionId));
+            },
+            newTask() {
+                this.$modal.show('newTask', store.getters.selectedMission);
             }
         }
     };

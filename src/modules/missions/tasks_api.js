@@ -1,22 +1,21 @@
 import axios from 'axios';
 import base from '@/modules/url';
 
-const url = base + '/tasks/';
 
 export default {
-    getAll() {
-        return axios.get(url, {withCredentials: true});
+    getAll(missionId) {
+        return axios.get(base + '/missions/' + missionId + '/tasks/', {withCredentials: true});
     },
 
     save(task) {
-        return axios.post(url, task, {withCredentials: true});
+        return axios.post(base + '/missions/' + task.missionId + '/tasks/', task, {withCredentials: true});
     },
 
     update(task) {
-        return axios.put(base + '/missions/' + task.missionId + '/task/' + task.id, task, {withCredentials: true});
+        return axios.put(base + '/missions/' + task.missionId + '/tasks/' + task.id, task, {withCredentials: true});
     },
 
     delete(id) {
-        return axios.delete(url + id, {withCredentials: true});
+        return axios.delete(base + '/missions/' + task.missionId + '/tasks/' + id, {withCredentials: true});
     }
 };
