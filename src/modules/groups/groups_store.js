@@ -20,8 +20,8 @@ const actions = {
         }
     },
 
-    storeGroup({dispatch}, group) {
-        return GroupsApi.save(group)
+    storeGroup({dispatch}, name) {
+        return GroupsApi.save(name)
             .then(() => dispatch('retrieveGroups', true));
     },
 

@@ -59,13 +59,7 @@
                     });
                 }
                 else {
-                    const post = {
-                        title: this.title,
-                        markdown: this.markdown,
-                        published: !this.isDraft,
-                        authorId: store.getters.loggedUserId
-                    };
-                    store.dispatch('storePost', post)
+                    store.dispatch('storePost', this.title, this.markdown, !this.isDraft, store.getters.loggedUserId)
                         .then(this.$router.push({name: 'blog'}))
                         .catch(err => {
                             this.$notify({
@@ -82,13 +76,7 @@
                 if(this.title || this.markdown) {
                     let res = confirm('Save current article as draft ?');
                     if(res) {
-                        const post = {
-                            title: this.title,
-                            markdown: this.markdown,
-                            published: false,
-                            authorId: store.getters.loggedUserId
-                        };
-                        store.dispatch('storePost', post)
+                        store.dispatch('storePost', this.title, this.markdown, false, store.getters.loggedUserId)
                             .then(this.$router.push({name: 'blog'}))
                             .catch(err => {
                                 this.$notify({

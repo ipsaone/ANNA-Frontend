@@ -12,7 +12,7 @@
                             <th>Members</th>
                             <th>Actions</th>
                         </tr>
-                        <tr v-for="mission in missions" :key="mission.id">   
+                        <tr v-for="mission in missions" :key="mission.id">
                             <td> {{ mission.name }} </td>
                             <td> {{ mission.leader.username }} </td>
                             <td> {{ mission.budgetUsed+0 }} / {{ mission.budgetAssigned }} </td>
@@ -38,12 +38,12 @@
                             <th>Linked data</th>
                             <th>Actions</th>
                         </tr>
-                        <tr v-for="log in logs" :key="log.id">   
+                        <tr v-for="log in logs" :key="log.id">
                             <td> {{ log.title }} </td>
                             <td> {{ log.updatedAt}} </td>
                             <td> {{ log.markdown }} </td>
                             <td> [Linked things] </td>
-                            <td> 
+                            <td>
                                 <a>Edit</a>,
                                 <a>Delete</a>
                             </td>
@@ -68,16 +68,16 @@
                             <th>Text</th>
                             <th>Actions</th>
                         </tr>
-                        <tr v-for="post in posts" :key="post.id">   
+                        <tr v-for="post in posts" :key="post.id">
                             <td> {{ post.id }} </td>
                             <td> {{ post.title }} </td>
                             <td> {{ post.createdAt }} </td>
                             <td> {{ post.author.username }} </td>
                             <td> {{ post.content }} </td>
-                            <td> 
-                                <router-link :to="{name: 'readPost', params: {id: post.id}}">Show</router-link>, 
-                                <router-link :to="{name: 'editPost', params: {id: post.id}}">Edit</router-link>, 
-                                <a @click.prevent="delPost(post.title, post.id)">Delete</a> 
+                            <td>
+                                <router-link :to="{name: 'readPost', params: {id: post.id}}">Show</router-link>,
+                                <router-link :to="{name: 'editPost', params: {id: post.id}}">Edit</router-link>,
+                                <a @click.prevent="delPost(post.title, post.id)">Delete</a>
                             </td>
                         </tr>
                         <tr>
@@ -98,7 +98,7 @@
                             <th>Members</th>
                             <th>Actions</th>
                         </tr>
-                        <tr v-for="group in groups" :key="group.id">   
+                        <tr v-for="group in groups" :key="group.id">
                             <td> {{ group.name }} </td>
                             <td> {{ group.users.length }} </td>
                             <td> <a>Manage users</a>, <a>Delete</a> </td>
@@ -120,7 +120,7 @@
                             <th>Groups</th>
                             <th>Actions</th>
                         </tr>
-                        <tr v-for="user in users" :key="user.id">   
+                        <tr v-for="user in users" :key="user.id">
                                 <td> {{ user.id }} </td>
                             <td> {{ user.username }} </td>
                             <td> {{ user.email }} </td>
@@ -147,7 +147,7 @@
                             <th>Date</th>
                             <th>Actions</th>
                         </tr>
-                        <tr v-for="event in events" :key="event.id">   
+                        <tr v-for="event in events" :key="event.id">
                             <td> {{ event.id }} </td>
                             <td> {{ event.name }} </td>
                             <td> {{ event.markdown }} </td>
@@ -170,7 +170,7 @@
 
         <section v-if="show_add_user || show_add_mission || show_add_event" class="actions">
             <h1 class="section-title">Actions</h1>
-            
+
             <div v-if="show_add_user" class="add-user">
                 <div  class="form-group">
                     <label for="user-name">Username :</label><br>
@@ -222,7 +222,7 @@
                     <input type="text" name="miss_desc" v-model="miss_desc">
                 </div>
 
-                
+
 
                 <div class="buttons">
                     <button type="button" @click.prevent="show_add_mission = !show_add_mission" class="cancel">Cancel</button>
@@ -256,7 +256,7 @@
                     <input type="number" name="evt_max" v-model="evt_max">
                 </div>
 
-                
+
 
                 <div class="buttons">
                     <button type="button" @click.prevent="show_add_event = !show_add_event" class="cancel">Cancel</button>
@@ -374,7 +374,7 @@
                     });
                 });
 
-            
+
             Promise.all([usersP, postsP, logsP, missionsP, groupsP]).then(() => {
                 this.loading = false;
             });
@@ -383,7 +383,7 @@
             newGroup() {
                 if (this.group_name) {
                     this.loading = true;
-                    GroupApi.create(this.group_name)
+                    store.create('storeGroup', this.group_name)
                         .then(() => {
                             this.loading = false;
                         })
@@ -404,13 +404,13 @@
 
             newEvent() {
                 this.loading = true;
-                store.dispatch('storeEvent', {
-                    name: this.evt_name,
-                    markdown: this.evt_desc,
-                    maxRegistered: this.evt_max,
-                    startDate: this.evt_start,
-                    endDate: this.evt_end
-                })
+                store.dispatch('storeEvent',
+                  this.evt_name,
+                  this.evt_desc,
+                  this.evt_max,
+                  this.evt_start,
+                  this.evt_end
+                )
                     .then(() => {
                         this.loading = false;
                     })
@@ -430,13 +430,13 @@
 
             newMission() {
                 this.loading = true;
-                store.dispatch('storeMission', {
-                    name: this.miss_name, 
-                    markdown: this.miss_desc, 
-                    budgetAssigned: this.miss_budget, 
-                    leaderId: this.miss_leader, 
-                    groupId: this.miss_group
-                })
+                store.dispatch('storeMission',
+                    this.miss_name,
+                    this.miss_desc,
+                    this.miss_budget,
+                    this.miss_leader,
+                    this.miss_group
+                )
                     .then(() => {
                         this.loading = false;
                     })
@@ -464,7 +464,7 @@
                     });
                 } else {
                     this.loading = true;
-                    store.dispatch('insertUser', {username: this.user_name, email: this.user_email, password: this.user_pwd})
+                    store.dispatch('insertUser', this.user_name, this.user_email, this.user_pwd)
                         .then(() => {
                             this.user_name = '';
                             this.user_email = '';

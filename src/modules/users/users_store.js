@@ -45,9 +45,13 @@ const actions = {
             });
     },
 
-    insertUser({state, commit, dispatch}, user) {
-        if (user.username && user.email && user.password) {
-            return UsersApi.add(user)
+    insertUser({state, commit, dispatch}, username, email, password) {
+        if (username && email && password) {
+            return UsersApi.add({
+              username: username,
+              email: email,
+              password: password
+            })
                 .then(() => dispatch('retrieveUsers', true));
         }
     },

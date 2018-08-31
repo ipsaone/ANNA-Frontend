@@ -40,8 +40,12 @@ const actions = {
         return commit('SELECT_LOG', {});
     },
 
-    storeLog({dispatch}, log) {
-        return LogsApi.save(log)
+    storeLog({dispatch}, title, markdown, authorId) {
+        return LogsApi.save({
+            title: title,
+            markdown: markdown,
+            authorId: loggedUserId
+        };)
             .then(_ => dispatch('retrieveLogs', true));
     },
 

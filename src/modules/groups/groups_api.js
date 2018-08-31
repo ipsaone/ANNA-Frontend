@@ -7,10 +7,13 @@ export default {
     getAll() {
         return axios.get(url, {withCredentials: true});
     },
-    deleteGroup(id) {
+    delete(id) {
         return axios.delete(url + id, {withCredentials: true});
     },
-    addGroup(group){
+    save(group) {
         return axios.post(url + id, group, {withCredentials: true});
+    },
+    update(id) {
+      return "va te faire, c'est pas implémenté"
     }
 };

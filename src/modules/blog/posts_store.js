@@ -35,8 +35,13 @@ const actions = {
             });
     },
 
-    storePost({dispatch}, post) {
-        return PostsApi.save(post)
+    storePost({dispatch}, title, markdown, published, authorId) {
+        return PostsApi.save({
+            title: title,
+            markdown: markdown,
+            published: published,
+            authorId: loggedUserId
+        };)
             .then(_ => dispatch('retrievePosts', true));
     },
 
