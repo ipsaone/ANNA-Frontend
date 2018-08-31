@@ -14,6 +14,7 @@ export default {
         return axios.post(url + id, group, {withCredentials: true});
     },
     update(id) {
-      return "va te faire, c'est pas implémenté"
+        console.error('va te faire, c\'est pas implémenté [group.update]');
+        return {};
     }
 };

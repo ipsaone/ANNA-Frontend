@@ -45,7 +45,7 @@ const actions = {
             title: title,
             markdown: markdown,
             authorId: loggedUserId
-        };)
+        })
             .then(_ => dispatch('retrieveLogs', true));
     },
 

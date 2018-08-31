@@ -41,7 +41,7 @@ const actions = {
             markdown: markdown,
             published: published,
             authorId: loggedUserId
-        };)
+        })
             .then(_ => dispatch('retrievePosts', true));
     },
 

@@ -48,11 +48,10 @@ const actions = {
     insertUser({state, commit, dispatch}, username, email, password) {
         if (username && email && password) {
             return UsersApi.add({
-              username: username,
-              email: email,
-              password: password
-            })
-                .then(() => dispatch('retrieveUsers', true));
+                username: username,
+                email: email,
+                password: password
+            }).then(() => dispatch('retrieveUsers', true));
         }
     },
 
