@@ -22,19 +22,20 @@
                     <div class="team">
                         <h2>Team</h2>
                         <div class="content">
-                            <ul>
-                                <li class="leader">Leader:
+                            <ul class="leader">
+                                Leader:
+                                <li >
                                     <router-link :to="{name: 'profile', params:{id: mission.leader.id}}">
                                         {{ mission.leader.username }}
                                     </router-link>
-                                    <ul>
-                                        <li v-for="member in mission.members" :key="member.id">
-                                            
-                                            <router-link :to="{name: 'profile', params:{id: member.id}}">
-                                                {{ member.username }}
-                                            </router-link>
-                                        </li>
-                                    </ul>
+                                </li>
+                            </ul>
+                            <ul class="members">
+                                Members:
+                                <li v-for="member in mission.members" :key="member.id">
+                                    <router-link :to="{name: 'profile', params:{id: member.id}}">
+                                        {{ member.username }},
+                                    </router-link>
                                 </li>
                             </ul>
                         </div>

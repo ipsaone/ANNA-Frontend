@@ -49,6 +49,16 @@
 
         .content {
           padding: 1em;
+          display: grid;
+          grid-template-columns: 50% 50%;
+
+          .leader {
+            grid-column: 1 / 2;
+          }
+
+          .members {
+            grid-column: 2 / 2;
+          }
 
           .add_task {
             padding-right: 3em;
