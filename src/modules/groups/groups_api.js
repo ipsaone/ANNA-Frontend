@@ -14,7 +14,6 @@ export default {
         return axios.post(url + id, group, {withCredentials: true});
     },
     update(id) {
-        console.error('va te faire, c\'est pas implémenté [group.update]');
-        return {};
+        return axios.put(url + id, group, {withCredentials: true});
     }
 };
