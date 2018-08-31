@@ -10,7 +10,7 @@
 
                 <h1>{{ mission.name }}</h1>
 
-                <a href="#" @click.prevent="next" v-if="{disabled: currentSlide === missionNumber - 1}">
+                <a href="#" @click.prevent="next" :class="{disabled: currentSlide === missionNumber-1}">
                     Next <i class="fa fa-chevron-right"></i>
                 </a>
             </div>
