@@ -10,9 +10,9 @@
                 <section>
                     <div class="log" v-for="log in logs" :key="log.id" @click="showLog(log)">
                         <p class="date">
-                            {{ log.createdAt | moment('DD/MM/YYYY &emsp; hh:mm') }} &emsp; 
+                            {{ log.createdAt | moment('DD/MM/YYYY &emsp; hh:mm') }} &emsp;
                             par <router-link :to="{name: 'profile', params:{id: log.author.id}}">{{ log.author.username }}</router-link>
-                            
+
                         </p>
                         <h1>{{ log.title }}</h1>
                     </div>
@@ -24,7 +24,6 @@
                 </p>
             </template>
         </div>
-      </div>
 
         <div class="logs actions">
             <h1 class="section-title">Actions</h1>

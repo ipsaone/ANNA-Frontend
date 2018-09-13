@@ -39,25 +39,13 @@ const actions = {
         return commit('SELECT_EVENT', {});
     },
 
-    storeEvent({dispatch}, name, markdown, maxRegistered, startDate, endDate) {
-        return EventsApi.save({
-            name: name,
-            markdown: markdown,
-            maxRegistered: maxRegistered,
-            startDate: startDate,
-            endDate: endDate
-        })
+    storeEvent({dispatch}, event) {
+        return EventsApi.save(event)
             .then(_ => dispatch('retrieveEvents', true));
     },
 
-    updateEvent({dispatch}, name, markdown, maxRegistered, startDate, endDate) {
-        return EventsApi.update({
-            name: name,
-            markdown: markdown,
-            maxRegistered: maxRegistered,
-            startDate: startDate,
-            endDate: endDate
-        })
+    updateEvent({dispatch}, event) {
+        return EventsApi.update(event)
             .then(_ => dispatch('retrieveEvents', true))
             .then(_ => dispatch('selectEvent', event.id));
     },

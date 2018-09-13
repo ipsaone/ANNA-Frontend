@@ -404,13 +404,13 @@
 
             newEvent() {
                 this.loading = true;
-                store.dispatch('storeEvent',
-                  this.evt_name,
-                  this.evt_desc,
-                  this.evt_max,
-                  this.evt_start,
-                  this.evt_end
-                )
+                store.dispatch('storeEvent', {
+                    name: this.evt_name,
+                    markdown: this.evt_desc,
+                    maxRegistered: this.evt_max,
+                    startDate: this.evt_start,
+                    endDate: this.evt_end
+                })
                     .then(() => {
                         this.loading = false;
                     })
@@ -430,13 +430,14 @@
 
             newMission() {
                 this.loading = true;
-                store.dispatch('storeMission',
-                    this.miss_name,
-                    this.miss_desc,
-                    this.miss_budget,
-                    this.miss_leader,
-                    this.miss_group
-                )
+                console.log(this.miss_name, this.miss_desc, this.miss_budget, this.miss_leader, this.miss_group);
+                store.dispatch('storeMission', {
+                    name: this.miss_name,
+                    markdown: this.miss_desc,
+                    budgetAssigned: this.miss_budget,
+                    leaderId: this.miss_leader,
+                    groupId: this.miss_group
+                })
                     .then(() => {
                         this.loading = false;
                     })
@@ -464,7 +465,7 @@
                     });
                 } else {
                     this.loading = true;
-                    store.dispatch('insertUser', this.user_name, this.user_email, this.user_pwd)
+                    store.dispatch('insertUser', {username: this.user_name, email: this.user_email, password: this.user_pwd})
                         .then(() => {
                             this.user_name = '';
                             this.user_email = '';
