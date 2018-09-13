@@ -47,6 +47,7 @@ const actions = {
     },
 
     logoutUser({commit}) {
+        localStorage.clear();
         return AuthApi.logout().then(_ => commit('SET_LOGGED_USER', {}));
     },
 

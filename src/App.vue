@@ -3,6 +3,7 @@
         <v-dialog/>
         <notifications/>
         <div v-if="$route.path !== '/login'">
+            <idle-modal></idle-modal>
             <sidebar></sidebar>
         </div>
         <router-view></router-view>
@@ -12,10 +13,13 @@
 <script>
     import Sidebar from '@/components/Sidebar';
     import store from '@/modules/store';
+    import IdleModal from '@/pages/Login/IdleModal';
+
 
     export default {
         components: {
-            Sidebar
+            Sidebar,
+            IdleModal
         },
         name: 'app'
     };

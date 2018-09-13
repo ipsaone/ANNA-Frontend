@@ -10,9 +10,9 @@
                 <section>
                     <div class="log" v-for="log in logs" :key="log.id" @click="showLog(log)">
                         <p class="date">
-                            {{ log.createdAt | moment('DD/MM/YYYY &emsp; hh:mm') }} &emsp; 
+                            {{ log.createdAt | moment('DD/MM/YYYY &emsp; hh:mm') }} &emsp;
                             par <router-link :to="{name: 'profile', params:{id: log.author.id}}">{{ log.author.username }}</router-link>
-                            
+
                         </p>
                         <h1>{{ log.title }}</h1>
                     </div>
@@ -20,7 +20,7 @@
             </template>
             <template v-else>
                 <p class="no-log-message">
-                    <b>No logs found</b><br>This means someone didn't do its job... Get to work !
+                    <b>Error 404: No logs found</b><br>This means someone did not do its job... Get to work!
                 </p>
             </template>
         </div>

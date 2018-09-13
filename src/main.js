@@ -26,3 +26,33 @@ new Vue({
     template: '<App/>',
     components: {App}
 });
+
+function idleLogout() {
+    var t;
+    window.onload = resetTimer;
+    window.onmousemove = resetTimer;
+    window.onmousedown = resetTimer;  // catches touchscreen presses as well      
+    window.ontouchstart = resetTimer; // catches touchscreen swipes as well 
+    window.onclick = resetTimer;      // catches touchpad clicks as well
+    window.onkeypress = resetTimer;   
+    window.addEventListener('scroll', resetTimer, true);
+
+    function disconnect() {
+        if (!window.location.href.endsWith('login') && !window.location.href.endsWith('login/')) {
+            // Check login of the user, if no, reconnect
+
+            alert('You have been inactive for too long.');
+
+            store.dispatch('logoutUser')
+                .then(_ => {
+                    window.location.replace('/login');
+                });
+        }
+    }
+
+    function resetTimer() {
+        clearTimeout(t);
+        t = setTimeout(disconnect, 30 * 60 * 1000);  // time is in milliseconds
+    }
+}
+idleLogout();

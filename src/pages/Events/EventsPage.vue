@@ -22,7 +22,7 @@
                 <template v-else>
                     <p class="no-event-message">
                         <b>No event yet, but you are encouraged to share any idea with the Comm team.</b>
-                        <br>It will be their pleasure to organize it !
+                        <br>It will be their pleasure to organize it!
                     </p>
                 </template>
             </section>
