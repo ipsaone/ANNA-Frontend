@@ -3,6 +3,7 @@
         <upload-file></upload-file>
         <new-folder></new-folder>
         <edit-file></edit-file>
+        <file-auth></file-auth>
 
         <section class="content">
             <h1 class=" section-title">Drive</h1>
@@ -47,13 +48,15 @@
     import UploadFile from '@/components/UploadFile';
     import NewFolder from '@/components/NewFolder';
     import EditFile from '@/components/EditFile';
+    import FileAuth from './FileAuth';
 
     export default {
         components: {
             DriveTable,
             UploadFile,
             NewFolder,
-            EditFile
+            EditFile,
+            FileAuth
         },
         beforeRouteEnter(to, from, next) {
             store.dispatch('retrieveFolder', 1)

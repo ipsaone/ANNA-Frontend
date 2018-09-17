@@ -1,5 +1,6 @@
 <template>
-    <div class='admin' v-bind:class="{'basic-layout': show_add_mission || show_add_user || show_add_event}">
+    <div class='admin' v-bind:class="{'basic-layout': show_add_user || show_add_event}">
+        <new-mission></new-mission>
         <section class="content">
             <h1 class="section-title">Administration</h1>
             <tabs>
@@ -24,7 +25,7 @@
                             <td></td>
                             <td></td>
                             <td></td>
-                            <td><a @click.prevent="show_add_mission = !show_add_mission">Add mission</a></td>
+                            <td><a @click.prevent="newMission">Add mission</a></td>
                         </tr>
                     </table>
                 </tab>
@@ -196,40 +197,6 @@
                 </div>
             </div>
 
-            <div v-if="show_add_mission" class="add-mission">
-                <div class="form-group">
-                    <label for="miss_name">Mission name :</label>
-                    <input type="text" name="miss_name" v-model="miss_name">
-                </div>
-
-                <div class="form-group">
-                    <label for="miss_budget">Mission budget :</label>
-                    <input type="number" name="miss_budget" v-model="miss_budget">
-                </div>
-
-                <div class="form-group">
-                    <label for="miss_leader">Mission leader :</label>
-                    <input type="number" name="miss_leader" v-model="miss_leader">
-                </div>
-
-                <div class="form-group">
-                    <label for="miss_group">Mission group :</label>
-                    <input type="number" name="miss_group" v-model="miss_group">
-                </div>
-
-                <div class="form-group">
-                    <label for="miss_desc">Mission description (markdown) :</label>
-                    <input type="text" name="miss_desc" v-model="miss_desc">
-                </div>
-
-
-
-                <div class="buttons">
-                    <button type="button" @click.prevent="show_add_mission = !show_add_mission" class="cancel">Cancel</button>
-                    <button type="button" @click.prevent="newMission" class="submit">Submit</button>
-                </div>
-            </div>
-
             <div v-if="show_add_event" class="add-mission">
                 <div class="form-group">
                     <label for="evt_name">Name :</label>
@@ -274,11 +241,13 @@
     import Loader from '@/components/Loader';
     import UserApi from '@/modules/users/users_api';
     import {Tabs, Tab} from 'vue-tabs-component';
+    import NewMission from './NewMission';
 
     export default {
         components: {
             Loader,
-            Tabs, Tab
+            Tabs, Tab,
+            NewMission
         },
         data() {
             return {
@@ -429,29 +398,7 @@
             },
 
             newMission() {
-                this.loading = true;
-                store.dispatch('storeMission',
-                    this.miss_name,
-                    this.miss_desc,
-                    this.miss_budget,
-                    this.miss_leader,
-                    this.miss_group
-                )
-                    .then(() => {
-                        this.loading = false;
-                    })
-                    .then(() => this.$notify({
-                        type: 'success',
-                        title: 'Operation successful',
-                        text: 'Mission was successfully added',
-                        duration: 5000
-                    }))
-                    .catch(err => this.$notify({
-                        type: 'error',
-                        title: 'Operation failed',
-                        text: err,
-                        duration: 5000
-                    }));
+                this.$modal.show('newMission');
             },
 
             newUser() {
