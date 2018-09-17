@@ -46,13 +46,13 @@
                         this.$router.push({name: 'dashboard'});
                         this.$notify({
                             type: 'success',
-                            title: `Welcome back <b>${this.$store.getters.loggedUser.username}</b>!`,
+                            title: `Welcome back <b>${this.$store.getters.loggedUser.username}</b>`,
                             duration: 5000
                         });
                     })
                     .catch(err => {
                         console.log(err);
-                        if(err.response.status == 401) {
+                        if(err.response && err.response.status == 401) {
                             this.$notify({
                                 type: 'error',
                                 title: 'Couldn\'t log in',
