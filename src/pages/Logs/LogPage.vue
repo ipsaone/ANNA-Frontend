@@ -24,7 +24,6 @@
                 </p>
             </template>
         </div>
-      </div>
 
         <div class="logs actions">
             <h1 class="section-title">Actions</h1>

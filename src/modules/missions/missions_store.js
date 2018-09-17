@@ -28,8 +28,8 @@ const actions = {
 
     retrieveMission({dispatch}, mission_id) {
         return MissionsApi.get(mission_id)
-            .then(mission => dispatch('setLeader', mission.data))
-            .catch(err => console.log(err));
+            .then(mission => dispatch('setLeader', mission.data));
+            //.catch(err => console.log(err));
     },
 
     selectMission({dispatch, commit}, mission_id) {
@@ -57,15 +57,9 @@ const actions = {
             });
     },
 
-    storeMission({dispatch}, name, markdown, budgetAssigned, leaderId, groupId) {
-        return MissionsApi.save({
-            name: name,
-            markdown: markdown,
-            budgetAssigned: budgetAssigned,
-            leaderId: leaderId,
-            groupId: groupId
-        })
-            .then(_ => dispatch('retrieveMissions', true));
+    storeMission({dispatch}, mission) {
+        return MissionsApi.save(mission)
+            .then(() => dispatch('retrieveMissions', true));
     },
 
     deleteMission({dispatch}, id) {

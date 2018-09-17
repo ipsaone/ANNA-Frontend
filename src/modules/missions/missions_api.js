@@ -13,6 +13,7 @@ export default {
     },
 
     save(mission) {
+        console.log(mission);
         return axios.post(url, mission, {withCredentials: true});
     },
 
