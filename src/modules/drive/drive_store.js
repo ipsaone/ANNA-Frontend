@@ -16,13 +16,12 @@ const mutations = {
 };
 
 const actions = {
-    retrieveFolder({commit, dispatch}, id) {
+    async retrieveFolder({commit, dispatch}, id) {
         console.log('Retrieving folder : ', id);
-        return DriveApi.getFolder(id)
-            .then(folder => {dispatch('setOwners', folder.data); return folder;})
-            .then(folder => commit('SET_FOLDER', folder.data))
-            .then(() => dispatch('unselectFile'))
-            .catch(err => console.error(err));
+        let folder = await DriveApi.getFolder(id);
+        await dispatch('setOwners', folder.data);
+        commit('SET_FOLDER', folder.data);
+        await dispatch('unselectFile');
     },
 
     selectFile({commit}, file) {
@@ -39,22 +38,18 @@ const actions = {
         });
     },
 
-    setOwners({dispatch}, folder) {
-        return dispatch('getUserById', folder.ownerId)
-            .then(user => {
-                folder.owner = user;
-            })
-            .then(_ => {
-                folder.children.forEach(child => {
-                    dispatch('getUserById', child.ownerId)
-                        .then(user => {
-                            child.owner = user;
-                        });
-                });
-            })
-            .then(_ => {
-                return folder;
-            });
+    async setOwners({dispatch}, folder) {
+        let user = await dispatch('getUserById', folder.ownerId);
+        folder.owner = user;
+
+        let promises = [];
+        folder.children.forEach(child => {
+            let thisP = dispatch('getUserById', child.ownerId)
+                .then(user => {child.owner = user; });
+            promises.push(thisP);
+        });
+
+        return folder;
     },
 
     getFoldersList() {
@@ -68,7 +63,11 @@ const getters = {
     },
 
     content(state) {
-        return state.folder.children;
+        if(state.folder) {
+            return state.folder.children;
+        }
+
+        return {};
     },
 
     selectedFile(state) {

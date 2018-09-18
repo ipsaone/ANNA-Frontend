@@ -14,7 +14,7 @@
 
             <tbody>
             <!-- Go back -->
-            <tr v-if="folder.name !== 'root'" @dblclick="goBack">
+            <tr v-if="folder && folder.name !== 'root'" @dblclick="goBack">
                 <td><i class="fa fa-folder" aria-hidden="true"></i></td>
                 <td>...</td>
                 <td>&nbsp;</td>
@@ -22,7 +22,7 @@
             </tr>
 
             <!-- Actual folder -->
-            <tr class="no-hover">
+            <tr class="no-hover" v-if="folder">
                 <td><i class="fa fa-folder-open" aria-hidden="true"></i></td>
                 <td>{{ wrapName(folder.name) }}</td>
                 <td>{{ wrapName(folder.owner.username) }}</td>
@@ -135,6 +135,9 @@
                     case 'video/webm':
                         return '<i class="fa fa-file-video-o" aria-hidden="true"></i>';
                         break;
+
+                    case 'folder':
+                    case '':
                     default:
                         return '<i class="fa fa-file-o" aria-hidden="true"></i>';
                 }
