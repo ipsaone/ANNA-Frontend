@@ -1,10 +1,38 @@
 <template>
-    <div class="basic-layout">
+    <div class="profile basic-layout">
         <barcode></barcode>
 
         <div class="content">
-            <h1>{{ user.username }}</h1>
-            <p>{{ user.email }}</p>
+
+            <div class="myself">
+                <div class="user-image">
+                    <img src="https://scontent-cdg2-1.xx.fbcdn.net/v/t1.0-1/p240x240/41548489_1083714755126011_7097230446420819968_n.jpg?_nc_cat=0&oh=e5a655eae8ce4024ff449ae53a9a5515&oe=5C62D8D3"
+                     alt="photo du membre">
+                    <h3>EDIT</h3>
+                </div>
+                <h1> PAGE MEMBRE </h1>
+                <p> {{user.username}} <p>
+                <p>{{ user.email }}</p>
+            </div>
+
+            <div class="assignments">
+                <div class="groupes">
+                    <h2> groupes </h2>
+                    <ul>
+                        <li> salut </li>
+                        <li> salutsalut </li>
+                    </ul>
+                </div>
+                <div class="missions">
+                    <h2> missions </h2>
+                    <ul>
+                        <li> salut </li>
+                        <li> salutsalut </li>
+                    </ul>
+                </div>
+            </div>
+
+
         </div>
 
         <div class="actions">
