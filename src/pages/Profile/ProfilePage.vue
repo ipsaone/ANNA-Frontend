@@ -12,7 +12,7 @@
                 </div>
                 <h1> PAGE MEMBRE </h1>
                 <p> {{user.username}} <p>
-                <p>{{ user.email }}</p>
+                <p> {{ user.email }} </p>
             </div>
 
             <div class="assignments">

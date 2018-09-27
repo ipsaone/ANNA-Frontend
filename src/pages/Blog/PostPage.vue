@@ -2,7 +2,12 @@
     <div class="post basic-layout">
         <section class="content">
             <article>
-                <h1>{{ post.title }}</h1>
+                <div class="wrapper-button-title">
+                    <div class="return">
+                        <router-link :to="{ name: 'blog'}"> <i class="fa fa-chevron-circle-left"></i> </router-link>
+                    </div>
+                    <h2>{{ post.title }}</h2>
+                </div>
 
                 <p class="info">
                     By
@@ -11,7 +16,8 @@
                     on {{ post.publishedAt | moment('DD/MM/YYYY [at] HH:mm') }}
                 </p>
 
-                <div class="content" v-html="post.content"></div>
+
+                <div class="post-content" v-html="post.content"></div>
             </article>
         </section>
         <section class="actions">

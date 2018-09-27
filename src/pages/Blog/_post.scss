@@ -1,14 +1,30 @@
 .post {
-  display: grid;
-  grid-template-columns: auto $actions-width;
-  grid-column-gap: 8em;
+    article {
+        .return {
+            display: inline-block;
+            height: 40px;
+            margin-right: 5px
+        }
+            i {
+                font-size: 30px;
+                text-align: center;
+                display: relative;
+                bottom: 5px;
+            }
+    }
 
-  article {
+.content {
+    padding: 15px;
+}
 
-  }
+h2 {
+    display: inline-block;
+    height: 40px;
+    margin-bottom: 0 !important;
+}
 
-  .actions {
-    grid-column: 2;
-    @include aside;
-  }
+    .actions {
+        grid-column: 2;
+        @include aside;
+    }
 }
