@@ -9,16 +9,21 @@
 
                 <div class="inline-form">
                     <label for="chief">Chief: </label>
-                    <input list="users" name="chief" id="chief" v-model="chidef">
+                    <input list="users" name="chief" id="chief" v-model="chief">
+                    Group:
+                    <input list="groups" name="groups" id="group" v-model="group">
 
                     <datalist id="users">
                         <option v-for="user in users" :key="user.id" :value="user"/>
                     </datalist>
+                    <datalist id="groups">
+                        <option v-for="group in groups" :key="group.id" :value="groups"/>
+                    </datalist>
                 </div>
 
                 <div class="inline-form">
-                    <label for="budget">Budget: </label>
-                    <input type="number" name="budget" id="budget" step="0.01" v-model="budget"> €
+                    <label for="budget">Budget assigned: </label>
+                    <input type="number" name="budget" id="budget" step="0.01" v-model="budgetAssigned"> €
                 </div>
 
                 <button type="submit" class="button success" @click.prevent="onSubmit">Submit</button>
@@ -39,15 +44,17 @@
         data() {
             return {
                 name: '',
-                descruption: '',
+                description: '',
                 chief: '',
-                budget: 0.0,
+                group:'',
+                budgetAssigned: 0.0,
                 users: []
             };
         },
         methods: {
             onSubmit() {
                 console.log('Hello world!');
+                store.dispatch('storeMission', {name: this.name, description: this.description, leaderId: parseInt(this.chief, 10), groupId: parseInt(this.group, 10), budgetAssigned: parseFloat(this.budgetAssigned, 10)});
             }
         }
     };

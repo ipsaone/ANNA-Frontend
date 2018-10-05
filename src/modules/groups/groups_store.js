@@ -11,11 +11,16 @@ const mutations = {
 };
 
 const actions = {
-    retrieveGroups({commit, state}, force = false) {
+    async retrieveGroups({commit, state}, force = false) {
+        console.log('here');
         if (state.groups.length === 0 || force) { // If no groups are loaded
-            return GroupsApi.getAll().then(groups => commit('SET_ALL_GROUPS', groups.data));
+            let groups = await GroupsApi.getAll();
+            commit('SET_ALL_GROUPS', groups.data);
+            console.log(groups);
+            return groups;
         }
         else {
+            console.log('NOT IN');
             Promise.resolve();
         }
     },

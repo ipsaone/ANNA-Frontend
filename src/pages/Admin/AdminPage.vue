@@ -297,7 +297,7 @@
         mounted() {
             this.loading = true;
 
-            let usersP = store.dispatch('retrieveUsers')
+            let usersP = store.dispatch('retrieveUsers', true)
                 .catch(err => {
                     this.$notify({
                         type: 'error',
@@ -306,7 +306,7 @@
                         duration: -1
                     });
                 });
-            let postsP = store.dispatch('retrievePosts')
+            let postsP = store.dispatch('retrievePosts', true)
                 .catch(err => {
                     this.$notify({
                         type: 'error',
@@ -315,7 +315,7 @@
                         duration: -1
                     });
                 });
-            let logsP = store.dispatch('retrieveLogs')
+            let logsP = store.dispatch('retrieveLogs', true)
                 .catch(err => {
                     this.$notify({
                         type: 'error',
@@ -324,7 +324,7 @@
                         duration: -1
                     });
                 });
-            let missionsP = store.dispatch('retrieveMissions')
+            let missionsP = store.dispatch('retrieveMissions', true)
                 .catch(err => {
                     this.$notify({
                         type: 'error',
@@ -333,7 +333,7 @@
                         duration: -1
                     });
                 });
-            let groupsP = store.dispatch('retrieveGroups')
+            let groupsP = store.dispatch('retrieveGroups', true)
                 .catch(err => {
                     this.$notify({
                         type: 'error',

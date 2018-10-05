@@ -78,7 +78,7 @@ const getters = {
     },
 
     loggedUserIsAuthor(state) {
-        return state.groups.includes('author');
+        return state.groups.includes('authors');
     },
 
     loggedUserMissions(state) {

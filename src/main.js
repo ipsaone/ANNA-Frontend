@@ -25,7 +25,7 @@ new Vue({
     store,
     template: '<App/>',
     components: {App},
-    mounted: function() {
+    /*mounted: function() {
         idleLogout();
         checkChargement();
     },
@@ -35,7 +35,7 @@ new Vue({
                 console.log('salut');
             };
         }
-    }
+    }*/
 });
 
 function idleLogout() {
@@ -63,7 +63,7 @@ function idleLogout() {
 
     function resetTimer() {
         clearTimeout(t);
-        t = setTimeout(disconnect, 1 * 60 * 1000);  // time is in milliseconds
+        t = setTimeout(disconnect, 30 * 60 * 1000);  // time is in milliseconds
     }
 }
 idleLogout();

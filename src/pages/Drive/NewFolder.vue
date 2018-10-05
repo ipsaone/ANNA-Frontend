@@ -37,9 +37,9 @@
                     ownerRead: 1,
                 };
 
-                driveApi.uploadFile(data)
-                    .then(store.dispatch('retrieveFolder', store.getters.folder.id))
+                return driveApi.uploadFile(data)
                     .then(this.$modal.hide('newFolder'))
+                    .then(store.dispatch('retrieveFolder', store.getters.folder.id))
                     .catch(err => {
                         this.$notify({
                             type: 'error',

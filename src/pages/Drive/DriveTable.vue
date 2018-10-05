@@ -99,6 +99,7 @@
                     return '<i class="fa fa-folder" aria-hidden="true"></i>';
                 }
 
+                if(!file.type) { file.type = ''; }
                 switch (file.type) {
                     // PDF
                     case 'application/pdf':
@@ -137,6 +138,9 @@
                         break;
 
                     case 'folder':
+                        return '<i class="fa fa-file-folder" aria-hidden="true"></i>';
+                        break;
+
                     case '':
                     default:
                         return '<i class="fa fa-file-o" aria-hidden="true"></i>';

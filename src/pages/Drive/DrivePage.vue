@@ -45,9 +45,9 @@
     import store from '@/modules/store';
     import driveApi from '@/modules/drive/drive_api';
     import DriveTable from './DriveTable';
-    import UploadFile from '@/components/UploadFile';
-    import NewFolder from '@/components/NewFolder';
-    import EditFile from '@/components/EditFile';
+    import UploadFile from './UploadFile';
+    import NewFolder from './NewFolder';
+    import EditFile from './EditFile';
     import FileAuth from './FileAuth';
 
     export default {

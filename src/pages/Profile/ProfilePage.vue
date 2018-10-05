@@ -48,7 +48,7 @@
 
 <script>
     import store from '@/modules/store';
-    import Barcode from '@/components/Barcode';
+    import Barcode from '../Drive/Barcode';
 
     export default {
         components: {

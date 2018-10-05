@@ -58,7 +58,7 @@
                     // {title: 'Forum', name: 'forum', color: 'purple'},
                     {title: 'Events', name: 'events', color: 'yellow'},
                     {title: 'Logs', name: 'logs', color: 'red'},
-                    // {title: 'Gantt', name: 'gantt', color: 'red'},
+                    //{title: 'Gantt', name: 'gantt', color: 'red'},
                     {title: 'Administration', name: 'admin', color: 'purple'}
                 ]
             };
@@ -66,7 +66,7 @@
         },
         computed: {
             borderColor() {
-                let curlink = this.links.filter(el => el.name === this.$route.path.split('/')[1])[0];
+                let curlink = this.links.filter(el => el.name === this.$route.name)[0];
                 if (curlink) {
                     return curlink.color;
                 }
@@ -88,7 +88,7 @@
             },
             logout() {
                 store.dispatch('logoutUser')
-                    .then(_ => {
+                    .then(() => {
                         this.$notify({clean: true});
                         this.$router.push({name: 'login'});
                         this.$notify({
@@ -107,6 +107,9 @@
             mouseLeaveButton() {
                 this.tooltipVisible = false;
             }
+        },
+        mounted: function() {
+            console.log(store.getters.loggedUserIsRoot);
         }
     };
 </script>
