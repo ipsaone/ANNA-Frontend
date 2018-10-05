@@ -20,7 +20,7 @@
                             <td> {{ mission.leader.username }} </td>
                             <td> {{ mission.budgetUsed+0 }} / {{ mission.budgetAssigned }} </td>
                             <td> {{ mission.memberCount }} </td>
-                            <td> <a>Manage members</a>, <a>Manage budget</a>, <a>Manage tasks</a> </td>
+                            <td> <a>Manage members</a>, <a>Manage budget</a>, <a>Manage tasks</a>, <a>Delete</a> </td>
                         </tr>
                         <tr>
                             <td></td>
@@ -161,7 +161,7 @@
                             <td></td>
                             <td></td>
                             <td></td>
-                            <td><a @click.prevent="this.$modal.show('newEvent')">Add event</a></td>
+                            <td><a @click.prevent="newEvent">Add event</a></td>
                         </tr>
                     </table>
                 </tab>
@@ -305,6 +305,9 @@
             });
         },
         methods: {
+            newEvent() {
+                this.$modal.show('newEvent');
+            },
             newGroup() {
                 this.$modal.show('newGroup');
             },

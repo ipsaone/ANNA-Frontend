@@ -5,8 +5,7 @@
             <form>
                 <input type="text" name="Name" id="Name" placeholder="Name..." v-model="name">
 
-                <label>Description:</label>
-                <markdown-editor v-model="description"></markdown-editor>
+                <markdown-editor v-model="description" :configs="configs"></markdown-editor>
 
                 <div class="form-group">
                     <label for="evt_start">Start date :</label>
@@ -26,7 +25,7 @@
 
 
                 <div class="buttons">
-                    <button type="button" @click.prevent="this.$modal.hide('newEvent')" class="cancel">Cancel</button>
+                    <button type="button" @click.prevent="exit" class="cancel">Cancel</button>
                     <button type="button" @click.prevent="onSubmit" class="submit">Submit</button>
                 </div>
             </form>
@@ -52,11 +51,14 @@
                 end:  new Date(),
                 
                 configs: {
-                    placeholder: '# DESCRIPTION'
+                    placeholder: 'Description...'
                 },
             };
         },
         methods: {
+            exit() {
+                this.$modal.hide('newEvent');
+            },
             onSubmit() {
                 this.loading = true;
                 store.dispatch('storeEvent', {
