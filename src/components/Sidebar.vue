@@ -66,7 +66,7 @@
         },
         computed: {
             borderColor() {
-                let curlink = this.links.filter(el => el.name === this.$route.name)[0];
+                let curlink = this.links.filter(el => el.name === this.$route.path.split('/')[1])[0];
                 if (curlink) {
                     return curlink.color;
                 }

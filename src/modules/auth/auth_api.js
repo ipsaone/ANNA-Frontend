@@ -2,6 +2,7 @@ import axios from 'axios';
 import base from '@/modules/url';
 
 const url = base + '/auth';
+const isLogged = false;
 
 const test_credentials = {username: 'foo', password: 'secret'};
 

@@ -24,17 +24,28 @@ new Vue({
     router,
     store,
     template: '<App/>',
-    components: {App}
+    components: {App},
+    mounted: function() {
+        idleLogout();
+        checkChargement();
+    },
+    methods: {
+        checkChargement: function(){
+            window.onload = () => {
+                console.log('salut');
+            };
+        }
+    }
 });
 
 function idleLogout() {
     var t;
     window.onload = resetTimer;
     window.onmousemove = resetTimer;
-    window.onmousedown = resetTimer;  // catches touchscreen presses as well      
-    window.ontouchstart = resetTimer; // catches touchscreen swipes as well 
+    window.onmousedown = resetTimer;  // catches touchscreen presses as well
+    window.ontouchstart = resetTimer; // catches touchscreen swipes as well
     window.onclick = resetTimer;      // catches touchpad clicks as well
-    window.onkeypress = resetTimer;   
+    window.onkeypress = resetTimer;
     window.addEventListener('scroll', resetTimer, true);
 
     function disconnect() {
@@ -52,7 +63,7 @@ function idleLogout() {
 
     function resetTimer() {
         clearTimeout(t);
-        t = setTimeout(disconnect, 30 * 60 * 1000);  // time is in milliseconds
+        t = setTimeout(disconnect, 1 * 60 * 1000);  // time is in milliseconds
     }
 }
 idleLogout();
