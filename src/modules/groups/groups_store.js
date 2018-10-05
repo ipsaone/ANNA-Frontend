@@ -30,7 +30,7 @@ const actions = {
             .then(() => dispatch('retrieveGroups', true));
     },
 
-    deleteEvent({dispatch}, id) {
+    deleteGroup({dispatch}, id) {
         return GroupsApi.delete(id)
             .then(() => dispatch('retrieveGroups', true));
     },

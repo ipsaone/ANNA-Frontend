@@ -103,7 +103,7 @@
                         <tr v-for="group in groups" :key="group.id">
                             <td> {{ group.name }} </td>
                             <td> {{ group.users.length }} </td>
-                            <td> <a>Manage users</a>, <a>Delete</a> </td>
+                            <td> <a>Manage users</a>, <a @click.prevent="delGroup(group.name, group.id)">Delete</a> </td>
                         </tr>
                         <tr>
                             <td></td>
@@ -416,6 +416,29 @@
                             text: err,
                             duration: 5000
                         }));
+                }
+            },
+
+            async delGroup(name, id) {
+                if(confirm('Delete group '+name+' ?')) {
+                    this.loading = true;
+                    try {
+                        await store.dispatch('deleteGroup', id);
+                        this.$notify({
+                            type: 'success',
+                            title: 'Operation successful',
+                            text: 'User was successfully deleted',
+                            duration: 5000
+                        });
+                    } catch(err) {
+                        this.$notify({
+                            type: 'error',
+                            title: 'Operation failed',
+                            text: err,
+                            duration: 5000
+                        });
+                    }
+
                 }
             },
 
