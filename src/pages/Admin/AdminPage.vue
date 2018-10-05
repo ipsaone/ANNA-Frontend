@@ -2,6 +2,7 @@
     <div class='admin' v-bind:class="{'basic-layout': show_add_user || show_add_event}">
         <new-mission></new-mission>
         <new-group></new-group>
+        <new-event></new-event>
         <section class="content">
             <h1 class="section-title">Administration</h1>
             <tabs>
@@ -144,7 +145,6 @@
                         <tr>
                             <th>ID</th>
                             <th>Name</th>
-                            <th>Description</th>
                             <th>Registered</th>
                             <th>Date</th>
                             <th>Actions</th>
@@ -152,7 +152,6 @@
                         <tr v-for="event in events" :key="event.id">
                             <td> {{ event.id }} </td>
                             <td> {{ event.name }} </td>
-                            <td> {{ event.markdown }} </td>
                             <td> ? / {{ event.maxRegistered }} </td>
                             <td> {{ event.startDate }} - {{ event.endDate }} </td>
                             <td> <a>Edit</a>, <a>Manage registered</a>, <a @click.prevent="delEvent(event.name, event.id)">Delete</a> </td>
@@ -162,15 +161,14 @@
                             <td></td>
                             <td></td>
                             <td></td>
-                            <td></td>
-                            <td><a @click.prevent="show_add_event = !show_add_event">Add event</a></td>
+                            <td><a @click.prevent="this.$modal.show('newEvent')">Add event</a></td>
                         </tr>
                     </table>
                 </tab>
             </tabs>
         </section>
 
-        <section v-if="show_add_user || show_add_mission || show_add_event" class="actions">
+        <section v-if="show_add_user" class="actions">
             <h1 class="section-title">Actions</h1>
 
             <div v-if="show_add_user" class="add-user">
@@ -198,44 +196,10 @@
                 </div>
             </div>
 
-            <div v-if="show_add_event" class="add-mission">
-                <div class="form-group">
-                    <label for="evt_name">Name :</label>
-                    <input type="text" name="evt_name" v-model="evt_name">
-                </div>
-
-                <div class="form-group">
-                    <label for="evt_desc">Description :</label>
-                    <input type="text" name="evt_desc" v-model="evt_desc">
-                </div>
-
-                <div class="form-group">
-                    <label for="evt_start">Start date :</label>
-                    <input type="date" name="evt_start" v-model="evt_start">
-                </div>
-
-                <div class="form-group">
-                    <label for="evt_end">End date :</label>
-                    <input type="date" name="evt_end" v-model="evt_end">
-                </div>
-
-                <div class="form-group">
-                    <label for="evt_max">Open slots :</label>
-                    <input type="number" name="evt_max" v-model="evt_max">
-                </div>
-
-
-
-                <div class="buttons">
-                    <button type="button" @click.prevent="show_add_event = !show_add_event" class="cancel">Cancel</button>
-                    <button type="button" @click.prevent="newEvent" class="submit">Submit</button>
-                </div>
-            </div>
-
 
         </section>
     </div>
-</template>
+</template> 
 
 <script>
     import store from '@/modules/store';
@@ -244,13 +208,13 @@
     import {Tabs, Tab} from 'vue-tabs-component';
     import NewMission from './NewMission';
     import NewGroup from './NewGroup';
+    import NewEvent from './NewEvent';
 
     export default {
         components: {
             Loader,
             Tabs, Tab,
-            NewMission,
-            NewGroup
+            NewMission, NewGroup, NewEvent
         },
         data() {
             return {
@@ -260,17 +224,6 @@
                 user_email: '',
                 user_pwd: '',
                 user_pwd_conf: '',
-                miss_name: '',
-                miss_leader: 1,
-                miss_budget: 0,
-                miss_desc: '',
-                miss_group: 1,
-                evt_name: '',
-                evt_start: '',
-                evt_end: '',
-                evt_max: 0,
-                evt_name: '',
-                evt_desc: '',
                 show_add_mission: false,
                 show_add_user: false,
                 show_add_event: false,
@@ -357,29 +310,7 @@
             },
 
             newEvent() {
-                this.loading = true;
-                store.dispatch('storeEvent', {
-                    name: this.evt_name,
-                    markdown: this.evt_desc,
-                    maxRegistered: this.evt_max,
-                    startDate: this.evt_start,
-                    endDate: this.evt_end
-                })
-                    .then(() => {
-                        this.loading = false;
-                    })
-                    .then(() => this.$notify({
-                        type: 'success',
-                        title: 'Operation successful',
-                        text: 'Mission was successfully added',
-                        duration: 5000
-                    }))
-                    .catch(err => this.$notify({
-                        type: 'error',
-                        title: 'Operation failed',
-                        text: err,
-                        duration: 5000
-                    }));
+                this.$modal.show('newEvent');
             },
 
             newMission() {
