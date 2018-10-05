@@ -4,16 +4,16 @@ import base from '@/modules/url';
 const url = base + '/groups/';
 
 export default {
-    getAll() {
+    async getAll() {
         return axios.get(url, {withCredentials: true});
     },
-    delete(id) {
+    async delete(id) {
         return axios.delete(url + id, {withCredentials: true});
     },
-    save(group) {
-        return axios.post(url + id, group, {withCredentials: true});
+    async save(group) {
+        return axios.post(url, group, {withCredentials: true});
     },
-    update(id) {
+    async update(id) {
         return axios.put(url + id, group, {withCredentials: true});
     }
 };

@@ -48,7 +48,8 @@
                 chief: '',
                 group:'',
                 budgetAssigned: 0.0,
-                users: []
+                users: [],
+                groups: []
             };
         },
         methods: {

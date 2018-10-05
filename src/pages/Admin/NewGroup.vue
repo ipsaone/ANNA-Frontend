@@ -1,0 +1,55 @@
+<template>
+    <modal name="newGroup" height="auto" :scrollable="true">
+        <div class="content anna-modal">
+            <h1>Create a new group</h1>
+            <form>
+                <input type="text" name="Name" id="Name" placeholder="Name..." v-model="name">
+
+                <button type="submit" class="button success" @click.prevent="onSubmit">Submit</button>
+            </form>
+        </div>
+    </modal>
+</template>
+
+
+<script>
+    import store from '@/modules/store';
+    import markdownEditor from 'vue-simplemde/src/markdown-editor';
+
+    export default {
+        components: {
+            markdownEditor
+        },
+        data() {
+            return {
+                name: ''
+            };
+        },
+        methods: {
+            async onSubmit() {
+                if (this.name) {
+                    this.loading = true;
+                    try {
+                        await store.dispatch('storeGroup', {name: this.name});
+                        this.$notify({
+                            type: 'success',
+                            title: 'Operation successful',
+                            text: 'Group was successfully added',
+                            duration: 5000
+                        });
+                        this.$modal.hide('newGroup');
+                    } catch(err){console.log(err);
+                        this.$notify({
+                            type: 'error',
+                            title: 'Operation failed',
+                            text: err,
+                            duration: 5000
+                        });
+                    }
+                    this.loading = false;
+                    
+                }
+            }
+        }
+    };
+</script>

@@ -12,21 +12,16 @@ const mutations = {
 
 const actions = {
     async retrieveGroups({commit, state}, force = false) {
-        console.log('here');
         if (state.groups.length === 0 || force) { // If no groups are loaded
             let groups = await GroupsApi.getAll();
             commit('SET_ALL_GROUPS', groups.data);
-            console.log(groups);
-            return groups;
-        }
-        else {
-            console.log('NOT IN');
-            Promise.resolve();
+            console.log(groups.data);
+            return groups.data;
         }
     },
 
-    storeGroup({dispatch}, name) {
-        return GroupsApi.save(name)
+    storeGroup({dispatch}, group) {
+        return GroupsApi.save(group)
             .then(() => dispatch('retrieveGroups', true));
     },
 

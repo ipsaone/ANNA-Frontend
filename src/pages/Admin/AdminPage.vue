@@ -1,6 +1,7 @@
 <template>
     <div class='admin' v-bind:class="{'basic-layout': show_add_user || show_add_event}">
         <new-mission></new-mission>
+        <new-group></new-group>
         <section class="content">
             <h1 class="section-title">Administration</h1>
             <tabs>
@@ -107,7 +108,7 @@
                         <tr>
                             <td></td>
                             <td></td>
-                            <td><a>Add group</a></td>
+                            <td><a @click.prevent="newGroup">Add group</a></td>
                         </tr>
                     </table>
                 </tab>
@@ -242,12 +243,14 @@
     import UserApi from '@/modules/users/users_api';
     import {Tabs, Tab} from 'vue-tabs-component';
     import NewMission from './NewMission';
+    import NewGroup from './NewGroup';
 
     export default {
         components: {
             Loader,
             Tabs, Tab,
-            NewMission
+            NewMission,
+            NewGroup
         },
         data() {
             return {
@@ -350,25 +353,7 @@
         },
         methods: {
             newGroup() {
-                if (this.group_name) {
-                    this.loading = true;
-                    store.create('storeGroup', this.group_name)
-                        .then(() => {
-                            this.loading = false;
-                        })
-                        .then(() => this.$notify({
-                            type: 'success',
-                            title: 'Operation successful',
-                            text: 'Group was successfully added',
-                            duration: 5000
-                        }))
-                        .catch(err => this.$notify({
-                            type: 'error',
-                            title: 'Operation failed',
-                            text: err,
-                            duration: 5000
-                        }));
-                }
+                this.$modal.show('newGroup');
             },
 
             newEvent() {
