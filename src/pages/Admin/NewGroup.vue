@@ -5,7 +5,10 @@
             <form>
                 <input type="text" name="Name" id="Name" placeholder="Name..." v-model="name">
 
-                <button type="submit" class="button success" @click.prevent="onSubmit">Submit</button>
+                <div class="buttons">
+                    <button type="button" @click.prevent="$modal.hide('newGroup')" class="cancel">Cancel</button>
+                    <button type="button" @click.prevent="onSubmit" class="submit">Submit</button>
+                </div>     
             </form>
         </div>
     </modal>
