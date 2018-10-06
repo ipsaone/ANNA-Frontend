@@ -20,14 +20,19 @@
                             <td> {{ mission.leader.username }} </td>
                             <td> {{ mission.budgetUsed+0 }} / {{ mission.budgetAssigned }} </td>
                             <td> {{ mission.memberCount }} </td>
-                            <td> <a>Manage members</a>, <a>Manage budget</a>, <a>Manage tasks</a>, <a>Delete</a> </td>
+                            <td> 
+                                <a>Manage members</a>, 
+                                <a>Manage budget</a>, 
+                                <a>Manage tasks</a>, 
+                                <a @click.prevent="delItem('mission', 'deleteMission', mission.name, mission.id)">Delete</a> 
+                            </td>
                         </tr>
                         <tr>
                             <td></td>
                             <td></td>
                             <td></td>
                             <td></td>
-                            <td><a @click.prevent="newMission">Add mission</a></td>
+                            <td><a @click.prevent="$modal.show('newMission')">Add mission</a></td>
                         </tr>
                     </table>
                 </tab>
@@ -80,7 +85,7 @@
                             <td>
                                 <router-link :to="{name: 'readPost', params: {id: post.id}}">Show</router-link>,
                                 <router-link :to="{name: 'editPost', params: {id: post.id}}">Edit</router-link>,
-                                <a @click.prevent="delPost(post.title, post.id)">Delete</a>
+                                <a @click.prevent="delItem('post', 'deletePost', post.title, post.id)">Delete</a>
                             </td>
                         </tr>
                         <tr>
@@ -104,12 +109,15 @@
                         <tr v-for="group in groups" :key="group.id">
                             <td> {{ group.name }} </td>
                             <td> {{ group.users.length }} </td>
-                            <td> <a>Manage users</a>, <a @click.prevent="delGroup(group.name, group.id)">Delete</a> </td>
+                            <td> 
+                                <a @click.prevent="$modal.show('newEvent')">Manage users</a>, 
+                                <a @click.prevent="delItem('group', 'deleteGroup', group.name, group.id)">Delete</a> 
+                            </td>
                         </tr>
                         <tr>
                             <td></td>
                             <td></td>
-                            <td><a @click.prevent="newGroup">Add group</a></td>
+                            <td><a @click.prevent="$modal.show('newGroup');">Add group</a></td>
                         </tr>
                     </table>
                 </tab>
@@ -128,7 +136,11 @@
                             <td> {{ user.username }} </td>
                             <td> {{ user.email }} </td>
                             <td> {{ user.groups }} </td>
-                            <td> <a>Manage groups</a>, <a>Change password</a>, <a @click.prevent="delUser(user.username, user.id)">Delete</a> </td>
+                            <td> 
+                                <a>Manage groups</a>, 
+                                <a>Change password</a>, 
+                                <a @click.prevent="delItem('user', 'deleteUser', user.username, user.id)">Delete</a> 
+                            </td>
                         </tr>
                         <tr>
                             <td></td>
@@ -154,14 +166,17 @@
                             <td> {{ event.name }} </td>
                             <td> ? / {{ event.maxRegistered }} </td>
                             <td> {{ event.startDate }} - {{ event.endDate }} </td>
-                            <td> <a>Edit</a>, <a>Manage registered</a>, <a @click.prevent="delEvent(event.name, event.id)">Delete</a> </td>
+                            <td> 
+                                <a>Edit</a>, 
+                                <a>Manage registered</a>, 
+                                <a @click.prevent="delItem('mission', 'deleteMission', event.name, event.id)">Delete</a> </td>
                         </tr>
                         <tr>
                             <td></td>
                             <td></td>
                             <td></td>
                             <td></td>
-                            <td><a @click.prevent="newEvent">Add event</a></td>
+                            <td><a @click.prevent="$modal.show('newEvent');">Add event</a></td>
                         </tr>
                     </table>
                 </tab>
@@ -305,21 +320,28 @@
             });
         },
         methods: {
-            newEvent() {
-                this.$modal.show('newEvent');
-            },
-            newGroup() {
-                this.$modal.show('newGroup');
-            },
+            async delItem(type_name, action_name, item_name, item_id) {
+                if(confirm('Delete '+type_name+' "'+item_name+'" ?')) {
+                    this.loading = true;
+                    try {
+                        await store.dispatch(action_name, item_id);
+                        this.$notify({
+                            type: 'success',
+                            title: 'Operation successful',
+                            text: type_name+' was successfully deleted',
+                            duration: 5000
+                        });
+                    } catch(err) {
+                        this.$notify({
+                            type: 'error',
+                            title: 'Operation failed',
+                            text: err,
+                            duration: 5000
+                        });
+                    }
 
-            newEvent() {
-                this.$modal.show('newEvent');
+                }
             },
-
-            newMission() {
-                this.$modal.show('newMission');
-            },
-
             newUser() {
                 if(this.user_pwd != this.user_pwd_conf) {
                     this.$notify({
@@ -350,93 +372,6 @@
                             text: err,
                             duration: 5000
                         }));
-                }
-            },
-
-            async delGroup(name, id) {
-                if(confirm('Delete group '+name+' ?')) {
-                    this.loading = true;
-                    try {
-                        await store.dispatch('deleteGroup', id);
-                        this.$notify({
-                            type: 'success',
-                            title: 'Operation successful',
-                            text: 'User was successfully deleted',
-                            duration: 5000
-                        });
-                    } catch(err) {
-                        this.$notify({
-                            type: 'error',
-                            title: 'Operation failed',
-                            text: err,
-                            duration: 5000
-                        });
-                    }
-
-                }
-            },
-
-            delUser(name, id) {
-                if(confirm('Delete user '+name+' ?')) {
-                    this.loading = true;
-                    store.dispatch('deleteUser', id)
-                        .then(() => {this.loading = false;})
-                        .then(() => this.$notify({
-                            type: 'success',
-                            title: 'Operation successful',
-                            text: 'User was successfully deleted',
-                            duration: 5000
-                        }))
-                        .catch((err) => this.$notify({
-                            type: 'error',
-                            title: 'Operation failed',
-                            text: err,
-                            duration: 5000
-                        }));
-                }
-            },
-
-            delPost(title, id) {
-                if(confirm('Delete post "'+title+'" ?')) {
-                    this.loading = true;
-                    store.dispatch('deletePost', id)
-                        .then(() => {this.loading = false;})
-                        .then(() => this.$notify({
-                            type: 'success',
-                            title: 'Operation successful',
-                            text: 'Post was successfully deleted',
-                            duration: 5000
-                        }))
-                        .catch(err => {
-                            this.$notify({
-                                type: 'error',
-                                title: 'Uncaught error',
-                                text: err.message,
-                                duration: -1
-                            });
-                        });
-                }
-            },
-
-            delEvent(title, id) {
-                if(confirm('Delete event "'+title+'" ?')) {
-                    this.loading = true;
-                    store.dispatch('deleteEvent', id)
-                        .then(() => {this.loading = false;})
-                        .then(() => this.$notify({
-                            type: 'success',
-                            title: 'Operation successful',
-                            text: 'Event was successfully deleted',
-                            duration: 5000
-                        }))
-                        .catch(err => {
-                            this.$notify({
-                                type: 'error',
-                                title: 'Uncaught error',
-                                text: err.message,
-                                duration: -1
-                            });
-                        });
                 }
             },
 
