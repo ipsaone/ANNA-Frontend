@@ -29,8 +29,10 @@
             },
             onSubmit() {
                 const data = {
-                    name: this.name,
-                    done: false,
+                    task: {
+                        name: this.name,
+                        done: false
+                    },
                     missionId: this.mission.id
                 };
 

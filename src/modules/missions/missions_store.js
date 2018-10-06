@@ -11,15 +11,19 @@ const mutations = {
     },
     SET_SELECTED(state, mission) {
         state.selected = mission;
-    }
+    },
 };
 
 const actions = {
-    retrieveMissions({commit, dispatch, state}, force = false) {
+    async retrieveMissions({commit, dispatch, state}, force = false) {
         if (state.missions.length === 0 || force) {
-            return MissionsApi.getAll()
-                .then(missions => dispatch('setLeaders', missions.data))
-                .then(missions => commit('SET_ALL_MISSIONS', missions));
+            let missions = await MissionsApi.getAll();
+            await dispatch('setLeaders', missions.data);
+            await commit('SET_ALL_MISSIONS', missions.data);
+            
+            if(missions.data.length == 0) {
+                await commit('SET_SELECTED', {});
+            }
         }
         else {
             return Promise.resolve();

@@ -4,18 +4,18 @@ import base from '@/modules/url';
 
 export default {
     getAll(missionId) {
-        return axios.get(base + '/missions/' + missionId + '/tasks/', {withCredentials: true});
+        return axios.get(base + '/missions/' + missionId + '/tasks', {withCredentials: true});
     },
 
-    save(task) {
-        return axios.post(base + '/missions/' + task.missionId + '/tasks/', task, {withCredentials: true});
+    save(data) {
+        return axios.post(base +'/missions/' + data.missionId + '/tasks', data.task, {withCredentials: true});
     },
 
-    update(task) {
-        return axios.put(base + '/missions/' + task.missionId + '/tasks/' + task.id, task, {withCredentials: true});
+    update(data) {
+        return axios.put(base + '/missions/' + data.missionId + '/task/' + data.task.id, data.task, {withCredentials: true});
     },
 
     delete(id) {
-        return axios.delete(base + '/missions/' + task.missionId + '/tasks/' + id, {withCredentials: true});
+        return axios.delete(base + '/missions/' + task.missionId + '/task/' + id, {withCredentials: true});
     }
 };

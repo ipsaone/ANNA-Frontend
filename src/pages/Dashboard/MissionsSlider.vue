@@ -52,20 +52,16 @@
                     <div class="tasks">
                         <h2>Tasks</h2>
                         <div class="content">
-                            <ul v-if="mission.tasks.length > 0">
-                                <li  v-for="task in mission.tasks" :key="task.id">
-                                    <input type="checkbox" name="done" id="done" @change="taskChange(task)"
+                            <ul>
+                                <li v-for="task in mission.tasks" :key="task.id">
+                                    <label for="done" class='left'>{{ task.name }}</label>
+                                    <input type="checkbox" class='right' name="done" id="done" @change="taskChange(task)"
                                            :checked="task.done == 1"
                                            :disabled="disabledInput">
-                                    {{ task.name }}
                                 </li>
+                                <em v-if="mission.tasks.length == 0">No tasks yet !</em>
+                                <a @click.prevent="newTask">Add task</a>
                             </ul>
-
-                            <div v-else>
-                                <em>No tasks yet !</em>
-                            </div>
-
-                            <div class="add_task"><a @click.prevent="newTask">Add task</a></div>
                             
                         </div>
                     </div>
@@ -100,9 +96,23 @@
                 currentSlide: 0,
             };
         },
+        async mounted() {
+            try {
+                await store.dispatch('retrieveMissions', true);
+                if (store.getters.missions.length > 0) {
+                    store.dispatch('selectMission', store.getters.missions[0].id);
+                }
+            } catch (err) {
+                this.$notify({
+                    type: 'error',
+                    title: 'Can not retrieve data from server',
+                    text: err.message,
+                    duration: -1
+                });
+            }
+        },
         computed: {
             mission() {
-                // console.log(store.getters.selectedMission);
                 return store.getters.selectedMission;
             },
             missionNumber() {
@@ -125,15 +135,17 @@
                     store.dispatch('selectMission', store.getters.missions[this.currentSlide].id);
                 }
             },
-            taskChange(task) {
+            async taskChange(task) {
                 const data = {
-                    id: task.id,
-                    done: !task.done,
+                    task: {
+                        id: task.id,
+                        done: !task.done,
+                        name: task.name
+                    },
                     missionId: task.missionId
                 };
 
-                TasksApi.update(data)
-                    .then(() => store.dispatch('selectMission', task.missionId));
+                await store.dispatch('updateTask', data);
             },
             newTask() {
                 this.$modal.show('newTask', store.getters.selectedMission);
