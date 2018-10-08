@@ -25,18 +25,18 @@ new Vue({
     store,
     template: '<App/>',
     components: {App},
-    /*mounted: function() {
+    mounted: function() {
         idleLogout();
-        checkChargement();
-    },
-    methods: {
-        checkChargement: function(){
-            window.onload = () => {
-                console.log('salut');
-            };
-        }
-    }*/
+        checkLogged();
+    }
 });
+
+function checkLogged() {
+    //console.log('Am I logged in?', store.getters.isLogged);
+    if (!store.getters.isLogged && !window.location.href.endsWith('login') && !window.location.href.endsWith('login/')){
+        window.location.replace('/login');
+    }
+}
 
 function idleLogout() {
     var t;
@@ -52,7 +52,7 @@ function idleLogout() {
         if (!window.location.href.endsWith('login') && !window.location.href.endsWith('login/')) {
             // Check login of the user, if no, reconnect
 
-            alert('You have been inactive for too long.');
+            alert('You have been inactive for too long');
 
             store.dispatch('logoutUser')
                 .then(_ => {
@@ -66,4 +66,3 @@ function idleLogout() {
         t = setTimeout(disconnect, 30 * 60 * 1000);  // time is in milliseconds
     }
 }
-idleLogout();

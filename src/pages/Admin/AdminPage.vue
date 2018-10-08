@@ -5,7 +5,7 @@
         <new-event></new-event>
         <new-user></new-user>
 
-        
+
         <section class="content">
             <h1 class="section-title">Administration</h1>
             <tabs>
@@ -23,11 +23,11 @@
                             <td> {{ mission.leader.username }} </td>
                             <td> {{ mission.budgetUsed+0 }} / {{ mission.budgetAssigned }} </td>
                             <td> {{ mission.memberCount }} </td>
-                            <td> 
-                                <a>Manage members</a>, 
-                                <a>Manage budget</a>, 
-                                <a>Manage tasks</a>, 
-                                <a @click.prevent="delItem('mission', 'deleteMission', mission.name, mission.id)">Delete</a> 
+                            <td>
+                                <a>Manage members</a>,
+                                <a>Manage budget</a>,
+                                <a>Manage tasks</a>,
+                                <a @click.prevent="delItem('mission', 'deleteMission', mission.name, mission.id)">Delete</a>
                             </td>
                         </tr>
                         <tr>
@@ -112,9 +112,9 @@
                         <tr v-for="group in groups" :key="group.id">
                             <td> {{ group.name }} </td>
                             <td> {{ group.users.length }} </td>
-                            <td> 
+                            <td>
                                 <a @click.prevent="$modal.show('newEvent')">Manage users</a>, 
-                                <a @click.prevent="delItem('group', 'deleteGroup', group.name, group.id)">Delete</a> 
+                                <a @click.prevent="delItem('group', 'deleteGroup', group.name, group.id)">Delete</a>
                             </td>
                         </tr>
                         <tr>
@@ -139,10 +139,10 @@
                             <td> {{ user.username }} </td>
                             <td> {{ user.email }} </td>
                             <td> {{ user.groups }} </td>
-                            <td> 
-                                <a>Manage groups</a>, 
-                                <a>Change password</a>, 
-                                <a @click.prevent="delItem('user', 'deleteUser', user.username, user.id)">Delete</a> 
+                            <td>
+                                <a>Manage groups</a>,
+                                <a>Change password</a>,
+                                <a @click.prevent="delItem('user', 'deleteUser', user.username, user.id)">Delete</a>
                             </td>
                         </tr>
                         <tr>
@@ -169,9 +169,9 @@
                             <td> {{ event.name }} </td>
                             <td> ? / {{ event.maxRegistered }} </td>
                             <td> {{ event.startDate }} - {{ event.endDate }} </td>
-                            <td> 
-                                <a>Edit</a>, 
-                                <a>Manage registered</a>, 
+                            <td>
+                                <a>Edit</a>,
+                                <a>Manage registered</a>,
                                 <a @click.prevent="delItem('mission', 'deleteMission', event.name, event.id)">Delete</a> </td>
                         </tr>
                         <tr>
@@ -186,7 +186,7 @@
             </tabs>
         </section>
     </div>
-</template> 
+</template>
 
 <script>
     import store from '@/modules/store';
