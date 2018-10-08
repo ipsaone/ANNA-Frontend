@@ -58,7 +58,7 @@
                     // {title: 'Forum', name: 'forum', color: 'purple'},
                     {title: 'Events', name: 'events', color: 'yellow'},
                     // {title: 'Logs', name: 'logs', color: 'red'},
-                    //{title: 'Gantt', name: 'gantt', color: 'red'},
+                    // {title: 'Gantt', name: 'gantt', color: 'red'},
                     {title: 'Administration', name: 'admin', color: 'purple'}
                 ]
             };

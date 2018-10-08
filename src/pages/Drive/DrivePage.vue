@@ -4,6 +4,7 @@
         <new-folder></new-folder>
         <edit-file></edit-file>
         <file-auth></file-auth>
+        <barcode></barcode>
 
         <section class="content">
             <h1 class=" section-title">Drive</h1>
@@ -22,6 +23,10 @@
                 <li>
                     <a href="#" @click.prevent="$modal.show('newFolder')"><i class="fa fa-plus" aria-hidden="true"></i>
                         New folder</a>
+                </li>
+
+                <li>
+                    <a href="#" @click.prevent="newBarcode"><i class="fa fa-barcode"></i> Generate a new barcode</a>
                 </li>
             </ul>
 
@@ -49,6 +54,7 @@
     import NewFolder from './NewFolder';
     import EditFile from './EditFile';
     import FileAuth from './FileAuth';
+    import Barcode from './Barcode';
 
     export default {
         components: {
@@ -56,7 +62,8 @@
             UploadFile,
             NewFolder,
             EditFile,
-            FileAuth
+            FileAuth,
+            Barcode
         },
         beforeRouteEnter(to, from, next) {
             store.dispatch('retrieveFolder', 1)
@@ -72,6 +79,9 @@
             }
         },
         methods: {
+            newBarcode() {
+                this.$modal.show('barcode');
+            },
             downloadFile() {
                 driveApi.downloadFile(this.selectedFile.id);
             },

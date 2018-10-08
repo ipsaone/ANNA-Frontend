@@ -1,7 +1,5 @@
 <template>
-    <div class="profile basic-layout">
-        <barcode></barcode>
-
+    <div class="profile">
         <div class="content">
 
             <div class="myself">
@@ -34,26 +32,15 @@
 
 
         </div>
-
-        <div class="actions">
-            <h1 class="section-title">Actions</h1>
-            <ul>
-                <li>
-                    <a href="#" @click.prevent="newBarcode"><i class="fa fa-barcode"></i> Generate a new barcode</a>
-                </li>
-            </ul>
-        </div>
     </div>
 </template>
 
 <script>
     import store from '@/modules/store';
-    import Barcode from '../Drive/Barcode';
+    
 
     export default {
-        components: {
-            Barcode,
-        },
+        components: {},
         mounted() {
             store.dispatch('selectUser', this.$route.params.id)
                 .catch(err => {
@@ -71,9 +58,7 @@
             }
         },
         methods: {
-            newBarcode() {
-                this.$modal.show('barcode');
-            }
+            
         }
     };
 </script>
