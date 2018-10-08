@@ -49,6 +49,8 @@ const actions = {
             promises.push(thisP);
         });
 
+        await Promise.all(promises);
+
         return folder;
     },
 

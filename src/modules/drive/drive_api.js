@@ -14,7 +14,7 @@ const config = {
 };
 
 export default {
-    getFolder(id) {
+    async getFolder(id) {
         return axios.get(url + 'files/list/' + id, {withCredentials: true});
     },
 

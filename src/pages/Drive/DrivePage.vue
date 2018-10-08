@@ -28,7 +28,10 @@
                 <li>
                     <a href="#" @click.prevent="newBarcode"><i class="fa fa-barcode"></i> Generate a new barcode</a>
                 </li>
+
+                <li><a href="#" @click.prevent="search"><i class="fa fa-search"></i> Search in folder</a></li>
             </ul>
+            <br>
 
             <div v-if="showOptions">
                 <h1 class="section-title">Options</h1>
@@ -37,9 +40,14 @@
                         <a href="#" @click.prevent="downloadFile"><i class="fa fa-download" aria-hidden="true"></i>
                             Download</a>
                     </li>
+                    <li v-if="selectedFile.isDir">
+                        <a href="#" @click.prevent="openFile"><i class="fa fa-download" aria-hidden="true"></i>
+                            Open</a>
+                    </li>
                     <li><a href="#" @click.prevent="editFile"><i class="fa fa-pencil" aria-hidden="true"></i> Edit</a>
                     </li>
                     <li><a href="#" @click.prevent="deleteFile"><i class="fa fa-trash"></i> Delete</a></li>
+                    <li><a href="#" @clic.prevent="manageRights"><i class="fa fa-key"></i> Manage permissions</a></li>
                 </ul>
             </div>
         </section>
@@ -79,6 +87,17 @@
             }
         },
         methods: {
+            search() {
+
+            },
+            openFile() {
+                if (this.selectedFile.isDir) {
+                    this.loading = true;
+                    store.dispatch('retrieveFolder', this.selectedFile.id)
+                        .then(_ => store.dispatch('selectFile', {}))
+                        .then(_ => this.loading = false);
+                }
+            },
             newBarcode() {
                 this.$modal.show('barcode');
             },

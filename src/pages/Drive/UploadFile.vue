@@ -13,6 +13,7 @@
 <script>
     import store from '@/modules/store';
     import driveApi from '@/modules/drive/drive_api';
+    
 
     export default {
         data() {
@@ -25,7 +26,7 @@
                 const files = e.target.files || e.dataTransfer.files;
                 if (files.length > 0) this.file = files[0];
             },
-            onSubmit() {
+            async onSubmit() {
                 const data = {
                     contents: this.file,
                     name: this.file.name,
@@ -40,17 +41,18 @@
                     ownerRead: 1,
                 };
 
-                driveApi.uploadFile(data)
-                    .then(store.dispatch('retrieveFolder', store.getters.folder.id))
-                    .then(this.$modal.hide('uploadFile'))
-                    .catch(err => {
-                        this.$notify({
-                            type: 'error',
-                            title: 'Uncaught error',
-                            text: err.message,
-                            duration: -1
-                        });
+                try {
+                    await driveApi.uploadFile(data);
+                    await store.dispatch('retrieveFolder', store.getters.folder.id);
+                    this.$modal.hide('uploadFile');
+                } catch (err) {
+                    this.$notify({
+                        type: 'error',
+                        title: 'Uncaught error',
+                        text: err.message,
+                        duration: -1
                     });
+                }
             }
         }
     };

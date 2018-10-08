@@ -15,6 +15,7 @@
     import store from '@/modules/store';
     import driveApi from '@/modules/drive/drive_api';
 
+
     export default {
         data() {
             return {
@@ -22,7 +23,7 @@
             };
         },
         methods: {
-            onSubmit() {
+            async onSubmit() {
                 const data = {
                     name: this.name,
                     isDir: true,
@@ -37,17 +38,18 @@
                     ownerRead: 1,
                 };
 
-                return driveApi.uploadFile(data)
-                    .then(this.$modal.hide('newFolder'))
-                    .then(store.dispatch('retrieveFolder', store.getters.folder.id))
-                    .catch(err => {
-                        this.$notify({
-                            type: 'error',
-                            title: 'Uncaught error',
-                            text: err.message,
-                            duration: -1
-                        });
+                try {
+                    await driveApi.uploadFile(data);
+                    await this.$modal.hide('newFolder');
+                    await store.dispatch('retrieveFolder', store.getters.folder.id);
+                } catch (err) {
+                    this.$notify({
+                        type: 'error',
+                        title: 'Uncaught error',
+                        text: err.message,
+                        duration: -1
                     });
+                }
             }
         }
     };
