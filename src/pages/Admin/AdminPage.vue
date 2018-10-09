@@ -40,6 +40,7 @@
                     </table>
                 </tab>
 
+                <!--
                 <tab name="Logs">
                     <table>
                         <tr>
@@ -68,6 +69,7 @@
                         </tr>
                     </table>
                 </tab>
+                -->
 
                 <tab name="Blog">
                     <table>

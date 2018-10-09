@@ -17,7 +17,7 @@ body, button, input, select, textarea {
   font-family: $family-primary;
 }
 
-html, body { height: 100% }
+html, body { min-height: 100vh; }
 
 code, pre {
   -moz-osx-font-smoothing: auto;
