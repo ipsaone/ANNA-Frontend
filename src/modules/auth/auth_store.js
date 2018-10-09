@@ -39,6 +39,11 @@ const mutations = {
             }
         }
     },
+    IS_USER_LOGGED(state, data){
+        if (!data == true){
+            state.logged = {};
+        }
+    }
 };
 
 const actions = {
@@ -53,7 +58,12 @@ const actions = {
 
     retrieveLoggedUser({commit, state}) {
         return UsersApi.get(state.logged.id).then(res => commit('SET_LOGGED_USER', res.data));
+    },
+
+    checkLoggedUser({commit, state, credentials}){
+        return AuthApi.checkUserState().then(res => commit('IS_USER_LOGGED', res));
     }
+
 };
 
 const getters = {

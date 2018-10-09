@@ -29,6 +29,19 @@ export default {
     },
 
     check() {
-        return axios.get(url + '/check', {withCredentials: true});
+        return new Promise ((resolve, reject) => {
+            axios.get(url + '/check', {withCredentials: true})
+                .then(_ => {
+                    resolve(true);
+                })
+                .catch(err => {
+                    resolve(false);
+                });
+        });
+    },
+
+    async checkUserState() {
+        let isUserLogged = await this.check();
+        return isUserLogged;
     }
 };

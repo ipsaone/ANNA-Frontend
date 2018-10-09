@@ -28,13 +28,20 @@ new Vue({
     mounted: function() {
         idleLogout();
         checkLogged();
+        checkInterval();
     }
 });
 
 function checkLogged() {
     //console.log('Am I logged in?', store.getters.isLogged);
-    if (!store.getters.isLogged && !window.location.href.endsWith('login') && !window.location.href.endsWith('login/')){
-        window.location.replace('/login');
+    if (!window.location.href.endsWith('login') && !window.location.href.endsWith('login/')){
+        store.dispatch('checkLoggedUser')
+        .then(_ => {
+            if (!store.getters.isLogged){
+                //console.log('jsuis pas log');
+                window.location.replace('/login');
+            }
+        });
     }
 }
 
@@ -65,4 +72,14 @@ function idleLogout() {
         clearTimeout(t);
         t = setTimeout(disconnect, 30 * 60 * 1000);  // time is in milliseconds
     }
+}
+
+// Useful to disconnect user when backend stops
+function checkInterval() {
+    window.setInterval(function() {
+        if(!window.location.href.endsWith('login') && !window.location.href.endsWith('login/')){
+            checkLogged();
+            //console.log('10 secondes');
+        }
+    }, 10000);
 }
