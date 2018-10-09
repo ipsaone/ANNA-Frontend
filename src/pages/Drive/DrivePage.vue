@@ -74,7 +74,13 @@
             Barcode
         },
         beforeRouteEnter(to, from, next) {
-            store.dispatch('retrieveFolder', 1)
+            let folderId = 1;
+            console.log(store.getters.folder);
+            if(store.getters.folder && store.getters.folder.id) {
+                folderId = store.getters.folder.id;
+            }
+
+            store.dispatch('retrieveFolder', folderId)
                 .then(() => next())
                 .catch(err => console.log(err));
         },

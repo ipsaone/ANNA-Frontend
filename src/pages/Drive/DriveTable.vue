@@ -51,7 +51,7 @@
                     {{ wrapName(file.owner.username) }}
                 </td>
                 <td>
-                    {{ convertSize(file.size) }} Kb
+                    {{ convertSize(file.size) }}
                 </td>
             </tr>
             </tbody>
@@ -62,6 +62,7 @@
 <script>
     import store from '@/modules/store';
     import Loader from '@/components/Loader';
+    import FileSize from 'filesize';
 
     export default {
         components: {
@@ -147,7 +148,7 @@
                 }
             },
             convertSize(size) {
-                return size / 1000.0;
+                return FileSize(size);
             },
             openFile(file) {
                 if (file.isDir) {
