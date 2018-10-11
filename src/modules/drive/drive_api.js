@@ -69,7 +69,7 @@ export default {
         return axios.delete(url + 'files/' + fileId, {withCredentials: true});
     },
 
-    getFoldersList() {
-        return axios.get(url + 'files/list/1?foldersOnly=true', {withCredentials: true});
+    async getFoldersList(folderId) {
+        return axios.get(url + 'files/list/'+folderId+'?foldersOnly=true', {withCredentials: true});;
     }
 };

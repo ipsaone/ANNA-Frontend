@@ -6,7 +6,7 @@
                 <input type="file" @change="onFileChange">
                 <label for="folders">Move: </label>
                 <select name="folders" id="folders" v-model="selectedFolder">
-                    <option v-for="el in formatedFoldersList" :value="el.id" >{{ el.name }}</option>
+                    <option v-for="el in formatedFoldersList" :value="el.id" :key="el.id">{{ el.name }}</option>
                 </select>
                 <button type="submit" class="button success">Submit</button>
             </form>
@@ -39,12 +39,9 @@
                 const files = e.target.files || e.dataTransfer.files;
                 if (files.length > 0) this.file = files[0];
             },
-            beforeOpen(event) {
-                this.file = store.getters.selectedFile;
-                store.dispatch('getFoldersList')
-                    .then(list => {
-                        this.folders = list['data'];
-                    });
+            async beforeOpen(event) {
+                this.folders = await store.dispatch('getFoldersList', store.getters.folder.id);
+                console.log(this.folders);
             },
             beforeClose(event) {
                 this.target = [];
@@ -56,10 +53,13 @@
                 const edit = {
                     fileId: store.getters.selectedFile.fileId,
                     data: {
-                        contents: this.file,
                         dirId: this.selectedFolder
                     }
                 };
+
+                if(this.file) {
+                    edit.data.contents = this.file;
+                }
 
                 try {
                     await driveApi.editFile(edit);

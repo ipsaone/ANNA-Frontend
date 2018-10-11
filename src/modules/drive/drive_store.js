@@ -53,8 +53,9 @@ const actions = {
         return folder;
     },
 
-    getFoldersList() {
-        return DriveApi.getFoldersList();
+    async getFoldersList({dispatch}, folderId) {
+        let res = await DriveApi.getFoldersList(folderId);
+        return res.data;
     }
 };
 
