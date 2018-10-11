@@ -5,6 +5,7 @@
         <edit-file></edit-file>
         <file-auth></file-auth>
         <barcode></barcode>
+        <move-file></move-file>
 
         <section class="content">
             <h1 class=" section-title">Drive</h1>
@@ -16,20 +17,28 @@
             <h1 class="section-title">Actions</h1>
             <ul>
                 <li>
-                    <a href="#" @click.prevent="$modal.show('uploadFile')"><i class="fa fa-upload"
-                                                                              aria-hidden="true"></i> Upload</a>
+                    <a href="#" @click.prevent="$modal.show('uploadFile')">
+                        <i class="fa fa-upload" aria-hidden="true"></i> Upload
+                    </a>
                 </li>
 
                 <li>
-                    <a href="#" @click.prevent="$modal.show('newFolder')"><i class="fa fa-plus" aria-hidden="true"></i>
-                        New folder</a>
+                    <a href="#" @click.prevent="$modal.show('newFolder')">
+                        <i class="fa fa-plus" aria-hidden="true"></i> New folder
+                    </a>
                 </li>
 
                 <li>
-                    <a href="#" @click.prevent="newBarcode"><i class="fa fa-barcode"></i> Generate a new barcode</a>
+                    <a href="#" @click.prevent="newBarcode">
+                        <i class="fa fa-barcode"></i> Generate a new barcode
+                    </a>
                 </li>
 
-                <li><a href="#" @click.prevent="search"><i class="fa fa-search"></i> Search in folder</a></li>
+                <li>
+                    <a href="#" @click.prevent="search">
+                        <i class="fa fa-search"></i> Search in folder
+                    </a>
+                </li>
             </ul>
             <br>
 
@@ -37,16 +46,32 @@
                 <h1 class="section-title">Options</h1>
                 <ul>
                     <li v-if="!selectedFile.isDir">
-                        <a href="#" @click.prevent="downloadFile"><i class="fa fa-download" aria-hidden="true"></i>
-                            Download</a>
+                        <a href="#" @click.prevent="downloadFile">
+                            <i class="fa fa-download" aria-hidden="true"></i> Download
+                        </a>
                     </li>
                     <li v-if="selectedFile.isDir">
-                        <a href="#" @click.prevent="openFile"><i class="fa fa-download" aria-hidden="true"></i>
-                            Open</a>
+                        <a href="#" @click.prevent="openFile">
+                            <i class="fa fa-download" aria-hidden="true"></i> Open
+                        </a>
                     </li>
-                    <li><a href="#" @click.prevent="editFile"><i class="fa fa-pencil" aria-hidden="true"></i> Edit</a>
+                    <!--
+                    <li>
+                        <a href="#" @click.prevent="editFile">
+                            <i class="fa fa-pencil" aria-hidden="true"></i> Edit
+                        </a>
                     </li>
-                    <li><a href="#" @click.prevent="deleteFile"><i class="fa fa-trash"></i> Delete</a></li>
+                    -->
+                    <li>
+                        <a href="#" @click.prevent="moveFile">
+                            <i class="fa fa-folder" aria-hidden="true"></i> Move
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#" @click.prevent="deleteFile">
+                            <i class="fa fa-trash"></i> Delete
+                        </a>
+                    </li>
                     <li><a href="#" @click.prevent="manageRights"><i class="fa fa-key"></i> Manage permissions</a></li>
                 </ul>
             </div>
@@ -63,6 +88,7 @@
     import EditFile from './EditFile';
     import FileAuth from './FileAuth';
     import Barcode from './Barcode';
+    import MoveFile from './MoveFile';
 
     export default {
         components: {
@@ -71,7 +97,8 @@
             NewFolder,
             EditFile,
             FileAuth,
-            Barcode
+            Barcode,
+            MoveFile
         },
         beforeRouteEnter(to, from, next) {
             let folderId = 1;
@@ -106,6 +133,9 @@
                         .then(_ => store.dispatch('selectFile', {}))
                         .then(_ => this.loading = false);
                 }
+            },
+            moveFile() {
+                this.$modal.show('moveFile');
             },
             newBarcode() {
                 this.$modal.show('barcode');

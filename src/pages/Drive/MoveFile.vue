@@ -1,9 +1,13 @@
 <template>
-    <modal name="editFile" @before-open="beforeOpen" @before-close="beforeClose" height="auto" :scrollable="true">
+    <modal name="moveFile" @before-open="beforeOpen" @before-close="beforeClose" height="auto" :scrollable="true">
         <div class="content anna-modal">
-            <h1>Edit {{ file.name }}</h1>
+            <h1>Move {{ file.name }}</h1>
             <form @submit.prevent="onSubmit">
-                <input type="file" @change="onFileChange">
+                <!--<input type="file" @change="onFileChange">-->
+                <label for="folders">Move: </label>
+                <select name="folders" id="folders" v-model="selectedFolder">
+                    <option v-for="el in formatedFoldersList" :value="el.id" :key="el.id">{{ el.name }}</option>
+                </select>
                 <button type="submit" class="button success">Submit</button>
             </form>
         </div>
@@ -35,7 +39,10 @@
                 const files = e.target.files || e.dataTransfer.files;
                 if (files.length > 0) this.file = files[0];
             },
-            
+            async beforeOpen(event) {
+                this.folders = await store.dispatch('getFoldersList', store.getters.folder.id);
+                console.log(this.folders);
+            },
             beforeClose(event) {
                 this.target = [];
                 this.selectedFolder = '';
@@ -45,7 +52,9 @@
                 console.log(this.selectedFolder);
                 const edit = {
                     fileId: store.getters.selectedFile.fileId,
-                    data: {}
+                    data: {
+                        dirId: this.selectedFolder
+                    }
                 };
 
                 if(this.file) {
@@ -63,6 +72,20 @@
                         text: err.message,
                         duration: -1
                     });
+                }
+            },
+            formatList(list, target, level = 0) {
+                console.log(list);
+                if ('children' in list) {
+                    for (let i = 0; i < list.children.length; ++i) {
+                        this.formatList(list.children[i], target, ++level);
+                        --level;
+                    }
+                    delete list['children'];
+                }
+                if (list.name !== undefined) {
+                    list.name = '+'.repeat(level) + ' ' + list.name;
+                    target.push(list);
                 }
             }
         }
