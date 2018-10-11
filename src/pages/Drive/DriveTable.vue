@@ -26,7 +26,7 @@
                 <td><i class="fa fa-folder-open" aria-hidden="true"></i></td>
                 <td>{{ wrapName(folder.name) }}</td>
                 <td>{{ wrapName(folder.owner.username) }}</td>
-                <td>{{ convertSize(folder.size) }} Kb</td>
+                <td>{{ convertSize(folder) }}</td>
             </tr>
 
             <!-- Separator -->
@@ -51,7 +51,7 @@
                     {{ wrapName(file.owner.username) }}
                 </td>
                 <td>
-                    {{ convertSize(file.size) }}
+                    {{ convertSize(file) }}
                 </td>
             </tr>
             </tbody>
@@ -147,8 +147,12 @@
                         return '<i class="fa fa-file-o" aria-hidden="true"></i>';
                 }
             },
-            convertSize(size) {
-                return FileSize(size);
+            convertSize(file) {
+                if(file.isDir) {
+                    return '';
+                }
+                
+                return FileSize(file.size);
             },
             openFile(file) {
                 if (file.isDir) {

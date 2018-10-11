@@ -51,25 +51,28 @@
                 this.selectedFolder = '';
                 store.dispatch('unselectFile');
             },
-            onSubmit() {
+            async onSubmit() {
                 console.log(this.selectedFolder);
-                const data = {
-                    fileId: store.getters.selectedFile.id,
-                    contents: this.file,
-                    folderId: this.selectedFolder
+                const edit = {
+                    fileId: store.getters.selectedFile.fileId,
+                    data: {
+                        contents: this.file,
+                        dirId: this.selectedFolder
+                    }
                 };
 
-                driveApi.editFile(data)
-                    .then(store.dispatch('retrieveFolder', store.getters.folder.id))
-                    .then(this.$modal.hide('editFile'))
-                    .catch(err => {
-                        this.$notify({
-                            type: 'error',
-                            title: 'Uncaught error',
-                            text: err.message,
-                            duration: -1
-                        });
+                try {
+                    await driveApi.editFile(edit);
+                    await store.dispatch('retrieveFolder', store.getters.folder.id);
+                    this.$modal.hide('editFile');
+                } catch (err) {
+                    this.$notify({
+                        type: 'error',
+                        title: 'Uncaught error',
+                        text: err.message,
+                        duration: -1
                     });
+                }
             },
             formatList(list, target, level = 0) {
                 if ('children' in list) {

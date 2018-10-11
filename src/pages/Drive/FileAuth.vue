@@ -1,10 +1,10 @@
 <template>
-    <modal name="fileAuth" height="auto" :scrollable="true">
+    <modal name="fileAuth" height="auto" :scrollable="true" @before-open="beforeOpen">
         <div class="content anna-modal">
             <h1>File authorization</h1>
             <form>
-                <p>Owner:</p>
-                <p>Group:</p>
+                <p v-if="this.file.id">Owner: {{this.file.owner.username}} ( {{this.file.owner.id}})</p>
+                <p v-if="this.file.id">Group: ({{this.file.groupId}})</p>
 
                 <table>
                     <tr>
@@ -42,6 +42,7 @@
     export default {
         data() {
             return {
+                file: {},
                 readOwner: false,
                 readGroup: false,
                 readOther: false,
@@ -59,6 +60,10 @@
         methods: {
             onSubmit() {
                 console.log('Hello world!');
+            },
+
+            beforeOpen(data) {
+                this.file = data.params;
             }
         }
     };

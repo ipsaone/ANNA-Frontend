@@ -47,7 +47,7 @@
                     <li><a href="#" @click.prevent="editFile"><i class="fa fa-pencil" aria-hidden="true"></i> Edit</a>
                     </li>
                     <li><a href="#" @click.prevent="deleteFile"><i class="fa fa-trash"></i> Delete</a></li>
-                    <li><a href="#" @clic.prevent="manageRights"><i class="fa fa-key"></i> Manage permissions</a></li>
+                    <li><a href="#" @click.prevent="manageRights"><i class="fa fa-key"></i> Manage permissions</a></li>
                 </ul>
             </div>
         </section>
@@ -95,6 +95,9 @@
         methods: {
             search() {
 
+            },
+            manageRights() {
+                this.$modal.show('fileAuth', this.selectedFile);
             },
             openFile() {
                 if (this.selectedFile.isDir) {
