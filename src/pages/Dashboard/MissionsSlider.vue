@@ -16,7 +16,12 @@
             </div>
 
             <div class="mission">
-                <div class="description"><p>Description :</p> <span v-html="mission.description" ></span></div>
+                <div class="description">
+                    <div class="description-title">
+                        <h2>Description :</h2>
+                        <span class="content" v-html="mission.description" ></span>
+                    </div>
+                </div>
 
                 <div class="mission-more">
                     <div class="team">
@@ -62,7 +67,7 @@
                                 <em v-if="mission.tasks.length == 0">No tasks yet !</em>
                                 <a @click.prevent="newTask">Add task</a>
                             </ul>
-                            
+
                         </div>
                     </div>
                 </div>
@@ -71,11 +76,11 @@
 
         <div v-else>
             <p class="no-mission-message">
-                <b>Error 404 : mission not found</b><br> 
+                <b>Error 404 : mission not found</b><br>
                 You aren't signed-up to any mission. Ask your mission chief !
                 <br><br>
                 Feel free to go read the <router-link :to="{name: 'blog'}">latest blog entries</router-link> until he finally does his work ;-)
-                
+
             </p>
         </div>
     </section>

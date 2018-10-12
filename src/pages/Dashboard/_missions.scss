@@ -27,11 +27,11 @@
 
     .description {
       text-align: justify;
-      border: 1px solid $white-darker;
+      //border: 1px solid $white-darker;
     }
 
-    .mission-more {
-      .team, .budget, .tasks {
+    .mission-more, .description {
+      .team, .budget, .tasks, .description-title {
         border: solid 1px $grey-lighter;
         background-color: $white-bis;
         display: block;
@@ -39,7 +39,7 @@
         margin-right: 1em;
         margin-bottom: 1em;
 
-        
+
 
         h2 {
           padding: 0.5em 0;
