@@ -72,7 +72,11 @@
                             <i class="fa fa-trash"></i> Delete
                         </a>
                     </li>
-                    <li><a href="#" @click.prevent="manageRights"><i class="fa fa-key"></i> Manage permissions</a></li>
+                    <li>
+                        <a href="#" @click.prevent="manageRights">
+                            <i class="fa fa-key"></i> Manage permissions
+                        </a>
+                    </li>
                 </ul>
             </div>
         </section>
@@ -100,16 +104,20 @@
             Barcode,
             MoveFile
         },
-        beforeRouteEnter(to, from, next) {
+        async beforeRouteEnter(to, from, next) {
             let folderId = 1;
-            console.log(store.getters.folder);
             if(store.getters.folder && store.getters.folder.id) {
                 folderId = store.getters.folder.id;
             }
 
-            store.dispatch('retrieveFolder', folderId)
-                .then(() => next())
-                .catch(err => console.log(err));
+            try {
+                await store.dispatch('retrieveFolder', folderId);
+                next();
+            } catch (err) {
+                console.log(err);
+                await store.dispatch('retrieveFolder', 1);
+            }
+           
         },
         computed: {
             selectedFile() {
