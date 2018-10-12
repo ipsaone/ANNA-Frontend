@@ -15,7 +15,6 @@ const actions = {
         if (state.groups.length === 0 || force) { // If no groups are loaded
             let groups = await GroupsApi.getAll();
             commit('SET_ALL_GROUPS', groups.data);
-            console.log(groups.data);
             return groups.data;
         }
     },
@@ -34,6 +33,10 @@ const actions = {
         return GroupsApi.delete(id)
             .then(() => dispatch('retrieveGroups', true));
     },
+
+    getGroup({dispatch, state}, id) {
+        return state.groups.filter(el => el.id == id);
+    }
 };
 
 const getters = {

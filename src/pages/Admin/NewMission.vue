@@ -8,8 +8,8 @@
 
                 <div class="inline-form">
                     <label for="chief">Chief: </label>
-                    <input list="users" type="text" name="chief" id="chief" v-model="chief">
-                    Group:
+                    <input list="users" type="text" name="chief" id="chief" v-model="chief"><br/>
+                    <label for="group">Group: </label>
                     <input list="groups" type="text" name="groups" id="group" v-model="group">
 
                     <datalist id="users">
@@ -28,7 +28,7 @@
                 <div class="buttons">
                     <button type="button" @click.prevent="$modal.hide('newMission')" class="cancel">Cancel</button>
                     <button type="button" @click.prevent="onSubmit" class="submit">Submit</button>
-                </div>     
+                </div> 
             </form>
         </div>
     </modal>
@@ -98,7 +98,7 @@
                         title: 'Operation failed',
                         text: err,
                         duration: 5000
-                    });    
+                    });
                 }
                 this.loading = false;
             }
