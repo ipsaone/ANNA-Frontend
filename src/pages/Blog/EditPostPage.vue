@@ -31,7 +31,8 @@
             store.dispatch('selectPost', this.$route.params.id)
                 .then(_ => {
                     this.title = this.post.title;
-                    this.markdown = this.post.markdown.replace(/<br>/gi, '\n');
+                    console.log('original : ', this.post.markdown);
+                    this.markdown = this.post.markdown;
                     this.isDraft = !this.post.published;
                 });
         },
@@ -64,7 +65,8 @@
                     let post = this.post;
 
                     post.title = this.title;
-                    post.markdown = this.markdown.replace('\n\n', '\n<br>').split('\n').filter(el => el.length != 0).join('<br>');
+                    post.markdown = this.markdown;
+                    console.log('saved as', post.markdown);
                     post.isDraft = this.isDraft;
                     delete post.content;
 

@@ -62,7 +62,7 @@
 
                     const post = {
                         title: this.title,
-                        markdown: this.markdown.replace('\n\n', '\n<br>').split('\n').filter(el => el.length != 0).join('<br>'),
+                        markdown: this.markdown,
                         published: !this.isDraft,
                         authorId: store.getters.loggedUserId
                     };
