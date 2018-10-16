@@ -8,7 +8,7 @@
                     <h2>Users</h2>
 
                     <ul>
-                        <a v-for="user in filteredUsers" :key="user.id" v-on:click="addUser(user.id)">
+                        <a v-for="user in shownUsers" :key="user.id" @click.prevent="addUser(user.id)">
                             {{user.username}}
                         </a>
                     </ul>
@@ -18,7 +18,7 @@
                     <h2>Members</h2>
 
                     <ul>
-                        <a v-for="member in mission.members" :key="member.id" v-on:click="remUser(user.id)">
+                        <a v-for="member in mission.members" :key="member.id" @click.prevent="remUser(member.id)">
                             {{member.username}}
                         </a>
                     </ul>
@@ -39,34 +39,44 @@
         },
         data() {
             return {
-                
+                shownUsers: []
             };
         },
         computed: {
             mission() {
                 return store.getters.selectedMission;
-            },
-            filteredUsers() {                
-                if(!this.mission.members) {
-                    return store.getters.users;
-                }
-
-                return store.getters.users.filter(el => !this.mission.members.includes(el));      
-                
             }
         },
         methods: {
             async beforeOpen(event) {
                 await store.dispatch('retrieveMission', event.params.mission_id);
+                this.refreshUsers();
                 console.log(this.mission);
             },
             async addUser(id) {
                 console.log('adding', id);
                 await store.dispatch('addMember', id);
+                this.refreshUsers();
             },
             async remUser(id) {
                 console.log('removing', id);
                 await store.dispatch('remMember', id);
+                this.refreshUsers();
+            },
+            refreshUsers() {
+                if (!this.mission.members) {
+                    this.shownUsers = store.getters.users;
+                }
+                this.shownUsers =  store.getters.users.filter(el1 => {
+                    let found = false;
+                    this.mission.members.forEach(el2 => {
+                        if (el1.id == el2.id) {
+                            found = true;
+                        }
+                    });
+
+                    return !found;
+                });
             }
         }
     };

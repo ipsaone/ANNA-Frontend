@@ -25,7 +25,7 @@ export default {
     },
 
     addMember(mission_id, user_id) {
-        return axios.put(url + mission_id + '/members/' + user_id, {withCredentials: true});
+        return axios.put(url + mission_id + '/members/' + user_id, null, {withCredentials: true});
     },
 
     remMember(mission_id, user_id) {
