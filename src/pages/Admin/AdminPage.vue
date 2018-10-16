@@ -5,6 +5,7 @@
         <new-event></new-event>
         <new-user></new-user>
         <members-management></members-management>
+        <mission-members></mission-members>
 
 
         <section class="content">
@@ -213,13 +214,13 @@
     import NewGroup from './NewGroup';
     import NewEvent from './NewEvent';
     import NewUser from './NewUser';
-    import MembersManagement from './MembersManagement';
+    import MissionMembers from './MissionMembers';
 
     export default {
         components: {
             Loader,
             Tabs, Tab,
-            NewMission, NewGroup, NewEvent, NewUser, MembersManagement
+            NewMission, NewGroup, NewEvent, NewUser, MissionMembers
         },
         data() {
             return {
