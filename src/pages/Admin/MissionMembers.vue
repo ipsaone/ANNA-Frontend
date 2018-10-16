@@ -2,7 +2,7 @@
     <modal name="missionMembers" height="auto" :scrollable="true" @before-open="beforeOpen">
         <div class="content anna-modal mission-members">
             <h1>Mission: {{ mission.name }}</h1>
-            
+
             <div class="twocols">
                 <div class="leftcol">
                     <h2>Users</h2>
@@ -24,7 +24,7 @@
                     </ul>
                 </div>
             </div>
-            
+
 
             <button type="submit" class="button success" @click.prevent="onSubmit">Submit</button>
         </div>

@@ -4,7 +4,7 @@
         <new-group></new-group>
         <new-event></new-event>
         <new-user></new-user>
-        <members-management></members-management>
+        <group-members></group-members>
         <mission-members></mission-members>
 
 
@@ -26,13 +26,7 @@
                             <td> {{ mission.budgetUsed+0 }} / {{ mission.budgetAssigned }} </td>
                             <td> {{ mission.memberCount }} </td>
                             <td>
-<<<<<<< HEAD
-                                <a @click.prevent="$modal.show('membersManagement')">Manage members</a>,
-                                <a>Manage budget</a>,
-                                <a>Manage tasks</a>,
-                                <a @click.prevent="delItem('mission', 'deleteMission', mission.name, mission.id)">Delete</a>
-=======
-                                <a @click.prevent="$modal.show('missionsMembers', {mission_id: mission.id});">
+                                <a @click.prevent="$modal.show('membersManagement')">
                                     Manage members
                                 </a>,
                                 <a>
@@ -44,7 +38,6 @@
                                 <a @click.prevent="delItem('mission', 'deleteMission', mission.name, mission.id)">
                                     Delete
                                 </a>
->>>>>>> db7d5e1b0dd920b34a20fa1229312f28fbfa5bd7
                             </td>
                         </tr>
                         <tr>
@@ -132,17 +125,12 @@
                             <td> {{ group.name }} </td>
                             <td> {{ group.users.length }} </td>
                             <td>
-<<<<<<< HEAD
-                                <a @click.prevent="$modal.show('membersManagement', {group_id: group.id});">Manage users</a>,
-                                <a @click.prevent="delItem('group', 'deleteGroup', group.name, group.id)">Delete</a>
-=======
-                                <a @click.prevent="$modal.show('membersManagement', {group_id: group.id});">
+                                <a @click.prevent="$modal.show('groupMembers', {group_id: group.id});">
                                     Manage users
-                                </a>, 
+                                </a>,
                                 <a @click.prevent="delItem('group', 'deleteGroup', group.name, group.id)">
                                     Delete
                                 </a>
->>>>>>> db7d5e1b0dd920b34a20fa1229312f28fbfa5bd7
                             </td>
                         </tr>
                         <tr>
@@ -227,12 +215,13 @@
     import NewEvent from './NewEvent';
     import NewUser from './NewUser';
     import MissionMembers from './MissionMembers';
+    import GroupMembers from './GroupMembers';
 
     export default {
         components: {
             Loader,
             Tabs, Tab,
-            NewMission, NewGroup, NewEvent, NewUser, MissionMembers
+            NewMission, NewGroup, NewEvent, NewUser, MissionMembers, GroupMembers
         },
         data() {
             return {

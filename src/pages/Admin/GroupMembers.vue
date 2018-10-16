@@ -1,6 +1,6 @@
 <template>
-    <modal name="membersManagement" height="auto" :scrollable="true">
-        <div class="content anna-modal">
+    <modal name="groupMembers" height="auto" :scrollable="true">
+        <div class="content anna-modal group-members">
             <h1>Members Management</h1>
             <h2>Group: {{ group.name }}</h2>
 
