@@ -25,10 +25,18 @@
                             <td> {{ mission.budgetUsed+0 }} / {{ mission.budgetAssigned }} </td>
                             <td> {{ mission.memberCount }} </td>
                             <td>
-                                <a>Manage members</a>,
-                                <a>Manage budget</a>,
-                                <a>Manage tasks</a>,
-                                <a @click.prevent="delItem('mission', 'deleteMission', mission.name, mission.id)">Delete</a>
+                                <a @click.prevent="$modal.show('missionsMembers', {mission_id: mission.id});">
+                                    Manage members
+                                </a>,
+                                <a>
+                                    Manage budget
+                                </a>,
+                                <a>
+                                    Manage tasks
+                                </a>,
+                                <a @click.prevent="delItem('mission', 'deleteMission', mission.name, mission.id)">
+                                    Delete
+                                </a>
                             </td>
                         </tr>
                         <tr>
@@ -116,8 +124,12 @@
                             <td> {{ group.name }} </td>
                             <td> {{ group.users.length }} </td>
                             <td>
-                                <a @click.prevent="$modal.show('membersManagement', {group_id: group.id});">Manage users</a>, 
-                                <a @click.prevent="delItem('group', 'deleteGroup', group.name, group.id)">Delete</a>
+                                <a @click.prevent="$modal.show('membersManagement', {group_id: group.id});">
+                                    Manage users
+                                </a>, 
+                                <a @click.prevent="delItem('group', 'deleteGroup', group.name, group.id)">
+                                    Delete
+                                </a>
                             </td>
                         </tr>
                         <tr>
