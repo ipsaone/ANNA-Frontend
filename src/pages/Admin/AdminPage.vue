@@ -26,7 +26,7 @@
                             <td> {{ mission.budgetUsed+0 }} / {{ mission.budgetAssigned }} </td>
                             <td> {{ mission.memberCount }} </td>
                             <td>
-                                <a @click.prevent="$modal.show('missionsMembers', {mission_id: mission.id});">
+                                <a @click.prevent="$modal.show('missionMembers', {mission_id: mission.id});">
                                     Manage members
                                 </a>,
                                 <a>
