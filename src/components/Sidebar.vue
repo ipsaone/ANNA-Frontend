@@ -90,6 +90,7 @@
                 store.dispatch('logoutUser')
                     .then(() => {
                         this.$notify({clean: true});
+                        store.commit('CLEAR');
                         this.$router.push({name: 'login'});
                         this.$notify({
                             type: 'success',

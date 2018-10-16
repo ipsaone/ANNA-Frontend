@@ -43,6 +43,12 @@ const mutations = {
         if (!data == true){
             state.logged = {};
         }
+    },
+    CLEAR(state) {
+        state.logged = {};
+        state.groups = [];
+        state.events = [];
+        state.missions = [];
     }
 };
 
