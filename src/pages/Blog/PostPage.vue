@@ -10,10 +10,9 @@
                 </div>
 
                 <p class="info">
-                    By
+                    Posted {{ post.publishedAt | moment('DD/MM/YYYY [at] HH:mm') }} by
                     <router-link :to="{name: 'profile', params:{id: post.author.id}}">{{ post.author.username }}
                     </router-link>
-                    on {{ post.publishedAt | moment('DD/MM/YYYY [at] HH:mm') }}
                 </p>
 
 
