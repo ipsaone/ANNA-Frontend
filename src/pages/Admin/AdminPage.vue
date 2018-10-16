@@ -25,10 +25,25 @@
                             <td> {{ mission.budgetUsed+0 }} / {{ mission.budgetAssigned }} </td>
                             <td> {{ mission.memberCount }} </td>
                             <td>
+<<<<<<< HEAD
                                 <a @click.prevent="$modal.show('membersManagement')">Manage members</a>,
                                 <a>Manage budget</a>,
                                 <a>Manage tasks</a>,
                                 <a @click.prevent="delItem('mission', 'deleteMission', mission.name, mission.id)">Delete</a>
+=======
+                                <a @click.prevent="$modal.show('missionsMembers', {mission_id: mission.id});">
+                                    Manage members
+                                </a>,
+                                <a>
+                                    Manage budget
+                                </a>,
+                                <a>
+                                    Manage tasks
+                                </a>,
+                                <a @click.prevent="delItem('mission', 'deleteMission', mission.name, mission.id)">
+                                    Delete
+                                </a>
+>>>>>>> db7d5e1b0dd920b34a20fa1229312f28fbfa5bd7
                             </td>
                         </tr>
                         <tr>
@@ -116,8 +131,17 @@
                             <td> {{ group.name }} </td>
                             <td> {{ group.users.length }} </td>
                             <td>
+<<<<<<< HEAD
                                 <a @click.prevent="$modal.show('membersManagement', {group_id: group.id});">Manage users</a>,
                                 <a @click.prevent="delItem('group', 'deleteGroup', group.name, group.id)">Delete</a>
+=======
+                                <a @click.prevent="$modal.show('membersManagement', {group_id: group.id});">
+                                    Manage users
+                                </a>, 
+                                <a @click.prevent="delItem('group', 'deleteGroup', group.name, group.id)">
+                                    Delete
+                                </a>
+>>>>>>> db7d5e1b0dd920b34a20fa1229312f28fbfa5bd7
                             </td>
                         </tr>
                         <tr>

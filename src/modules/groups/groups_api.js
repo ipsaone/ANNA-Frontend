@@ -15,5 +15,8 @@ export default {
     },
     async update(id) {
         return axios.put(url + id, group, {withCredentials: true});
+    },
+    async getGroup(id) {
+        return axios.get(url + id, {withCredentials: true});
     }
 };

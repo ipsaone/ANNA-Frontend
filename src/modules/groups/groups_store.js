@@ -35,7 +35,7 @@ const actions = {
     },
 
     getGroup({dispatch, state}, id) {
-        return state.groups.filter(el => el.id == id);
+        return GroupsApi.getGroup(id);
     }
 };
 
