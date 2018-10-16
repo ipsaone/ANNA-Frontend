@@ -7,7 +7,7 @@
 
             <form class="" action="" method="post">
                 <ul>
-                  <li v-for="user in users">{{user.username}}</li><br/>
+                  <li v-for="user in users">{{user.username}}<input type="checkbox" name=user.username></li>
                 </ul>
 
             </form>

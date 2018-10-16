@@ -4,10 +4,7 @@
         <new-group></new-group>
         <new-event></new-event>
         <new-user></new-user>
-<<<<<<< HEAD
         <group-members></group-members>
-=======
->>>>>>> e61d3063b5fc04bb48eb2e2566e0337ae516169e
         <mission-members></mission-members>
 
 
@@ -29,11 +26,7 @@
                             <td> {{ mission.budgetUsed+0 }} / {{ mission.budgetAssigned }} </td>
                             <td> {{ mission.memberCount }} </td>
                             <td>
-<<<<<<< HEAD
-                                <a @click.prevent="$modal.show('membersManagement')">
-=======
                                 <a @click.prevent="$modal.show('missionsMembers', {mission_id: mission.id});">
->>>>>>> e61d3063b5fc04bb48eb2e2566e0337ae516169e
                                     Manage members
                                 </a>,
                                 <a>
