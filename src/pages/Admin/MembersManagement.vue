@@ -1,11 +1,17 @@
 <template>
-    <modal name="membersManagement" height="auto" :scrollable="true" @before-open="beforeOpen">
+    <modal name="membersManagement" height="auto" :scrollable="true">
         <div class="content anna-modal">
             <h1>Members Management</h1>
             <h2>Group: {{ group.name }}</h2>
-            
-            <p>TODO</p>
-            
+
+
+            <form class="" action="" method="post">
+                <ul>
+                  <li v-for="user in users">{{user.username}}</li><br/>
+                </ul>
+
+            </form>
+
 
             <button type="submit" class="button success" @click.prevent="onSubmit">Submit</button>
         </div>
@@ -21,6 +27,14 @@
         components: {
             markdownEditor
         },
+        computed: {
+            users() {
+                return store.getters.users;
+            },
+            groups() {
+                return store.getters.groups;
+            }
+        },
         data() {
             return {
                 group: {}
@@ -33,6 +47,7 @@
             },
             onSubmit() {
                 console.log('Hello world!');
+                this.loading = true;
             }
         }
     };
