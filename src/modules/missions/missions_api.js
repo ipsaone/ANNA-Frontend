@@ -22,5 +22,13 @@ export default {
 
     delete(id) {
         return axios.delete(url + id, {withCredentials: true});
+    },
+
+    addMember(mission_id, user_id) {
+        return axios.put(url + mission_id + '/members/' + user_id, {withCredentials: true});
+    },
+
+    remMember(mission_id, user_id) {
+
     }
 };

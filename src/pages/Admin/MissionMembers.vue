@@ -1,14 +1,14 @@
 <template>
     <modal name="missionMembers" height="auto" :scrollable="true" @before-open="beforeOpen">
         <div class="content anna-modal mission-members">
-            <h1>Mission: {{ mission.name }}</h1>
+            <h1 v-if="mission.name">Mission: {{ mission.name }}</h1>
 
             <div class="twocols">
                 <div class="leftcol">
                     <h2>Users</h2>
 
                     <ul>
-                        <a v-for="user in filteredUsers" :key="user.id" v-on:click="addUser">
+                        <a v-for="user in filteredUsers" :key="user.id" v-on:click="addUser(user.id)">
                             {{user.username}}
                         </a>
                     </ul>
@@ -18,15 +18,12 @@
                     <h2>Members</h2>
 
                     <ul>
-                        <a v-for="member in mission.members" :key="member.id" v-on:click="remUser">
+                        <a v-for="member in mission.members" :key="member.id" v-on:click="remUser(user.id)">
                             {{member.username}}
                         </a>
                     </ul>
                 </div>
             </div>
-
-
-            <button type="submit" class="button success" @click.prevent="onSubmit">Submit</button>
         </div>
     </modal>
 </template>
@@ -42,33 +39,34 @@
         },
         data() {
             return {
-                mission: {}
+                
             };
         },
         computed: {
-            async filteredUsers() {
-                await store.dispatch('retrieveUsers');
+            mission() {
+                return store.getters.selectedMission;
+            },
+            filteredUsers() {                
                 if(!this.mission.members) {
-                    return [];
+                    return store.getters.users;
                 }
 
-                let data = await store.getters.users.filter(el => this.mission.members.includes(el));
-                return data;
+                return store.getters.users.filter(el => !this.mission.members.includes(el));      
+                
             }
         },
         methods: {
             async beforeOpen(event) {
-                this.mission = await store.dispatch('retrieveMission', event.params.mission_id)[0];
+                await store.dispatch('retrieveMission', event.params.mission_id);
                 console.log(this.mission);
             },
-            onSubmit() {
-                console.log('Hello world!');
+            async addUser(id) {
+                console.log('adding', id);
+                await store.dispatch('addMember', id);
             },
-            addUser(evt) {
-
-            },
-            remUser(evt) {
-
+            async remUser(id) {
+                console.log('removing', id);
+                await store.dispatch('remMember', id);
             }
         }
     };

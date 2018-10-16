@@ -30,10 +30,11 @@ const actions = {
         }
     },
 
-    retrieveMission({dispatch}, mission_id) {
-        return MissionsApi.get(mission_id)
-            .then(mission => dispatch('setLeader', mission.data));
-            //.catch(err => console.log(err));
+    async retrieveMission({dispatch, commit}, mission_id) {
+        let mission = await MissionsApi.get(mission_id);
+        await commit('SET_SELECTED', mission.data);
+        await dispatch('setLeader', mission.data);
+        return mission;
     },
 
     selectMission({dispatch, commit}, mission_id) {
@@ -69,6 +70,18 @@ const actions = {
     deleteMission({dispatch}, id) {
         return MissionsApi.delete(id)
             .then(_ => dispatch('retrieveMissions', true));
+    },
+
+    async addMember({dispatch, state}, user_id) {
+        let data = await MissionsApi.addMember(state.selected.id, user_id);
+        await dispatch('retrieveMission', state.selected.id);
+        return data;
+    },
+
+    async remMember({dispatch, state}, user_id) {
+        let data = await MissionsApi.remMember(state.selected.id, user_id);
+        await dispatch('retrieveMission', state.selected.id);
+        return data;
     }
 };
 
