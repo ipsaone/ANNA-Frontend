@@ -29,6 +29,6 @@ export default {
     },
 
     remMember(mission_id, user_id) {
-
+        return axios.delete(url + mission_id + '/members/' + user_id, {withCredentials: true});
     }
 };
