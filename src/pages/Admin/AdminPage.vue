@@ -124,9 +124,9 @@
                             <td> {{ group.name }} </td>
                             <td> {{ group.users.length }} </td>
                             <td>
-                                <a @click.prevent="$modal.show('membersManagement', {group_id: group.id});">
+                                <a @click.prevent="$modal.show('groupMembers', {group_id: group.id});">
                                     Manage users
-                                </a>, 
+                                </a>,
                                 <a @click.prevent="delItem('group', 'deleteGroup', group.name, group.id)">
                                     Delete
                                 </a>
@@ -214,14 +214,15 @@
     import NewEvent from './NewEvent';
     import NewUser from './NewUser';
     import MissionMembers from './MissionMembers';
+    import GroupMembers from './GroupMembers';
 
     export default {
         components: {
             Loader,
             Tabs, Tab,
             NewMission, MissionMembers,
-            NewGroup, 
-            NewEvent, 
+            NewGroup, GroupMembers,
+            NewEvent,
             NewUser
         },
         data() {
