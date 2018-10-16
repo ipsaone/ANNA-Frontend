@@ -4,7 +4,6 @@
         <new-group></new-group>
         <new-event></new-event>
         <new-user></new-user>
-        <members-management></members-management>
         <mission-members></mission-members>
 
 
@@ -20,13 +19,13 @@
                             <th>Members</th>
                             <th>Actions</th>
                         </tr>
-                        <tr v-for="mission in missions" :key="mission.id">
+                        <tr v-for="mission in $store.getters.missions" :key="mission.id">
                             <td> {{ mission.name }} </td>
                             <td> {{ mission.leader.username }} </td>
                             <td> {{ mission.budgetUsed+0 }} / {{ mission.budgetAssigned }} </td>
                             <td> {{ mission.memberCount }} </td>
                             <td>
-                                <a @click.prevent="$modal.show('missionsMembers', {mission_id: mission.id});">
+                                <a @click.prevent="$modal.show('missionsMembers', {mission_id: mission.id})">
                                     Manage members
                                 </a>,
                                 <a>
@@ -91,7 +90,7 @@
                             <th>Text</th>
                             <th>Actions</th>
                         </tr>
-                        <tr v-for="post in posts" :key="post.id">
+                        <tr v-for="post in $store.getters.posts" :key="post.id">
                             <td> {{ post.id }} </td>
                             <td> {{ post.title }} </td>
                             <td> {{ post.createdAt }} </td>
@@ -121,7 +120,7 @@
                             <th>Members</th>
                             <th>Actions</th>
                         </tr>
-                        <tr v-for="group in groups" :key="group.id">
+                        <tr v-for="group in $store.getters.groups" :key="group.id">
                             <td> {{ group.name }} </td>
                             <td> {{ group.users.length }} </td>
                             <td>
@@ -150,7 +149,7 @@
                             <th>Groups</th>
                             <th>Actions</th>
                         </tr>
-                        <tr v-for="user in users" :key="user.id">
+                        <tr v-for="user in $store.getters.users" :key="user.id">
                                 <td> {{ user.id }} </td>
                             <td> {{ user.username }} </td>
                             <td> {{ user.email }} </td>
@@ -180,7 +179,7 @@
                             <th>Date</th>
                             <th>Actions</th>
                         </tr>
-                        <tr v-for="event in events" :key="event.id">
+                        <tr v-for="event in $store.getters.events" :key="event.id">
                             <td> {{ event.id }} </td>
                             <td> {{ event.name }} </td>
                             <td> ? / {{ event.maxRegistered }} </td>
@@ -220,33 +219,17 @@
         components: {
             Loader,
             Tabs, Tab,
-            NewMission, NewGroup, NewEvent, NewUser, MissionMembers
+            NewMission, MissionMembers,
+            NewGroup, 
+            NewEvent, 
+            NewUser
         },
         data() {
             return {
-                loading: false,
-                panel_title: 'Actions'
+                loading: false
             };
         },
         computed: {
-            posts() {
-                return store.getters.posts;
-            },
-            users() {
-                return store.getters.users;
-            },
-            groups() {
-                return store.getters.groups;
-            },
-            logs() {
-                return store.getters.logs;
-            },
-            missions() {
-                return store.getters.missions;
-            },
-            events() {
-                return store.getters.events;
-            }
         },
         async mounted() {
             this.loading = true;

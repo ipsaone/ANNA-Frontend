@@ -48,13 +48,17 @@
         computed: {
             async filteredUsers() {
                 await store.dispatch('retrieveUsers');
+                if(!this.mission.members) {
+                    return [];
+                }
+
                 let data = await store.getters.users.filter(el => this.mission.members.includes(el));
                 return data;
             }
         },
         methods: {
             async beforeOpen(event) {
-                this.group = await store.dispatch('getGroup', event.params.mission_id)[0];
+                this.mission = await store.dispatch('retrieveMission', event.params.mission_id)[0];
                 console.log(this.mission);
             },
             onSubmit() {
