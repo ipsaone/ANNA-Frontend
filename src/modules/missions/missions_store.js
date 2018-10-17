@@ -72,13 +72,13 @@ const actions = {
             .then(_ => dispatch('retrieveMissions', true));
     },
 
-    async addMember({dispatch, state}, user_id) {
+    async addMissionMember({dispatch, state}, user_id) {
         let data = await MissionsApi.addMember(state.selected.id, user_id);
         await dispatch('retrieveMission', state.selected.id);
         return data;
     },
 
-    async remMember({dispatch, state}, user_id) {
+    async remMissionMember({dispatch, state}, user_id) {
         let data = await MissionsApi.remMember(state.selected.id, user_id);
         await dispatch('retrieveMission', state.selected.id);
         return data;
