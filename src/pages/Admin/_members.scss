@@ -1,3 +1,7 @@
+.v--modal-overlay.scrollable{
+    overflow-y: hidden;
+}
+
 .lists-wrapper{
     display: grid;
     grid-template-columns: 1fr 1fr;
