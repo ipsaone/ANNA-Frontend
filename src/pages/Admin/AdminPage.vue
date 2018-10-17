@@ -30,10 +30,10 @@
                                     Manage members
                                 </a>,
                                 <a>
-                                    Manage budget
+                                    Manage tasks
                                 </a>,
                                 <a>
-                                    Manage tasks
+                                    Edit
                                 </a>,
                                 <a @click.prevent="delItem('mission', 'deleteMission', mission.name, mission.id)">
                                     Delete

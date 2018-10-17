@@ -17,13 +17,13 @@
                 <div class="groupes">
                     <h2> groupes </h2>
                     <ul>
-                        <li v-for="group in auth.groups"> {{group.name}} </li>
+                        <li v-for="group in $store.getters.groups" :key="group.id"> {{group.name}} </li>
                     </ul>
                 </div>
                 <div class="missions">
                     <h2> missions </h2>
                     <ul>
-                        <li v-for="mission in auth.missions"> {{mission.name}} </li>
+                        <li v-for="mission in $store.getters.missions" :key="mission.id"> {{mission.name}} </li>
                     </ul>
                 </div>
             </div>
