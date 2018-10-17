@@ -32,7 +32,7 @@ const mutations = {
                     state.missions.push(mission.id);
                 });
             }
-            if(user.event) {
+            if(user.events) {
                 user.events.forEach(event => {
                     state.events.push(event.id);
                 });
@@ -62,8 +62,10 @@ const actions = {
         return AuthApi.logout().then(_ => commit('SET_LOGGED_USER', {}));
     },
 
-    retrieveLoggedUser({commit, state}) {
-        return UsersApi.get(state.logged.id).then(res => commit('SET_LOGGED_USER', res.data));
+    async retrieveLoggedUser({commit, state}) {
+        let res = await UsersApi.get(state.logged.id);
+        console.log(res.data);
+        commit('SET_LOGGED_USER', res.data);
     },
 
     checkLoggedUser({commit, state, credentials}){
