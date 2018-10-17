@@ -1,5 +1,6 @@
 @import 'tabs-component';
 @import 'table';
+@import 'groupMembers';
 
 .admin {
 
@@ -33,23 +34,23 @@
     .form-group {
         height: 3em;
     }
-    
+
     .buttons {
-        text-align: right;  
+        text-align: right;
         button {
             transition: 0.3s;
             border: 1px solid $grey-lighter;
         }
-    
-        
-    
+
+
+
         .submit {
             background-color: $white-dark;
         }
         .submit:hover {
             background-color: $light;
         }
-    
+
         .cancel {
             background-color: $warning;
         }
@@ -58,6 +59,3 @@
         }
     }
 }
-
-
-

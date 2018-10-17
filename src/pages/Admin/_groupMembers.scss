@@ -1,0 +1,19 @@
+.lists-wrapper{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-column-gap: 2px solid black;
+    grid-template-areas:
+    "header header"
+    "users members";
+    h2 {
+        grid-row: 1;
+        margin-bottom: 0;
+    }
+    a {
+        padding-top: 10px;
+        display: block;
+    }
+    h2:first-of-type, :first-child > a {
+        border-right: 2px solid black;
+    }
+}
