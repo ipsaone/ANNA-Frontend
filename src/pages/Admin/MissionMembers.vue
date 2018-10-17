@@ -1,29 +1,22 @@
 <template>
     <modal name="missionMembers" height="auto" :scrollable="true" @before-open="beforeOpen">
         <div class="content anna-modal mission-members">
-            <h1 v-if="mission.name">Mission: {{ mission.name }}</h1>
+            <h1 v-if="mission.name"> Mission: {{ mission.name }}</h1>
 
-            <div class="twocols">
-                <div class="leftcol">
-                    <h2>Users</h2>
-
+            <div class="lists-wrapper">
+                <h2>Users</h2>
+                <h2>Members</h2>
                     <ul>
                         <a v-for="user in shownUsers" :key="user.id" @click.prevent="addUser(user.id)">
                             {{user.username}}
                         </a>
                     </ul>
-                </div>
-
-                <div class="rightcol">
-                    <h2>Members</h2>
-
                     <ul>
                         <a v-for="member in mission.members" :key="member.id" @click.prevent="remUser(member.id)">
                             {{member.username}}
                         </a>
                     </ul>
-                </div>
-            </div>
+              </div>
         </div>
     </modal>
 </template>

@@ -1,26 +1,21 @@
 <template>
     <modal name="groupMembers" height="auto" :scrollable="true">
         <div class="content anna-modal group-members">
-            <h1>Members Management</h1>
-            <h2>Group: {{ group.name }}</h2>
+            <h1 v-if="group.name"> Group: {{ group.name }}</h1>
 
             <div class="lists-wrapper">
                 <h2>Users</h2>
                 <h2>Members</h2>
-                <form class="" action="" method="post">
                     <ul class="users-list">
                       <a v-for="user in users" v-on:click="addUser(user.id)">
                           {{user.username}}
                       </a>
                     </ul>
-                </form>
-                <form class="" action="" method="post">
                   <ul class="members-list">
                       <a v-for="member in members" v-on:click="rmUser(user.id)">
                           {{member.username}}
                       </a>
                   </ul>
-                </form>
 
             </div>
 
@@ -45,6 +40,9 @@
             groups() {
                 return store.getters.groups;
             },
+            /*group() {
+                return store.getters.selectedGroup;
+            },*/
             members() {
                 [{username: 'moi'}, {username: 'toi'}];
             }
