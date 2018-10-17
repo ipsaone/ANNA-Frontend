@@ -105,7 +105,7 @@
             try {
                 await store.dispatch('retrieveMissions', true);
                 if (store.getters.missions.length > 0) {
-                    store.dispatch('selectMission', store.getters.missions[0].id);
+                    store.dispatch('retrieveMission', store.getters.missions[0].id);
                 }
             } catch (err) {
                 this.$notify({
@@ -131,13 +131,13 @@
             next() {
                 if (this.currentSlide < this.missionNumber - 1) {
                     this.currentSlide += 1;
-                    store.dispatch('selectMission', store.getters.missions[this.currentSlide].id);
+                    store.dispatch('retrieveMission', store.getters.missions[this.currentSlide].id);
                 }
             },
             prev() {
                 if (this.currentSlide > 0) {
                     this.currentSlide -= 1;
-                    store.dispatch('selectMission', store.getters.missions[this.currentSlide].id);
+                    store.dispatch('retrieveMission', store.getters.missions[this.currentSlide].id);
                 }
             },
             async taskChange(task) {

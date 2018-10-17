@@ -101,25 +101,25 @@
             isRegistered(event_id) {
                 return store.getters.loggedUserEvents.includes(event_id);
             },
-            addUser(event_id) {
-                EventsApi.register(event_id, store.getters.loggedUserId)
-                    .then(_ => store.dispatch('retrieveEvents', true))
-                    .then(_ => store.dispatch('retrieveLoggedUser'))
-                    .then(_ => {
-                        this.$notify({
-                            type: 'success',
-                            title: 'You joined the event!',
-                            duration: 1000
-                        });
-                    })
-                    .catch(err => {
-                        this.$notify({
-                            type: 'error',
-                            title: 'An error occurred.',
-                            text: err.message,
-                            duration: -1
-                        });
+            async addUser(event_id) {
+                try {
+                    await EventsApi.register(event_id, store.getters.loggedUserId);
+                    await store.dispatch('retrieveEvents', true);
+                    await store.dispatch('retrieveLoggedUser');
+                        
+                    this.$notify({
+                        type: 'success',
+                        title: 'You joined the event!',
+                        duration: 1000
                     });
+                }catch(err){
+                    this.$notify({
+                        type: 'error',
+                        title: 'An error occurred.',
+                        text: err.message,
+                        duration: -1
+                    });
+                };
             },
             withdrawUser(event_id) {
                 EventsApi.withdraw(event_id, store.getters.loggedUserId)

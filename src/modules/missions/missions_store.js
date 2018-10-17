@@ -37,11 +37,6 @@ const actions = {
         return mission;
     },
 
-    selectMission({dispatch, commit}, mission_id) {
-        return dispatch('retrieveMission', mission_id)
-            .then(mission => commit('SET_SELECTED', mission));
-    },
-
     setLeaders({dispatch}, missions) {
         return Promise.all(missions.map(mission => {
             return dispatch('getUserById', mission.leaderId)

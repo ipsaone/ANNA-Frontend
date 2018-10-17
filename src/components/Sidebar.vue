@@ -24,7 +24,8 @@
 
             <div class="actions" @mouseover="mouseOverButton" @mouseleave="mouseLeaveButton">
                 <a class="button badge" data-text="Notifications" @click.prevent="showNotifications"
-                   :data-badge="(notifications) ? notifications : false">
+                   :data-badge="(notifications) ? notifications : false"
+                   style="cursor: not-allowed">
                     <i class="fa fa-bell" aria-hidden="true"></i>
                 </a>
 
