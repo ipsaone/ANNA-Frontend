@@ -4,19 +4,23 @@
             <h1 v-if="mission.name"> Mission: {{ mission.name }}</h1>
 
             <div class="lists-wrapper">
-                <h2>Users</h2>
-                <h2>Members</h2>
+                <div class="left-col">
+                    <h2>Users</h2>
                     <ul>
-                        <a v-for="user in shownUsers" :key="user.id" @click.prevent="addUser(user.id)">
-                            {{user.username}}
+                        <a v-for="user in shownUsers" :key="user.id" @click.prevent="addUser(user.id);">
+                          {{user.username}}
                         </a>
                     </ul>
-                    <ul>
-                        <a v-for="member in mission.members" :key="member.id" @click.prevent="remUser(member.id)">
-                            {{member.username}}
-                        </a>
-                    </ul>
-              </div>
+                </div>
+                <div class="right-col">
+                    <h2>Members</h2>
+                        <ul>
+                            <a v-for="member in mission.members" :key="member.id" @click.prevent="remUser(member.id);">
+                                {{member.username}}
+                            </a>
+                        </ul>
+                </div>
+            </div>
         </div>
     </modal>
 </template>
@@ -52,7 +56,7 @@
                 this.refreshUsers();
             },
             async remUser(id) {
-                console.log('removing', id);
+                //console.log('removing', id);
                 await store.dispatch('remMissionMember', id);
                 this.refreshUsers();
             },
@@ -70,7 +74,7 @@
 
                     return !found;
                 });
-            }
+            },
         }
     };
 </script>

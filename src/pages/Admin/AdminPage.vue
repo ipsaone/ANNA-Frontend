@@ -5,7 +5,7 @@
         <new-event></new-event>
         <new-user></new-user>
         <group-members></group-members>
-        <mission-members></mission-members>
+        <mission-members id="missionMembers"></mission-members>
 
 
         <section class="content">

@@ -4,22 +4,23 @@
             <h1 v-if="group.name"> Group: {{ group.name }}</h1>
 
             <div class="lists-wrapper">
-                <h2>Users</h2>
-                <h2>Members</h2>
+                <div class="left-col">
+                    <h2>Users</h2>
                     <ul class="users-list">
-                      <a v-for="user in shownUsers" :key="user.id" v-on:click="addUser(user.id)">
-                          {{user.username}}
-                      </a>
+                        <a v-for="user in shownUsers" :key="user.id" v-on:click="addUser(user.id)">
+                            {{user.username}}
+                        </a>
                     </ul>
-                  <ul class="members-list">
-                      <a v-for="member in group.users" :key="member.id" v-on:click="remUser(member.id)">
-                          {{member.username}}
-                      </a>
-                  </ul>
-
+                </div>
+                <div class="right-col">
+                    <h2>Members</h2>
+                    <ul class="members-list">
+                        <a v-for="member in group.users" :key="member.id" v-on:click="remUser(member.id)">
+                            {{member.username}}
+                        </a>
+                    </ul>
+                </div>
             </div>
-
-            <button type="submit" class="button success" @click.prevent="onSubmit">Submit</button>
         </div>
     </modal>
 </template>
@@ -45,6 +46,7 @@
             },*/
             members() {
                 [{username: 'moi'}, {username: 'toi'}];
+            },
             group() {
                 return store.getters.selectedGroup;
             }
