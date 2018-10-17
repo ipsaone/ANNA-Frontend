@@ -40,11 +40,6 @@
             groups() {
                 return store.getters.groups;
             },
-            /*group() {
-                return store.getters.selectedGroup;
-            },*/
-            members() {
-                [{username: 'moi'}, {username: 'toi'}];
             group() {
                 return store.getters.selectedGroup;
             }
