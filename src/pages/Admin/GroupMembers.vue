@@ -1,5 +1,5 @@
 <template>
-    <modal name="groupMembers" height="auto" :scrollable="true">
+    <modal name="groupMembers" height="auto" :scrollable="true" @before-open="beforeOpen">
         <div class="content anna-modal group-members">
             <h1 v-if="group.name"> Group: {{ group.name }}</h1>
 
@@ -7,12 +7,12 @@
                 <h2>Users</h2>
                 <h2>Members</h2>
                     <ul class="users-list">
-                      <a v-for="user in users" v-on:click="addUser(user.id)">
+                      <a v-for="user in shownUsers" :key="user.id" v-on:click="addUser(user.id)">
                           {{user.username}}
                       </a>
                     </ul>
                   <ul class="members-list">
-                      <a v-for="member in members" v-on:click="rmUser(user.id)">
+                      <a v-for="member in group.users" :key="member.id" v-on:click="remUser(member.id)">
                           {{member.username}}
                       </a>
                   </ul>
@@ -45,21 +45,45 @@
             },*/
             members() {
                 [{username: 'moi'}, {username: 'toi'}];
+            group() {
+                return store.getters.selectedGroup;
             }
         },
         data() {
             return {
-                group: {}
+                shownUsers: []
             };
         },
         methods: {
-            beforeOpen(event) {
-                this.group =  store.getters.groups.filter(el => el.id == event.params.group_id)[0];
-
+            async beforeOpen(event) {
+                await store.dispatch('retrieveGroup', event.params.group_id);
+                this.refreshUsers();
+                console.log(this.group);
             },
-            onSubmit() {
-                console.log('Hello world!');
-                this.loading = true;
+            async addUser(id) {
+                console.log('adding', id);
+                await store.dispatch('addGroupMember', id);
+                this.refreshUsers();
+            },
+            async remUser(id) {
+                console.log('removing', id);
+                await store.dispatch('remGroupMember', id);
+                this.refreshUsers();
+            },
+            refreshUsers() {
+                if (!this.group.users) {
+                    this.shownUsers = store.getters.users;
+                }
+                this.shownUsers =  store.getters.users.filter(el1 => {
+                    let found = false;
+                    this.group.users.forEach(el2 => {
+                        if (el1.id == el2.id) {
+                            found = true;
+                        }
+                    });
+
+                    return !found;
+                });
             }
         }
     };

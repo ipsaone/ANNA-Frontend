@@ -18,5 +18,11 @@ export default {
     },
     async getGroup(id) {
         return axios.get(url + id, {withCredentials: true});
+    },
+    async addMember(group_id, user_id) {
+        return axios.put(base + '/users/' + user_id + '/group/' + group_id,null, {withCredentials: true});
+    },
+    async remMember(group_id, user_id) {
+        return axios.delete(base + '/users/' + user_id + '/group/' + group_id, {withCredentials: true});
     }
 };

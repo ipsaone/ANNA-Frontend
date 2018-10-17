@@ -40,7 +40,7 @@ const mutations = {
         }
     },
     IS_USER_LOGGED(state, data){
-        if (!data == true){
+        if (data != true){
             state.logged = {};
         }
     },

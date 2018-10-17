@@ -48,12 +48,12 @@
             },
             async addUser(id) {
                 console.log('adding', id);
-                await store.dispatch('addMember', id);
+                await store.dispatch('addMissionMember', id);
                 this.refreshUsers();
             },
             async remUser(id) {
                 console.log('removing', id);
-                await store.dispatch('remMember', id);
+                await store.dispatch('remMissionMember', id);
                 this.refreshUsers();
             },
             refreshUsers() {
