@@ -62,6 +62,11 @@ const actions = {
             .then(() => dispatch('retrieveMissions', true));
     },
 
+    updateMission({dispatch}, mission) {
+        return MissionsApi.update(mission)
+            .then(() => dispatch('retrieveMissions', true));
+    },
+
     deleteMission({dispatch}, id) {
         return MissionsApi.delete(id)
             .then(_ => dispatch('retrieveMissions', true));

@@ -6,7 +6,8 @@
         <new-user></new-user>
         <group-members></group-members>
         <mission-members id="missionMembers"></mission-members>
-
+        <edit-event></edit-event>
+        <edit-mission></edit-mission>
 
         <section class="content">
             <h1 class="section-title">Administration</h1>
@@ -23,7 +24,7 @@
                         <tr v-for="mission in $store.getters.missions" :key="mission.id">
                             <td> {{ mission.name }} </td>
                             <td> {{ mission.leader.username }} </td>
-                            <td> {{ mission.budgetUsed+0 }} / {{ mission.budgetAssigned }} </td>
+                            <td> {{ mission.budgetUsed+0 }} / {{ mission.budgetAssigned + 0 }} </td>
                             <td> {{ mission.memberCount }} </td>
                             <td>
                                 <a @click.prevent="$modal.show('missionMembers', {mission_id: mission.id});">
@@ -32,9 +33,7 @@
                                 <a>
                                     Manage tasks
                                 </a>,
-                                <a>
-                                    Edit
-                                </a>,
+                                <a @click.prevent="$modal.show('editMission')">Edit</a>,
                                 <a @click.prevent="delItem('mission', 'deleteMission', mission.name, mission.id)">
                                     Delete
                                 </a>
@@ -186,8 +185,8 @@
                             <td> ? / {{ event.maxRegistered }} </td>
                             <td> {{ event.startDate }} - {{ event.endDate }} </td>
                             <td>
-                                <a>Edit</a>,
                                 <a>Manage registered</a>,
+                                <a @click.prevent="$modal.show('editEvent')">Edit</a>,
                                 <a @click.prevent="delItem('mission', 'deleteMission', event.name, event.id)">Delete</a> </td>
                         </tr>
                         <tr>
@@ -216,6 +215,8 @@
     import NewUser from './NewUser';
     import MissionMembers from './MissionMembers';
     import GroupMembers from './GroupMembers';
+    import EditEvent from './EditEvent';
+    import EditMission from './EditMission';
 
     export default {
         components: {
@@ -224,7 +225,9 @@
             NewMission, MissionMembers,
             NewGroup, GroupMembers,
             NewEvent,
-            NewUser
+            NewUser,
+            EditEvent,
+            EditMission
         },
         data() {
             return {
