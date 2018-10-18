@@ -1,5 +1,5 @@
 <template>
-    <div class="events basic-layout">
+    <div class="events">
         <loader v-if="loading"></loader>
         <new-event></new-event>
         <event></event>
@@ -26,15 +26,6 @@
                     </p>
                 </template>
             </section>
-        </section>
-
-        <section class="actions">
-            <h1 class="section-title">Actions</h1>
-            <ul>
-                <li v-show="canAdd">
-                    <a href="#" @click.prevent="newEvent"><i class="fa fa-plus"></i> New event</a>
-                </li>
-            </ul>
         </section>
     </div>
 </template>

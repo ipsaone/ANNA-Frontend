@@ -17,6 +17,7 @@ $actions-width: 20em;
     border-left: 1px solid $white-darker; 
     position: fixed;
     right: 0;
+    width: 53vh;
 
     @include aside;
   }

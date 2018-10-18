@@ -12,6 +12,10 @@ const mutations = {
 
     SELECT_POST(state, post) {
         state.post = post;
+    },
+
+    CLEAR_POST(state) {
+        state.post = {};
     }
 };
 

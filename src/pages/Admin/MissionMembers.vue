@@ -1,7 +1,9 @@
 <template>
     <modal name="missionMembers" height="auto" :scrollable="true" @before-open="beforeOpen">
         <div class="content anna-modal mission-members">
+
             <h1 v-if="mission.name"> Mission: {{ mission.name }}</h1>
+            <i class="fa fa-times" v-on:click="$modal.hide('missionMembers')"></i>
 
             <div class="lists-wrapper">
                 <div class="left-col">

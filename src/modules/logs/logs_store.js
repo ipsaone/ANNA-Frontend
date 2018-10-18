@@ -12,6 +12,10 @@ const mutations = {
 
     SELECT_LOG(state, log) {
         state.log = log;
+    },
+
+    CLEAR_LOG(state) {
+        state.log = {};
     }
 };
 

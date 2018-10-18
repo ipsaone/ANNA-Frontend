@@ -12,6 +12,10 @@ const mutations = {
 
     SET_SELECTED(state, file) {
         state.selected = file;
+    },
+
+    CLEAR_DRIVE(state) {
+        state.selected = {};
     }
 };
 

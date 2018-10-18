@@ -59,3 +59,43 @@
         }
     }
 }
+
+.shrink {
+    transform: scale(0.1);
+}
+
+.admin .anna-modal form{
+    min-height: 40vh;
+    max-height: 90%;
+    overflow-y: auto;
+    overflow-x: hidden;
+    padding: 0 1vw;
+}
+
+.admin .anna-modal {
+    padding: 0 1vw;
+    form::-webkit-scrollbar-track {
+        -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+        border-radius: 10px;
+        background-color: #F5F5F5;
+    }
+
+    form::-webkit-scrollbar {
+      width: 4px;
+      background-color: #F5F5F5;
+    }
+
+    form::-webkit-scrollbar-thumb {
+      border-radius: 10px;
+      -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,.3);
+      background-color: #555;
+    }
+}
+
+v--modal-box v--modal {
+    height: inherit;
+}
+
+.admin .anna-modal :not(.groupMembers, .missionMembers){
+    height: 90vh;
+}
