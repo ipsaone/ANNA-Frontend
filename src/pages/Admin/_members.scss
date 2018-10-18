@@ -18,6 +18,9 @@
     "header header"
     "users members";
     direction: ltr;
+    min-height: 40vh;
+    max-height: 90vh;
+    overflow: hidden;
 
     ul {
         max-height: 40vh;
@@ -38,6 +41,11 @@
         grid-column: 1;
         border-right: 2px solid $grey;
         margin-top: 5px;
+        height: 100%;
+    }
+
+    .left-col :not(ul){
+        grid-row: 1;
     }
 
     .left-col:first-child{

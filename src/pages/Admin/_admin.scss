@@ -63,3 +63,10 @@
 .shrink {
     transform: scale(0.1);
 }
+
+.admin .anna-modal form{
+    min-height: 40vh;
+    max-height: 90vh;
+    overflow-y: auto;
+    overflow-x: hidden;
+}
