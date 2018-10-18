@@ -2,6 +2,14 @@
     overflow-y: hidden;
 }
 
+.content i {
+    position: absolute;
+    font-size: 30px;
+    top: 10px;
+    right: 15px;
+    cursor: pointer;
+}
+
 .lists-wrapper{
     display: grid;
     grid-template-columns: 1fr 1fr;
