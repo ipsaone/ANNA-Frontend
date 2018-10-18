@@ -12,6 +12,10 @@ const mutations = {
 
     SET_SELECTED_GROUP(state, group) {
         state.selected = group;
+    },
+
+    CLEAR_GROUP(state) {
+        state.selected = {};
     }
 };
 

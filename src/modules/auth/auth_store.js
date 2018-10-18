@@ -44,7 +44,7 @@ const mutations = {
             state.logged = {};
         }
     },
-    CLEAR(state) {
+    CLEAR_LOGIN(state) {
         state.logged = {};
         state.groups = [];
         state.events = [];

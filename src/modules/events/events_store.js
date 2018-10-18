@@ -12,6 +12,10 @@ const mutations = {
 
     SELECT_EVENT(state, event) {
         state.event = event;
+    },
+
+    CLEAR_EVENT(state) {
+        state.event = {};
     }
 };
 
