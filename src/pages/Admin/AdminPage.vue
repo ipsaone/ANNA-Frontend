@@ -87,7 +87,6 @@
                             <th>Title</th>
                             <th>Date</th>
                             <th>Author</th>
-                            <th>Text</th>
                             <th>Actions</th>
                         </tr>
                         <tr v-for="post in $store.getters.posts" :key="post.id">
@@ -95,7 +94,6 @@
                             <td> {{ post.title }} </td>
                             <td> {{ post.createdAt }} </td>
                             <td> {{ post.author.username }} </td>
-                            <td> {{ post.content }} </td>
                             <td>
                                 <router-link :to="{name: 'readPost', params: {id: post.id}}">Show</router-link>,
                                 <router-link :to="{name: 'editPost', params: {id: post.id}}">Edit</router-link>,
@@ -103,7 +101,6 @@
                             </td>
                         </tr>
                         <tr>
-                            <td></td>
                             <td></td>
                             <td></td>
                             <td></td>
