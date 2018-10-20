@@ -25,14 +25,10 @@ const actions = {
         }
     },
 
-    selectUser({state, commit, dispatch}, id) {
-        return dispatch('retrieveUsers')
-            .then(_ => {
-                const user = state.users.filter(user => user.id === parseInt(id))[0];
-
-                if (typeof user !== 'undefined') commit('SELECT_USER', user);
-                else throw Error;
-            });
+    async selectUser({state, commit, dispatch}, id) {
+        let user = await UsersApi.get(id);
+        commit('SELECT_USER', user.data);
+        return;
     },
 
     getUserById({state, dispatch}, id) {
