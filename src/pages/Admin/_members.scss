@@ -15,7 +15,6 @@
     grid-template-columns: 1fr 1fr;
     grid-column-gap: 2px solid black;
     grid-template-areas:
-    "header header"
     "users members";
     direction: ltr;
     min-height: 40vh;
