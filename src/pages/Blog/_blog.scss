@@ -13,16 +13,21 @@
         position: relative;
         float: left;
         text-decoration: none;
-        border: 1px solid #7a7a7a;
+        /*border-top: 2px solid $grey-light;
+        border-left: 2px solid $white-dark;
         border-bottom: 2px solid $grey;
-        border-right: 2px solid $grey;
-        border-radius: 0 10px 10px 10px;
+        border-right: 2px solid $grey;*/
+        border: 2px outset $grey-light;
+        border-radius: 5px 15px 5px 15px / 10px 20px 0px 15px;
         text-align: center;
     }
     .btn:active {
       transform: translate(0px,5px);
       -webkit-transform: translate(0px,5px);
       border-bottom: 1px solid;
+    }
+    .btn:hover {
+        border: 2px inset $grey-light;
     }
 }
 
