@@ -1,5 +1,5 @@
 <template>
-    <modal name="editEvent" height="auto" :scrollable="true">
+    <modal name="editEvent" height="auto" :scrollable="true" @before-open="beforeOpen">
         <div class="content anna-modal">
             <h1>Edit event</h1>
             <form>
@@ -9,12 +9,12 @@
 
                 <div class="form-group">
                     <label for="evt_start">Start date :</label>
-                    <input type="date" name="evt_start" v-model="event.startDate">
+                    <input type="date" name="evt_start" v-model="startDate">
                 </div>
 
                 <div class="form-group">
                     <label for="evt_end">End date :</label>
-                    <input type="date" name="evt_end" v-model="event.endDate">
+                    <input type="date" name="evt_end" v-model="endDate">
                 </div>
 
                 <div class="form-group">
@@ -37,6 +37,7 @@
 <script>
     import store from '@/modules/store';
     import markdownEditor from 'vue-simplemde/src/markdown-editor';
+    import moment from 'moment';
 
     export default {
         components: {
@@ -47,8 +48,18 @@
                 return store.getters.selectedEvent;
             }
         },
+        data() {
+            return {
+                startDate: moment(this.event.startDate).format('yyyy-MM-dd'),
+                endDate: moment(this.event.endDate).format('yyyy-MM-dd'),
+                configs: {
+                    placeholder: 'Description...'
+                }
+            };
+        },
         methods: {
             async beforeOpen(event) {
+                console.log('LOADING EVENT');
                 await store.dispatch('retrieveEvent', event.params.event_id);
             },
             exit() {

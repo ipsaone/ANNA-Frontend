@@ -179,10 +179,10 @@
                             <td> {{ event.id }} </td>
                             <td> {{ event.name }} </td>
                             <td> ? / {{ event.maxRegistered }} </td>
-                            <td> {{ event.startDate }} - {{ event.endDate }} </td>
+                            <td> {{ moment(event.startDate).format('dd/mm/yyyy hh:mm') }} - {{ moment(event.endDate).format('dd/mm/yyyy hh:mm') }} </td>
                             <td>
                                 <a>Manage registered</a>,
-                                <a @click.prevent="$modal.show('editEvent', event.id)">Edit</a>,
+                                <a @click.prevent="$modal.show('editEvent', {event_id: event.id})">Edit</a>,
                                 <a @click.prevent="delItem('mission', 'deleteMission', event.name, event.id)">Delete</a> </td>
                         </tr>
                         <tr>
@@ -213,6 +213,8 @@
     import GroupMembers from './GroupMembers';
     import EditEvent from './EditEvent';
     import EditMission from './EditMission';
+
+    import moment from 'moment';
 
     export default {
         components: {
