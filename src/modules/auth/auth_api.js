@@ -28,16 +28,19 @@ export default {
         return axios.get(url + '/logout', {withCredentials: true});
     },
 
-    check() {
-        return new Promise ((resolve, reject) => {
-            axios.get(url + '/check', {withCredentials: true})
-                .then(_ => {
-                    resolve(true);
-                })
-                .catch(err => {
-                    resolve(false);
-                });
-        });
+    async check() {
+        try {
+            let res = axios.get(url + '/check', {withCredentials: true});
+            if (res.data.logged === true) {
+                return true;
+            }
+        } finally {
+            return false;
+        }
+
+        
+        
+        
     },
 
     async checkUserState() {

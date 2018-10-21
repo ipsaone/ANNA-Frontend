@@ -8,6 +8,10 @@ export default {
         return axios.get(url, {withCredentials: true});
     },
 
+    get(id) {
+        return axios.get(url + id, {withCredentials: true});
+    },
+
     save(event) {
         return axios.post(url, event, {withCredentials: true});
     },

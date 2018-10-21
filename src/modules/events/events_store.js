@@ -29,14 +29,9 @@ const actions = {
         }
     },
 
-    selectEvent({dispatch, commit, state}, id) {
-        return dispatch('retrieveEvents')
-            .then(_ => {
-                const event = state.events.filter(event => event.id === parseInt(id))[0];
-
-                if (typeof event !== 'undefined') commit('SELECT_EVENT', event);
-                else throw Error;
-            });
+    async selectEvent({dispatch, commit, state}, id) {
+        const event = await EventsApi.get(id);
+        commit('SELECT_EVENT', event.data);
     },
 
     unselectEvent({commit}) {

@@ -48,6 +48,9 @@
             }
         },
         methods: {
+            async beforeOpen(event) {
+                await store.dispatch('retrieveEvent', event.params.event_id);
+            },
             exit() {
                 this.$modal.hide('editEvent');
             },

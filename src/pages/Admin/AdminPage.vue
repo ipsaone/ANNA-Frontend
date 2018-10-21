@@ -152,7 +152,6 @@
                             <td> {{ user.email }} </td>
                             <td> {{ user.groups }} </td>
                             <td>
-                                <a>Manage groups</a>,
                                 <a>Change password</a>,
                                 <a @click.prevent="delItem('user', 'deleteUser', user.username, user.id)">Delete</a>
                             </td>
@@ -183,7 +182,7 @@
                             <td> {{ event.startDate }} - {{ event.endDate }} </td>
                             <td>
                                 <a>Manage registered</a>,
-                                <a @click.prevent="$modal.show('editEvent')">Edit</a>,
+                                <a @click.prevent="$modal.show('editEvent', event.id)">Edit</a>,
                                 <a @click.prevent="delItem('mission', 'deleteMission', event.name, event.id)">Delete</a> </td>
                         </tr>
                         <tr>
