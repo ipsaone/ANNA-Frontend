@@ -8,11 +8,11 @@
                 <markdown-editor v-model="markdown"></markdown-editor>
             </div>
 
-            <button type="submit" class="btn" @click.prevent="submit">
+            <button type="submit" class="btn-green" @click.prevent="submit">
                 <i class="icon-circle-arrow-right icon-large" aria-hidden="true"></i> Submit
             </button>
 
-            <button type="submit" class="btn" @click.prevent="cancel">
+            <button type="submit" class="btn-red" @click.prevent="cancel">
                 <i class="icon-circle-arrow-right icon-large" aria-hidden="true"></i> Cancel
             </button>
 
