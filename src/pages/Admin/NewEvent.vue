@@ -70,6 +70,7 @@
                 })
                     .then(() => {
                         this.loading = false;
+                        this.$modal.hide('newEvent');
                     })
                     .then(() => this.$notify({
                         type: 'success',

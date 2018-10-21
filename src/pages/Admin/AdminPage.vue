@@ -8,6 +8,7 @@
         <mission-members id="missionMembers"></mission-members>
         <edit-event></edit-event>
         <edit-mission></edit-mission>
+        <event-members></event-members>
 
         <section class="content">
             <h1 class="section-title">Administration</h1>
@@ -179,11 +180,11 @@
                             <td> {{ event.id }} </td>
                             <td> {{ event.name }} </td>
                             <td> ? / {{ event.maxRegistered }} </td>
-                            <td> {{ moment(event.startDate).format('dd/mm/yyyy hh:mm') }} - {{ moment(event.endDate).format('dd/mm/yyyy hh:mm') }} </td>
+                            <td> {{ moment(event.startDate).format('DD/mm/YYYY hh:mm') }} - {{ moment(event.endDate).format('DD/mm/YYYY hh:mm') }} </td>
                             <td>
-                                <a>Manage registered</a>,
+                                <a @click.prevent="$modal.show('eventMembers', {event_id: event.id})">Manage registered</a>,
                                 <a @click.prevent="$modal.show('editEvent', {event_id: event.id})">Edit</a>,
-                                <a @click.prevent="delItem('mission', 'deleteMission', event.name, event.id)">Delete</a> </td>
+                                <a @click.prevent="delItem('event', 'deleteEvent', event.name, event.id)">Delete</a> </td>
                         </tr>
                         <tr>
                             <td></td>
@@ -210,11 +211,12 @@
     import NewEvent from './NewEvent';
     import NewUser from './NewUser';
     import MissionMembers from './MissionMembers';
+    import EventMembers from './EventMembers';
     import GroupMembers from './GroupMembers';
     import EditEvent from './EditEvent';
     import EditMission from './EditMission';
 
-    import moment from 'moment';
+    import * as moment from 'moment';
 
     export default {
         components: {
@@ -222,7 +224,7 @@
             Tabs, Tab,
             NewMission, MissionMembers,
             NewGroup, GroupMembers,
-            NewEvent,
+            NewEvent, EventMembers,
             NewUser,
             EditEvent,
             EditMission
@@ -235,31 +237,38 @@
         computed: {
         },
         async mounted() {
-            this.loading = true;
-
-            try {
-                await store.dispatch('retrieveMissions', true);
-                await store.dispatch('retrieveUsers', true);
-                await store.dispatch('retrievePosts', true);
-                await store.dispatch('retrieveLogs', true);
-                await store.dispatch('retrieveGroups', true);
-                this.loading = false;
-            } catch (err) {
-                this.$notify({
-                    type: 'error',
-                    title: 'Cannot retrieve users from server',
-                    text: err.message,
-                    duration: -1
-                });
-            }
+            this.refreshAll();
 
         },
         methods: {
+            moment() {
+                return moment();
+            },
+            async refreshAll() {
+                this.loading = true;
+                try {
+                    await store.dispatch('retrieveMissions', true);
+                    await store.dispatch('retrieveUsers', true);
+                    await store.dispatch('retrievePosts', true);
+                    await store.dispatch('retrieveLogs', true);
+                    await store.dispatch('retrieveGroups', true);
+                    await store.dispatch('retrieveEvents', true);
+                    this.loading = false;
+                } catch (err) {
+                    this.$notify({
+                        type: 'error',
+                        title: 'Cannot retrieve data from server',
+                        text: err.message,
+                        duration: -1
+                    });
+                }   
+            },
             async delItem(type_name, action_name, item_name, item_id) {
                 if(confirm('Delete '+type_name+' "'+item_name+'" ?')) {
                     this.loading = true;
                     try {
                         await store.dispatch(action_name, item_id);
+                        await this.refreshAll();
                         this.$notify({
                             type: 'success',
                             title: 'Operation successful',

@@ -57,7 +57,7 @@ const actions = {
     registerEvent({dispatch}, event_id, user_id) {
         return EventsApi.register(event_id, user_id)
             .then(_ => dispatch('retrieveEvents', true));
-    }
+    },
 };
 
 const getters = {

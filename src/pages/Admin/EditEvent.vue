@@ -50,8 +50,8 @@
         },
         data() {
             return {
-                startDate: moment(this.event.startDate).format('yyyy-MM-dd'),
-                endDate: moment(this.event.endDate).format('yyyy-MM-dd'),
+                startDate: '',
+                endDate: '',
                 configs: {
                     placeholder: 'Description...'
                 }
@@ -61,13 +61,19 @@
             async beforeOpen(event) {
                 console.log('LOADING EVENT');
                 await store.dispatch('retrieveEvent', event.params.event_id);
+                this.startDate = moment(this.event.startDate).format('YYYY-MM-DD');
+                this.endDate = moment(this.event.endDate).format('YYYY-MM-DD');
             },
             exit() {
                 this.$modal.hide('editEvent');
             },
             onSubmit() {
                 this.loading = true;
-                store.dispatch('updateEvent', this.event)
+                store.dispatch('updateEvent', {
+                    ...this.event,
+                    startDate: this.startDate,
+                    endDate: this.endDate
+                })
                     .then(() => {
                         this.loading = false;
                     })
