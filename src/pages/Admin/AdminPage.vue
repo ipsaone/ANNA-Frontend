@@ -152,7 +152,7 @@
                             <td> {{ user.email }} </td>
                             <td> {{ user.groups }} </td>
                             <td>
-                                <a>Manage groups</a>,
+                                <!--<a>Manage groups</a>,-->
                                 <a>Change password</a>,
                                 <a @click.prevent="delItem('user', 'deleteUser', user.username, user.id)">Delete</a>
                             </td>
