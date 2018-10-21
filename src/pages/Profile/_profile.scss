@@ -1,56 +1,84 @@
-.myself {
-    display: grid;
-    grid-template-columns: 34% 66%;
-    grid-template-rows: 100px 20px 20px;
-    margin: 33px 25px 117px 25px;
-    max-height: 20%;
-    justify-items: center;
-      .user-image {
-          border-radius: 5px;
-          box-shadow: 2px 2px 10px 1px #999999;
-          width: 50%;
-          grid-column: 1;
-          grid-row: 1 / 5;
-          img {
-              border-radius: 5px 5px 0 0;
-          }
-          h3 {
-              text-align: center;
-              padding-bottom: 5px;
-              margin: auto;
-          }
-      }
-      h1 {
-          grid-column: 2;
-          text-align: center;
-      }
-      p {
-          grid-column: 2;
-          text-align: center;
-          font-size: 20px;
-      }
-
-}
-
-.assignments {
+.profile .content {
+    padding-top: 3vh;
     display: grid;
     grid-template-columns: 50% 50%;
-        .groupes, .missions {
-            width: 66%;
-            box-shadow: 2px 2px 10px 1px #999999;
-            border-radius: 5px;
-            padding: 10px 0;
-            margin: auto;
-            min-height: 200px;
-                h2 {
-                    text-align: center;
-                    border-bottom: 2px solid #aaaaaa;
-                }
-                ul {
-                    margin: 0 20px;
-                    li:before {
-                        content: "-"
-                    }
-                }
+    grid-template-rows: auto;
+    grid-row-gap: 50px;
+    grid-template-areas: "header header" "events myself" "groups missions";
+
+    .groups, .missions, .events{
+      width: 80%;
+      box-shadow: 2px 2px 10px 1px #999999;
+      border-radius: 5px;
+      padding: 10px 0;
+      margin: auto;
+      min-height: 200px;
+          h1, h2 {
+              text-align: center;
+              border-bottom: 2px solid #aaaaaa;
+          }
+          ul {
+              margin: 0 20px;
+              li:before {
+                  content: "-"
+              }
+          }
+    }
+
+    .groups {
+        grid-row: 3;
+        grid-column: 1;
+    }
+
+    .missions {
+        grid-row: 3;
+        grid-column: 2;
+    }
+
+    .events {
+        grid-row: 2;
+        grid-column: 1;
+    }
+
+    .myself {
+        width: 80%;
+        box-shadow: 2px 2px 10px 1px #999999;
+        border-radius: 5px;
+        padding: 15px 0;
+        margin: auto;
+        min-height: 200px;
+        grid-row: 2;
+        grid-column: 2;
+        display: grid;
+        grid-template-columns: 66% 33%;
+        grid-column-gap: 10px;
+        span {
+            font-size: 20px;
+            grid-column: 1;
+            margin-top: auto;
+            margin-bottom: auto;
+            overflow-wrap: break-word;
+            padding-left: 20px;
         }
+        span:first-child {
+            font-weight: bold;
+            font-size: 25px;
+            text-align: center;
+        }
+        img {
+            padding-right: 15px;
+            margin: auto;
+            vertical-align: middle;
+            grid-column: 2;
+            grid-row: 1 / span 2;
+        }
+    }
+
+    .page-title {
+        grid-row: 1;
+        grid-column: 1 / span 2;
+        text-align: center;
+        text-transform: uppercase;
+    }
+
 }

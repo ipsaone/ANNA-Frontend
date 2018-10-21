@@ -2,25 +2,36 @@
     <div class="profile">
         <div class="content">
 
-            <div class="myself">
-                <h1> PAGE MEMBRE </h1>
-                <p> {{ user.username }} <p>
-                <p> {{ user.email }} </p>
+          <h1 class="page-title"> Profile page </h1>
+
+          <div class="myself">
+                <span> {{ user.username }} </span>
+                <span> {{ user.email }} </span>
+                <img src="https://tse2.mm.bing.net/th?id=OIP.pNG1rtt42rb6YYQpfusd4AHaGm&pid=Api"
+                 alt="member picture">
             </div>
 
-            <div class="assignments">
-                <div class="groupes">
-                    <h2> groupes </h2>
-                    <ul>
-                        <li v-for="group in user.groups" :key="group.id"> {{group.name}} </li>
-                    </ul>
-                </div>
-                <div class="missions">
-                    <h2> missions </h2>
-                    <ul>
-                        <li v-for="mission in user.participatingMissions" :key="mission.id"> {{mission.name}} </li>
-                    </ul>
-                </div>
+              <div class="events">
+                  <h2> Events </h2>
+                  <ul>
+                      <li v-for="event in user.events" :key="event.id"> {{event.name}} </li>
+                  </ul>
+              </div>
+
+
+            <div class="groups">
+                <h2> Groups </h2>
+                <ul>
+                    <li v-for="group in user.groups" :key="group.id"> {{group.name}} </li>
+                </ul>
+            </div>
+
+            <div class="missions">
+                <h2> Missions </h2>
+                <ul>
+                    <li v-for="mission in user.participatingMissions" :key="mission.id"> {{mission.name}} </li>
+                </ul>
+            </div>
             </div>
 
 

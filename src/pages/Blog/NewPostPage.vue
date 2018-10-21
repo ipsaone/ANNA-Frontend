@@ -8,13 +8,16 @@
                 <markdown-editor v-model="markdown"></markdown-editor>
             </div>
 
-            <button type="submit" class="btn" :class="{active: canSubmit}" @click.prevent="submit">
+            <button type="submit" class="btn" @click.prevent="submit">
                 <i class="icon-circle-arrow-right icon-large" aria-hidden="true"></i> Submit
             </button>
 
             <button type="submit" class="btn" @click.prevent="cancel">
                 <i class="icon-circle-arrow-right icon-large" aria-hidden="true"></i> Cancel
             </button>
+
+
+
         </section>
 
         <section class="actions">
@@ -58,7 +61,7 @@
                         duration: 2000
                     });
                 }
-                else {                   
+                else {
 
                     const post = {
                         title: this.title,
