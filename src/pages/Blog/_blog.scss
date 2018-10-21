@@ -152,7 +152,7 @@
       }
 
       &:hover {
-        color: $red;
+        color: $red-bright;
       }
 
       // Hover styles
@@ -163,16 +163,16 @@
       }
 
       &:hover::before {
-        border-top-color: $red; // Make borders visible
-        border-right-color: $red;
+        border-top-color: $red-bright; // Make borders visible
+        border-right-color: $red-bright;
         transition:
           width 0.25s ease-out, // Width expands first
           height 0.25s ease-out 0.25s; // And then height
       }
 
       &:hover::after {
-        border-bottom-color: $red; // Make borders visible
-        border-left-color: $red;
+        border-bottom-color: $red-bright; // Make borders visible
+        border-left-color: $red-bright;
         transition:
           border-color 0s ease-out 0.5s, // Wait for ::before to finish before showing border
           width 0.25s ease-out 0.5s, // And then exanding width

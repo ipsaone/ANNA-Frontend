@@ -16,14 +16,14 @@
             </div>
 
             <div class="mission">
-                <div class="description">
-                    <div class="description-title">
-                        <h2>Description :</h2>
-                        <span class="content" v-html="mission.description" ></span>
+                <div class="mission-left">
+                    <div class="description">
+                        <div class="description-title">
+                            <h2>Description :</h2>
+                            <p class="content" v-html="mission.description" ></p>
+                        </div>
                     </div>
-                </div>
 
-                <div class="mission-more">
                     <div class="team">
                         <h2>Team</h2>
                         <div class="content">
@@ -45,7 +45,9 @@
                             </ul>
                         </div>
                     </div>
+                </div>
 
+                <div class="mission-right">
                     <div class="budget">
                         <h2>Budget</h2>
                         <div class="content">
@@ -67,10 +69,10 @@
                                 <em v-if="mission.tasks.length == 0">No tasks yet !</em>
                                 <a @click.prevent="newTask">Add task</a>
                             </ul>
-
                         </div>
                     </div>
                 </div>
+
             </div>
         </div>
 

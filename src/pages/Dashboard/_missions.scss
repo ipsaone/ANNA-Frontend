@@ -1,74 +1,66 @@
 .mission-slider {
-  margin-left: 2em;
 
-  .controls {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-  }
-
-  .no-mission-message {
-    margin-top: 2em;
-  }
-
-  .mission {
-    margin-top: 2em;
-    display: flex;
-    justify-content: space-evenly;
-    align-items: stretch;
-    flex-direction: row;
-    flex-grow: 1;
-    flex-wrap: nowrap;
-    flex-shrink: 0;
-
-    * {
-      width: 30vw;
+    .controls {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
     }
 
-    .description {
-      text-align: justify;
-      //border: 1px solid $white-darker;
+    .no-mission-message {
+      margin-top: 2em;
     }
 
-    .mission-more, .description {
-      .team, .budget, .tasks, .description-title {
-        border: solid 1px $grey-lighter;
-        background-color: $white-bis;
-        display: block;
-        margin-left: 1em;
-        margin-right: 1em;
-        margin-bottom: 1em;
+    .mission {
+        width: 100%;
+        margin-top: 2em;
+        margin-bottom: 2em;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        grid-column-gap: 2vw;
 
-
-
-        h2 {
-          padding: 0.5em 0;
-          text-align: center;
-          border-bottom: 1px solid $grey-lighter;
+        .mission-left, .mission-right {
+            display: grid;
+            grid-row-gap: 4vh;
         }
 
-        .content {
-          padding: 1em;
-          display: grid;
-          grid-template-columns: 50% 50%;
+    .team, .budget, .tasks, .description{
+        box-shadow: 2px 2px 10px 1px #999999;
+        border-radius: 5px;
+        padding: 10px 0;
+        h1, h2 {
+            text-align: center;
+            border-bottom: 2px solid #aaaaaa;
+        }
+        ul {
+            margin: 0 20px;
+            font-size: 20px;
+            li:before {
+                content: "-"
+            }
+            li {
+                font-size: 16px;
+            }
+        }
+        .content {padding: 1em;}
+    }
+        .team .content {
+            display: grid;
+            grid-template-columns: 50% 50%;
+        }
+        .leader {
+          grid-column: 1 / 2;
+        }
 
-          .leader {
-            grid-column: 1 / 2;
-          }
-
-          .members {
+        .members {
             grid-column: 2 / 2;
-          }
-
-          *{
-            width: auto;
-          }
         }
-      }
+
+        *{
+            width: auto;
+        }
+    }
 
       :last-child {
-        margin-bottom: 0;
+          margin-bottom: 0;
       }
-    }
-  }
 }
