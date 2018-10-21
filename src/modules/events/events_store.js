@@ -29,7 +29,7 @@ const actions = {
         }
     },
 
-    async selectEvent({dispatch, commit, state}, id) {
+    async retrieveEvent({dispatch, commit, state}, id) {
         const event = await EventsApi.get(id);
         commit('SELECT_EVENT', event.data);
     },
