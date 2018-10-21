@@ -30,17 +30,15 @@ export default {
 
     async check() {
         try {
-            let res = axios.get(url + '/check', {withCredentials: true});
+            let res = await axios.get(url + '/check', {withCredentials: true});
             if (res.data.logged === true) {
                 return true;
             }
-        } finally {
+
+            return false;
+        } catch(err) {
             return false;
         }
-
-        
-        
-        
     },
 
     async checkUserState() {
