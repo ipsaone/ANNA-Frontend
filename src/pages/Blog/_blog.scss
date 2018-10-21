@@ -7,6 +7,22 @@
     .btn {
         margin-left: 1em;
         color: #7a7a7a;
+        transition: all 0.1s;
+        -webkit-transition: all 0.1s;
+        font-size: 20px;
+        position: relative;
+        float: left;
+        text-decoration: none;
+        border: 1px solid #7a7a7a;
+        border-bottom: 2px solid $grey;
+        border-right: 2px solid $grey;
+        border-radius: 0 10px 10px 10px;
+        text-align: center;
+    }
+    .btn:active {
+      transform: translate(0px,5px);
+      -webkit-transform: translate(0px,5px);
+      border-bottom: 1px solid;
     }
 }
 
