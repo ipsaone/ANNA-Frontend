@@ -17,11 +17,10 @@
 
             <div class="mission">
                 <div class="mission-left">
+
                     <div class="description">
-                        <div class="description-title">
-                            <h2>Description :</h2>
-                            <p class="content" v-html="mission.description" ></p>
-                        </div>
+                        <h2>Description :</h2>
+                        <p class="content" v-html="mission.description" ></p>
                     </div>
 
                     <div class="team">
@@ -64,7 +63,7 @@
                                     <div class="checkbox-container">
                                         <input type="checkbox" :name="task.name" :id="task.id">
                                         <label :for="task.id">{{ task.name }}</label>
-                                        <label class="checkbox" :for="task.id"> </label>
+                                        <label class="checkbox" :for="task.id"></label>
                                         <i @click.prevent="delTask(task.id)" class="fa fa-trash"></i>
                                     </div>
                                 </li>
