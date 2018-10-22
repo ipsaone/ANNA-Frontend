@@ -22,13 +22,13 @@
                         <h2>Description :</h2>
                         <p class="content" v-html="mission.description" ></p>
                     </div>
-
+                    
                     <div class="team">
                         <h2>Team</h2>
                         <div class="content">
                             <ul class="leader">
                                 Leader:
-                                <li>
+                                <li v-if="mission.leader && mission.leader.id">
                                     <router-link :to="{name: 'profile', params:{id: mission.leader.id}}">
                                         {{ mission.leader.username }}
                                     </router-link>
@@ -45,7 +45,7 @@
                         </div>
                     </div>
                 </div>
-
+            
                 <div class="mission-right">
                     <div class="budget">
                         <h2>Budget</h2>
@@ -73,7 +73,6 @@
                         </div>
                     </div>
                 </div>
-
             </div>
         </div>
 
@@ -160,7 +159,7 @@
             },
             delTask(id) {
                 console.log('click', id);
-                store.dispatch('deleteTasks', id);
+                store.dispatch('deleteTasks', {id: id, missionId: store.getters.selectedMission.id});
             }
         }
     };
