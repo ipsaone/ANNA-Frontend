@@ -23,18 +23,18 @@ const actions = {
 
     async updateTask({dispatch}, data) {
         let task = await TasksApi.update(data);
-        dispatch('retrieveTasks', {force: true, missionId: data.missionId});
+        await dispatch('retrieveTasks', {force: true, missionId: data.missionId});
         return task;
     },
 
-    storeTask({dispatch}, data) {
-        return TasksApi.save(data)
-            .then(_ => dispatch('retrieveTasks', {force: true, missionId: task.missionId}));
+    async storeTask({dispatch}, data) {
+        await TasksApi.save(data);
+        await dispatch('retrieveTasks', {force: true, missionId: data.missionId});
     },
 
-    deleteTasks({dispatch}, id) {
-        return TasksApi.delete(id)
-            .then(_ => dispatch('retrieveTasks', true));
+    deleteTasks({dispatch}, data) {
+        return TasksApi.delete(data.id)
+            .then(_ => dispatch('retrieveTasks', {force: true, missionId: data.missionId}));
     }
 };
 

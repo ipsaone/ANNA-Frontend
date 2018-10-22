@@ -25,9 +25,9 @@
         methods: {
             beforeOpen(mission) {
                 this.mission = mission.params;
-                console.log(this.mission);
+                this.name = '';
             },
-            onSubmit() {
+            async onSubmit() {
                 const data = {
                     task: {
                         name: this.name,
@@ -36,16 +36,18 @@
                     missionId: this.mission.id
                 };
 
-                store.dispatch('storeTask', data)
-                    .then(() => this.$modal.hide('newTask'))
-                    .catch(err => {
-                        this.$notify({
-                            type: 'error',
-                            title: 'Uncaught error',
-                            text: err.message,
-                            duration: -1
-                        });
+                try {
+                    await store.dispatch('storeTask', data);
+                    this.$modal.hide('newTask');
+                }catch (err) {
+                    console.log(err);
+                    this.$notify({
+                        type: 'error',
+                        title: 'Uncaught error',
+                        text: err.message,
+                        duration: -1
                     });
+                }
             }
         }
     };

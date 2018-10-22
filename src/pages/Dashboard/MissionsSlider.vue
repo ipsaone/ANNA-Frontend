@@ -161,7 +161,7 @@
             },
             delTask(id) {
                 console.log('click', id);
-                store.dispatch('deleteTasks', id);
+                store.dispatch('deleteTasks', {id: id, missionId: store.getters.selectedMission.id});
             }
         }
     };
