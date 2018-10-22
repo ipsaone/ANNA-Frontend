@@ -19,4 +19,8 @@ export default {
     delete(user_id) {
         return axios.delete(url + user_id, {withCredentials: true});
     },
+
+    edit(user_id, user) {
+        return axios.put(url + user_id, user, {withCredentials: true});
+    }
 };

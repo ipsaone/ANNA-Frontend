@@ -5,10 +5,11 @@
         <new-event></new-event>
         <new-user></new-user>
         <group-members></group-members>
-        <mission-members id="missionMembers"></mission-members>
+        <mission-members></mission-members>
         <edit-event></edit-event>
         <edit-mission></edit-mission>
         <event-members></event-members>
+        <edit-user></edit-user>
 
         <section class="content">
             <h1 class="section-title">Administration</h1>
@@ -25,14 +26,12 @@
                         <tr v-for="mission in $store.getters.missions" :key="mission.id">
                             <td> {{ mission.name }} </td>
                             <td> {{ mission.leader.username }} </td>
-                            <td> {{ mission.budgetUsed+0 }} / {{ mission.budgetAssigned + 0 }} </td>
+                            <!-- TODO : why is it a string in the first place ? (+0 to convert to number) -->
+                            <td> {{ mission.budgetUsed+0 }} / {{ mission.budgetAssigned+0 }} </td> 
                             <td> {{ mission.memberCount }} </td>
                             <td>
                                 <a @click.prevent="$modal.show('missionMembers', {mission_id: mission.id});">
                                     Manage members
-                                </a>,
-                                <a>
-                                    Manage tasks
                                 </a>,
                                 <a @click.prevent="$modal.show('editMission')">Edit</a>,
                                 <a @click.prevent="delItem('mission', 'deleteMission', mission.name, mission.id)">
@@ -148,12 +147,12 @@
                             <th>Actions</th>
                         </tr>
                         <tr v-for="user in $store.getters.users" :key="user.id">
-                                <td> {{ user.id }} </td>
+                            <td> {{ user.id }} </td>
                             <td> {{ user.username }} </td>
                             <td> {{ user.email }} </td>
                             <td> {{ user.groups }} </td>
                             <td>
-                                <a>Change password</a>,
+                                <a @click.prevent="$modal.show('editUser', {user_id: user.id})">Edit</a>,
                                 <a @click.prevent="delItem('user', 'deleteUser', user.username, user.id)">Delete</a>
                             </td>
                         </tr>
@@ -179,7 +178,7 @@
                         <tr v-for="event in $store.getters.events" :key="event.id">
                             <td> {{ event.id }} </td>
                             <td> {{ event.name }} </td>
-                            <td> ? / {{ event.maxRegistered }} </td>
+                            <td> {{ event.registeredCount }} / {{ event.maxRegistered }} </td>
                             <td> {{ moment(event.startDate).format('DD/mm/YYYY hh:mm') }} - {{ moment(event.endDate).format('DD/mm/YYYY hh:mm') }} </td>
                             <td>
                                 <a @click.prevent="$modal.show('eventMembers', {event_id: event.id})">Manage registered</a>,
@@ -215,6 +214,7 @@
     import GroupMembers from './GroupMembers';
     import EditEvent from './EditEvent';
     import EditMission from './EditMission';
+    import EditUser from './EditUser';
 
     import * as moment from 'moment';
 
@@ -222,12 +222,11 @@
         components: {
             Loader,
             Tabs, Tab,
-            NewMission, MissionMembers,
+            NewMission, MissionMembers,  EditMission,
             NewGroup, GroupMembers,
-            NewEvent, EventMembers,
-            NewUser,
-            EditEvent,
-            EditMission
+            NewEvent, EventMembers, EditEvent,
+            NewUser, EditUser
+           
         },
         data() {
             return {

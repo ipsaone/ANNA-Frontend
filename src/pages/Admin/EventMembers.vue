@@ -62,12 +62,14 @@
             async addUser(id) {
                 console.log('adding', id);
                 await EventsApi.register(store.getters.selectedEvent.id, id);
-                this.refreshUsers();
+                await this.refreshUsers();
+                await store.dispatch('retrieveEvents', true);
             },
             async remUser(id) {
                 console.log('removing', id);
                 await EventsApi.withdraw(store.getters.selectedEvent.id, id);
-                this.refreshUsers();
+                await this.refreshUsers();
+                await store.dispatch('retrieveEvents', true);
             },
             async refreshUsers() {
                 await store.dispatch('retrieveEvent', store.getters.selectedEvent.id);

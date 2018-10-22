@@ -67,28 +67,31 @@
             exit() {
                 this.$modal.hide('editEvent');
             },
-            onSubmit() {
-                this.loading = true;
-                store.dispatch('updateEvent', {
-                    ...this.event,
-                    startDate: this.startDate,
-                    endDate: this.endDate
-                })
-                    .then(() => {
-                        this.loading = false;
-                    })
-                    .then(() => this.$notify({
+            async onSubmit() {
+                try {
+                    this.loading = true;
+                    await store.dispatch('updateEvent', {
+                        ...this.event,      
+                        startDate: this.startDate,
+                        endDate: this.endDate
+                    });
+                    this.$notify({
                         type: 'success',
                         title: 'Operation successful',
                         text: 'Mission was successfully added',
                         duration: 5000
-                    }))
-                    .catch(err => this.$notify({
+                    });
+                    await store.dispatch('retrieveEvents', true);
+                } catch (err) {
+                    this.$notify({
                         type: 'error',
                         title: 'Operation failed',
                         text: err,
                         duration: 5000
-                    }));    
+                    });    
+                } finally {
+                    this.loading = false;
+                }
             }
         }
     };
