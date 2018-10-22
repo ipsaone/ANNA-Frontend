@@ -64,7 +64,7 @@
                                     <div class="checkbox-container">
                                         <input type="checkbox" :name="task.name" :id="task.id">
                                         <label :for="task.id">{{ task.name }}</label>
-                                        <label class="checkbox"> </label>
+                                        <label class="checkbox" :for="task.id"> </label>
                                         <i @click.prevent="delTask(task.id)" class="fa fa-trash"></i>
                                     </div>
                                 </li>
