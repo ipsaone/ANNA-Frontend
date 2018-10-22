@@ -52,7 +52,7 @@
         },
         methods: {
             async beforeOpen(event) {
-                store.dispatch('selectUser', event.params.user_id);
+                await store.dispatch('selectUser', event.params.user_id);
                 this.user_name = this.user.username;
                 this.user_email = this.user.email;
             },
@@ -83,7 +83,7 @@
                         this.$notify({
                             type: 'success',
                             title: 'Operation successful',
-                            text: 'User was successfully added',
+                            text: 'User was successfully edited',
                             duration: 5000
                         });
                         this.$modal.hide('editUser');
