@@ -34,33 +34,107 @@
         ul {
             margin: 0 20px;
             font-size: 20px;
-            li:before {
-                content: "-"
-            }
             li {
                 font-size: 16px;
             }
         }
         .content {padding: 1em;}
     }
-        .team .content {
-            display: grid;
-            grid-template-columns: 50% 50%;
-        }
-        .leader {
-          grid-column: 1 / 2;
-        }
-
-        .members {
-            grid-column: 2 / 2;
-        }
-
-        *{
-            width: auto;
-        }
+    .team .content {
+        display: grid;
+        grid-template-columns: 50% 50%;
+    }
+    .leader {
+      grid-column: 1 / 2;
     }
 
-      :last-child {
-          margin-bottom: 0;
+    .members {
+        grid-column: 2 / 2;
+    }
+
+    *{
+        width: auto;
+    }
+
+      .tasks .content ul{
+          display: grid;
+          grid-template-rows: repeat(auto, 33px);
+          grid-row-gap: 10px;
+          li {
+              border-bottom: 2px dashed $grey-lighter;
+          }
       }
+
+      .checkbox-container {
+          display: grid;
+          grid-template-columns: 1fr 1fr 0.15fr;
+        	input[type="checkbox"] {
+        		display: none;
+    	}
+
+    	label {
+    		  cursor: pointer;
+          grid-column: 1;
+          font-size: 16px;
+    	}
+      .checkbox {
+          grid-column: 2;
+          margin: auto 0 auto auto;
+          transform: scale(1.2);
+      }
+      i {
+          grid-column: 3;
+          margin: auto 0 auto auto;
+          transform: scale(1.2);
+          cursor: pointer;
+      }
+    }
+
+    .checkbox-container .checkbox {
+      	display: inline-block;
+      	width: 15px;
+      	height: 15px;
+      	background: #d0d0d0;
+
+      	&:after {
+        		content: "";
+        		position: absolute;
+        		width: 0px;
+        		height: 3px;
+        		background: #3498db;
+
+        		transform:translate(4px, 11px) rotate(-45deg);
+        		transform-origin: left;
+        		transition: all 150ms;
+        		transition-delay: 0ms;
+      	}
+
+      	&:before {
+        		content: "";
+        		position: absolute;
+        		width: 0px;
+        		height: 3px;
+        		background: #3498db;
+
+        		transform:translate(1px, 6px) rotate(45deg);
+        		transform-origin: left;
+        		transition: all 150ms;
+        		transition-delay: 150ms;
+    	}
+    }
+
+    .checkbox-container input[type="checkbox"]:checked {
+      	& ~ .checkbox {
+      		  &:before {
+          			width: 7px;
+          			transition-delay: 0ms;
+    		}
+
+    		&:after {
+      			width: 13px;
+      			transition-delay: 150ms;
+    		}
+    	}
+    }
+  }
 }

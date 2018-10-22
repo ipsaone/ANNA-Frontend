@@ -29,7 +29,7 @@
                         <div class="content">
                             <ul class="leader">
                                 Leader:
-                                <li >
+                                <li>
                                     <router-link :to="{name: 'profile', params:{id: mission.leader.id}}">
                                         {{ mission.leader.username }}
                                     </router-link>
@@ -39,7 +39,7 @@
                                 Members:
                                 <li v-for="member in mission.members" :key="member.id">
                                     <router-link :to="{name: 'profile', params:{id: member.id}}">
-                                        {{ member.username }},
+                                        - {{ member.username }},
                                     </router-link>
                                 </li>
                             </ul>
@@ -61,10 +61,12 @@
                         <div class="content">
                             <ul>
                                 <li v-for="task in mission.tasks" :key="task.id">
-                                    <label for="done" class='left'>{{ task.name }}</label>
-                                    <input type="checkbox" class='right' name="done" id="done" @change="taskChange(task)"
-                                           :checked="task.done == 1"
-                                           :disabled="disabledInput">
+                                    <div class="checkbox-container">
+                                        <input type="checkbox" :name="task.name" :id="task.id">
+                                        <label :for="task.id">{{ task.name }}</label>
+                                        <label class="checkbox"> </label>
+                                        <i @click.prevent="delTask(task.id)" class="fa fa-trash"></i>
+                                    </div>
                                 </li>
                                 <em v-if="mission.tasks.length == 0">No tasks yet !</em>
                                 <a @click.prevent="newTask">Add task</a>
@@ -156,6 +158,10 @@
             },
             newTask() {
                 this.$modal.show('newTask', store.getters.selectedMission);
+            },
+            delTask(id) {
+                console.log('click', id);
+                store.dispatch('deleteTasks', id);
             }
         }
     };

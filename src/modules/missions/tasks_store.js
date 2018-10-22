@@ -25,7 +25,7 @@ const actions = {
         let task = await TasksApi.update(data);
         dispatch('retrieveTasks', {force: true, missionId: data.missionId});
         return task;
-    }, 
+    },
 
     storeTask({dispatch}, data) {
         return TasksApi.save(data)
