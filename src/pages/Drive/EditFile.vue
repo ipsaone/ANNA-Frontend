@@ -1,5 +1,5 @@
 <template>
-    <modal name="editFile" @before-open="beforeOpen" @before-close="beforeClose" height="auto" :scrollable="true">
+    <modal name="editFile" @before-close="beforeClose" height="auto" :scrollable="true">
         <div class="content anna-modal">
             <h1>Edit {{ file.name }}</h1>
             <form @submit.prevent="onSubmit">
