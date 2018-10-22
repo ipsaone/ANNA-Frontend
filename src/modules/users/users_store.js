@@ -51,6 +51,11 @@ const actions = {
     deleteUser({state, commit, dispatch}, id) {
         return UsersApi.delete(id)
             .then(() => dispatch('retrieveUsers', true));
+    },
+
+    editUser({dispatch}, data) {
+        return UsersApi.edit(data.id, data.user)
+            .then(() => dispatch('retrieveUsers', true));
     }
 };
 

@@ -165,12 +165,12 @@
                         {
                             title: 'Delete it',
                             default: true,
-                            handler: () => {
-                                driveApi.deleteFile(this.selectedFile.id)
-                                    .then(store.dispatch('retrieveFolder', this.selectedFile.folderId))
-                                    .then(console.log('deleted'))
-                                    .then(store.dispatch('unselectFile'))
-                                    .then(this.$modal.hide('dialog'));
+                            handler: async () => {
+                                await driveApi.deleteFile(this.selectedFile.id);
+                                await store.dispatch('retrieveFolder', store.getters.folder.id);
+                                console.log('deleted');
+                                await store.dispatch('unselectFile');
+                                this.$modal.hide('dialog');
                             }
                         },
                         {
