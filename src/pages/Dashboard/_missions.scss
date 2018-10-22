@@ -66,6 +66,7 @@
             .checkbox-container {
                 display: grid;
                 grid-template-columns: 1fr 1fr 0.15fr;
+                grid-column-gap: 5px;
                 margin-top: -2px;
                 padding-bottom: 10px;
                 border-bottom: 2px dashed $grey-lighter;
