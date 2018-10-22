@@ -1,10 +1,10 @@
 <template>
     <modal name="groupMembers" height="auto" :scrollable="true" @before-open="beforeOpen">
-        <div class="content anna-modal group-members">
+        <div class="content anna-modal group-members manage-members">
 
             <h1 v-if="group.name"> Group: {{ group.name }}</h1>
             <i class="fa fa-times" v-on:click="$modal.hide('groupMembers')"></i>
-            
+
             <div class="lists-wrapper">
                 <div class="left-col">
                     <h2>Users</h2>

@@ -1,10 +1,10 @@
 <template>
     <modal name="eventMembers" height="auto" :scrollable="true" @before-open="beforeOpen">
-        <div class="content anna-modal event-members">
+        <div class="content anna-modal event-members manage-members">
 
             <h1 v-if="event.name"> Event: {{ event.name }}</h1>
             <i class="fa fa-times" v-on:click="$modal.hide('eventMembers')"></i>
-            
+
             <div class="lists-wrapper">
                 <div class="left-col">
                     <h2>Users</h2>

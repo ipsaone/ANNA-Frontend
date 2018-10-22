@@ -17,6 +17,7 @@
         display: grid;
         grid-template-columns: 1fr 1fr;
         grid-column-gap: 3vw;
+        word-break: break-all;
 
         .mission-left {
             grid-column: 1;
