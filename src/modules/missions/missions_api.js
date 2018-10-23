@@ -30,5 +30,21 @@ export default {
 
     remMember(mission_id, user_id) {
         return axios.delete(url + mission_id + '/members/' + user_id, {withCredentials: true});
+    },
+
+    getAllTasks(missionId) {
+        return axios.get(base + '/missions/' + missionId + '/tasks', {withCredentials: true});
+    },
+
+    saveTask(data) {
+        return axios.post(base +'/missions/' + data.missionId + '/tasks', data.task, {withCredentials: true});
+    },
+
+    updateTask(data) {
+        return axios.put(base + '/missions/' + data.missionId + '/task/' + data.task.id, data.task, {withCredentials: true});
+    },
+
+    deleteTask(task) {
+        return axios.delete(base + '/missions/' + task.missionId + '/task/' + task.id, {withCredentials: true});
     }
 };

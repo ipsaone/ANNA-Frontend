@@ -18,13 +18,11 @@
     export default {
         data() {
             return {
-                name: '',
-                mission: {}
+                name: ''
             };
         },
         methods: {
             beforeOpen(mission) {
-                this.mission = mission.params;
                 this.name = '';
             },
             async onSubmit() {
@@ -33,11 +31,12 @@
                         name: this.name,
                         done: false
                     },
-                    missionId: this.mission.id
+                    missionId: store.getters.selectedMission.id
                 };
 
                 try {
                     await store.dispatch('storeTask', data);
+                    await store.dispatch('retrieveMission');
                     this.$modal.hide('newTask');
                 }catch (err) {
                     console.log(err);

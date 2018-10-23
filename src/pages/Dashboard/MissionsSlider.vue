@@ -90,7 +90,6 @@
 
 <script>
     import store from '@/modules/store';
-    import TasksApi from '@/modules/missions/tasks_api';
 
     import newTask from './newTask';
 
@@ -159,7 +158,7 @@
             },
             delTask(id) {
                 console.log('click', id);
-                store.dispatch('deleteTasks', {id: id, missionId: store.getters.selectedMission.id});
+                store.dispatch('deleteTask', {id: id, missionId: store.getters.selectedMission.id});
             }
         }
     };

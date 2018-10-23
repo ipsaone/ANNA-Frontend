@@ -30,7 +30,10 @@ const actions = {
         }
     },
 
-    async retrieveMission({dispatch, commit}, mission_id) {
+    async retrieveMission({dispatch, commit, state}, mission_id) {
+        if (!mission_id) {
+            mission_id = state.selected.id;
+        }
         let mission = await MissionsApi.get(mission_id);
         await commit('SET_SELECTED', mission.data);
         await dispatch('setLeader', mission.data);
@@ -82,6 +85,22 @@ const actions = {
         let data = await MissionsApi.remMember(state.selected.id, user_id);
         await dispatch('retrieveMission', state.selected.id);
         return data;
+    },
+
+    async updateTask({dispatch}, data) {
+        let task = await MissionsApi.updateTask(data);
+        await dispatch('retrieveMission');
+        return task;
+    },
+
+    async storeTask({dispatch}, data) {
+        await MissionsApi.saveTask(data);
+        await dispatch('retrieveMission');
+    },
+
+    deleteTask({dispatch}, data) {
+        return MissionsApi.deleteTask(data)
+            .then(_ => dispatch('retrieveMission'));
     }
 };
 

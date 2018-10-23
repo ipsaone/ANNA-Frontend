@@ -149,7 +149,7 @@
                 this.$modal.show('barcode');
             },
             downloadFile() {
-                driveApi.downloadFile(this.selectedFile.id);
+                driveApi.downloadFile(this.selectedFile.fileId);
             },
             editFile() {
                 if (this.selectedFile.isDir)
