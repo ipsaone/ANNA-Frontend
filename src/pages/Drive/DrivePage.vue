@@ -106,8 +106,8 @@
         },
         async beforeRouteEnter(to, from, next) {
             let folderId = 1;
-            if(store.getters.folder && store.getters.folder.id) {
-                folderId = store.getters.folder.id;
+            if(store.getters.folder && store.getters.folder.fileId) {
+                folderId = store.getters.folder.fileId;
             }
 
             try {
@@ -124,7 +124,7 @@
                 return store.getters.selectedFile;
             },
             showOptions() {
-                return typeof this.selectedFile !== 'undefined' && typeof this.selectedFile.id !== 'undefined';
+                return typeof this.selectedFile !== 'undefined' && typeof this.selectedFile.fileId !== 'undefined';
             }
         },
         methods: {
@@ -137,7 +137,8 @@
             openFile() {
                 if (this.selectedFile.isDir) {
                     this.loading = true;
-                    store.dispatch('retrieveFolder', this.selectedFile.id)
+                    console.log(this.selectedFile);
+                    store.dispatch('retrieveFolder', this.selectedFile.fileId)
                         .then(_ => store.dispatch('selectFile', {}))
                         .then(_ => this.loading = false);
                 }
@@ -167,7 +168,7 @@
                             default: true,
                             handler: async () => {
                                 await driveApi.deleteFile(this.selectedFile.fileId);
-                                await store.dispatch('retrieveFolder', store.getters.folder.id);
+                                await store.dispatch('retrieveFolder', store.getters.folder.fileId);
                                 console.log('deleted');
                                 await store.dispatch('unselectFile');
                                 this.$modal.hide('dialog');
@@ -180,7 +181,7 @@
                 });
             },
             refreshFolder() {
-                store.dispatch('retrieveFolder', store.getters.folder.id);
+                store.dispatch('retrieveFolder', store.getters.folder.fileId);
             }
         }
     };

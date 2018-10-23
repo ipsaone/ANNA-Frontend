@@ -157,7 +157,7 @@
             openFile(file) {
                 if (file.isDir) {
                     this.loading = true;
-                    store.dispatch('retrieveFolder', file.id)
+                    store.dispatch('retrieveFolder', file.fileId)
                         .then(_ => store.dispatch('selectFile', {}))
                         .then(_ => this.loading = false);
                 }

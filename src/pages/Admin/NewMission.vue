@@ -4,7 +4,7 @@
             <h1>Create a new mission</h1>
             <form>
                 <input type="text" name="Name" id="Name" placeholder="Name..." v-model="name">
-                <markdown-editor v-model="description" :configs="configs"></markdown-editor>
+                <markdown-editor v-model="markdown" :configs="configs"></markdown-editor>
 
                 <div class="inline-form">
                     <label for="chief">Chief: </label>
@@ -50,7 +50,7 @@
         data() {
             return {
                 name: '',
-                description: '',
+                markdown: '',
                 chief: 1,
                 group: 1,
                 budgetAssigned: 0.0,
@@ -74,7 +74,7 @@
                 try {
                     await store.dispatch('storeMission', {
                         name: this.name, 
-                        description: this.description, 
+                        markdown: this.markdown, 
                         leaderId: parseInt(this.chief, 10), 
                         groupId: parseInt(this.group, 10), 
                         budgetAssigned: parseFloat(this.budgetAssigned, 10)
@@ -88,7 +88,7 @@
                     });
 
                     this.name = '';
-                    this.description = '';
+                    this.markdown = '';
                     this.chief = 1;
                     this.group = 1;
                     this.budgetAssigned = 0.0;

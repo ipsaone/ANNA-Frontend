@@ -4,8 +4,8 @@
             <h1>{{ event.name }}</h1>
 
             <p class="info">
-                Start the {{ event.startDate | moment('DD/MM/YYYY [at] HH:mm') }}<br>
-                <span v-show="event.endDate">Finish the {{ event.endDate | moment('DD/MM/YYYY [at] HH:mm') }}</span>
+                Start the {{ event.startDate | moment('DD/MM/YYYY') }}<br>
+                <span v-show="event.endDate">Finish the {{ event.endDate | moment('DD/MM/YYYY') }}</span>
             </p>
 
             <div class="description" v-html="event.content"></div>
@@ -26,10 +26,8 @@
         },
         methods: {
             beforeOpen(event) {
-                store.dispatch('selectEvent', event.params.event.id)
-                    .then(_ => {
-                        this.event = store.getters.selectedEvent;
-                    });
+                store.commit('SELECT_EVENT', event.params.event.id);
+                this.event = store.getters.selectedEvent;
             },
             beforeClose(event) {
                 store.dispatch('unselectEvent');

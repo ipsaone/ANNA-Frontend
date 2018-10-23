@@ -46,7 +46,7 @@ const actions = {
     updateEvent({dispatch}, event) {
         return EventsApi.update(event)
             .then(_ => dispatch('retrieveEvents', true))
-            .then(_ => dispatch('selectEvent', event.id));
+            .then(_ => commit('SELECT_EVENT', event.id));
     },
 
     deleteEvent({dispatch}, id) {

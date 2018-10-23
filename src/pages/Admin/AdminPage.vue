@@ -179,11 +179,12 @@
                             <td> {{ event.id }} </td>
                             <td> {{ event.name }} </td>
                             <td> {{ event.registeredCount }} / {{ event.maxRegistered }} </td>
-                            <td> {{ moment(event.startDate).format('DD/mm/YYYY hh:mm') }} - {{ moment(event.endDate).format('DD/mm/YYYY hh:mm') }} </td>
+                            <td> {{ event.startDate | moment('DD/MM/YYYY') }} - {{ event.endDate | moment('DD/MM/YYYY') }} </td>
                             <td>
                                 <a @click.prevent="$modal.show('eventMembers', {event_id: event.id})">Manage registered</a>,
                                 <a @click.prevent="$modal.show('editEvent', {event_id: event.id})">Edit</a>,
-                                <a @click.prevent="delItem('event', 'deleteEvent', event.name, event.id)">Delete</a> </td>
+                                <a @click.prevent="delItem('event', 'deleteEvent', event.name, event.id)">Delete</a>
+                            </td>
                         </tr>
                         <tr>
                             <td></td>
@@ -240,9 +241,6 @@
 
         },
         methods: {
-            moment() {
-                return moment();
-            },
             async refreshAll() {
                 this.loading = true;
                 try {

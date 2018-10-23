@@ -41,7 +41,7 @@
                 try {
                     await driveApi.uploadFile(data);
                     await this.$modal.hide('newFolder');
-                    await store.dispatch('retrieveFolder', store.getters.folder.id);
+                    await store.dispatch('retrieveFolder', store.getters.folder.fileId);
                 } catch (err) {
                     this.$notify({
                         type: 'error',

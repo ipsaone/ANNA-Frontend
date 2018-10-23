@@ -4,7 +4,7 @@
             <h1>Edit mission</h1>
             <form>
                 <input type="text" name="Name" id="Name" placeholder="Name..." v-model="mission.name">
-                <markdown-editor v-model="mission.description" :configs="configs"></markdown-editor>
+                <markdown-editor v-model="mission.markdown" :configs="configs"></markdown-editor>
 
                 <div class="inline-form">
                     <label for="chief">Chief: </label>
@@ -72,7 +72,7 @@
                     await store.dispatch('updateMission', {
                         id: this.mission.id,
                         name: this.mission.name, 
-                        description: this.mission.description, 
+                        markdown: this.mission.markdown, 
                         leaderId: parseInt(this.mission.leaderId, 10), 
                         groupId: parseInt(this.mission.groupId, 10), 
                         budgetAssigned: parseFloat(this.mission.budgetAssigned, 10)
