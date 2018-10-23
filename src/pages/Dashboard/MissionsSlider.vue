@@ -17,19 +17,18 @@
 
             <div class="mission">
                 <div class="mission-left">
-                    <div class="description">
-                        <div class="description-title">
-                            <h2>Description :</h2>
-                            <p class="content" v-html="mission.description" ></p>
-                        </div>
-                    </div>
 
+                    <div class="description">
+                        <h2>Description :</h2>
+                        <p class="content" v-html="mission.description" ></p>
+                    </div>
+                    
                     <div class="team">
                         <h2>Team</h2>
                         <div class="content">
                             <ul class="leader">
                                 Leader:
-                                <li >
+                                <li v-if="mission.leader && mission.leader.id">
                                     <router-link :to="{name: 'profile', params:{id: mission.leader.id}}">
                                         {{ mission.leader.username }}
                                     </router-link>
@@ -39,14 +38,14 @@
                                 Members:
                                 <li v-for="member in mission.members" :key="member.id">
                                     <router-link :to="{name: 'profile', params:{id: member.id}}">
-                                        {{ member.username }},
+                                        - {{ member.username }},
                                     </router-link>
                                 </li>
                             </ul>
                         </div>
                     </div>
                 </div>
-
+            
                 <div class="mission-right">
                     <div class="budget">
                         <h2>Budget</h2>
@@ -61,10 +60,12 @@
                         <div class="content">
                             <ul>
                                 <li v-for="task in mission.tasks" :key="task.id">
-                                    <label for="done" class='left'>{{ task.name }}</label>
-                                    <input type="checkbox" class='right' name="done" id="done" @change="taskChange(task)"
-                                           :checked="task.done == 1"
-                                           :disabled="disabledInput">
+                                    <div class="checkbox-container">
+                                        <input type="checkbox" :name="task.name" :id="task.id">
+                                        <label :for="task.id">{{ task.name }}</label>
+                                        <label class="checkbox" :for="task.id"></label>
+                                        <i @click.prevent="delTask(task.id)" class="fa fa-trash"></i>
+                                    </div>
                                 </li>
                                 <em v-if="mission.tasks.length == 0">No tasks yet !</em>
                                 <a @click.prevent="newTask">Add task</a>
@@ -72,7 +73,6 @@
                         </div>
                     </div>
                 </div>
-
             </div>
         </div>
 
@@ -156,6 +156,10 @@
             },
             newTask() {
                 this.$modal.show('newTask', store.getters.selectedMission);
+            },
+            delTask(id) {
+                console.log('click', id);
+                store.dispatch('deleteTasks', {id: id, missionId: store.getters.selectedMission.id});
             }
         }
     };

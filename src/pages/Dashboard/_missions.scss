@@ -16,51 +16,129 @@
         margin-bottom: 2em;
         display: grid;
         grid-template-columns: 1fr 1fr;
-        grid-column-gap: 2vw;
+        grid-column-gap: 3vw;
+        word-break: break-all;
 
-        .mission-left, .mission-right {
+        .mission-left {
+            grid-column: 1;
             display: grid;
             grid-row-gap: 4vh;
+            height: fit-content;
+        }
+        .mission-right {
+            grid-column: 2;
+            display: grid;
+            grid-row-gap: 4vh;
+            height: fit-content;
         }
 
-    .team, .budget, .tasks, .description{
-        box-shadow: 2px 2px 10px 1px #999999;
-        border-radius: 5px;
-        padding: 10px 0;
-        h1, h2 {
-            text-align: center;
-            border-bottom: 2px solid #aaaaaa;
-        }
-        ul {
-            margin: 0 20px;
-            font-size: 20px;
-            li:before {
-                content: "-"
+        .description, .team, .budget, .tasks {
+            box-shadow: 2px 2px 10px 1px #999999;
+            border-radius: 5px;
+            padding: 10px 0;
+            h1, h2 {
+                text-align: center;
+                border-bottom: 2px solid #aaaaaa;
             }
-            li {
-                font-size: 16px;
+
+            .content {
+                padding: 0 15px;
             }
+
         }
-        .content {padding: 1em;}
-    }
+
         .team .content {
             display: grid;
-            grid-template-columns: 50% 50%;
-        }
-        .leader {
-          grid-column: 1 / 2;
+            grid-template-columns: 1fr 1fr;
+
+            .leader {
+                grid-column: 1;
+            }
+            .members {
+                grid-column: 2;
+            }
+
         }
 
-        .members {
-            grid-column: 2 / 2;
-        }
+        .tasks .content ul{
+            display: grid;
+            grid-row-gap: 10px;
 
-        *{
-            width: auto;
+            .checkbox-container {
+                display: grid;
+                grid-template-columns: 1fr 1fr 0.15fr;
+                grid-column-gap: 5px;
+                margin-top: -2px;
+                padding-bottom: 10px;
+                border-bottom: 2px dashed $grey-lighter;
+              	input[type="checkbox"] {
+              		  display: none;
+              	}
+              	label:first-of-type {
+                    cursor: pointer;
+                    grid-column: 1;
+                    margin: auto 0;
+              	}
+                .checkbox {
+                    cursor: pointer;
+                    grid-column: 2;
+                    margin: auto 0 auto auto;
+                    transform: scale(1.2);
+                }
+                i {
+                    cursor: pointer;
+                    grid-column: 3;
+                    margin: auto 0 auto auto;
+                    transform: scale(1.2);
+                }
+            }
+
+            .checkbox-container .checkbox {
+              	display: inline-block;
+              	width: 15px;
+              	height: 15px;
+              	background: #d0d0d0;
+
+    	          &:after {
+		                content: "";
+                		position: absolute;
+                		width: 0px;
+                		height: 3px;
+                		background: #3498db;
+
+                		transform:translate(4px, 11px) rotate(-45deg);
+                		transform-origin: left;
+                		transition: all 150ms;
+                		transition-delay: 0ms;
+  	            }
+
+            	  &:before {
+                		content: "";
+                		position: absolute;
+                		width: 0px;
+                		height: 3px;
+                		background: #3498db;
+
+                		transform:translate(1px, 6px) rotate(45deg);
+                		transform-origin: left;
+                		transition: all 150ms;
+                		transition-delay: 150ms;
+    	          }
+            }
+
+            .checkbox-container input[type="checkbox"]:checked {
+          	     & ~ .checkbox {
+          		       &:before {
+			                   width: 7px;
+          			         transition-delay: 0ms;
+          		       }
+
+            		     &:after {
+              			     width: 13px;
+                  			 transition-delay: 150ms;
+  		               }
+            	   }
+            }
         }
     }
-
-      :last-child {
-          margin-bottom: 0;
-      }
 }

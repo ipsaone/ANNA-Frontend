@@ -65,8 +65,7 @@
 }
 
 .admin .anna-modal form{
-    min-height: 40vh;
-    max-height: 90%;
+    max-height: 80vh;
     overflow-y: auto;
     overflow-x: hidden;
     padding: 0 1vw;
@@ -96,6 +95,6 @@ v--modal-box v--modal {
     height: inherit;
 }
 
-.admin .anna-modal :not(.groupMembers, .missionMembers){
-    height: 90vh;
+.anna-modal:not(.manage-members){
+    max-height: 90vh;
 }
