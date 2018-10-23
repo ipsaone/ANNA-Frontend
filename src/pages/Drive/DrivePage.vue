@@ -166,7 +166,7 @@
                             title: 'Delete it',
                             default: true,
                             handler: async () => {
-                                await driveApi.deleteFile(this.selectedFile.id);
+                                await driveApi.deleteFile(this.selectedFile.fileId);
                                 await store.dispatch('retrieveFolder', store.getters.folder.id);
                                 console.log('deleted');
                                 await store.dispatch('unselectFile');
