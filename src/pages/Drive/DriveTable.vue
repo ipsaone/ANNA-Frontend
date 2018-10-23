@@ -38,9 +38,9 @@
             </tr>
 
             <!-- Content -->
-            <tr v-for="file in content" :key="file.id" @click="select(file)"
+            <tr v-for="file in content" :key="file.fileId" @click="select(file)"
                 @dblclick="openFile(file)"
-                :class="{selected: file.id === selectedFile.id}">
+                :class="{selected: file.fileId === selectedFile.fileId}">
                 <td v-html="getIcon(file)"></td>
                 <td class="overflow-wrap-hack">
                     <div class="content-td">
@@ -86,7 +86,7 @@
         },
         methods: {
             select(file) {
-                if (file.id === this.selectedFile.id) store.dispatch('selectFile', {});
+                if (file.fileId === this.selectedFile.fileId) store.dispatch('selectFile', {});
                 else store.dispatch('selectFile', file);
             },
             wrapName(name) {

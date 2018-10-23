@@ -31,7 +31,7 @@
                     contents: this.file,
                     name: this.file.name,
                     ownerId: store.getters.loggedUserId,
-                    dirId: store.getters.folder.id,
+                    dirId: store.getters.folder.folderId,
                     groupId: 1,
                     allRead: 1,
                     allWrite: 1,
@@ -43,7 +43,7 @@
 
                 try {
                     await driveApi.uploadFile(data);
-                    await store.dispatch('retrieveFolder', store.getters.folder.id);
+                    await store.dispatch('retrieveFolder', store.getters.folder.folderId);
                     this.$modal.hide('uploadFile');
                 } catch (err) {
                     this.$notify({

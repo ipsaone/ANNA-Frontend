@@ -22,8 +22,8 @@
         <div class='item_template'>
             <li>
                 <a href="#">
-                    <a @click.prevent="fetch(model.id)"> [{{ open ? '-' : '+'}}]</a>
-                    <span @click.prevent="setSelected(model.id)" :style="{'font-weight': selected==model.id?'bold':'normal'}">{{ model.name }}</span>
+                    <a @click.prevent="fetch(model.fileId)"> [{{ open ? '-' : '+'}}]</a>
+                    <span @click.prevent="setSelected(model.fileId)" :style="{'font-weight': selected==model.fileId?'bold':'normal'}">{{ model.name }}</span>
                 </a>  
 
                 <ul v-if="folder.children" v-show="open">
@@ -47,7 +47,7 @@
         },
         methods: {
             async fetch () {
-                this.folder = await store.dispatch('getFoldersList', this.model.id);
+                this.folder = await store.dispatch('getFoldersList', this.model.fileId);
                 this.open = !this.open;
             },
             async setSelected(id) {
@@ -94,7 +94,7 @@
 
                 try {
                     await driveApi.editFile(edit);
-                    await store.dispatch('retrieveFolder', store.getters.folder.id);
+                    await store.dispatch('retrieveFolder', store.getters.folder.fileId);
                     this.$modal.hide('moveFile');
                 } catch (err) {
                     this.$notify({

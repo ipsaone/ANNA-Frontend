@@ -28,7 +28,7 @@
                     name: this.name,
                     isDir: true,
                     ownerId: store.getters.loggedUserId,
-                    dirId: store.getters.folder.id,
+                    dirId: store.getters.folder.fileId,
                     groupId: 1,
                     allRead: 1,
                     allWrite: 1,

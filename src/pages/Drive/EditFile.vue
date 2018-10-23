@@ -54,7 +54,7 @@
 
                 try {
                     await driveApi.editFile(edit);
-                    await store.dispatch('retrieveFolder', store.getters.folder.id);
+                    await store.dispatch('retrieveFolder', store.getters.folder.fileId);
                     this.$modal.hide('editFile');
                 } catch (err) {
                     this.$notify({
