@@ -5,7 +5,7 @@
             <h1>{{ post.title }}</h1>
             <p class="info">
                 <span class="date">{{ post.publishedAt | moment('DD/MM/YYYY - HH:mm') }}</span>
-                <span class="author">By <a href="#">{{ post.author.username }}</a></span>
+                <span class="author">By <router-link :to="{name: 'profile', params:{id: post.author.id}}">{{ post.author.username }}</router-link></span>
             </p>
         </article>
     </router-link>
