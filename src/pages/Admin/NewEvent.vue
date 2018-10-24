@@ -49,7 +49,7 @@
                 max: 0,
                 start: new Date(),
                 end:  new Date(),
-                
+
                 configs: {
                     placeholder: 'Description...'
                 },
@@ -61,29 +61,38 @@
             },
             onSubmit() {
                 this.loading = true;
-                store.dispatch('storeEvent', {
-                    name: this.name,
-                    markdown: this.description,
-                    maxRegistered: this.max,
-                    startDate: this.start,
-                    endDate: this.end
-                })
-                    .then(() => {
-                        this.loading = false;
-                        this.$modal.hide('newEvent');
+                if (this.max > 0){
+                    store.dispatch('storeEvent', {
+                        name: this.name,
+                        markdown: this.description,
+                        maxRegistered: this.max,
+                        startDate: this.start,
+                        endDate: this.end
                     })
-                    .then(() => this.$notify({
-                        type: 'success',
-                        title: 'Operation successful',
-                        text: 'Mission was successfully added',
-                        duration: 5000
-                    }))
-                    .catch(err => this.$notify({
+                        .then(() => {
+                            this.loading = false;
+                            this.$modal.hide('newEvent');
+                        })
+                        .then(() => this.$notify({
+                            type: 'success',
+                            title: 'Operation successful',
+                            text: 'Mission was successfully added',
+                            duration: 5000
+                        }))
+                        .catch(err => this.$notify({
+                            type: 'error',
+                            title: 'Operation failed',
+                            text: err,
+                            duration: 5000
+                        }));
+                } else {
+                    this.$notify({
                         type: 'error',
                         title: 'Operation failed',
-                        text: err,
+                        text: 'Slots musn\'t be null',
                         duration: 5000
-                    }));    
+                    });
+                }
             }
         }
     };
