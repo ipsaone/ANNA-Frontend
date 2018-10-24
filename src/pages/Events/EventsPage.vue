@@ -10,7 +10,7 @@
             <section> <!-- DO NOT REMOVE THE SECTION TAG -->
                 <template v-if="events.length > 0">
                     <div class="event flex-abstract" v-for="event in events" :key="event.id" @click="showEvent(event)">
-                        <p class="registered" v-show="event.maxRegistered">0/{{ event.maxRegistered }}</p>
+                        <p class="registered" v-show="event.maxRegistered">{{ event.registeredCount }}/{{ event.maxRegistered }}</p>
                         <h1><a href="#">{{ event.name }}</a></h1>
                         <p class="date">The {{ event.startDate | moment('DD/MM/YYYY') }}</p>
                         <p>
