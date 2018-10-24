@@ -75,6 +75,7 @@
             async beforeOpen(event) {
                 this.baseFolder = await store.dispatch('getFoldersList', 1);
                 console.log(this.baseFolder);
+                this.selected = 1;
             },
             async setSelected(id) {
                 this.selected = id;
