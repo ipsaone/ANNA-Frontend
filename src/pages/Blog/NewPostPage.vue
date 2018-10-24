@@ -62,7 +62,6 @@
                     });
                 }
                 else {
-
                     const post = {
                         title: this.title,
                         markdown: this.markdown.replace(/\n\n/gi, '\n\n<br>'),

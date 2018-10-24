@@ -50,7 +50,7 @@
             };
         },
         mounted() {
-            this.refreshEvents(false, true);
+            this.refreshEvents(true, true);
         },
         computed: {
             events() {
@@ -88,6 +88,7 @@
             },
             showEvent(event) {
                 this.$modal.show('event', {'event': event});
+                console.log('ta mère', event);
             },
             isRegistered(event_id) {
                 return store.getters.loggedUserEvents.includes(event_id);
@@ -97,7 +98,7 @@
                     await EventsApi.register(event_id, store.getters.loggedUserId);
                     await store.dispatch('retrieveEvents', true);
                     await store.dispatch('retrieveLoggedUser');
-                        
+
                     this.$notify({
                         type: 'success',
                         title: 'You joined the event!',
