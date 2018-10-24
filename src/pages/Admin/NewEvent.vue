@@ -55,19 +55,33 @@
                 },
             };
         },
+        computed: {
+            canSubmit() {
+                return this.name !== '' && this.description !== '';
+            }
+        },
         methods: {
             exit() {
                 this.$modal.hide('newEvent');
             },
             onSubmit() {
                 this.loading = true;
-                store.dispatch('storeEvent', {
-                    name: this.name,
-                    markdown: this.description,
-                    maxRegistered: this.max,
-                    startDate: this.start,
-                    endDate: this.end
-                })
+                if (!this.canSubmit) {
+                    this.$notify({
+                        type: 'error',
+                        title: 'Incomplete form',
+                        text: 'A title and a description are needed to submit.',
+                        duration: 2000
+                    });
+                }
+                else {
+                    store.dispatch('storeEvent', {
+                        name: this.name,
+                        markdown: this.description,
+                        maxRegistered: this.max,
+                        startDate: this.start,
+                        endDate: this.end
+                    })
                     .then(() => {
                         this.loading = false;
                         this.$modal.hide('newEvent');
@@ -83,7 +97,8 @@
                         title: 'Operation failed',
                         text: err,
                         duration: 5000
-                    }));    
+                    }));
+                }    
             }
         }
     };

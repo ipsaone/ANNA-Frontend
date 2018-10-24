@@ -10,12 +10,19 @@
             <section> <!-- DO NOT REMOVE THE SECTION TAG -->
                 <template v-if="events.length > 0">
                     <div class="event flex-abstract" v-for="event in events" :key="event.id" @click="showEvent(event)">
-                        <p class="registered" v-show="event.maxRegistered">0/{{ event.maxRegistered }}</p>
+                        <p class="registered">{{ event.registeredCount }}<span v-show="event.maxRegistered">/{{ event.maxRegistered }}</span></p>
                         <h1><a href="#">{{ event.name }}</a></h1>
                         <p class="date">The {{ event.startDate | moment('DD/MM/YYYY') }}</p>
-                        <p>
-                            <a href="#" @click.prevent.stop="addUser(event.id)" class="button success" v-if="!isRegistered(event.id)">Join</a>
-                            <a href="#" @click.prevent.stop="withdrawUser(event.id)" class="button alert" v-else>Withdraw</a>
+                        <p v-if="event.maxRegistered > 0 && event.registeredCount < event.maxRegistered">
+                            <a href="#" @click.prevent.stop="addUser(event.id)" class="button success" v-if="!isRegistered(event.id)">
+                                Join
+                            </a>
+                        </p>
+                        <p v-else>
+                            <a href="#" @click.prevent.stop="withdrawUser(event.id)" class="button alert" v-if="isRegistered(event.id)">
+                                Withdraw
+                            </a>
+                            <a href="#" class="button" disabled v-else>Full</a>
                         </p>
                     </div>
                 </template>
@@ -50,7 +57,7 @@
             };
         },
         mounted() {
-            this.refreshEvents(false, true);
+            this.refreshEvents(true, true);
         },
         computed: {
             events() {
