@@ -28,7 +28,7 @@
                 <div class="buttons">
                     <button type="button" @click.prevent="$modal.hide('newMission')" class="cancel">Cancel</button>
                     <button type="button" @click.prevent="onSubmit" class="submit">Submit</button>
-                </div> 
+                </div>
             </form>
         </div>
     </modal>
