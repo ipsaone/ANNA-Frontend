@@ -10,7 +10,7 @@
 
             <div class="description" v-html="event.content"></div>
 
-            <button @click="deleteEvent" class="button alert">Delete</button>
+            <button @click="deleteEvent" class="button alert" v-if="showAdmin">Delete</button>
         </div>
     </modal>
 </template>
@@ -36,6 +36,10 @@
             deleteEvent() {
                 store.dispatch('deleteEvent', this.event.id)
                     .then(this.$modal.hide('event'));
+            },
+            showAdmin() {
+                console.log('jsuis root?', store.getters.loggedUserIsRoot);
+                return store.getters.loggedUserIsRoot;
             }
         }
     };

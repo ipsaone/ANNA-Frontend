@@ -22,15 +22,15 @@
                         <h2>Description :</h2>
                         <p class="content" v-html="mission.description" ></p>
                     </div>
-                    
+
                     <div class="team">
                         <h2>Team</h2>
                         <div class="content">
                             <ul class="leader">
                                 Leader:
-                                <li v-if="mission.leader && mission.leader.id">
+                                <li>
                                     <router-link :to="{name: 'profile', params:{id: mission.leader.id}}">
-                                        {{ mission.leader.username }}
+                                        - {{ mission.leader.username}}
                                     </router-link>
                                 </li>
                             </ul>
@@ -45,7 +45,7 @@
                         </div>
                     </div>
                 </div>
-            
+
                 <div class="mission-right">
                     <div class="budget">
                         <h2>Budget</h2>
