@@ -2,12 +2,17 @@ import PostsApi from './posts_api';
 
 const state = {
     posts: [],
-    post: {}
+    post: {},
+    drafts: []
 };
 
 const mutations = {
     SET_ALL_POSTS(state, posts) {
         state.posts = posts;
+    },
+
+    SET_ALL_DRAFTS(state, drafts) {
+        state.drafts = drafts;
     },
 
     SELECT_POST(state, post) {
@@ -27,6 +32,11 @@ const actions = {
         else {
             return Promise.resolve();
         }
+    },
+
+    retrieveDrafts({commit, state}, force = false) {
+        console.log('draaaaaaaaaaaafts');
+        PostsApi.getDrafted().then(drafts => commit('SET_ALL_DRAFTS', drafts.data));
     },
 
     selectPost({dispatch, commit, state}, id) {
@@ -63,6 +73,9 @@ const getters = {
 
     selectedPost(state) {
         return state.post;
+    },
+    drafts(state) {
+        return state.drafts;
     }
 };
 
