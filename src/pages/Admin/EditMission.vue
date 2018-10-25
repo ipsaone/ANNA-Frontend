@@ -50,8 +50,9 @@
         data() {
             return {
                 configs: {
-                    placeholder: 'Description...'
-                }
+                    placeholder: 'Description...',
+                    spellChecker: false
+                },
             };
         },
         computed: {

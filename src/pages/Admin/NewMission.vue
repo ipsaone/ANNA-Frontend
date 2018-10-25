@@ -56,8 +56,9 @@
                 budgetAssigned: 0.0,
 
                 configs: {
-                    placeholder: 'Description...'
-                }
+                    placeholder: 'Description...',
+                    spellChecker: false
+                },
             };
         },
         computed: {

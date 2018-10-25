@@ -51,7 +51,8 @@
                 end:  new Date(),
 
                 configs: {
-                    placeholder: 'Description...'
+                    placeholder: 'Description...',
+                    spellChecker: false
                 },
             };
         },
