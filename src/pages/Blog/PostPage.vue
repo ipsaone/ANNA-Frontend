@@ -52,7 +52,7 @@
                         .catch(err => {
                             this.$notify({
                                 type: 'error',
-                                title: 'Could not find the post.',
+                                title: 'Could not find post.',
                                 text: `Post #${postIWantToRead.id} does not exist.`,
                                 duration: -1
                             });
@@ -67,8 +67,8 @@
                                 .catch(err => {
                                     this.$notify({
                                         type: 'error',
-                                        title: 'Nique ta race.',
-                                        text: `Post #${postIWantToRead.id} does not exist.`,
+                                        title: 'Could not find draft',
+                                        text: `Draft #${postIWantToRead.id} does not exist.`,
                                         duration: -1
                                     });
                                 });

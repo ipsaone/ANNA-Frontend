@@ -20,7 +20,7 @@ const actions = {
             let missions = await MissionsApi.getAll();
             await dispatch('setLeaders', missions.data);
             await commit('SET_ALL_MISSIONS', missions.data);
-            
+
             if(missions.data.length == 0) {
                 await commit('SET_SELECTED', {});
             }

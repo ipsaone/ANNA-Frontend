@@ -17,6 +17,9 @@
                             <a href="#" @click.prevent.stop="addUser(event.id)" class="button success" v-if="!isRegistered(event.id)">
                                 Join
                             </a>
+                            <a href="#" @click.prevent.stop="withdrawUser(event.id)" class="button alert" v-else>
+                                Withdraw
+                            </a>
                         </p>
                         <p v-else>
                             <a href="#" @click.prevent.stop="withdrawUser(event.id)" class="button alert" v-if="isRegistered(event.id)">
@@ -70,6 +73,11 @@
         methods: {
             refreshEvents(force = false, mounted = false) {
                 this.loading = true;
+                let i;
+                for (i = 0; i < store.getters.events.length; i++) {
+                    console.log(store.getters.events[i]);
+                    this.isRegistered(store.getters.events[i].id);
+                }
                 store.dispatch('retrieveEvents', force)
                     .then(this.loading = false)
                     .then(_ => {
@@ -95,9 +103,9 @@
             },
             showEvent(event) {
                 this.$modal.show('event', {'event': event});
-                console.log('ta mère', event);
             },
             isRegistered(event_id) {
+                console.log('salut salut', store.getters.loggedUserEvents.includes(event_id));
                 return store.getters.loggedUserEvents.includes(event_id);
             },
             async addUser(event_id) {

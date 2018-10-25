@@ -28,7 +28,7 @@
                 <div class="buttons">
                     <button type="button" @click.prevent="$modal.hide('newMission')" class="cancel">Cancel</button>
                     <button type="button" @click.prevent="onSubmit" class="submit">Submit</button>
-                </div> 
+                </div>
             </form>
         </div>
     </modal>
@@ -72,21 +72,30 @@
             async onSubmit() {
                 this.loading = true;
                 try {
-                    await store.dispatch('storeMission', {
-                        name: this.name, 
-                        markdown: this.markdown, 
-                        leaderId: parseInt(this.chief, 10), 
-                        groupId: parseInt(this.group, 10), 
-                        budgetAssigned: parseFloat(this.budgetAssigned, 10)
-                    });
-                    this.$modal.hide('newMission');
-                    this.$notify({
-                        type: 'success',
-                        title: 'Operation successful',
-                        text: 'Mission was successfully added',
-                        duration: 5000
-                    });
-
+                    if(this.name.match(/[a-z]/i)){
+                        await store.dispatch('storeMission', {
+                            name: this.name,
+                            markdown: this.markdown,
+                            leaderId: parseInt(this.chief, 10),
+                            groupId: parseInt(this.group, 10),
+                            budgetAssigned: parseFloat(this.budgetAssigned, 10)
+                        });
+                        this.$modal.hide('newMission');
+                        this.$notify({
+                            type: 'success',
+                            title: 'Operation successful',
+                            text: 'Mission was successfully added.',
+                            duration: 5000
+                        });
+                    } else if (!this.name.match(/[a-z]/i)) {
+                        this.$modal.hide('newMission');
+                        this.$notify({
+                            type: 'error',
+                            title: 'Invalid data',
+                            text: 'Mission name must contain letters.',
+                            duration: -1
+                        });
+                    }
                     this.name = '';
                     this.markdown = '';
                     this.chief = 1;
