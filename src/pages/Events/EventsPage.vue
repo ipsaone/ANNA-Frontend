@@ -1,7 +1,6 @@
 <template>
     <div class="events">
         <loader v-if="loading"></loader>
-        <new-event></new-event>
         <event></event>
 
         <section class="content">
