@@ -41,15 +41,38 @@
     import swal from 'sweetalert2';
 
     export default {
-        mounted() {
-            store.dispatch('selectPost', this.$route.params.id)
-                .catch(err => {
-                    this.$notify({
-                        type: 'error',
-                        title: 'Could not find the post.',
-                        text: `Post #${this.$route.params.id} does not exist.`,
-                        duration: -1
-                    });
+        async mounted() {
+            let id = this.$route.params.id;
+            let postIWantToRead = {};
+            await store.dispatch('selectPost', id)
+                .then(() => {
+                    //console.log(this.post, 'trouvé');
+                    let postIWantToRead = this.post;
+                    store.dispatch('selectPost', postIWantToRead.id)
+                        .catch(err => {
+                            this.$notify({
+                                type: 'error',
+                                title: 'Could not find the post.',
+                                text: `Post #${postIWantToRead.id} does not exist.`,
+                                duration: -1
+                            });
+                        });
+                }, () => {
+                    //console.log('pas trouvé');
+                    store.dispatch('selectDraft', id)
+                        .then(() => {
+                            //console.log(this.post, 'j\'ai trouvé un draft');
+                            let postIWantToRead = this.post;
+                            store.dispatch('selectDraft', postIWantToRead.id)
+                                .catch(err => {
+                                    this.$notify({
+                                        type: 'error',
+                                        title: 'Nique ta race.',
+                                        text: `Post #${postIWantToRead.id} does not exist.`,
+                                        duration: -1
+                                    });
+                                });
+                        });
                 });
         },
         computed: {

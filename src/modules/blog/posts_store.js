@@ -49,6 +49,16 @@ const actions = {
             });
     },
 
+    selectDraft({dispatch, commit, state}, id) {
+        return dispatch('retrieveDrafts')
+            .then(_ => {
+                const post = state.drafts.filter(post => post.id === parseInt(id))[0];
+
+                if (typeof post !== 'undefined') commit('SELECT_POST', post);
+                else throw Error;
+            });
+    },
+
     storePost({dispatch}, post) {
         return PostsApi.save(post)
             .then(_ => dispatch('retrievePosts', true));
