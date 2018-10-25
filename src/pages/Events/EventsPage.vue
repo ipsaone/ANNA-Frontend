@@ -60,6 +60,7 @@
             };
         },
         mounted() {
+            store.dispatch('retrieveLoggedUser');
             this.refreshEvents(true, true);
         },
         computed: {
