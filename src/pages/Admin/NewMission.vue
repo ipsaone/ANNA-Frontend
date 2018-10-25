@@ -56,8 +56,9 @@
                 budgetAssigned: 0.0,
 
                 configs: {
-                    placeholder: 'Description...'
-                }
+                    placeholder: 'Description...',
+                    spellChecker: false
+                },
             };
         },
         computed: {
@@ -72,30 +73,42 @@
             async onSubmit() {
                 this.loading = true;
                 try {
-                    if(this.name.match(/[a-z]/i)){
-                        await store.dispatch('storeMission', {
-                            name: this.name,
-                            markdown: this.markdown,
-                            leaderId: parseInt(this.chief, 10),
-                            groupId: parseInt(this.group, 10),
-                            budgetAssigned: parseFloat(this.budgetAssigned, 10)
-                        });
-                        this.$modal.hide('newMission');
-                        this.$notify({
-                            type: 'success',
-                            title: 'Operation successful',
-                            text: 'Mission was successfully added.',
-                            duration: 5000
-                        });
-                    } else if (!this.name.match(/[a-z]/i)) {
-                        this.$modal.hide('newMission');
+
+                    if(this.name.trim() == '') {
                         this.$notify({
                             type: 'error',
-                            title: 'Invalid data',
-                            text: 'Mission name must contain letters.',
-                            duration: -1
+                            title: 'Name must be specified',
+                            text: 'Please fill the form',
+                            duration: 5000
                         });
+                        return false;
                     }
+                    if(!store.getters.users.map(us => us.id).includes(this.chief) || !store.getters.groups.map(gp => gp.id).includes(this.group)) {
+                        console.log('in');
+                        this.$notify({
+                            type: 'error',
+                            title: 'Leader or group doesn\'t exist',
+                            text: 'Please select an existing leader and group',
+                            duration: 5000
+                        });
+                        return false;
+                    }
+
+                    await store.dispatch('storeMission', {
+                        name: this.name, 
+                        markdown: this.markdown, 
+                        leaderId: parseInt(this.chief, 10), 
+                        groupId: parseInt(this.group, 10), 
+                        budgetAssigned: parseFloat(this.budgetAssigned, 10)
+                    });
+                    this.$modal.hide('newMission');
+                    this.$notify({
+                        type: 'success',
+                        title: 'Operation successful',
+                        text: 'Mission was successfully added',
+                        duration: 5000
+                    });
+
                     this.name = '';
                     this.markdown = '';
                     this.chief = 1;

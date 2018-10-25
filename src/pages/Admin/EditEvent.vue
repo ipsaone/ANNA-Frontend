@@ -53,8 +53,9 @@
                 startDate: '',
                 endDate: '',
                 configs: {
-                    placeholder: 'Description...'
-                }
+                    placeholder: 'Description...',
+                    spellChecker: false
+                },
             };
         },
         methods: {

@@ -25,7 +25,7 @@
         },
         data() {
             return {
-                name: ''
+                name: '',
             };
         },
         methods: {

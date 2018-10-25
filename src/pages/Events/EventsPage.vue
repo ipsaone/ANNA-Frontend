@@ -45,14 +45,12 @@
     import Loader from '@/components/Loader';
     import EventsApi from '@/modules/events/events_api';
 
-    import NewEvent from './NewEvent';
     import Event from './Event';
 
     export default {
         components: {
             Loader,
-            Event,
-            NewEvent,
+            Event
         },
         data() {
             return {
@@ -98,9 +96,6 @@
                             duration: -1
                         });
                     });
-            },
-            newEvent() {
-                this.$modal.show('newEvent');
             },
             showEvent(event) {
                 this.$modal.show('event', {'event': event});
