@@ -23,12 +23,15 @@
                 <div class="inline-form">
                     <label for="budget">Budget assigned: </label>
                     <input type="number" name="budget" id="budget" step="0.01" v-model="mission.budgetAssigned"> €
+                    </br>
+                    <label for="budgetUsed">Budget used: </label>
+                    <input type="number" name="budgetUsed" id="budgetUsed" step="0.01" v-model="mission.budgetUsed"> €
                 </div>
 
                 <div class="buttons">
                     <button type="button" @click.prevent="$modal.hide('newMission')" class="cancel">Cancel</button>
                     <button type="button" @click.prevent="onSubmit" class="submit">Confirm</button>
-                </div> 
+                </div>
             </form>
         </div>
     </modal>
@@ -72,10 +75,10 @@
                 try {
                     await store.dispatch('updateMission', {
                         id: this.mission.id,
-                        name: this.mission.name, 
-                        markdown: this.mission.markdown, 
-                        leaderId: parseInt(this.mission.leaderId, 10), 
-                        groupId: parseInt(this.mission.groupId, 10), 
+                        name: this.mission.name,
+                        markdown: this.mission.markdown,
+                        leaderId: parseInt(this.mission.leaderId, 10),
+                        groupId: parseInt(this.mission.groupId, 10),
                         budgetAssigned: parseFloat(this.mission.budgetAssigned, 10)
                     });
                     this.$modal.hide('editMission');
