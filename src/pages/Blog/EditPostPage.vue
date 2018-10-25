@@ -1,6 +1,6 @@
 <template>
     <div class="basic-layout">
-        <section class="form-post content">
+        <section class="blog form-post content">
             <div class="editor">
                 <h1 class="section-title">Edit post</h1>
 
