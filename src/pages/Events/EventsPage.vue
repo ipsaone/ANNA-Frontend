@@ -42,7 +42,6 @@
     import Loader from '@/components/Loader';
     import EventsApi from '@/modules/events/events_api';
 
-    import NewEvent from './NewEvent';
     import Event from './Event';
 
     export default {

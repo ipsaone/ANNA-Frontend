@@ -72,6 +72,27 @@
             async onSubmit() {
                 this.loading = true;
                 try {
+
+                    if(this.name.trim() == '') {
+                        this.$notify({
+                            type: 'error',
+                            title: 'Name must be specified',
+                            text: 'Please fill the form',
+                            duration: 5000
+                        });
+                        return false;
+                    }
+                    if(!store.getters.users.map(us => us.id).includes(this.chief) || !store.getters.groups.map(gp => gp.id).includes(this.group)) {
+                        console.log('in');
+                        this.$notify({
+                            type: 'error',
+                            title: 'Leader or group doesn\'t exist',
+                            text: 'Please select an existing leader and group',
+                            duration: 5000
+                        });
+                        return false;
+                    }
+
                     await store.dispatch('storeMission', {
                         name: this.name, 
                         markdown: this.markdown, 

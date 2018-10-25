@@ -1,5 +1,5 @@
 <template>
-    <modal name="newEvent" height="auto" :scrollable="true">
+    <modal name="newEvent" height="auto" :scrollable="true" @before-open="beforeOpen">
         <div class="content anna-modal">
             <h1>Create a new event</h1>
             <form>
@@ -64,6 +64,13 @@
             exit() {
                 this.$modal.hide('newEvent');
             },
+            beforeOpen() {
+                this.name = '';
+                this.description = '';
+                this.max = 0;
+                this.start = new Date();
+                this.end = new Date();
+            },
             onSubmit() {
                 this.loading = true;
                 if (!this.canSubmit) {
@@ -73,15 +80,29 @@
                         text: 'A title and a description are needed to submit.',
                         duration: 2000
                     });
+                    return false;
                 }
                 else {
-                    store.dispatch('storeEvent', {
+                    let evt =  {
                         name: this.name,
                         markdown: this.description,
                         maxRegistered: this.max,
                         startDate: this.start,
                         endDate: this.end
-                    })
+                    };
+
+                    if (store.getters.events.map(ev => ev.name).includes(this.name)) {
+                        this.$notify({
+                            type: 'error',
+                            title: 'Already exists',
+                            text: 'This name is already taken by another event',
+                            duration: 2000
+                        });
+                        return false;
+                    }
+
+
+                    store.dispatch('storeEvent',evt)
                     .then(() => {
                         this.loading = false;
                         this.$modal.hide('newEvent');
