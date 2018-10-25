@@ -20,8 +20,12 @@
 
         .post-content {
             margin-top: 5em;
-            margin-left: 10em;
+            margin-left: 2em;
             text-align: justify;
+            max-width: 100%;
+            max-height: 66vh;
+            word-break: break-word;
+            overflow: auto;
         }
     }
 

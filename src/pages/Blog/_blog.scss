@@ -1,18 +1,18 @@
+.markdown-editor {
+    width: calc(66vw - 2em);
+    overflow: auto;
+    word-wrap: break-word;
+
+    .CodeMirror-line {
+        padding-bottom: 1rem;
+    }
+
+}
+
 .blog {
     .no-post-message {
         margin-left: 2em;
         margin-top: 2em;
-    }
-
-    .markdown-editor {
-        width: calc(66vw - 2em);
-        overflow: auto;
-        word-wrap: break-word;
-
-        .CodeMirror-line {
-            padding-bottom: 1rem;
-        }
-
     }
 
     /*.btn {
