@@ -152,8 +152,9 @@
                             <td> {{ user.email }} </td>
                             <td> {{ user.groups }} </td>
                             <td>
-                                <a @click.prevent="$modal.show('editUser', {user_id: user.id})">Edit</a>,
-                                <a @click.prevent="delItem('user', 'deleteUser', user.username, user.id)">Delete</a>
+                                <a v-if="user.id === $store.getters.loggedUserId" @click.prevent="$modal.show('editUser', {user_id: user.id})">Edit</a>
+                                <a v-if="user.id !== $store.getters.loggedUserId" @click.prevent="$modal.show('editUser', {user_id: user.id})">Edit,</a>
+                                <a v-if="user.id !== $store.getters.loggedUserId" @click.prevent="delItem('user', 'deleteUser', user.username, user.id)">Delete</a>
                             </td>
                         </tr>
                         <tr>
