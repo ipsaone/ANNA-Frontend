@@ -83,22 +83,25 @@
                         });
                         return false;
                     }
-                    if(!store.getters.users.map(us => us.id).includes(this.chief) || !store.getters.groups.map(gp => gp.id).includes(this.group)) {
+                    if(!store.getters.users.map(us => us.id).includes(parseInt(this.chief, 10)) || !store.getters.groups.map(gp => gp.id).includes(parseInt(this.group))) {
                         console.log('in');
+                        console.log('ma bite', typeof this.chief);
                         this.$notify({
                             type: 'error',
                             title: 'Leader or group doesn\'t exist',
                             text: 'Please select an existing leader and group',
                             duration: 5000
                         });
+                        this.chief = 1;
+                        this.group = 1;
                         return false;
                     }
 
                     await store.dispatch('storeMission', {
-                        name: this.name, 
-                        markdown: this.markdown, 
-                        leaderId: parseInt(this.chief, 10), 
-                        groupId: parseInt(this.group, 10), 
+                        name: this.name,
+                        markdown: this.markdown,
+                        leaderId: parseInt(this.chief, 10),
+                        groupId: parseInt(this.group, 10),
                         budgetAssigned: parseFloat(this.budgetAssigned, 10)
                     });
                     this.$modal.hide('newMission');
@@ -114,6 +117,7 @@
                     this.chief = 1;
                     this.group = 1;
                     this.budgetAssigned = 0.0;
+
                 } catch (err) {
                     this.$notify({
                         type: 'error',
