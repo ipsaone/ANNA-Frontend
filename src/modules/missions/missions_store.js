@@ -12,16 +12,28 @@ const mutations = {
     SET_SELECTED(state, mission) {
         state.selected = mission;
     },
+    SET_LEADER(state, data) {
+        let index = state.missions.map(mi => mi.id).indexOf(data.id);
+        console.log('plouf', index);
+        state.missions[index] = {...state.missions[index], leader: data.user};
+        console.log('plaf', state.missions[index]);
+    }
 };
 
 const actions = {
     async retrieveMissions({commit, dispatch, state}, force = false) {
         if (state.missions.length === 0 || force) {
-            let missions = await MissionsApi.getAll();
-            await dispatch('setLeaders', missions.data);
-            await commit('SET_ALL_MISSIONS', missions.data);
+            let res = await MissionsApi.getAll();
 
-            if(missions.data.length == 0) {
+            let missions = await Promise.all(res.data.map(async mi => {
+                let leader = await dispatch('getUserById', mi.leaderId);
+                mi.leader = leader;
+                return mi;
+            }));
+            console.log('patate', missions);
+            await commit('SET_ALL_MISSIONS', missions);
+
+            if(missions.length == 0) {
                 await commit('SET_SELECTED', {});
             }
         }
@@ -34,30 +46,14 @@ const actions = {
         if (!mission_id) {
             mission_id = state.selected.id;
         }
-        let mission = await MissionsApi.get(mission_id);
-        await commit('SET_SELECTED', mission.data);
-        await dispatch('setLeader', mission.data);
+        let res = await MissionsApi.get(mission_id);
+        let mission = res.data;
+
+        let leader = await dispatch('getUserById', mission.leaderId);
+        mission.leader = leader;
+        await commit('SET_SELECTED', mission);
+        console.log('des data', state.selected);
         return mission;
-    },
-
-    setLeaders({dispatch}, missions) {
-        return Promise.all(missions.map(mission => {
-            return dispatch('getUserById', mission.leaderId)
-                .then(user => {
-                    mission.leader = user;
-                    return mission;
-                });
-        }));
-    },
-
-    setLeader({dispatch}, mission) {
-        return dispatch('getUserById', mission.leaderId)
-            .then(user => {
-                mission.leader = user;
-            })
-            .then(_ => {
-                return mission;
-            });
     },
 
     storeMission({dispatch}, mission) {

@@ -28,7 +28,7 @@
                         <div class="content">
                             <ul class="leader">
                                 Leader:
-                                <li>
+                                <li v-if="mission.leader && mission.leader.id">
                                     <router-link :to="{name: 'profile', params:{id: mission.leader.id}}">
                                         - {{ mission.leader.username}}
                                     </router-link>
@@ -36,7 +36,7 @@
                             </ul>
                             <ul class="members">
                                 Members:
-                                <li v-for="member in mission.members" :key="member.id">
+                                <li v-for="member in mission.members" v-if="member.id" :key="member.id">
                                     <router-link :to="{name: 'profile', params:{id: member.id}}">
                                         - {{ member.username }},
                                     </router-link>
@@ -106,7 +106,7 @@
             try {
                 await store.dispatch('retrieveMissions', true);
                 if (store.getters.missions.length > 0) {
-                    store.dispatch('retrieveMission', store.getters.missions[0].id);
+                    await store.dispatch('retrieveMission', store.getters.missions[0].id);
                 }
             } catch (err) {
                 this.$notify({
@@ -119,6 +119,7 @@
         },
         computed: {
             mission() {
+                console.log('boum', store.getters.selectedMission);
                 return store.getters.selectedMission;
             },
             missionNumber() {

@@ -31,14 +31,9 @@ const actions = {
         return;
     },
 
-    getUserById({state, dispatch}, id) {
-        return dispatch('retrieveUsers')
-            .then(_ => {
-                const user = state.users.filter(user => user.id === parseInt(id))[0];
-
-                if (typeof user !== 'undefined') return user;
-                else throw Error;
-            });
+    async getUserById({state, dispatch}, id) {
+        let res = await UsersApi.get(id);
+        return res.data;
     },
 
     insertUser({state, commit, dispatch}, user) {

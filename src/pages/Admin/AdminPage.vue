@@ -27,7 +27,7 @@
                             <td> {{ mission.name }} </td>
                             <td> {{ mission.leader.username }} </td>
                             <!-- TODO : why is it a string in the first place ? (+0 to convert to number) -->
-                            <td> {{ mission.budgetUsed+0 }} / {{ mission.budgetAssigned+0 }} </td> 
+                            <td> {{ mission.budgetUsed+0 }} / {{ mission.budgetAssigned+0 }} </td>
                             <td> {{ mission.memberCount }} </td>
                             <td>
                                 <a @click.prevent="$modal.show('missionMembers', {mission_id: mission.id});">
@@ -227,7 +227,7 @@
             NewGroup, GroupMembers,
             NewEvent, EventMembers, EditEvent,
             NewUser, EditUser
-           
+
         },
         data() {
             return {
@@ -235,9 +235,13 @@
             };
         },
         computed: {
+            missions() {
+                console.log('salut');
+                return store.getters.missions;
+            }
         },
         async mounted() {
-            this.refreshAll();
+            await this.refreshAll();
 
         },
         methods: {
@@ -250,6 +254,7 @@
                     await store.dispatch('retrieveLogs', true);
                     await store.dispatch('retrieveGroups', true);
                     await store.dispatch('retrieveEvents', true);
+                    console.log('touc', store.getters.missions);
                     this.loading = false;
                 } catch (err) {
                     this.$notify({
@@ -258,7 +263,7 @@
                         text: err.message,
                         duration: -1
                     });
-                }   
+                }
             },
             async delItem(type_name, action_name, item_name, item_id) {
                 if(confirm('Delete '+type_name+' "'+item_name+'" ?')) {
