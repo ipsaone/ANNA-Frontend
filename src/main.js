@@ -29,6 +29,7 @@ new Vue({
         idleLogout();
         checkLogged();
         checkInterval();
+        isRoot();
     }
 });
 
@@ -69,6 +70,12 @@ function idleLogout() {
         clearTimeout(t);
         t = setTimeout(disconnect, 30 * 60 * 1000);  // time is in milliseconds
     }
+}
+
+function isRoot() {
+    if (!store.getters.loggedUserIsRoot && (window.location.href.endsWith('administration')||window.location.href.endsWith('administration/'))) {
+        window.location.replace('/dashboard');
+    };
 }
 
 // Useful to disconnect user when backend stops

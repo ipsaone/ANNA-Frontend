@@ -65,11 +65,21 @@
                 console.log('adding', id);
                 await store.dispatch('addGroupMember', id);
                 this.refreshUsers();
+                store.dispatch('retrieveGroups', true);
             },
             async remUser(id) {
                 console.log('removing', id);
                 await store.dispatch('remGroupMember', id);
                 this.refreshUsers();
+                await store.dispatch('retrieveGroups', true);
+                await store.dispatch('retrieveLoggedUser')
+                .then (_ => {
+                    console.log('showAdmin', this.showAdmin());
+                    this.showAdmin();
+                    if (!this.showAdmin()) {
+                        window.location.replace('/dashboard');
+                    }
+                });
             },
             refreshUsers() {
                 if (!this.group.users) {
@@ -85,6 +95,9 @@
 
                     return !found;
                 });
+            },
+            showAdmin() {
+                return store.getters.loggedUserIsRoot;
             }
         }
     };
