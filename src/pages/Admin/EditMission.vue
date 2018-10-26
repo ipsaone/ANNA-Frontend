@@ -1,16 +1,16 @@
 <template>
-    <modal name="editMission" height="auto" :scrollable="true">
+    <modal name="editMission" height="auto" :scrollable="true" @before-open="beforeOpen">
         <div class="content anna-modal">
             <h1>Edit mission</h1>
             <form>
-                <input type="text" name="Name" id="Name" placeholder="Name..." v-model="mission.name">
+                <input type="text" name="Name" id="Name" placeholder="Name..." v-model="name">
                 <markdown-editor v-model="mission.markdown" :configs="configs"></markdown-editor>
 
                 <div class="inline-form">
                     <label for="chief">Chief: </label>
-                    <input list="users" type="text" name="chief" id="chief" v-model="mission.leaderId"><br/>
+                    <input list="users" type="text" name="chief" id="chief" v-model="chief"><br/>
                     <label for="group">Group: </label>
-                    <input list="groups" type="text" name="groups" id="group" v-model="mission.groupId">
+                    <input list="groups" type="text" name="groups" id="group" v-model="group">
 
                     <datalist id="users">
                         <option v-for="user in users" :key="user.id" :value="user.id" :label="user.username"/>
@@ -22,10 +22,10 @@
 
                 <div class="inline-form">
                     <label for="budget">Budget assigned: </label>
-                    <input type="number" name="budget" id="budget" step="0.01" v-model="mission.budgetAssigned"> €
+                    <input type="number" name="budget" id="budget" step="0.01" v-model="budgetAssigned"> €
                     </br>
                     <label for="budgetUsed">Budget used: </label>
-                    <input type="number" name="budgetUsed" id="budgetUsed" step="0.01" v-model="mission.budgetUsed"> €
+                    <input type="number" name="budgetUsed" id="budgetUsed" step="0.01" v-model="budgetUsed"> €
                 </div>
 
                 <div class="buttons">
@@ -46,12 +46,16 @@
         components: {
             markdownEditor
         },
-        async mounted() {
-            await store.dispatch('retrieveUsers');
-            await store.dispatch('retrieveGroups');
-        },
         data() {
             return {
+                id: 0,
+                name: '',
+                chief: '',
+                group: '',
+                markdown: '',
+                budgetAssigned: '',
+                budgetUsed: '',
+
                 configs: {
                     placeholder: 'Description...',
                     spellChecker: false
@@ -70,16 +74,30 @@
             }
         },
         methods: {
+            async beforeOpen() {
+                await store.dispatch('retrieveUsers');
+                await store.dispatch('retrieveGroups');
+                console.log('diantre', this);
+                this.id = this.mission.id;
+                this.name = this.mission.name;
+                this.chief = this.mission.leaderId ? this.mission.leaderId.toString() : '';
+                this.group = this.mission.groupId ? this.mission.groupId.toString() : '';
+                this.markdown = this.mission.markdown;
+                this.budgetUsed = this.mission.budgetUsed ? this.mission.budgetUsed.toString() : 0;
+                this.budgetAssigned = this.mission.budgetAssigned ? this.mission.budgetAssigned.toString() : 0;
+
+            },
             async onSubmit() {
                 this.loading = true;
                 try {
                     await store.dispatch('updateMission', {
-                        id: this.mission.id,
-                        name: this.mission.name,
-                        markdown: this.mission.markdown,
-                        leaderId: parseInt(this.mission.leaderId, 10),
-                        groupId: parseInt(this.mission.groupId, 10),
-                        budgetAssigned: parseFloat(this.mission.budgetAssigned, 10)
+                        id: this.id,
+                        name: this.name,
+                        markdown: this.markdown,
+                        leaderId: parseInt(this.chief, 10),
+                        groupId: parseInt(this.group, 10),
+                        budgetAssigned: parseFloat(this.budgetAssigned, 10),
+                        budgetUsed: parseFloat(this.budgetUsed, 10)
                     });
                     this.$modal.hide('editMission');
                     this.$notify({
@@ -88,8 +106,7 @@
                         text: 'Mission was successfully added',
                         duration: 5000
                     });
-
-                    // TODO: unselect mission from getters.
+                    store.commit('UNSELECT_MISSION');
 
                 } catch (err) {
                     console.log(err);

@@ -17,6 +17,9 @@ const mutations = {
         console.log('plouf', index);
         state.missions[index] = {...state.missions[index], leader: data.user};
         console.log('plaf', state.missions[index]);
+    },
+    UNSELECT_MISSION(state) {
+        state.selected = {};
     }
 };
 

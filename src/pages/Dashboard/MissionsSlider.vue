@@ -64,7 +64,7 @@
                                         <input type="checkbox" :name="task.name" :id="task.id">
                                         <label :for="task.id">{{ task.name }}</label>
                                         <label class="checkbox" :for="task.id"></label>
-                                        <i v-if="store.getters.loggedUserIsRoot" @click.prevent="delTask(task.id)" class="fa fa-trash"></i>
+                                        <i v-if="$store.getters.loggedUserIsRoot" @click.prevent="delTask(task.id)" class="fa fa-trash"></i>
                                     </div>
                                 </li>
                                 <em v-if="mission.tasks.length == 0">No tasks yet !</em>
