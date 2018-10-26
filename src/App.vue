@@ -15,6 +15,24 @@
     import store from '@/modules/store';
     import IdleModal from '@/pages/Login/IdleModal';
 
+    import axios from 'axios';
+    import Vue from 'vue';
+
+    axios.interceptors.response.use(res => res, err => {
+        console.log('teub', err.response);
+
+        Vue.notify({
+            type: 'error',
+            title: 'An error occured (code '+err.response.status+')',
+            text: err.response.data.error,
+            duration: 5000
+        });
+        
+
+        console.error(err);
+        return Promise.reject(err);
+    });
+
 
     export default {
         components: {
