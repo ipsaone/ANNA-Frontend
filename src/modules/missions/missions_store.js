@@ -56,7 +56,6 @@ const actions = {
         mission.leader = leader;
         await commit('SET_SELECTED', mission);
         console.log('des data', state.selected);
-        return mission;
     },
 
     storeMission({dispatch}, mission) {
@@ -64,9 +63,10 @@ const actions = {
             .then(() => dispatch('retrieveMissions', true));
     },
 
-    updateMission({dispatch}, mission) {
+    updateMission({dispatch, commit}, mission) {
         return MissionsApi.update(mission)
-            .then(() => dispatch('retrieveMissions', true));
+            .then(_ => dispatch('retrieveMissions', true))
+            .then(_ => commit('SET_SELECTED', mission.id));
     },
 
     deleteMission({dispatch}, id) {

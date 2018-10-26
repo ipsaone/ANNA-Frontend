@@ -16,8 +16,8 @@ export default {
         return axios.post(url, mission, {withCredentials: true});
     },
 
-    update(mission) {
-        return axios.put(url + mission.id, mission, {withCredentials: true});
+    update(data) {
+        return axios.put(url + data.id, data.mission, {withCredentials: true});
     },
 
     delete(id) {

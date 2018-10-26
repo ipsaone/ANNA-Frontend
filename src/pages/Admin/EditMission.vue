@@ -46,6 +46,17 @@
         components: {
             markdownEditor
         },
+        computed: {
+            mission() {
+                return store.getters.selectedMission;
+            },
+            users(){
+                return store.getters.users;
+            },
+            groups(){
+                return store.getters.groups;
+            }
+        },
         data() {
             return {
                 id: 0,
@@ -62,24 +73,16 @@
                 },
             };
         },
-        computed: {
-            users(){
-                return store.getters.users;
-            },
-            groups(){
-                return store.getters.groups;
-            },
-            mission() {
-                return store.getters.selectedMission;
-            }
-        },
         methods: {
-            async beforeOpen() {
+            async beforeOpen(mission) {
+                await store.dispatch('retrieveMissions');
+                console.log('salut', store.getters.selectedMission);
                 await store.dispatch('retrieveUsers');
                 await store.dispatch('retrieveGroups');
-                console.log('diantre', this);
+                await store.dispatch('retrieveMission', store.getters.selectedMission.id);
+                //console.log('diantre', mission);
                 this.id = this.mission.id;
-                this.name = this.mission.name;
+                this.name = store.getters.selectedMission.name;
                 this.chief = this.mission.leaderId ? this.mission.leaderId.toString() : '';
                 this.group = this.mission.groupId ? this.mission.groupId.toString() : '';
                 this.markdown = this.mission.markdown;
@@ -87,17 +90,22 @@
                 this.budgetAssigned = this.mission.budgetAssigned ? this.mission.budgetAssigned.toString() : 0;
 
             },
+            exit() {
+                this.$modal.hide('editMission');
+            },
             async onSubmit() {
-                this.loading = true;
                 try {
+                    this.loading = true;
                     await store.dispatch('updateMission', {
                         id: this.id,
-                        name: this.name,
-                        markdown: this.markdown,
-                        leaderId: parseInt(this.chief, 10),
-                        groupId: parseInt(this.group, 10),
-                        budgetAssigned: parseFloat(this.budgetAssigned, 10),
-                        budgetUsed: parseFloat(this.budgetUsed, 10)
+                        mission: {
+                            name: this.name,
+                            markdown: this.markdown,
+                            leaderId: parseInt(this.chief, 10),
+                            groupId: parseInt(this.group, 10),
+                            budgetAssigned: parseFloat(this.budgetAssigned, 10),
+                            budgetUsed: parseFloat(this.budgetUsed, 10)
+                        }
                     });
                     this.$modal.hide('editMission');
                     this.$notify({
@@ -106,8 +114,7 @@
                         text: 'Mission was successfully added',
                         duration: 5000
                     });
-                    store.commit('UNSELECT_MISSION');
-
+                    await store.dispatch('retrieveMissions', true);
                 } catch (err) {
                     console.log(err);
                     this.$notify({

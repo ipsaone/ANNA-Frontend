@@ -65,6 +65,7 @@
         methods: {
             async beforeOpen(event) {
                 console.log('LOADING EVENT');
+                console.log(event);
                 await store.dispatch('retrieveEvent', event.params.event_id);
                 console.log('IDENTIFICATION', this.event.startDate);
                 this.id = this.event.id;
@@ -86,7 +87,7 @@
                         maxRegistered: this.max,
                         startDate: this.start,
                         endDate: this.end
-                    }                    
+                    }
                     );
                     await store.dispatch('updateEvent', {
                         id: this.id,
@@ -114,7 +115,7 @@
                         title: 'Operation failed',
                         text: err,
                         duration: 5000
-                    });    
+                    });
                 }
                 this.loading = false;
             }
