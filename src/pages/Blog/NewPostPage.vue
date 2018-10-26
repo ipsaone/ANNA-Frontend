@@ -53,7 +53,7 @@
         },
         computed: {
             canSubmit() {
-                return this.title !== '' && this.markdown !== '';
+                return this.title.trim() !== '' && this.markdown.trim() !== '';
             }
         },
         methods: {
