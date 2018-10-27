@@ -24,7 +24,7 @@
                 <div class="buttons">
                     <button type="button" @click.prevent="$modal.hide('newUser')" class="cancel">Cancel</button>
                     <button type="button" @click.prevent="onSubmit" class="submit">Submit</button>
-                </div>                
+                </div>
             </form>
         </div>
     </modal>
@@ -45,6 +45,11 @@
                 user_email: ''
             };
         },
+        computed: {
+            canSubmit() {
+                return this.user_name.trim() !== '' && this.user_email.includes('@') && this.user_email.includes('.') && this.user_pwd.trim() !== '';
+            }
+        },
         methods: {
             async onSubmit() {
                 if(this.user_pwd != this.user_pwd_conf) {
@@ -52,6 +57,13 @@
                         type: 'error',
                         title: 'Please retry',
                         text: 'Passwords don\'t match !',
+                        duration: 5000
+                    });
+                } else if (!this.canSubmit) {
+                    this.$notify({
+                        type: 'error',
+                        title: 'Please check user information',
+                        text: 'Invalid name, email or empty password',
                         duration: 5000
                     });
                 } else {

@@ -24,7 +24,7 @@
                 <div class="buttons">
                     <button type="button" @click.prevent="$modal.hide('editUser')" class="cancel">Cancel</button>
                     <button type="button" @click.prevent="onSubmit" class="submit">Submit</button>
-                </div>                
+                </div>
             </form>
         </div>
     </modal>
@@ -40,6 +40,9 @@
         computed: {
             user() {
                 return store.getters.selectedUser;
+            },
+            canSubmit() {
+                return this.user_name.trim() !== '' && this.user_email.includes('@') && this.user_email.includes('.') && this.user_pwd.trim() !== '';
             }
         },
         data() {
@@ -64,11 +67,18 @@
                         text: 'Passwords don\'t match !',
                         duration: 5000
                     });
+                } else if (!this.canSubmit) {
+                    this.$notify({
+                        type: 'error',
+                        title: 'Please check user information',
+                        text: 'Invalid name, email or empty password',
+                        duration: 5000
+                    });
                 } else {
                     try {
                         this.loading = true;
                         let user = {
-                            username: this.user_name, 
+                            username: this.user_name,
                             email: this.user_email
                         };
                         if(this.user_pwd && this.user_pwd == this.user_pwd_conf) {
@@ -96,8 +106,8 @@
                             duration: 5000
                         });
                     }
-                    
-                        
+
+
                 }
             }
         }
