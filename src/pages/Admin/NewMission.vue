@@ -96,6 +96,16 @@
                         this.group = 1;
                         return false;
                     }
+                    if(parseFloat(this.budgetAssigned, 10) < 0) {
+                        this.$notify({
+                            type: 'error',
+                            title: 'Assigned budget must be positive',
+                            text: 'Please enter a positive or null budget',
+                            duration: 5000
+                        });
+                        this.budgetAssigned = 0.0;
+                        return false;
+                    }
 
                     await store.dispatch('storeMission', {
                         name: this.name,
