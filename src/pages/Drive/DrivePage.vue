@@ -34,11 +34,11 @@
                     </a>
                 </li>
 
-                <li>
+                <!--<li>
                     <a href="#" @click.prevent="search">
                         <i class="fa fa-search"></i> Search in folder
                     </a>
-                </li>
+                </li>-->
             </ul>
             <br>
 
@@ -72,11 +72,11 @@
                             <i class="fa fa-trash"></i> Delete
                         </a>
                     </li>
-                    <li>
+                    <!--<li>
                         <a href="#" @click.prevent="manageRights">
                             <i class="fa fa-key"></i> Manage permissions
                         </a>
-                    </li>
+                    </li>-->
                 </ul>
             </div>
         </section>
@@ -93,6 +93,7 @@
     import FileAuth from './FileAuth';
     import Barcode from './Barcode';
     import MoveFile from './MoveFile';
+    import swal from 'sweetalert2';
 
     export default {
         components: {
@@ -117,7 +118,7 @@
                 console.log(err);
                 await store.dispatch('retrieveFolder', 1);
             }
-           
+
         },
         computed: {
             selectedFile() {
@@ -159,6 +160,21 @@
                     this.$modal.show('editFile');
             },
             deleteFile() {
+                /*swal({
+                    title: 'Delete this file?',
+                    type: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#E74D3C',
+                    cancelButtonColor: '#7A7A7A',
+                    confirmButtonText: 'Delete'
+                }).then(_ => {
+                    async () => {
+                        await driveApi.deleteFile(this.selectedFile.fileId);
+                        await store.dispatch('retrieveFolder', store.getters.folder.fileId);
+                        console.log('deleted');
+                        await store.dispatch('unselectFile');
+                    };
+                });*/
                 this.$modal.show('dialog', {
                     title: 'Are you sure?',
                     text: 'You will delete ' + this.selectedFile.name + ' from the IPSA ONE drive.',
