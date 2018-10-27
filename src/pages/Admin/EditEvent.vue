@@ -70,7 +70,9 @@
                 console.log('LOADING EVENT');
                 console.log(event);
                 await store.dispatch('retrieveEvent', event.params.event_id);
-                console.log('IDENTIFICATION', this.event.startDate);
+                console.log('IDENTIFICATION', this.event);
+                let bite = this.event.maxRegistered;
+                console.log('avant', bite);
                 this.id = this.event.id;
                 this.name = this.event.name;
                 this.description = this.event.markdown;
@@ -82,6 +84,7 @@
                 this.$modal.hide('editEvent');
             },
             async onSubmit() {
+                console.log('après', this.max);
                 try {
                     if (!this.canSubmit) {
                         this.$notify({
@@ -89,6 +92,14 @@
                             title: 'Incomplete form',
                             text: 'A title and a description are needed to submit.',
                             duration: 2000
+                        });
+                        return false;
+                    } else if (this.max < this.event.registered.length) {
+                        this.$notify({
+                            type: 'error',
+                            title: 'Invalid slots',
+                            text: 'Slots must be superior or equal to registered',
+                            duration: 5000
                         });
                         return false;
                     };
