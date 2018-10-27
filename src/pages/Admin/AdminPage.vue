@@ -33,7 +33,7 @@
                                 <a @click.prevent="$modal.show('missionMembers', {mission_id: mission.id});">
                                     Manage members
                                 </a>,
-                                <a @click.prevent="$modal.show('editMission')">Edit</a>,
+                                <a @click.prevent="$modal.show('editMission', {mission_id: mission.id})">Edit</a>,
                                 <a @click.prevent="delItem('mission', 'deleteMission', mission.name, mission.id)">
                                     Delete
                                 </a>

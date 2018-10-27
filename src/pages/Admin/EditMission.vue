@@ -74,13 +74,11 @@
             };
         },
         methods: {
-            async beforeOpen(mission) {
+            async beforeOpen(event) {
                 await store.dispatch('retrieveMissions');
-                console.log('salut', store.getters.selectedMission);
+                await store.dispatch('retrieveMission', event.params.mission_id);
                 await store.dispatch('retrieveUsers');
                 await store.dispatch('retrieveGroups');
-                await store.dispatch('retrieveMission', store.getters.selectedMission.id);
-                //console.log('diantre', mission);
                 this.id = this.mission.id;
                 this.name = store.getters.selectedMission.name;
                 this.chief = this.mission.leaderId ? this.mission.leaderId.toString() : '';
