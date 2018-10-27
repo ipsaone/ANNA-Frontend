@@ -46,6 +46,9 @@
         computed: {
             event() {
                 return store.getters.selectedEvent;
+            },
+            canSubmit() {
+                return this.name.trim() !== '' && this.description.trim() !== '' && this.max >= 0;
             }
         },
         data() {
@@ -80,6 +83,15 @@
             },
             async onSubmit() {
                 try {
+                    if (!this.canSubmit) {
+                        this.$notify({
+                            type: 'error',
+                            title: 'Incomplete form',
+                            text: 'A title and a description are needed to submit.',
+                            duration: 2000
+                        });
+                        return false;
+                    };
                     this.loading = true;
                     console.log('new Event',{
                         name: this.name,

@@ -58,7 +58,7 @@
         },
         computed: {
             canSubmit() {
-                return this.name !== '' && this.description !== '';
+                return this.name.trim() !== '' && this.description.trim() !== '' && this.max >= 0;
             }
         },
         methods: {
