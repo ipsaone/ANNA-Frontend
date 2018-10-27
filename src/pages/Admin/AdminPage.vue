@@ -272,23 +272,14 @@
             async delItem(type_name, action_name, item_name, item_id) {
                 if(confirm('Delete '+type_name+' "'+item_name+'" ?')) {
                     this.loading = true;
-                    try {
-                        await store.dispatch(action_name, item_id);
-                        await this.refreshAll();
-                        this.$notify({
-                            type: 'success',
-                            title: 'Operation successful',
-                            text: type_name+' was successfully deleted',
-                            duration: 5000
-                        });
-                    } catch(err) {
-                        this.$notify({
-                            type: 'error',
-                            title: 'Operation failed',
-                            text: err,
-                            duration: 5000
-                        });
-                    }
+                    await store.dispatch(action_name, item_id);
+                    await this.refreshAll();
+                    this.$notify({
+                        type: 'success',
+                        title: 'Operation successful',
+                        text: type_name+' was successfully deleted',
+                        duration: 5000
+                    });
 
                 }
             }
