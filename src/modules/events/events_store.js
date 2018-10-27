@@ -20,13 +20,13 @@ const mutations = {
 };
 
 const actions = {
-    retrieveEvents({commit, state}, force = false) {
+    async retrieveEvents({commit, state}, force = false) {
         if (state.events.length === 0 || force) { // If no events are loaded
-            return EventsApi.getAll().then(events => commit('SET_ALL_EVENTS', events.data));
+            let events = await EventsApi.getAll();
+            commit('SET_ALL_EVENTS', events.data);
         }
-        else {
-            Promise.resolve();
-        }
+        
+        return true;
     },
 
     async retrieveEvent({dispatch, commit, state}, id) {
@@ -34,29 +34,29 @@ const actions = {
         commit('SELECT_EVENT', event.data);
     },
 
-    unselectEvent({commit}) {
+    async unselectEvent({commit}) {
         return commit('SELECT_EVENT', {});
     },
 
-    storeEvent({dispatch}, event) {
-        return EventsApi.save(event)
-            .then(_ => dispatch('retrieveEvents', true));
+    async storeEvent({dispatch}, event) {
+        await  EventsApi.save(event);
+        dispatch('retrieveEvents', true);
     },
 
-    updateEvent({dispatch, commit}, event) {
-        return EventsApi.update(event)
-            .then(_ => dispatch('retrieveEvents', true))
-            .then(_ => commit('SELECT_EVENT', event.id));
+    async updateEvent({dispatch, commit}, event) {
+        await EventsApi.update(event);
+        dispatch('retrieveEvents', true);
+        commit('SELECT_EVENT', event.id);
     },
 
-    deleteEvent({dispatch}, id) {
-        return EventsApi.delete(id)
-            .then(_ => dispatch('retrieveEvents', true));
+    async deleteEvent({dispatch}, id) {
+        await EventsApi.delete(id);
+        dispatch('retrieveEvents', true);
     },
 
-    registerEvent({dispatch}, event_id, user_id) {
-        return EventsApi.register(event_id, user_id)
-            .then(_ => dispatch('retrieveEvents', true));
+    async registerEvent({dispatch}, event_id, user_id) {
+        await EventsApi.register(event_id, user_id);
+        dispatch('retrieveEvents', true);
     },
 };
 

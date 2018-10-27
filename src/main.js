@@ -53,16 +53,14 @@ function idleLogout() {
     window.onkeypress = resetTimer;
     window.addEventListener('scroll', resetTimer, true);
 
-    function disconnect() {
+    async function disconnect() {
         if (!window.location.href.endsWith('login') && !window.location.href.endsWith('login/')) {
             // Check login of the user, if no, reconnect
 
             alert('You have been inactive for too long');
 
-            store.dispatch('logoutUser')
-                .then(_ => {
-                    window.location.replace('/login');
-                });
+            await store.dispatch('logoutUser');
+            window.location.replace('/login');
         }
     }
 

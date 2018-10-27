@@ -7,21 +7,13 @@ const isLogged = false;
 const test_credentials = {username: 'foo', password: 'secret'};
 
 export default {
-    log(credentials) {
-        return new Promise((resolve, reject) => {
-            if (credentials.username === test_credentials.username && credentials.password === test_credentials.password) {
-                resolve({data: {id: 0, username: 'foo', groups: []}});
-            }
-            else {
-                axios.post(url + '/login', credentials, {withCredentials: true})
-                    .then(user => {
-                        resolve(user);
-                    })
-                    .catch(err => {
-                        reject(err);
-                    });
-            }
-        });
+    async log(credentials) {
+        if (credentials.username === test_credentials.username && credentials.password === test_credentials.password) {
+            return {data: {id: 0, username: 'foo', groups: []}};
+        }
+        else {
+            return axios.post(url + '/login', credentials, {withCredentials: true});
+        }
     },
 
     logout() {

@@ -64,46 +64,26 @@
                 await EventsApi.register(store.getters.selectedEvent.id, id);
                 await this.refreshUsers();
                 await store.dispatch('retrieveEvents', true);
-                store.dispatch('retrieveEvents', false)
-                    .then(this.loading = false)
-                    .then(_ => {
-                        this.$notify({
-                            type: 'success',
-                            title: 'Events updated!',
-                            duration: 1000
-                        });
-                    })
-                    .catch(err => {
-                        this.$notify({
-                            type: 'error',
-                            title: 'Can not retrieve events from server',
-                            text: err.message,
-                            duration: -1
-                        });
-                    });
+                await store.dispatch('retrieveEvents', false);
+                this.loading = false;
+                this.$notify({
+                    type: 'success',
+                    title: 'Events updated!',
+                    duration: 1000
+                });
             },
             async remUser(id) {
                 console.log('removing', id);
                 await EventsApi.withdraw(store.getters.selectedEvent.id, id);
                 await this.refreshUsers();
                 await store.dispatch('retrieveEvents', true);
-                store.dispatch('retrieveEvents', false)
-                    .then(this.loading = false)
-                    .then(_ => {
-                        this.$notify({
-                            type: 'success',
-                            title: 'Events updated!',
-                            duration: 1000
-                        });
-                    })
-                    .catch(err => {
-                        this.$notify({
-                            type: 'error',
-                            title: 'Can not retrieve events from server',
-                            text: err.message,
-                            duration: -1
-                        });
-                    });
+                await store.dispatch('retrieveEvents', false);
+                this.loading = false;
+                this.$notify({
+                    type: 'success',
+                    title: 'Events updated!',
+                    duration: 1000
+                });
             },
             async refreshUsers() {
                 await store.dispatch('retrieveEvent', store.getters.selectedEvent.id);

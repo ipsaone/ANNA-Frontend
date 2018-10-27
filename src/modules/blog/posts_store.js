@@ -25,54 +25,56 @@ const mutations = {
 };
 
 const actions = {
-    retrievePosts({commit, state}, force = false) {
+    async retrievePosts({commit, state}, force = false) {
         if (state.posts.length === 0 || force) { // If no posts is loaded
-            return PostsApi.getPublished().then(posts => commit('SET_ALL_POSTS', posts.data));
+            let posts = await PostsApi.getPublished();
+            commit('SET_ALL_POSTS', posts.data);
         }
         else {
             return Promise.resolve();
         }
     },
 
-    retrieveDrafts({commit, state}, force = false) {
+    async retrieveDrafts({commit, state}, force = false) {
         console.log('draaaaaaaaaaaafts');
-        PostsApi.getDrafted().then(drafts => commit('SET_ALL_DRAFTS', drafts.data));
+        let drafts = await PostsApi.getDrafted();
+        commit('SET_ALL_DRAFTS', drafts.data);
     },
 
-    selectPost({dispatch, commit, state}, id) {
-        return dispatch('retrievePosts')
-            .then(_ => {
-                const post = state.posts.filter(post => post.id === parseInt(id))[0];
+    async selectPost({dispatch, commit, state}, id) {
+        await dispatch('retrievePosts');
+        const post = state.posts.filter(post => post.id === parseInt(id))[0];
 
-                if (typeof post !== 'undefined') commit('SELECT_POST', post);
-                else throw Error;
-            });
+        if (typeof post !== 'undefined') {
+            commit('SELECT_POST', post);
+        }
+        else {
+            throw Error;
+        };
     },
 
-    selectDraft({dispatch, commit, state}, id) {
-        return dispatch('retrieveDrafts')
-            .then(_ => {
-                const post = state.drafts.filter(post => post.id === parseInt(id))[0];
+    async selectDraft({dispatch, commit, state}, id) {
+        await dispatch('retrieveDrafts');
+        const post = state.drafts.filter(post => post.id === parseInt(id))[0];
 
-                if (typeof post !== 'undefined') commit('SELECT_POST', post);
-                else throw Error;
-            });
+        if (typeof post !== 'undefined') commit('SELECT_POST', post);
+        else throw Error;
     },
 
-    storePost({dispatch}, post) {
-        return PostsApi.save(post)
-            .then(_ => dispatch('retrievePosts', true));
+    async storePost({dispatch}, post) {
+        await  PostsApi.save(post);
+        dispatch('retrievePosts', true);
     },
 
-    updatePost({dispatch}, post) {
-        return PostsApi.update(post)
-            .then(_ => dispatch('retrievePosts', true))
-            .then(_ => dispatch('selectPost', post.id));
+    async updatePost({dispatch}, post) {
+        await PostsApi.update(post);
+        dispatch('retrievePosts', true);
+        dispatch('selectPost', post.id);
     },
 
-    deletePost({dispatch}, id) {
-        return PostsApi.delete(id)
-            .then(_ => dispatch('retrievePosts', true));
+    async deletePost({dispatch}, id) {
+        await PostsApi.delete(id);
+        dispatch('retrievePosts', true);
     }
 };
 

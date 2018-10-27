@@ -20,42 +20,41 @@ const mutations = {
 };
 
 const actions = {
-    retrieveLogs({commit, state}, force = false) {
+    async retrieveLogs({commit, state}, force = false) {
         if (state.logs.length === 0 || force) {
-            return LogsApi.getAll()
-                .then(logs => commit('SET_ALL_LOGS', logs.data));
+            let logs = await LogsApi.getAll();
+            commit('SET_ALL_LOGS', logs.data);
         }
         else {
             return Promise.resolve();
         }
     },
 
-    selectLog({dispatch, commit, state}, id) {
-        return dispatch('retrieveLogs')
-            .then(_ => {
-                const log = state.logs.filter(log => log.id === parseInt(id))[0];
+    async selectLog({dispatch, commit, state}, id) {
+        await dispatch('retrieveLogs');
+           
+        const log = state.logs.filter(log => log.id === parseInt(id))[0];
 
-                if (typeof log !== 'undefined') commit('SELECT_LOG', log);
-                else throw Error;
-            });
+        if (typeof log !== 'undefined') commit('SELECT_LOG', log);
+        else throw Error;
     },
 
-    unselectLog({commit}) {
+    async unselectLog({commit}) {
         return commit('SELECT_LOG', {});
     },
 
-    storeLog({dispatch}, title, markdown, authorId) {
-        return LogsApi.save({
+    async storeLog({dispatch}, title, markdown, authorId) {
+        await LogsApi.save({
             title: title,
             markdown: markdown,
             authorId: loggedUserId
-        })
-            .then(_ => dispatch('retrieveLogs', true));
+        });
+        dispatch('retrieveLogs', true);
     },
 
-    deleteLog({dispatch}, id) {
-        return LogsApi.delete(id)
-            .then(_ => dispatch('retrieveLogs', true));
+    async deleteLog({dispatch}, id) {
+        await LogsApi.delete(id);
+        dispatch('retrieveLogs', true);
     }
 };
 
