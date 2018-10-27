@@ -121,10 +121,13 @@
                             <td> {{ group.name }} </td>
                             <td> {{ group.users.length }} </td>
                             <td>
-                                <a @click.prevent="$modal.show('groupMembers', {group_id: group.id});">
+                                <a v-if="group.name !== 'root'"@click.prevent="$modal.show('groupMembers', {group_id: group.id});">
+                                    Manage users,
+                                </a>
+                                <a v-if="group.name == 'root'" @click.prevent="$modal.show('groupMembers', {group_id: group.id});">
                                     Manage users
-                                </a>,
-                                <a @click.prevent="delItem('group', 'deleteGroup', group.name, group.id)">
+                                </a>
+                                <a v-if="group.name !== 'root'" @click.prevent="delItem('group', 'deleteGroup', group.name, group.id)">
                                     Delete
                                 </a>
                             </td>
