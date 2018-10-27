@@ -4,7 +4,7 @@
             <h1>Edit mission</h1>
             <form>
                 <input type="text" name="Name" id="Name" placeholder="Name..." v-model="name">
-                <markdown-editor v-model="mission.markdown" :configs="configs"></markdown-editor>
+                <markdown-editor v-model="markdown" :configs="configs"></markdown-editor>
 
                 <div class="inline-form">
                     <label for="chief">Chief: </label>
