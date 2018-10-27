@@ -31,6 +31,7 @@
 <script>
     import store from '@/modules/store';
     import markdownEditor from 'vue-simplemde/src/markdown-editor';
+    import swal from 'sweetalert2';
 
     export default {
         components: {
@@ -68,18 +69,62 @@
                 store.dispatch('retrieveGroups', true);
             },
             async remUser(id) {
-                console.log('removing', id);
-                await store.dispatch('remGroupMember', id);
-                this.refreshUsers();
-                await store.dispatch('retrieveGroups', true);
-                await store.dispatch('retrieveLoggedUser')
-                .then (_ => {
-                    console.log('showAdmin', this.showAdmin());
-                    this.showAdmin();
-                    if (!this.showAdmin()) {
-                        window.location.replace('/dashboard');
-                    }
-                });
+                if (this.group.name === 'root' && this.group.users.length == 1) {
+                    this.$notify({
+                        type: 'error',
+                        title: 'Empty group',
+                        text: 'Group root must not be empty',
+                        duration: 5000
+                    });
+                    return false;
+                } else if (id == store.getters.loggedUserId) {
+                    console.log('gros con');
+                    swal({
+                        title: 'Leave group?',
+                        type: 'warning',
+                        showCancelButton: true,
+                        confirmButtonColor: '#E74D3C',
+                        cancelButtonColor: '#7A7A7A',
+                        confirmButtonText: 'Delete'
+                    }).then(_ => {
+                        console.log('removing', id);
+                        store.dispatch('remGroupMember', id)
+                        .then(_ => {
+                            this.refreshUsers();
+                            this.$modal.hide('groupMembers');
+                            store.dispatch('retrieveGroups', true);
+                            store.dispatch('retrieveLoggedUser', true)
+                            .then(_ => {
+                                console.log('showAdmin', this.showAdmin());
+                                this.showAdmin();
+                                if (!this.showAdmin()) {
+                                    window.location.replace('/dashboard');
+                                }
+                            });
+                        })
+                        .catch(err => {
+                            this.$notify({
+                                type: 'error',
+                                title: 'fens',
+                                text: err.message,
+                                duration: -1
+                            });
+                        });
+                    });
+                } else {
+                    console.log('removing', id);
+                    await store.dispatch('remGroupMember', id);
+                    this.refreshUsers();
+                    await store.dispatch('retrieveGroups', true);
+                    await store.dispatch('retrieveLoggedUser')
+                    .then (_ => {
+                        console.log('showAdmin', this.showAdmin());
+                        this.showAdmin();
+                        if (!this.showAdmin()) {
+                            window.location.replace('/dashboard');
+                        }
+                    });
+                }
             },
             refreshUsers() {
                 if (!this.group.users) {
