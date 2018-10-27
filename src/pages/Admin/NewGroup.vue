@@ -41,7 +41,8 @@
                             duration: 5000
                         });
                         this.$modal.hide('newGroup');
-                    } catch(err){console.log(err);
+                    } catch(err){
+                        console.log(err);
                         this.$notify({
                             type: 'error',
                             title: 'Operation failed',
@@ -52,6 +53,8 @@
                     this.loading = false;
                     
                 }
+
+                return false;
             }
         }
     };
