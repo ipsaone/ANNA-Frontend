@@ -38,27 +38,19 @@
                     ownerRead: 1,
                 };
 
-                try {
-                    if (this.name.trim() !== ''){
-                        await driveApi.uploadFile(data);
-                        await this.$modal.hide('newFolder');
-                        await store.dispatch('retrieveFolder', store.getters.folder.fileId);
-                    } else {
-                        this.$notify({
-                            type: 'error',
-                            title: 'invalid name',
-                            text: 'folder name must not be empty',
-                            duration: -1
-                        });
-                    }
-                } catch (err) {
+                if (this.name.trim() !== ''){
+                    await driveApi.uploadFile(data);
+                    await this.$modal.hide('newFolder');
+                    await store.dispatch('retrieveFolder', store.getters.folder.fileId);
+                } else {
                     this.$notify({
                         type: 'error',
-                        title: 'Uncaught error',
-                        text: err.message,
+                        title: 'invalid name',
+                        text: 'folder name must not be empty',
                         duration: -1
                     });
                 }
+               
             }
         }
     };

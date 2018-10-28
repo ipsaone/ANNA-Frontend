@@ -34,19 +34,9 @@
                     missionId: store.getters.selectedMission.id
                 };
 
-                try {
-                    await store.dispatch('storeTask', data);
-                    await store.dispatch('retrieveMission');
-                    this.$modal.hide('newTask');
-                }catch (err) {
-                    console.log(err);
-                    this.$notify({
-                        type: 'error',
-                        title: 'Uncaught error',
-                        text: err.message,
-                        duration: -1
-                    });
-                }
+                await store.dispatch('storeTask', data);
+                await store.dispatch('retrieveMission');
+                this.$modal.hide('newTask');
             }
         }
     };

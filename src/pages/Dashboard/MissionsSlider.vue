@@ -103,18 +103,9 @@
             };
         },
         async mounted() {
-            try {
-                await store.dispatch('retrieveMissions', true);
-                if (store.getters.missions.length > 0) {
-                    await store.dispatch('retrieveMission', store.getters.missions[0].id);
-                }
-            } catch (err) {
-                this.$notify({
-                    type: 'error',
-                    title: 'Can not retrieve data from server',
-                    text: err.message,
-                    duration: -1
-                });
+            await store.dispatch('retrieveMissions', true);
+            if (store.getters.missions.length > 0) {
+                await store.dispatch('retrieveMission', store.getters.missions[0].id);
             }
         },
         computed: {
@@ -158,7 +149,6 @@
                 this.$modal.show('newTask', store.getters.selectedMission);
             },
             delTask(id) {
-                console.log('click', id);
                 store.dispatch('deleteTask', {id: id, missionId: store.getters.selectedMission.id});
             }
         }

@@ -251,23 +251,14 @@
         methods: {
             async refreshAll() {
                 this.loading = true;
-                try {
-                    await store.dispatch('retrieveMissions', true);
-                    await store.dispatch('retrieveUsers', true);
-                    await store.dispatch('retrievePosts', true);
-                    await store.dispatch('retrieveLogs', true);
-                    await store.dispatch('retrieveGroups', true);
-                    await store.dispatch('retrieveEvents', true);
-                    console.log('touc', store.getters.missions);
-                    this.loading = false;
-                } catch (err) {
-                    this.$notify({
-                        type: 'error',
-                        title: 'Cannot retrieve data from server',
-                        text: err.message,
-                        duration: -1
-                    });
-                }
+                await store.dispatch('retrieveMissions', true);
+                await store.dispatch('retrieveUsers', true);
+                await store.dispatch('retrievePosts', true);
+                await store.dispatch('retrieveLogs', true);
+                await store.dispatch('retrieveGroups', true);
+                await store.dispatch('retrieveEvents', true);
+                this.loading = false;
+                
             },
             async delItem(type_name, action_name, item_name, item_id) {
                 if(confirm('Delete '+type_name+' "'+item_name+'" ?')) {

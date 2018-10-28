@@ -50,22 +50,12 @@
         components: {},
         async mounted() {
             this.loading = true;
-            try {
-                await store.dispatch('retrieveMissions', true);
-                await store.dispatch('retrieveUsers', true);
-                await store.dispatch('retrievePosts', true);
-                await store.dispatch('retrieveLogs', true);
-                await store.dispatch('retrieveGroups', true);
-                await store.dispatch('selectUser', this.$route.params.id);
-            } catch (err) {
-                console.log(err);
-                this.$notify({
-                    type: 'error',
-                    title: 'Cannot retrieve data from server',
-                    text: err.message,
-                    duration: -1
-                });
-            }
+            await store.dispatch('retrieveMissions', true);
+            await store.dispatch('retrieveUsers', true);
+            await store.dispatch('retrievePosts', true);
+            await store.dispatch('retrieveLogs', true);
+            await store.dispatch('retrieveGroups', true);
+            await store.dispatch('selectUser', this.$route.params.id);
             this.loading = false;
 
         },
