@@ -92,7 +92,7 @@
                         <tr v-for="post in $store.getters.posts" :key="post.id">
                             <td> {{ post.id }} </td>
                             <td> {{ post.title }} </td>
-                            <td> {{ post.createdAt }} </td>
+                            <td> {{ post.createdAt | moment('DD/MM/YYYY') }} </td>
                             <td> {{ post.author.username }} </td>
                             <td>
                                 <router-link :to="{name: 'readPost', params: {id: post.id}}">Show</router-link>,
@@ -153,7 +153,7 @@
                             <td> {{ user.id }} </td>
                             <td> {{ user.username }} </td>
                             <td> {{ user.email }} </td>
-                            <td> {{ user.groups }} </td>
+                            <td> <span> {{userGroups}} </span></td>
                             <td>
                                 <a v-if="user.id === $store.getters.loggedUserId" @click.prevent="$modal.show('editUser', {user_id: user.id})">Edit</a>
                                 <a v-if="user.id !== $store.getters.loggedUserId" @click.prevent="$modal.show('editUser', {user_id: user.id})">Edit,</a>
@@ -242,11 +242,41 @@
             missions() {
                 console.log('salut');
                 return store.getters.missions;
+            },
+            groups() {
+                return store.getters.loggedUser.groups;
+            },
+            users() {
+                let i;
+                let users = [];
+                for(i = 1; i <= store.getters.users.length; i++) {
+                    store.dispatch('selectUser', i)
+                    .then(_ => {
+                        store.dispatch('retrieveGroups')
+                        .then(_ => {
+                            users.push(store.getters.selectedUser);
+                        });
+                    });
+                }
+                console.log('voilà les user', users);
+                return users;
+            },
+            userGroups() {
+                let i;
+                let groups = [];
+                let u = this.users;
+                for(i = 1; i <= u.length; i++) {
+                    store.dispatch('retrieveGroups')
+                    .then(_ => {
+                        groups.push(u[i]);
+                    });
+                }
+                console.log('tada', groups);
             }
         },
         async mounted() {
             await this.refreshAll();
-
+            return this.user;
         },
         methods: {
             async refreshAll() {
@@ -258,7 +288,7 @@
                     await store.dispatch('retrieveLogs', true);
                     await store.dispatch('retrieveGroups', true);
                     await store.dispatch('retrieveEvents', true);
-                    console.log('touc', store.getters.missions);
+                    console.log('touc', store.getters.loggedUser.groups);
                     this.loading = false;
                 } catch (err) {
                     this.$notify({
