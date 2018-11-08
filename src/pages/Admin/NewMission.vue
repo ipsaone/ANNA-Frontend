@@ -71,6 +71,39 @@
         },
         methods: {
             async onSubmit() {
+                if(this.name.trim() == '') {
+                    this.$notify({
+                        type: 'error',
+                        title: 'Name must be specified',
+                        text: 'Please fill the form',
+                        duration: 5000
+                    });
+                    return false;
+                }
+                if(!store.getters.users.map(us => us.id).includes(parseInt(this.chief, 10)) || !store.getters.groups.map(gp => gp.id).includes(parseInt(this.group))) {
+                    console.log('in');
+                    console.log('ma bite', typeof this.chief);
+                    this.$notify({
+                        type: 'error',
+                        title: 'Leader or group doesn\'t exist',
+                        text: 'Please select an existing leader and group',
+                        duration: 5000
+                    });
+                    this.chief = 1;
+                    this.group = 1;
+                    return false;
+                }
+                if(parseFloat(this.budgetAssigned, 10) < 0 || parseFloat(this.budgetUsed, 10) < 0) {
+                    this.$notify({
+                        type: 'error',
+                        title: 'Budgets must be positive',
+                        text: 'Please enter a positive or null budget',
+                        duration: 5000
+                    });
+                    this.budgetAssigned = 0.0;
+                    this.budgetUsed = 0.0;
+                    return false;
+                }
                 this.loading = true;
                 await store.dispatch('storeMission', {
                     name: this.name,

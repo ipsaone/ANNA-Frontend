@@ -146,14 +146,14 @@
                             <th>ID</th>
                             <th>Name</th>
                             <th>Email</th>
-                            <th>Groups</th>
+                            <!--th>Groups</th-->
                             <th>Actions</th>
                         </tr>
                         <tr v-for="user in $store.getters.users" :key="user.id">
                             <td> {{ user.id }} </td>
                             <td> {{ user.username }} </td>
                             <td> {{ user.email }} </td>
-                            <td> <span> {{userGroups}} </span></td>
+                            <!-- td> <span> {{userGroups}} </span></td-->
                             <td>
                                 <a v-if="user.id === $store.getters.loggedUserId" @click.prevent="$modal.show('editUser', {user_id: user.id})">Edit</a>
                                 <a v-if="user.id !== $store.getters.loggedUserId" @click.prevent="$modal.show('editUser', {user_id: user.id})">Edit,</a>
@@ -164,7 +164,7 @@
                             <td></td>
                             <td></td>
                             <td></td>
-                            <td></td>
+                            <!--td></td-->
                             <td><a @click.prevent="$modal.show('newUser')">Add user</a></td>
                         </tr>
                     </table>
