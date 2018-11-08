@@ -11,7 +11,7 @@
         }
       }
 
-      tbody {
+      //tbody{
         tr {
           background-color: $white-bis;
           line-height: 3em;
@@ -54,7 +54,7 @@
           background-color: $white-ter;
           &:hover { background-color: inherit; }
         }
-      }
+      //}
     }
   }
 }

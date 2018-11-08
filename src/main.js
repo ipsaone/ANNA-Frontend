@@ -35,7 +35,7 @@ new Vue({
 
 async function checkLogged() {
     //console.log('Am I logged in?', store.getters.isLogged);
-    if (!window.location.href.endsWith('login') && !window.location.href.endsWith('login/')){
+    if (!window.location.href.endsWith('login') && !window.location.href.endsWith('login/') && !window.location.href.endsWith('login#') ){
         await store.dispatch('checkLoggedUser');
         if (!store.getters.isLogged){
             window.location.replace('/login');

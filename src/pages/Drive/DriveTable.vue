@@ -151,7 +151,7 @@
                 if(file.isDir) {
                     return '';
                 }
-                
+
                 return FileSize(file.size);
             },
             openFile(file) {

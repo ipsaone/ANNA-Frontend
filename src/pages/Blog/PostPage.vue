@@ -6,7 +6,7 @@
                     <div class="return">
                         <router-link :to="{ name: 'blog'}"> <i class="fa fa-chevron-circle-left"></i> </router-link>
                     </div>
-                    <h2>{{ post.title }}</h2>
+                    <h2 class="post-title">{{ post.title }}</h2>
                 </div>
 
                 <p class="info">
