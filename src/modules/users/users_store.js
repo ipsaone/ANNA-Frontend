@@ -31,9 +31,13 @@ const actions = {
         return;
     },
 
-    async getUserById({state, dispatch}, id) {
-        let res = await UsersApi.get(id);
-        return res.data;
+    async getUserById({state}, id) {
+        let user = state.users.filter(us => us.id == id)[0];
+        if(!user) {
+            let res = await UsersApi.get(id);
+            user = res.data;
+        }
+        return user;
     },
 
     async insertUser({state, commit, dispatch}, user) {
