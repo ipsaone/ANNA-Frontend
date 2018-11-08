@@ -42,6 +42,7 @@ const actions = {
     },
 
     async setOwners({dispatch}, folder) {
+        
         let user = await dispatch('getUserById', folder.ownerId);
         folder.owner = user;
 
