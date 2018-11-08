@@ -73,6 +73,7 @@
                         published: !this.isDraft,
                         authorId: store.getters.loggedUserId
                     };
+                    store.dispatch('retrievePosts');
                     store.dispatch('storePost', post)
                         .then(this.$router.push({name: 'blog'}))
                         .catch(err => {

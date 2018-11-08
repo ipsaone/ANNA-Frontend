@@ -57,7 +57,7 @@
             }
         },
         methods: {
-            confirm() {
+            async confirm() {
                 if (!this.canConfirm) {
                     this.$notify({
                         type: 'error',
@@ -75,7 +75,7 @@
                     post.isDraft = this.isDraft;
                     delete post.content;
 
-                    store.dispatch('updatePost', post)
+                    await store.dispatch('updatePost', post)
                         .then(this.$router.push({name: 'readPost', params:{id: post.id}}))
                         .catch(err => {
                             this.$notify({
@@ -85,6 +85,8 @@
                                 duration: -1
                             });
                         });
+                    await store.dispatch('selectPost', post.id);
+                    console.log(store.getters.selectedPost);
                 }
             }
         }
