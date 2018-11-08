@@ -1,8 +1,8 @@
 <template>
-    <modal name="moveFile" 
-        @before-open="beforeOpen" @before-close="beforeClose" 
+    <modal name="moveFile"
+        @before-open="beforeOpen" @before-close="beforeClose"
         height="auto" :scrollable="true" >
-        
+
         <div class="content anna-modal">
             <h1>Move file</h1>
             <div class='folder_tree'>
@@ -24,11 +24,11 @@
                 <a href="#">
                     <a @click.prevent="fetch(model.fileId)"> [{{ open ? '-' : '+'}}]</a>
                     <span @click.prevent="setSelected(model.fileId)" :style="{'font-weight': selected==model.fileId?'bold':'normal'}">{{ model.name }}</span>
-                </a>  
+                </a>
 
                 <ul v-if="folder.children" v-show="open">
-                    <item class="item" 
-                        v-for="(model2, index) in folder.children" :key="index" 
+                    <item class="item"
+                        v-for="(model2, index) in folder.children" :key="index"
                         :model="model2" v-on:selected="setSelectedChild" v-bind:selected="selected">
                     </item>
                 </ul>
@@ -96,7 +96,8 @@
                 await driveApi.editFile(edit);
                 await store.dispatch('retrieveFolder', store.getters.folder.fileId);
                 this.$modal.hide('moveFile');
-                
-        }
+
+            }
+        },
     };
 </script>
