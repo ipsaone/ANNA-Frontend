@@ -73,58 +73,31 @@
                 this.end = new Date();
             },
             onSubmit() {
-                this.loading = true;
-                if (!this.canSubmit) {
-                    this.$notify({
-                        type: 'error',
-                        title: 'Incomplete form',
-                        text: 'A title and a description are needed to submit.',
-                        duration: 2000
-                    });
-                    return false;
-                }
-                else {
-                    let evt =  {
-                        name: this.name,
-                        markdown: this.description,
-                        maxRegistered: this.max,
-                        startDate: this.start,
-                        endDate: this.end
-                    };
-
-                    if (store.getters.events.map(ev => ev.name).includes(this.name)) {
-                        this.$notify({
-                            type: 'error',
-                            title: 'Already exists',
-                            text: 'This name is already taken by another event',
-                            duration: 2000
-                        });
-                        return false;
-                    }
+                
+                let evt =  {
+                    name: this.name,
+                    markdown: this.description,
+                    maxRegistered: this.max,
+                    startDate: this.start,
+                    endDate: this.end
+                };
 
 
-                    store.dispatch('storeEvent',evt)
+                store.dispatch('storeEvent', evt)
                     .then(() => {
                         this.loading = false;
                         this.$modal.hide('newEvent');
                     })
-                        .then(() => {
-                            this.loading = false;
-                            this.$modal.hide('newEvent');
-                        })
-                        .then(() => this.$notify({
-                            type: 'success',
-                            title: 'Operation successful',
-                            text: 'Mission was successfully added',
-                            duration: 5000
-                        }))
-                        .catch(err => this.$notify({
-                            type: 'error',
-                            title: 'Operation failed',
-                            text: err,
-                            duration: 5000
-                        }));
-                }
+                    .then(() => {
+                        this.loading = false;
+                        this.$modal.hide('newEvent');
+                    })
+                    .then(() => this.$notify({
+                        type: 'success',
+                        title: 'Operation successful',
+                        text: 'Mission was successfully added',
+                        duration: 5000
+                    }));
             }
         }
     };

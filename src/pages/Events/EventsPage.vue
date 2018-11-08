@@ -104,24 +104,16 @@
                 return store.getters.loggedUserEvents.includes(event_id);
             },
             async addUser(event_id) {
-                try {
-                    await EventsApi.register(event_id, store.getters.loggedUserId);
-                    await store.dispatch('retrieveEvents', true);
-                    await store.dispatch('retrieveLoggedUser');
+                await EventsApi.register(event_id, store.getters.loggedUserId);
+                await store.dispatch('retrieveEvents', true);
+                await store.dispatch('retrieveLoggedUser');
 
-                    this.$notify({
-                        type: 'success',
-                        title: 'You joined the event!',
-                        duration: 1000
-                    });
-                }catch(err){
-                    this.$notify({
-                        type: 'error',
-                        title: 'An error occurred.',
-                        text: err.message,
-                        duration: -1
-                    });
-                };
+                this.$notify({
+                    type: 'success',
+                    title: 'You joined the event!',
+                    duration: 1000
+                });
+               
             },
             withdrawUser(event_id) {
                 EventsApi.withdraw(event_id, store.getters.loggedUserId)

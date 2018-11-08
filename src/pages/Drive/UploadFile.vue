@@ -41,18 +41,10 @@
                     ownerRead: 1,
                 };
 
-                try {
-                    await driveApi.uploadFile(data);
-                    await store.dispatch('retrieveFolder', store.getters.folder.fileId);
-                    this.$modal.hide('uploadFile');
-                } catch (err) {
-                    this.$notify({
-                        type: 'error',
-                        title: 'Uncaught error',
-                        text: err.message,
-                        duration: -1
-                    });
-                }
+                await driveApi.uploadFile(data);
+                await store.dispatch('retrieveFolder', store.getters.folder.fileId);
+                this.$modal.hide('uploadFile');
+              
             }
         }
     };

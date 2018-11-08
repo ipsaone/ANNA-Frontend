@@ -70,9 +70,6 @@
                 console.log('LOADING EVENT');
                 console.log(event);
                 await store.dispatch('retrieveEvent', event.params.event_id);
-                console.log('IDENTIFICATION', this.event);
-                let bite = this.event.maxRegistered;
-                console.log('avant', bite);
                 this.id = this.event.id;
                 this.name = this.event.name;
                 this.description = this.event.markdown;
@@ -84,62 +81,34 @@
                 this.$modal.hide('editEvent');
             },
             async onSubmit() {
-                console.log('après', this.max);
-                try {
-                    if (!this.canSubmit) {
-                        this.$notify({
-                            type: 'error',
-                            title: 'Incomplete form',
-                            text: 'A title and a description are needed to submit.',
-                            duration: 2000
-                        });
-                        return false;
-                    } else if (this.max < this.event.registered.length) {
-                        this.$notify({
-                            type: 'error',
-                            title: 'Invalid slots',
-                            text: 'Slots must be superior or equal to registered',
-                            duration: 5000
-                        });
-                        return false;
-                    };
-                    this.loading = true;
-                    console.log('new Event',{
+                this.loading = true;
+                console.log('new Event',{
+                    name: this.name,
+                    markdown: this.description,
+                    maxRegistered: this.max,
+                    startDate: this.start,
+                    endDate: this.end
+                }
+                );
+                await store.dispatch('updateEvent', {
+                    id: this.id,
+                    event: {
                         name: this.name,
                         markdown: this.description,
                         maxRegistered: this.max,
                         startDate: this.start,
                         endDate: this.end
                     }
-                    );
-                    await store.dispatch('updateEvent', {
-                        id: this.id,
-                        event: {
-                            name: this.name,
-                            markdown: this.description,
-                            maxRegistered: this.max,
-                            startDate: this.start,
-                            endDate: this.end
-                        }
-                    });
-                    this.$modal.hide('editEvent');
-                    this.$notify({
-                        type: 'success',
-                        title: 'Operation successful',
-                        text: 'Mission was successfully added',
-                        duration: 5000
-                    });
+                });
+                this.$modal.hide('editEvent');
+                this.$notify({
+                    type: 'success',
+                    title: 'Operation successful',
+                    text: 'Mission was successfully added',
+                    duration: 5000
+                });
 
-                    await store.dispatch('retrieveEvents', true);
-                } catch (err) {
-                    console.log(err);
-                    this.$notify({
-                        type: 'error',
-                        title: 'Operation failed',
-                        text: err,
-                        duration: 5000
-                    });
-                }
+                await store.dispatch('retrieveEvents', true);
                 this.loading = false;
             }
         }

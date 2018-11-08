@@ -19,12 +19,10 @@
     import Vue from 'vue';
 
     axios.interceptors.response.use(res => res, err => {
-        console.log('teub', err.response);
-
         Vue.notify({
             type: 'error',
             title: 'An error occured (code '+err.response.status+')',
-            text: err.response.data.error,
+            text: err.response.data.message || err.response.data.error,
             duration: 5000
         });
         

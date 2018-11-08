@@ -36,21 +36,21 @@ const actions = {
         return res.data;
     },
 
-    insertUser({state, commit, dispatch}, user) {
+    async insertUser({state, commit, dispatch}, user) {
         if (user.username && user.email && user.password) {
-            return UsersApi.add(user)
-                .then(() => dispatch('retrieveUsers', true));
+            await UsersApi.add(user);
+            await dispatch('retrieveUsers', true);
         }
     },
 
-    deleteUser({state, commit, dispatch}, id) {
-        return UsersApi.delete(id)
-            .then(() => dispatch('retrieveUsers', true));
+    async deleteUser({state, commit, dispatch}, id) {
+        await UsersApi.delete(id);
+        await dispatch('retrieveUsers', true);
     },
 
-    editUser({dispatch}, data) {
-        return UsersApi.edit(data.id, data.user)
-            .then(() => dispatch('retrieveUsers', true));
+    async editUser({dispatch}, data) {
+        await UsersApi.edit(data.id, data.user);
+        dispatch('retrieveUsers', true);
     }
 };
 

@@ -32,26 +32,17 @@
             async onSubmit() {
                 if (this.name) {
                     this.loading = true;
-                    try {
-                        await store.dispatch('storeGroup', {name: this.name});
-                        this.$notify({
-                            type: 'success',
-                            title: 'Operation successful',
-                            text: 'Group was successfully added',
-                            duration: 5000
-                        });
-                        this.$modal.hide('newGroup');
-                    } catch(err){console.log(err);
-                        this.$notify({
-                            type: 'error',
-                            title: 'Operation failed',
-                            text: err,
-                            duration: 5000
-                        });
-                    }
-                    this.loading = false;
-                    
+                    await store.dispatch('storeGroup', {name: this.name});
+                    this.$notify({
+                        type: 'success',
+                        title: 'Operation successful',
+                        text: 'Group was successfully added',
+                        duration: 5000
+                    });
+                    this.$modal.hide('newGroup');
                 }
+
+                return false;
             }
         }
     };

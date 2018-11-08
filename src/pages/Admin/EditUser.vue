@@ -67,47 +67,28 @@
                         text: 'Passwords don\'t match !',
                         duration: 5000
                     });
-                } else if (!this.canSubmit) {
+                } else {
+                    this.loading = true;
+                    let user = {
+                        username: this.user_name,
+                        email: this.user_email
+                    };
+                    if(this.user_pwd && this.user_pwd == this.user_pwd_conf) {
+                        user.password = this.user_pwd;
+                    }
+                    await store.dispatch('editUser',  {id: this.user.id, user});
+                    this.user_name = '';
+                    this.user_email = '';
+                    this.user_pwd = '';
+                    this.user_pwd_conf = '';
+                    this.loading = false;
                     this.$notify({
-                        type: 'error',
-                        title: 'Please check user information',
-                        text: 'Invalid name, email or empty password',
+                        type: 'success',
+                        title: 'Operation successful',
+                        text: 'User was successfully edited',
                         duration: 5000
                     });
-                } else {
-                    try {
-                        this.loading = true;
-                        let user = {
-                            username: this.user_name,
-                            email: this.user_email
-                        };
-                        if(this.user_pwd && this.user_pwd == this.user_pwd_conf) {
-                            user.password = this.user_pwd;
-                        }
-                        await store.dispatch('editUser',  {id: this.user.id, user});
-                        this.user_name = '';
-                        this.user_email = '';
-                        this.user_pwd = '';
-                        this.user_pwd_conf = '';
-                        this.loading = false;
-                        this.$notify({
-                            type: 'success',
-                            title: 'Operation successful',
-                            text: 'User was successfully edited',
-                            duration: 5000
-                        });
-                        this.$modal.hide('editUser');
-                    } catch (err) {
-                        console.error(err);
-                        this.$notify({
-                            type: 'error',
-                            title: 'Operation failed',
-                            text: err,
-                            duration: 5000
-                        });
-                    }
-
-
+                    this.$modal.hide('editUser');
                 }
             }
         }

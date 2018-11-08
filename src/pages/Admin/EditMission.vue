@@ -4,7 +4,7 @@
             <h1>Edit mission</h1>
             <form>
                 <input type="text" name="Name" id="Name" placeholder="Name..." v-model="name">
-                <markdown-editor v-model="mission.markdown" :configs="configs"></markdown-editor>
+                <markdown-editor v-model="markdown" :configs="configs"></markdown-editor>
 
                 <div class="inline-form">
                     <label for="chief">Chief: </label>
@@ -74,13 +74,11 @@
             };
         },
         methods: {
-            async beforeOpen(mission) {
+            async beforeOpen(event) {
                 await store.dispatch('retrieveMissions');
-                console.log('salut', store.getters.selectedMission);
+                await store.dispatch('retrieveMission', event.params.mission_id);
                 await store.dispatch('retrieveUsers');
                 await store.dispatch('retrieveGroups');
-                await store.dispatch('retrieveMission', store.getters.selectedMission.id);
-                //console.log('diantre', mission);
                 this.id = this.mission.id;
                 this.name = store.getters.selectedMission.name;
                 this.chief = this.mission.leaderId ? this.mission.leaderId.toString() : '';
@@ -94,69 +92,59 @@
                 this.$modal.hide('editMission');
             },
             async onSubmit() {
-                try {
-                    if(this.name.trim() == '') {
-                        this.$notify({
-                            type: 'error',
-                            title: 'Name must be specified',
-                            text: 'Please fill the form',
-                            duration: 5000
-                        });
-                        return false;
-                    }
-                    if(!store.getters.users.map(us => us.id).includes(parseInt(this.chief, 10)) || !store.getters.groups.map(gp => gp.id).includes(parseInt(this.group))) {
-                        console.log('in');
-                        console.log('ma bite', typeof this.chief);
-                        this.$notify({
-                            type: 'error',
-                            title: 'Leader or group doesn\'t exist',
-                            text: 'Please select an existing leader and group',
-                            duration: 5000
-                        });
-                        this.chief = 1;
-                        this.group = 1;
-                        return false;
-                    }
-                    if(parseFloat(this.budgetAssigned, 10) < 0 || parseFloat(this.budgetUsed, 10) < 0) {
-                        this.$notify({
-                            type: 'error',
-                            title: 'Budgets must be positive',
-                            text: 'Please enter a positive or null budget',
-                            duration: 5000
-                        });
-                        this.budgetAssigned = 0.0;
-                        this.budgetUsed = 0.0;
-                        return false;
-                    }
-                    this.loading = true;
-                    await store.dispatch('updateMission', {
-                        id: this.id,
-                        mission: {
-                            name: this.name,
-                            markdown: this.markdown,
-                            leaderId: parseInt(this.chief, 10),
-                            groupId: parseInt(this.group, 10),
-                            budgetAssigned: parseFloat(this.budgetAssigned, 10),
-                            budgetUsed: parseFloat(this.budgetUsed, 10)
-                        }
-                    });
-                    this.$modal.hide('editMission');
-                    this.$notify({
-                        type: 'success',
-                        title: 'Operation successful',
-                        text: 'Mission was successfully added',
-                        duration: 5000
-                    });
-                    await store.dispatch('retrieveMissions', true);
-                } catch (err) {
-                    console.log(err);
+                if(this.name.trim() == '') {
                     this.$notify({
                         type: 'error',
-                        title: 'Operation failed',
-                        text: err,
+                        title: 'Name must be specified',
+                        text: 'Please fill the form',
                         duration: 5000
                     });
+                    return false;
                 }
+                if(!store.getters.users.map(us => us.id).includes(parseInt(this.chief, 10)) || !store.getters.groups.map(gp => gp.id).includes(parseInt(this.group))) {
+                    console.log('in');
+                    console.log('ma bite', typeof this.chief);
+                    this.$notify({
+                        type: 'error',
+                        title: 'Leader or group doesn\'t exist',
+                        text: 'Please select an existing leader and group',
+                        duration: 5000
+                    });
+                    this.chief = 1;
+                    this.group = 1;
+                    return false;
+                }
+                if(parseFloat(this.budgetAssigned, 10) < 0 || parseFloat(this.budgetUsed, 10) < 0) {
+                    this.$notify({
+                        type: 'error',
+                        title: 'Budgets must be positive',
+                        text: 'Please enter a positive or null budget',
+                        duration: 5000
+                    });
+                    this.budgetAssigned = 0.0;
+                    this.budgetUsed = 0.0;
+                    return false;
+                }
+                this.loading = true;
+                await store.dispatch('updateMission', {
+                    id: this.id,
+                    mission: {
+                        name: this.name,
+                        markdown: this.markdown,
+                        leaderId: parseInt(this.chief, 10),
+                        groupId: parseInt(this.group, 10),
+                        budgetAssigned: parseFloat(this.budgetAssigned, 10),
+                        budgetUsed: parseFloat(this.budgetUsed, 10)
+                    }
+                });
+                this.$modal.hide('editMission');
+                this.$notify({
+                    type: 'success',
+                    title: 'Operation successful',
+                    text: 'Mission was successfully added',
+                    duration: 5000
+                });
+                await store.dispatch('retrieveMissions', true);
                 this.loading = false;
             }
         }

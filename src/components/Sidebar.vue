@@ -87,17 +87,16 @@
             showNotifications() {
                 this.notifications = 0;
             },
-            logout() {
-                store.dispatch('logoutUser')
-                    .then(() => {
-                        this.$notify({clean: true});
-                        store.commit('CLEAR_LOGIN');
-                        this.$router.push({name: 'login'});
-                        this.$notify({
-                            type: 'success',
-                            title: 'You have been disconnected from ANNA.'
-                        });
-                    });
+            async logout() {
+                await store.dispatch('logoutUser');
+                
+                this.$notify({clean: true});
+                store.commit('CLEAR_LOGIN');
+                this.$router.push({name: 'login'});
+                this.$notify({
+                    type: 'success',
+                    title: 'You have been disconnected from ANNA.'
+                });
             },
             mouseOverButton(event) {
                 if (event.target.className.split(' ').includes('button')) {

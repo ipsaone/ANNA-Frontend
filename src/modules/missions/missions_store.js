@@ -58,20 +58,20 @@ const actions = {
         console.log('des data', state.selected);
     },
 
-    storeMission({dispatch}, mission) {
-        return MissionsApi.save(mission)
-            .then(() => dispatch('retrieveMissions', true));
+    async storeMission({dispatch}, mission) {
+        await MissionsApi.save(mission);
+        dispatch('retrieveMissions', true);
     },
 
-    updateMission({dispatch, commit}, mission) {
-        return MissionsApi.update(mission)
-            .then(_ => dispatch('retrieveMissions', true))
-            .then(_ => commit('SET_SELECTED', mission.id));
+    async updateMission({dispatch, commit}, mission) {
+        await MissionsApi.update(mission);
+        dispatch('retrieveMissions', true);
+        commit('SET_SELECTED', mission.id);
     },
 
-    deleteMission({dispatch}, id) {
-        return MissionsApi.delete(id)
-            .then(_ => dispatch('retrieveMissions', true));
+    async deleteMission({dispatch}, id) {
+        await MissionsApi.delete(id);
+        dispatch('retrieveMissions', true);
     },
 
     async addMissionMember({dispatch, state}, user_id) {
@@ -97,9 +97,9 @@ const actions = {
         await dispatch('retrieveMission');
     },
 
-    deleteTask({dispatch}, data) {
-        return MissionsApi.deleteTask(data)
-            .then(_ => dispatch('retrieveMission'));
+    async deleteTask({dispatch}, data) {
+        await MissionsApi.deleteTask(data);
+        await dispatch('retrieveMission');
     }
 };
 

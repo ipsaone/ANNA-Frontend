@@ -47,9 +47,7 @@ const actions = {
 
         let promises = [];
         folder.children.forEach(child => {
-            let thisP = dispatch('getUserById', child.ownerId)
-                .then(user => {child.owner = user; });
-            promises.push(thisP);
+            promises.push(dispatch('getUserById', child.ownerId).then(user => {child.owner = user;}));
         });
 
         await Promise.all(promises);

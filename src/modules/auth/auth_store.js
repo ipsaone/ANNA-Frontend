@@ -53,13 +53,15 @@ const mutations = {
 };
 
 const actions = {
-    loginUser({commit}, credentials) {
-        return AuthApi.log(credentials).then(res => commit('SET_LOGGED_USER', res.data));
+    async loginUser({commit}, credentials) {
+        let res = await AuthApi.log(credentials);
+        commit('SET_LOGGED_USER', res.data);
     },
 
-    logoutUser({commit}) {
+    async logoutUser({commit}) {
         localStorage.clear();
-        return AuthApi.logout().then(_ => commit('SET_LOGGED_USER', {}));
+        await AuthApi.logout();
+        commit('SET_LOGGED_USER', {});
     },
 
     async retrieveLoggedUser({commit, state}) {
@@ -68,8 +70,9 @@ const actions = {
         commit('SET_LOGGED_USER', res.data);
     },
 
-    checkLoggedUser({commit, state, credentials}){
-        return AuthApi.checkUserState().then(res => commit('IS_USER_LOGGED', res));
+    async checkLoggedUser({commit, state, credentials}){
+        let res = await AuthApi.checkUserState();
+        commit('IS_USER_LOGGED', res);
     }
 
 };

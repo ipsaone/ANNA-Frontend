@@ -82,13 +82,7 @@
                             text: 'User was successfully added',
                             duration: 5000
                         }))
-                        .then(() => {this.$modal.hide('newUser');})
-                        .catch((err) => this.$notify({
-                            type: 'error',
-                            title: 'Operation failed',
-                            text: err,
-                            duration: 5000
-                        }));
+                        .then(() => {this.$modal.hide('newUser');});
                 }
             }
         }

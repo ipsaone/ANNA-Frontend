@@ -34,22 +34,22 @@ const actions = {
         return group.data;
     },
 
-    storeGroup({dispatch}, group) {
-        return GroupsApi.save(group)
-            .then(() => dispatch('retrieveGroups', true));
+    async storeGroup({dispatch}, group) {
+        await GroupsApi.save(group);
+        dispatch('retrieveGroups', true);
     },
 
-    updateGroup({dispatch}, group) {
-        return GroupsApi.update(group)
-            .then(() => dispatch('retrieveGroups', true));
+    async updateGroup({dispatch}, group) {
+        await GroupsApi.update(group);
+        dispatch('retrieveGroups', true);
     },
 
-    deleteGroup({dispatch}, id) {
-        return GroupsApi.delete(id)
-            .then(() => dispatch('retrieveGroups', true));
+    async deleteGroup({dispatch}, id) {
+        await GroupsApi.delete(id);
+        dispatch('retrieveGroups', true);
     },
 
-    getGroup({dispatch, state}, id) {
+    async getGroup({dispatch, state}, id) {
         return GroupsApi.getGroup(id);
     },
 
