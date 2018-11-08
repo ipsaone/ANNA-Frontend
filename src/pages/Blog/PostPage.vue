@@ -45,10 +45,10 @@
             let id = this.$route.params.id;
             let postIWantToRead = {};
             await store.dispatch('selectPost', id)
-                .then(() => {
-                    //console.log(this.post, 'trouvé');
+                .then(async () => {
+                    console.log(this.post, 'trouvé');
                     let postIWantToRead = this.post;
-                    store.dispatch('selectPost', postIWantToRead.id)
+                    await store.dispatch('selectPost', postIWantToRead.id)
                         .catch(err => {
                             this.$notify({
                                 type: 'error',
@@ -57,9 +57,9 @@
                                 duration: -1
                             });
                         });
-                }, () => {
-                    //console.log('pas trouvé');
-                    store.dispatch('selectDraft', id)
+                }, async () => {
+                    console.log('pas trouvé');
+                    await store.dispatch('selectDraft', id)
                         .then(() => {
                             //console.log(this.post, 'j\'ai trouvé un draft');
                             let postIWantToRead = this.post;
