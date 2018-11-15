@@ -1,4 +1,4 @@
-import DriveApi from '@/modules/drive/drive_store';
+import DriveApi from '@/modules/drive/drive_api';
 
 const state = {
     folder: {},
@@ -12,15 +12,19 @@ const mutations = {
 
     SET_SELECTED(state, file) {
         state.selected = file;
+    },
+
+    CLEAR_DRIVE(state) {
+        state.selected = {};
     }
 };
 
 const actions = {
-    retrieveFolder({commit, dispatch}, id) {
-        return DriveApi.getFolder(id)
-            .then(folder => dispatch('setOwners', folder.data))
-            .then(folder => commit('SET_FOLDER', folder))
-            .then(dispatch('unselectFile'));
+    async retrieveFolder({commit, dispatch}, id) {
+        let folder = await DriveApi.getFolder(id);
+        await dispatch('setOwners', folder.data);
+        commit('SET_FOLDER', folder.data);
+        await dispatch('unselectFile');
     },
 
     selectFile({commit}, file) {
@@ -37,26 +41,24 @@ const actions = {
         });
     },
 
-    setOwners({dispatch}, folder) {
-        return dispatch('getUserById', folder.ownerId)
-            .then(user => {
-                folder.owner = user;
-            })
-            .then(_ => {
-                folder.children.forEach(child => {
-                    dispatch('getUserById', child.ownerId)
-                        .then(user => {
-                            child.owner = user;
-                        });
-                });
-            })
-            .then(_ => {
-                return folder;
-            });
+    async setOwners({dispatch}, folder) {
+        
+        let user = await dispatch('getUserById', folder.ownerId);
+        folder.owner = user;
+
+        let promises = [];
+        folder.children.forEach(child => {
+            promises.push(dispatch('getUserById', child.ownerId).then(user => {child.owner = user;}));
+        });
+
+        await Promise.all(promises);
+
+        return folder;
     },
 
-    getFoldersList() {
-        return DriveApi.getFoldersList();
+    async getFoldersList({dispatch}, folderId) {
+        let res = await DriveApi.getFoldersList(folderId);
+        return res.data;
     }
 };
 
@@ -66,7 +68,11 @@ const getters = {
     },
 
     content(state) {
-        return state.folder.children;
+        if(state.folder) {
+            return state.folder.children;
+        }
+
+        return {};
     },
 
     selectedFile(state) {

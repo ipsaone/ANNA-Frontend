@@ -5,12 +5,23 @@ $actions-width: 20em;
   grid-template-columns: auto $actions-width;
   grid-column-gap: 2em;
 
+
   .content {
     grid-column: 1;
   }
 
   .actions {
-    grid-column: 2;
+    padding: 1em;
+    transition: all 0.3s linear;
+    //height: 100vh;
+    border-left: 1px solid $white-darker;
+    right: 0;
+    width: 33vw;
+
     @include aside;
+  }
+
+  .section-title {
+    margin-bottom: 1em;
   }
 }

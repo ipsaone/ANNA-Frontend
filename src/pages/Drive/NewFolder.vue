@@ -15,6 +15,7 @@
     import store from '@/modules/store';
     import driveApi from '@/modules/drive/drive_api';
 
+
     export default {
         data() {
             return {
@@ -22,12 +23,12 @@
             };
         },
         methods: {
-            onSubmit() {
+            async onSubmit() {
                 const data = {
                     name: this.name,
                     isDir: true,
                     ownerId: store.getters.loggedUserId,
-                    dirId: store.getters.folder.id,
+                    dirId: store.getters.folder.fileId,
                     groupId: 1,
                     allRead: 1,
                     allWrite: 1,
@@ -37,17 +38,19 @@
                     ownerRead: 1,
                 };
 
-                driveApi.uploadFile(data)
-                    .then(store.dispatch('retrieveFolder', store.getters.folder.id))
-                    .then(this.$modal.hide('newFolder'))
-                    .catch(err => {
-                        this.$notify({
-                            type: 'error',
-                            title: 'Uncaught error',
-                            text: err.message,
-                            duration: -1
-                        });
+                if (this.name.trim() !== ''){
+                    await driveApi.uploadFile(data);
+                    await this.$modal.hide('newFolder');
+                    await store.dispatch('retrieveFolder', store.getters.folder.fileId);
+                } else {
+                    this.$notify({
+                        type: 'error',
+                        title: 'invalid name',
+                        text: 'folder name must not be empty',
+                        duration: -1
                     });
+                }
+               
             }
         }
     };

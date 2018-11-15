@@ -11,60 +11,95 @@ const mutations = {
     },
     SET_SELECTED(state, mission) {
         state.selected = mission;
+    },
+    SET_LEADER(state, data) {
+        let index = state.missions.map(mi => mi.id).indexOf(data.id);
+        console.log('plouf', index);
+        state.missions[index] = {...state.missions[index], leader: data.user};
+        console.log('plaf', state.missions[index]);
+    },
+    UNSELECT_MISSION(state) {
+        state.selected = {};
     }
 };
 
 const actions = {
-    retrieveMissions({commit, dispatch, state}, force = false) {
+    async retrieveMissions({commit, dispatch, state}, force = false) {
         if (state.missions.length === 0 || force) {
-            return MissionsApi.getAll()
-                .then(missions => dispatch('setLeaders', missions.data))
-                .then(missions => commit('SET_ALL_MISSIONS', missions));
+            let res = await MissionsApi.getAll();
+
+            let missions = await Promise.all(res.data.map(async mi => {
+                let leader = await dispatch('getUserById', mi.leaderId);
+                mi.leader = leader;
+                return mi;
+            }));
+            console.log('patate', missions);
+            await commit('SET_ALL_MISSIONS', missions);
+
+            if(missions.length == 0) {
+                await commit('SET_SELECTED', {});
+            }
         }
         else {
             return Promise.resolve();
         }
     },
 
-    retrieveMission({dispatch}, mission_id) {
-        return MissionsApi.get(mission_id)
-            .then(mission => dispatch('setLeader', mission.data))
-            .catch(err => console.log(err));
+    async retrieveMission({dispatch, commit, state}, mission_id) {
+        if (!mission_id) {
+            mission_id = state.selected.id;
+        }
+        let res = await MissionsApi.get(mission_id);
+        let mission = res.data;
+
+        let leader = await dispatch('getUserById', mission.leaderId);
+        mission.leader = leader;
+        await commit('SET_SELECTED', mission);
+        console.log('des data', state.selected);
     },
 
-    selectMission({dispatch, commit}, mission_id) {
-        return dispatch('retrieveMission', mission_id)
-            .then(mission => commit('SET_SELECTED', mission));
+    async storeMission({dispatch}, mission) {
+        await MissionsApi.save(mission);
+        dispatch('retrieveMissions', true);
     },
 
-    setLeaders({dispatch}, missions) {
-        return Promise.all(missions.map(mission => {
-            return dispatch('getUserById', mission.leaderId)
-                .then(user => {
-                    mission.leader = user;
-                    return mission;
-                });
-        }));
+    async updateMission({dispatch, commit}, mission) {
+        await MissionsApi.update(mission);
+        dispatch('retrieveMissions', true);
+        commit('SET_SELECTED', mission.id);
     },
 
-    setLeader({dispatch}, mission) {
-        return dispatch('getUserById', mission.leaderId)
-            .then(user => {
-                mission.leader = user;
-            })
-            .then(_ => {
-                return mission;
-            });
+    async deleteMission({dispatch}, id) {
+        await MissionsApi.delete(id);
+        dispatch('retrieveMissions', true);
     },
 
-    storeMission({dispatch}, mission) {
-        return MissionsApi.save(mission)
-            .then(_ => dispatch('retrieveMissions', true));
+    async addMissionMember({dispatch, state}, user_id) {
+        let data = await MissionsApi.addMember(state.selected.id, user_id);
+        await dispatch('retrieveMission', state.selected.id);
+        return data;
     },
 
-    deleteMission({dispatch}, id) {
-        return MissionsApi.delete(id)
-            .then(_ => dispatch('retrieveMissions', true));
+    async remMissionMember({dispatch, state}, user_id) {
+        let data = await MissionsApi.remMember(state.selected.id, user_id);
+        await dispatch('retrieveMission', state.selected.id);
+        return data;
+    },
+
+    async updateTask({dispatch}, data) {
+        let task = await MissionsApi.updateTask(data);
+        await dispatch('retrieveMission');
+        return task;
+    },
+
+    async storeTask({dispatch}, data) {
+        await MissionsApi.saveTask(data);
+        await dispatch('retrieveMission');
+    },
+
+    async deleteTask({dispatch}, data) {
+        await MissionsApi.deleteTask(data);
+        await dispatch('retrieveMission');
     }
 };
 

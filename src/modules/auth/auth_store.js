@@ -22,31 +22,59 @@ const mutations = {
         }
         else {
             state.logged = user;
-            user.groups.forEach(group => {
-                state.groups.push(group.name);
-            });
-            user.participatingMissions.forEach(mission => {
-                state.missions.push(mission.id);
-            });
-            user.events.forEach(event => {
-                state.events.push(event.id);
-            });
+            if(user.groups) {
+                user.groups.forEach(group => {
+                    state.groups.push(group.name);
+                });
+            }
+            if(user.participatingMissions) {
+                user.participatingMissions.forEach(mission => {
+                    state.missions.push(mission.id);
+                });
+            }
+            if(user.events) {
+                user.events.forEach(event => {
+                    state.events.push(event.id);
+                });
+            }
         }
     },
+    IS_USER_LOGGED(state, data){
+        if (data != true){
+            state.logged = {};
+        }
+    },
+    CLEAR_LOGIN(state) {
+        state.logged = {};
+        state.groups = [];
+        state.events = [];
+        state.missions = [];
+    }
 };
 
 const actions = {
-    loginUser({commit}, credentials) {
-        return AuthApi.log(credentials).then(res => commit('SET_LOGGED_USER', res.data));
+    async loginUser({commit}, credentials) {
+        let res = await AuthApi.log(credentials);
+        commit('SET_LOGGED_USER', res.data);
     },
 
-    logoutUser({commit}) {
-        return AuthApi.logout().then(_ => commit('SET_LOGGED_USER', {}));
+    async logoutUser({commit}) {
+        localStorage.clear();
+        await AuthApi.logout();
+        commit('SET_LOGGED_USER', {});
     },
 
-    retrieveLoggedUser({commit, state}) {
-        return UsersApi.get(state.logged.id).then(res => commit('SET_LOGGED_USER', res.data));
+    async retrieveLoggedUser({commit, state}) {
+        let res = await UsersApi.get(state.logged.id);
+        console.log(res.data);
+        commit('SET_LOGGED_USER', res.data);
+    },
+
+    async checkLoggedUser({commit, state, credentials}){
+        let res = await AuthApi.checkUserState();
+        commit('IS_USER_LOGGED', res);
     }
+
 };
 
 const getters = {
@@ -71,7 +99,7 @@ const getters = {
     },
 
     loggedUserIsAuthor(state) {
-        return state.groups.includes('author');
+        return state.groups.includes('authors');
     },
 
     loggedUserMissions(state) {

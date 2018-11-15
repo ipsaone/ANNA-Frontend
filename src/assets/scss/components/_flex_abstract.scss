@@ -39,9 +39,11 @@ $button-width: 8em;
 
   &.post-abstract {
     grid-template-columns: $id-width $title-width $info-width;
+    grid-column-gap: 10px;
   }
 
   &.event {
     grid-template-columns: $id-width $title-width $date-width $button-width;
+    grid-column-gap: 10px;
   }
 }

@@ -26,7 +26,7 @@ const router = new Router({
         {
             path: '/users/:id(\\d+)',
             name: 'profile',
-            component: resolve => require(['./ProfilePage.vue'], resolve)
+            component: resolve => require(['./Profile/ProfilePage.vue'], resolve)
         },
         {
             path: '/blog',

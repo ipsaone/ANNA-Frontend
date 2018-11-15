@@ -24,7 +24,8 @@
 
             <div class="actions" @mouseover="mouseOverButton" @mouseleave="mouseLeaveButton">
                 <a class="button badge" data-text="Notifications" @click.prevent="showNotifications"
-                   :data-badge="(notifications) ? notifications : false">
+                   :data-badge="(notifications) ? notifications : false"
+                   style="cursor: not-allowed">
                     <i class="fa fa-bell" aria-hidden="true"></i>
                 </a>
 
@@ -57,9 +58,9 @@
                     {title: 'Drive', name: 'drive', color: 'green'},
                     // {title: 'Forum', name: 'forum', color: 'purple'},
                     {title: 'Events', name: 'events', color: 'yellow'},
-                    {title: 'Logs', name: 'logs', color: 'red'},
+                    // {title: 'Logs', name: 'logs', color: 'red'},
                     // {title: 'Gantt', name: 'gantt', color: 'red'},
-                    {title: 'Administration', name: 'admin', color: 'white'}
+                    {title: 'Administration', name: 'admin', color: 'purple'}
                 ]
             };
 
@@ -86,16 +87,16 @@
             showNotifications() {
                 this.notifications = 0;
             },
-            logout() {
-                store.dispatch('logoutUser')
-                    .then(_ => {
-                        this.$notify({clean: true});
-                        this.$router.push({name: 'login'});
-                        this.$notify({
-                            type: 'success',
-                            title: 'You have been disconnected from ANNA.'
-                        });
-                    });
+            async logout() {
+                await store.dispatch('logoutUser');
+                
+                this.$notify({clean: true});
+                store.commit('CLEAR_LOGIN');
+                this.$router.push({name: 'login'});
+                this.$notify({
+                    type: 'success',
+                    title: 'You have been disconnected from ANNA.'
+                });
             },
             mouseOverButton(event) {
                 if (event.target.className.split(' ').includes('button')) {
@@ -107,6 +108,9 @@
             mouseLeaveButton() {
                 this.tooltipVisible = false;
             }
+        },
+        mounted: function() {
+            console.log(store.getters.loggedUserIsRoot);
         }
     };
 </script>

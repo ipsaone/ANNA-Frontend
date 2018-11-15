@@ -4,7 +4,7 @@
             <h1>Generate a barcode</h1>
 
             <input type="text" placeholder="Text..." v-model="text">
-            <canvas id="barcode"></canvas>
+            <canvas id="barcode" ref="barcode"></canvas>
         </div>
     </modal>
 </template>

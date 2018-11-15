@@ -24,5 +24,64 @@ new Vue({
     router,
     store,
     template: '<App/>',
-    components: {App}
+    components: {App},
+    mounted: function() {
+        idleLogout();
+        checkLogged();
+        checkInterval();
+        isRoot();
+    }
 });
+
+async function checkLogged() {
+    //console.log('Am I logged in?', store.getters.isLogged);
+    if (!window.location.href.endsWith('login') && !window.location.href.endsWith('login/') && !window.location.href.endsWith('login#') ){
+        await store.dispatch('checkLoggedUser');
+        if (!store.getters.isLogged){
+            window.location.replace('/login');
+        }
+    }
+}
+
+function idleLogout() {
+    var t;
+    window.onload = resetTimer;
+    window.onmousemove = resetTimer;
+    window.onmousedown = resetTimer;  // catches touchscreen presses as well
+    window.ontouchstart = resetTimer; // catches touchscreen swipes as well
+    window.onclick = resetTimer;      // catches touchpad clicks as well
+    window.onkeypress = resetTimer;
+    window.addEventListener('scroll', resetTimer, true);
+
+    async function disconnect() {
+        if (!window.location.href.endsWith('login') && !window.location.href.endsWith('login/')) {
+            // Check login of the user, if no, reconnect
+
+            alert('You have been inactive for too long');
+
+            await store.dispatch('logoutUser');
+            window.location.replace('/login');
+        }
+    }
+
+    function resetTimer() {
+        clearTimeout(t);
+        t = setTimeout(disconnect, 30 * 60 * 1000);  // time is in milliseconds
+    }
+}
+
+function isRoot() {
+    if (!store.getters.loggedUserIsRoot && (window.location.href.endsWith('administration')||window.location.href.endsWith('administration/'))) {
+        window.location.replace('/dashboard');
+    };
+}
+
+// Useful to disconnect user when backend stops
+function checkInterval() {
+    window.setInterval(function() {
+        if(!window.location.href.endsWith('login') && !window.location.href.endsWith('login/')){
+            checkLogged();
+            //console.log('10 secondes');
+        }
+    }, 10000);
+}

@@ -1,19 +1,25 @@
 <template>
-    <section class="post">
-        <article>
-            <h1>{{ post.title }}</h1>
+    <div class="post basic-layout">
+        <section class="content">
+            <article>
+                <div class="wrapper-button-title">
+                    <div class="return">
+                        <router-link :to="{ name: 'blog'}"> <i class="fa fa-chevron-circle-left"></i> </router-link>
+                    </div>
+                    <h2 class="post-title">{{ post.title }}</h2>
+                </div>
 
-            <p class="info">
-                By
-                <router-link :to="{name: 'profile', params:{id: post.author.id}}">{{ post.author.username }}
-                </router-link>
-                on {{ post.publishedAt | moment('DD/MM/YYYY [at] HH:mm') }}
-            </p>
+                <p class="info">
+                    Posted {{ post.publishedAt | moment('DD/MM/YYYY [at] HH:mm') }} by
+                    <router-link :to="{name: 'profile', params:{id: post.author.id}}">{{ post.author.username }}
+                    </router-link>
+                </p>
 
-            <div class="content" v-html="post.content"></div>
-        </article>
 
-        <div class="actions">
+                <div class="post-content" v-html="post.content"></div>
+            </article>
+        </section>
+        <section class="actions">
             <h1 class="section-title">Actions</h1>
 
             <ul>
@@ -26,8 +32,8 @@
                     <a href="#" @click.prevent="deletePost"><i class="fa fa-trash" aria-hidden="true"></i> Delete</a>
                 </li>
             </ul>
-        </div>
-    </section>
+        </section>
+    </div>
 </template>
 
 <script>
@@ -35,15 +41,38 @@
     import swal from 'sweetalert2';
 
     export default {
-        mounted() {
-            store.dispatch('selectPost', this.$route.params.id)
-                .catch(err => {
-                    this.$notify({
-                        type: 'error',
-                        title: 'Could not find the post.',
-                        text: `Post #${this.$route.params.id} does not exist.`,
-                        duration: -1
-                    });
+        async mounted() {
+            let id = this.$route.params.id;
+            let postIWantToRead = {};
+            await store.dispatch('selectPost', id)
+                .then(async () => {
+                    console.log(this.post, 'trouvé');
+                    let postIWantToRead = this.post;
+                    await store.dispatch('selectPost', postIWantToRead.id)
+                        .catch(err => {
+                            this.$notify({
+                                type: 'error',
+                                title: 'Could not find post.',
+                                text: `Post #${postIWantToRead.id} does not exist.`,
+                                duration: -1
+                            });
+                        });
+                }, async () => {
+                    console.log('pas trouvé');
+                    await store.dispatch('selectDraft', id)
+                        .then(() => {
+                            //console.log(this.post, 'j\'ai trouvé un draft');
+                            let postIWantToRead = this.post;
+                            store.dispatch('selectDraft', postIWantToRead.id)
+                                .catch(err => {
+                                    this.$notify({
+                                        type: 'error',
+                                        title: 'Could not find draft',
+                                        text: `Draft #${postIWantToRead.id} does not exist.`,
+                                        duration: -1
+                                    });
+                                });
+                        });
                 });
         },
         computed: {

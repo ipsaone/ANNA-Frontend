@@ -1,4 +1,9 @@
+@import "missions";
+
 .dashboard {
+  padding-left: 2em;
+  padding-right: 2.8em;
+
   .logs {
     overflow-x: scroll;
     section { margin-top: 1.2em; }

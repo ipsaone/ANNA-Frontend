@@ -1,3 +1,9 @@
+@font-face {
+  font-family: spaceRanger;
+  src: url(../../assets/fonts/space_ranger/spaceranger3d.ttf);
+}
+
+
 .login {
   background: url("../../assets/images/bkg_login.png") no-repeat center fixed;
   background-size: cover;
@@ -6,6 +12,7 @@
   .grid {
     display: grid;
     grid-template-columns: auto;
+    grid-template-rows: 100vh;
     justify-items: center;
     align-items: center;
     height: 100%;
@@ -29,11 +36,26 @@
 
         h1 {
           text-align: center;
+          font-size: 3em;
           color: $purple;
           margin: 0;
           padding-bottom: 0.2em;
           line-height: 0.5em;
           letter-spacing: 0.2em;
+          font-family: spaceRanger;
+        }
+
+        .inverted {
+          display: inline-block;
+          padding: 0;
+          margin: 0;
+          -moz-transform: scale(-1, 1);
+          -webkit-transform: scale(-1, 1);
+          -o-transform: scale(-1, 1);
+          -ms-transform: scale(-1, 1);
+          transform: scale(-1, 1);
+          position: relative;
+          left: -0.2em;
         }
 
         h2 {
@@ -41,6 +63,7 @@
           font-size: 1.2em;
           font-weight: $weight-light;
           text-align: center;
+          padding-bottom: 0.2em;
         }
 
         form {
@@ -48,6 +71,10 @@
             display: grid;
             grid-template-columns: 1fr 1fr;
             grid-column-gap: 1em;
+
+            .nopasswd {
+              cursor: not-allowed;
+            }
 
             a {
               color: $white-ter;
@@ -65,11 +92,6 @@
         }
       }
 
-      footer {
-        text-align: center;
-        color: $white;
-        margin: 1em auto;
-      }
     }
   }
 }

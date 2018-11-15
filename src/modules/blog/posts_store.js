@@ -2,7 +2,8 @@ import PostsApi from './posts_api';
 
 const state = {
     posts: [],
-    post: {}
+    post: {},
+    drafts: []
 };
 
 const mutations = {
@@ -10,45 +11,70 @@ const mutations = {
         state.posts = posts;
     },
 
+    SET_ALL_DRAFTS(state, drafts) {
+        state.drafts = drafts;
+    },
+
     SELECT_POST(state, post) {
         state.post = post;
+    },
+
+    CLEAR_POST(state) {
+        state.post = {};
     }
 };
 
 const actions = {
-    retrievePosts({commit, state}, force = false) {
+    async retrievePosts({commit, state}, force = false) {
         if (state.posts.length === 0 || force) { // If no posts is loaded
-            return PostsApi.getPublished().then(posts => commit('SET_ALL_POSTS', posts.data));
+            let posts = await PostsApi.getPublished();
+            commit('SET_ALL_POSTS', posts.data);
         }
         else {
             return Promise.resolve();
         }
     },
 
-    selectPost({dispatch, commit, state}, id) {
-        return dispatch('retrievePosts')
-            .then(_ => {
-                const post = state.posts.filter(post => post.id === parseInt(id))[0];
-
-                if (typeof post !== 'undefined') commit('SELECT_POST', post);
-                else throw Error;
-            });
+    async retrieveDrafts({commit, state}, force = false) {
+        console.log('draaaaaaaaaaaafts');
+        let drafts = await PostsApi.getDrafted();
+        commit('SET_ALL_DRAFTS', drafts.data);
     },
 
-    storePost({dispatch}, post) {
-        return PostsApi.save(post)
-            .then(_ => dispatch('retrievePosts', true));
+    async selectPost({dispatch, commit, state}, id) {
+        await dispatch('retrievePosts');
+        const post = state.posts.filter(post => post.id === parseInt(id))[0];
+
+        if (typeof post !== 'undefined') {
+            commit('SELECT_POST', post);
+        }
+        else {
+            throw Error;
+        };
     },
 
-    updatePost({dispatch}, post) {
-        return PostsApi.update(post)
-            .then(_ => dispatch('retrievePosts', true))
-            .then(_ => dispatch('selectPost', post.id));
+    async selectDraft({dispatch, commit, state}, id) {
+        await dispatch('retrieveDrafts');
+        const post = state.drafts.filter(post => post.id === parseInt(id))[0];
+
+        if (typeof post !== 'undefined') commit('SELECT_POST', post);
+        else throw Error;
     },
 
-    deletePost({dispatch}, id) {
-        return PostsApi.delete(id)
-            .then(_ => dispatch('retrievePosts', true));
+    async storePost({dispatch}, post) {
+        await  PostsApi.save(post);
+        dispatch('retrievePosts', true);
+    },
+
+    async updatePost({dispatch}, post) {
+        await PostsApi.update(post);
+        await dispatch('retrievePosts', true);
+        await dispatch('selectPost', post.id);
+    },
+
+    async deletePost({dispatch}, id) {
+        await PostsApi.delete(id);
+        dispatch('retrievePosts', true);
     }
 };
 
@@ -59,6 +85,9 @@ const getters = {
 
     selectedPost(state) {
         return state.post;
+    },
+    drafts(state) {
+        return state.drafts;
     }
 };
 

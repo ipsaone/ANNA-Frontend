@@ -3,6 +3,9 @@
         <upload-file></upload-file>
         <new-folder></new-folder>
         <edit-file></edit-file>
+        <file-auth></file-auth>
+        <barcode></barcode>
+        <move-file></move-file>
 
         <section class="content">
             <h1 class=" section-title">Drive</h1>
@@ -14,29 +17,66 @@
             <h1 class="section-title">Actions</h1>
             <ul>
                 <li>
-                    <a href="#" @click.prevent="$modal.show('uploadFile')"><i class="fa fa-upload"
-                                                                              aria-hidden="true"></i> Upload</a>
+                    <a href="#" @click.prevent="$modal.show('uploadFile')">
+                        <i class="fa fa-upload" aria-hidden="true"></i> Upload
+                    </a>
                 </li>
 
                 <li>
-                    <a href="#" @click.prevent="$modal.show('newFolder')"><i class="fa fa-plus" aria-hidden="true"></i>
-                        New folder</a>
+                    <a href="#" @click.prevent="$modal.show('newFolder')">
+                        <i class="fa fa-plus" aria-hidden="true"></i> New folder
+                    </a>
                 </li>
+
                 <li>
-                    <a href="#" @click.prevent="refreshFolder"><i class="fa fa-refresh" aria-hidden="true"></i> Refresh</a>
+                    <a href="#" @click.prevent="newBarcode">
+                        <i class="fa fa-barcode"></i> Generate a new barcode
+                    </a>
                 </li>
+
+                <!--<li>
+                    <a href="#" @click.prevent="search">
+                        <i class="fa fa-search"></i> Search in folder
+                    </a>
+                </li>-->
             </ul>
+            <br>
 
             <div v-if="showOptions">
                 <h1 class="section-title">Options</h1>
                 <ul>
                     <li v-if="!selectedFile.isDir">
-                        <a href="#" @click.prevent="downloadFile"><i class="fa fa-download" aria-hidden="true"></i>
-                            Download</a>
+                        <a href="#" @click.prevent="downloadFile">
+                            <i class="fa fa-download" aria-hidden="true"></i> Download
+                        </a>
                     </li>
-                    <li><a href="#" @click.prevent="editFile"><i class="fa fa-pencil" aria-hidden="true"></i> Edit</a>
+                    <li v-if="selectedFile.isDir">
+                        <a href="#" @click.prevent="openFile">
+                            <i class="fa fa-download" aria-hidden="true"></i> Open
+                        </a>
                     </li>
-                    <li><a href="#" @click.prevent="deleteFile"><i class="fa fa-trash"></i> Delete</a></li>
+                    <!--
+                    <li>
+                        <a href="#" @click.prevent="editFile">
+                            <i class="fa fa-pencil" aria-hidden="true"></i> Edit
+                        </a>
+                    </li>
+                    -->
+                    <li>
+                        <a href="#" @click.prevent="moveFile">
+                            <i class="fa fa-folder" aria-hidden="true"></i> Move
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#" @click.prevent="deleteFile">
+                            <i class="fa fa-trash"></i> Delete
+                        </a>
+                    </li>
+                    <!--<li>
+                        <a href="#" @click.prevent="manageRights">
+                            <i class="fa fa-key"></i> Manage permissions
+                        </a>
+                    </li>-->
                 </ul>
             </div>
         </section>
@@ -46,34 +86,72 @@
 <script>
     import store from '@/modules/store';
     import driveApi from '@/modules/drive/drive_api';
-    import DriveTable from '@/components/DriveTable';
-    import UploadFile from '@/components/UploadFile';
-    import NewFolder from '@/components/NewFolder';
-    import EditFile from '@/components/EditFile';
+    import DriveTable from './DriveTable';
+    import UploadFile from './UploadFile';
+    import NewFolder from './NewFolder';
+    import EditFile from './EditFile';
+    import FileAuth from './FileAuth';
+    import Barcode from './Barcode';
+    import MoveFile from './MoveFile';
+    import swal from 'sweetalert2';
 
     export default {
         components: {
             DriveTable,
             UploadFile,
             NewFolder,
-            EditFile
+            EditFile,
+            FileAuth,
+            Barcode,
+            MoveFile
         },
-        beforeRouteEnter(to, from, next) {
-            store.dispatch('retrieveFolder', 1)
-                .then(_ => next())
-                .catch(err => console.log(err));
+        async beforeRouteEnter(to, from, next) {
+            let folderId = 1;
+            if(store.getters.folder && store.getters.folder.fileId) {
+                folderId = store.getters.folder.fileId;
+            }
+
+            try {
+                await store.dispatch('retrieveFolder', folderId);
+                next();
+            } catch (err) {
+                console.log(err);
+                await store.dispatch('retrieveFolder', 1);
+            }
+
         },
         computed: {
             selectedFile() {
                 return store.getters.selectedFile;
             },
             showOptions() {
-                return typeof this.selectedFile !== 'undefined' && typeof this.selectedFile.id !== 'undefined';
+                return typeof this.selectedFile !== 'undefined' && typeof this.selectedFile.fileId !== 'undefined';
             }
         },
         methods: {
+            search() {
+
+            },
+            manageRights() {
+                this.$modal.show('fileAuth', this.selectedFile);
+            },
+            openFile() {
+                if (this.selectedFile.isDir) {
+                    this.loading = true;
+                    console.log(this.selectedFile);
+                    store.dispatch('retrieveFolder', this.selectedFile.fileId)
+                        .then(_ => store.dispatch('selectFile', {}))
+                        .then(_ => this.loading = false);
+                }
+            },
+            moveFile() {
+                this.$modal.show('moveFile');
+            },
+            newBarcode() {
+                this.$modal.show('barcode');
+            },
             downloadFile() {
-                driveApi.downloadFile(this.selectedFile.id);
+                driveApi.downloadFile(this.selectedFile.fileId);
             },
             editFile() {
                 if (this.selectedFile.isDir)
@@ -82,6 +160,21 @@
                     this.$modal.show('editFile');
             },
             deleteFile() {
+                /*swal({
+                    title: 'Delete this file?',
+                    type: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#E74D3C',
+                    cancelButtonColor: '#7A7A7A',
+                    confirmButtonText: 'Delete'
+                }).then(_ => {
+                    async () => {
+                        await driveApi.deleteFile(this.selectedFile.fileId);
+                        await store.dispatch('retrieveFolder', store.getters.folder.fileId);
+                        console.log('deleted');
+                        await store.dispatch('unselectFile');
+                    };
+                });*/
                 this.$modal.show('dialog', {
                     title: 'Are you sure?',
                     text: 'You will delete ' + this.selectedFile.name + ' from the IPSA ONE drive.',
@@ -89,12 +182,12 @@
                         {
                             title: 'Delete it',
                             default: true,
-                            handler: () => {
-                                driveApi.deleteFile(this.selectedFile.id)
-                                    .then(store.dispatch('retrieveFolder', this.selectedFile.folderId))
-                                    .then(console.log('deleted'))
-                                    .then(store.dispatch('unselectFile'))
-                                    .then(this.$modal.hide('dialog'));
+                            handler: async () => {
+                                await driveApi.deleteFile(this.selectedFile.fileId);
+                                await store.dispatch('retrieveFolder', store.getters.folder.fileId);
+                                console.log('deleted');
+                                await store.dispatch('unselectFile');
+                                this.$modal.hide('dialog');
                             }
                         },
                         {
@@ -104,7 +197,7 @@
                 });
             },
             refreshFolder() {
-                store.dispatch('retrieveFolder', store.getters.folder.id);
+                store.dispatch('retrieveFolder', store.getters.folder.fileId);
             }
         }
     };
