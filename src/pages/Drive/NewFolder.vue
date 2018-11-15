@@ -39,6 +39,7 @@
                 };
 
                 if (this.name.trim() !== ''){
+                    console.log('groupe de tes morts', store.getters.loggedUser.groups);
                     await driveApi.uploadFile(data);
                     await this.$modal.hide('newFolder');
                     await store.dispatch('retrieveFolder', store.getters.folder.fileId);
@@ -50,7 +51,7 @@
                         duration: -1
                     });
                 }
-               
+
             }
         }
     };
