@@ -33,8 +33,8 @@
         </table>
 
 
-        <div style="height: 65vh; overflow-y: auto; overflow-x: none;">
-            <table >
+        <!--div style="height: 65vh; overflow-y: auto; overflow-x: none;" -->
+            <table style="overflow-y: auto">
                 <thead>
                 <tr style="visibility: hidden; font-size: 0.4em;">
                     <th>Type</th>
@@ -45,7 +45,7 @@
                 </thead>
 
                 <tbody>
-                <!-- Content -->
+                <!-- Content-->
                 <tr v-for="file in content" :key="file.fileId" @click="select(file)"
                     @dblclick="openFile(file)"
                     :class="{selected: file.fileId === selectedFile.fileId}">
@@ -64,7 +64,7 @@
                 </tr>
                 </tbody>
             </table>
-        </div>
+        <!--/div-->
     </div>
 </template>
 
