@@ -13,55 +13,65 @@
             </thead>
 
             <tbody>
-            <!-- Go back -->
-            <tr v-if="folder.name !== 'root'" @dblclick="goBack">
-                <td><i class="fa fa-folder" aria-hidden="true"></i></td>
-                <td>...</td>
-                <td>&nbsp;</td>
-                <td>&nbsp;</td>
-            </tr>
+                <!-- Go back -->
+                <tr v-if="folder && folder.name !== 'root'" @dblclick="goBack">
+                    <td><i class="fa fa-folder" aria-hidden="true"></i></td>
+                    <td>...</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                </tr>
 
-            <!-- Actual folder -->
-            <tr class="no-hover">
-                <td><i class="fa fa-folder-open" aria-hidden="true"></i></td>
-                <td>{{ wrapName(folder.name) }}</td>
-                <td>{{ wrapName(folder.owner.username) }}</td>
-                <td>{{ convertSize(folder.size) }} Kb</td>
-            </tr>
+                <!-- Actual folder -->
+                <tr class="no-hover" v-if="folder">
+                    <td><i class="fa fa-folder-open" aria-hidden="true"></i></td>
+                    <td>{{ wrapName(folder.name) }}</td>
+                    <td>{{ wrapName(folder.owner.username) }}</td>
+                    <td>{{ convertSize(folder) }}</td>
+                </tr>
 
-            <!-- Separator -->
-            <tr class="spacer">
-                <td>&nbsp;</td>
-                <td>&nbsp;</td>
-                <td>&nbsp;</td>
-                <td>&nbsp;</td>
-            </tr>
-
-            <!-- Content -->
-            <tr v-for="file in content" :key="file.id" @click="select(file)"
-                @dblclick="openFile(file)"
-                :class="{selected: file.id === selectedFile.id}">
-                <td v-html="getIcon(file)"></td>
-                <td class="overflow-wrap-hack">
-                    <div class="content-td">
-                        {{ wrapName(file.name) }}
-                    </div>
-                </td>
-                <td>
-                    {{ wrapName(file.owner.username) }}
-                </td>
-                <td>
-                    {{ convertSize(file.size) }} Kb
-                </td>
-            </tr>
             </tbody>
         </table>
+
+
+        <div style="height: 65vh; overflow-y: auto; overflow-x: none;">
+            <table >
+                <thead>
+                <tr style="visibility: hidden; font-size: 0.4em;">
+                    <th>Type</th>
+                    <th>Name</th>
+                    <th>Owner</th>
+                    <th>Size</th>
+                </tr>
+                </thead>
+
+                <tbody>
+                <!-- Content -->
+                <tr v-for="file in content" :key="file.fileId" @click="select(file)"
+                    @dblclick="openFile(file)"
+                    :class="{selected: file.fileId === selectedFile.fileId}">
+                    <td v-html="getIcon(file)"></td>
+                    <td class="overflow-wrap-hack">
+                        <div class="content-td">
+                            {{ wrapName(file.name) }}
+                        </div>
+                    </td>
+                    <td>
+                        {{ wrapName(file.owner.username) }}
+                    </td>
+                    <td>
+                        {{ convertSize(file) }}
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
     </div>
 </template>
 
 <script>
     import store from '@/modules/store';
     import Loader from '@/components/Loader';
+    import FileSize from 'filesize';
 
     export default {
         components: {
@@ -85,16 +95,21 @@
         },
         methods: {
             select(file) {
-                if (file.id === this.selectedFile.id) store.dispatch('selectFile', {});
+                if (file.fileId === this.selectedFile.fileId) store.dispatch('selectFile', {});
                 else store.dispatch('selectFile', file);
             },
             wrapName(name) {
-                if (name.length > 18)
+                if (name && name.length > 18)
                     return name.substring(0, 18) + '...';
                 else
                     return name;
             },
             getIcon(file) {
+                if (file.isDir) {
+                    return '<i class="fa fa-folder" aria-hidden="true"></i>';
+                }
+
+                if(!file.type) { file.type = ''; }
                 switch (file.type) {
                     // PDF
                     case 'application/pdf':
@@ -132,20 +147,26 @@
                         return '<i class="fa fa-file-video-o" aria-hidden="true"></i>';
                         break;
 
+                    case 'folder':
+                        return '<i class="fa fa-file-folder" aria-hidden="true"></i>';
+                        break;
+
+                    case '':
                     default:
-                        if (file.isDir)
-                            return '<i class="fa fa-folder" aria-hidden="true"></i>';
-                        else
-                            return '<i class="fa fa-file-o" aria-hidden="true"></i>';
+                        return '<i class="fa fa-file-o" aria-hidden="true"></i>';
                 }
             },
-            convertSize(size) {
-                return size / 1000.0;
+            convertSize(file) {
+                if(file.isDir) {
+                    return '';
+                }
+
+                return FileSize(file.size);
             },
             openFile(file) {
                 if (file.isDir) {
                     this.loading = true;
-                    store.dispatch('retrieveFolder', file.id)
+                    store.dispatch('retrieveFolder', file.fileId)
                         .then(_ => store.dispatch('selectFile', {}))
                         .then(_ => this.loading = false);
                 }

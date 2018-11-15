@@ -14,7 +14,7 @@ const config = {
 };
 
 export default {
-    getFolder(id) {
+    async getFolder(id) {
         return axios.get(url + 'files/list/' + id, {withCredentials: true});
     },
 
@@ -44,8 +44,10 @@ export default {
         return axios.post(url + 'upload/', form, config);
     },
 
-    editFile(data) {
+    editFile(edit) {
         let form = new FormData();
+
+        let data = edit.data;
 
         if (data.contents !== undefined) form.append('contents', data.contents);
         if (data.name !== undefined) form.append('name', data.name);
@@ -60,14 +62,14 @@ export default {
         if (data.ownerWrite !== undefined) form.append('ownerWrite', data.ownerWrite);
         if (data.ownerRead !== undefined) form.append('ownerRead', data.ownerRead);
 
-        return axios.put(url + 'upload/' + data.fileId, form, config);
+        return axios.put(url + 'upload/' + edit.fileId, form, config);
     },
 
     deleteFile(fileId) {
         return axios.delete(url + 'files/' + fileId, {withCredentials: true});
     },
 
-    getFoldersList() {
-        return axios.get(url + 'files/list/1?foldersOnly=true', {withCredentials: true});
+    async getFoldersList(folderId) {
+        return axios.get(url + 'files/list/'+folderId+'?foldersOnly=true', {withCredentials: true});;
     }
 };

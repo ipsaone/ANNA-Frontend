@@ -20,6 +20,8 @@ input[type="submit"] {
   &[disabled] {
     cursor: default;
     opacity: .5;
+    background-color: $grey;
+    color: $white;
   }
 
   &.alert {

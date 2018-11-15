@@ -4,7 +4,7 @@
             <h1>Create a new log</h1>
             <form @submit.prevent="onSubmit">
                 <input type="text" name="title" id="title" placeholder="Title..." v-model="title">
-                <markdown-editor v-model="markdown"></markdown-editor>
+                <markdown-editor v-model="markdown" :configs="configs"></markdown-editor>
                 <button type="submit" class="button success">Submit</button>
             </form>
         </div>
@@ -23,7 +23,11 @@
         data() {
             return {
                 title: '',
-                markdown: ''
+                markdown: '',
+
+                configs: {
+                    placeholder: 'Description'
+                }
             };
         },
         methods: {

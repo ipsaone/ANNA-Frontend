@@ -1,5 +1,14 @@
+@import 'tabs-component';
+@import 'table';
+@import 'members';
+
 .admin {
 
+    .content {
+        margin-right: 1em;
+    }
+
+    overflow: hidden;
 
     label {
         width: 15em;
@@ -17,4 +26,75 @@
     h2 {
         text-align: center;
     }
+
+    input {
+        height: 2em;
+    }
+
+    .form-group {
+        height: 3em;
+    }
+
+    .buttons {
+        text-align: right;
+        button {
+            transition: 0.3s;
+            border: 1px solid $grey-lighter;
+        }
+
+
+
+        .submit {
+            background-color: $white-dark;
+        }
+        .submit:hover {
+            background-color: $light;
+        }
+
+        .cancel {
+            background-color: $warning;
+        }
+        .cancel:hover {
+            background-color: $orange;
+        }
+    }
+}
+
+.shrink {
+    transform: scale(0.1);
+}
+
+.admin .anna-modal form{
+    max-height: 80vh;
+    overflow-y: auto;
+    overflow-x: hidden;
+    padding: 0 1vw;
+}
+
+.admin .anna-modal {
+    padding: 0 1vw;
+    form::-webkit-scrollbar-track {
+        -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+        border-radius: 10px;
+        background-color: #F5F5F5;
+    }
+
+    form::-webkit-scrollbar {
+      width: 4px;
+      background-color: #F5F5F5;
+    }
+
+    form::-webkit-scrollbar-thumb {
+      border-radius: 10px;
+      -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,.3);
+      background-color: #555;
+    }
+}
+
+v--modal-box v--modal {
+    height: inherit;
+}
+
+.anna-modal:not(.manage-members){
+    max-height: 90vh;
 }

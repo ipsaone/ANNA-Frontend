@@ -1,189 +1,307 @@
 <template>
-    <section class="admin basic-layout">
-        <div class="content">
+    <div class='admin'>
+        <new-mission></new-mission>
+        <new-group></new-group>
+        <new-event></new-event>
+        <new-user></new-user>
+        <group-members></group-members>
+        <mission-members></mission-members>
+        <edit-event></edit-event>
+        <edit-mission></edit-mission>
+        <event-members></event-members>
+        <edit-user></edit-user>
+
+        <section class="content">
             <h1 class="section-title">Administration</h1>
+            <tabs>
+                <tab name="Missions">
+                    <table>
+                        <tr>
+                            <th>Name</th>
+                            <th>Leader</th>
+                            <th>Budget</th>
+                            <th>Members</th>
+                            <th>Actions</th>
+                        </tr>
+                        <tr v-for="mission in $store.getters.missions" :key="mission.id">
+                            <td> {{ mission.name }} </td>
+                            <td> {{ mission.leader.username }} </td>
+                            <!-- TODO : why is it a string in the first place ? (+0 to convert to number) -->
+                            <td> {{ mission.budgetUsed+0 }} / {{ mission.budgetAssigned+0 }} </td>
+                            <td> {{ mission.memberCount }} </td>
+                            <td>
+                                <a @click.prevent="$modal.show('missionMembers', {mission_id: mission.id});">
+                                    Manage members
+                                </a>,
+                                <a @click.prevent="$modal.show('editMission', {mission_id: mission.id})">Edit</a>,
+                                <a @click.prevent="delItem('mission', 'deleteMission', mission.name, mission.id)">
+                                    Delete
+                                </a>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td><a @click.prevent="$modal.show('newMission')">Add mission</a></td>
+                        </tr>
+                    </table>
+                </tab>
 
-            <collapse>
-                <div slot="collapse-header">Notifications</div>
+                <!--
+                <tab name="Logs">
+                    <table>
+                        <tr>
+                            <th>Name</th>
+                            <th>Date</th>
+                            <th>Description</th>
+                            <th>Linked data</th>
+                            <th>Actions</th>
+                        </tr>
+                        <tr v-for="log in logs" :key="log.id">
+                            <td> {{ log.title }} </td>
+                            <td> {{ log.updatedAt}} </td>
+                            <td> {{ log.markdown }} </td>
+                            <td> [Linked things] </td>
+                            <td>
+                                <a>Edit</a>,
+                                <a>Delete</a>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td><a>Add log</a></td>
+                        </tr>
+                    </table>
+                </tab>
+                -->
 
-                <div slot="collapse-body">
-                    What should be here : <br>
-                    - Logs edition/deletion awaiting for confirmation<br>
-                    - People who forgot their password<br>
-                    - Important info received from the backend
-                </div>
-            </collapse>
+                <tab name="Blog">
+                    <table>
+                        <tr>
+                            <th>Id</th>
+                            <th>Title</th>
+                            <th>Date</th>
+                            <th>Author</th>
+                            <th>Actions</th>
+                        </tr>
+                        <tr v-for="post in $store.getters.posts" :key="post.id">
+                            <td> {{ post.id }} </td>
+                            <td> {{ post.title }} </td>
+                            <td> {{ post.createdAt | moment('DD/MM/YYYY') }} </td>
+                            <td> {{ post.author.username }} </td>
+                            <td>
+                                <router-link :to="{name: 'readPost', params: {id: post.id}}">Show</router-link>,
+                                <router-link :to="{name: 'editPost', params: {id: post.id}}">Edit</router-link>,
+                                <a @click.prevent="delItem('post', 'deletePost', post.title, post.id)">Delete</a>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td><router-link :to="{name: 'newPost'}">Add post</router-link></td>
+                        </tr>
+                    </table>
+                </tab>
 
-            <collapse>
-                <div slot="collapse-header">Missions</div>
+                <tab name="Groups">
+                    <table>
+                        <tr>
+                            <th>Name</th>
+                            <th>Members</th>
+                            <th>Actions</th>
+                        </tr>
+                        <tr v-for="group in $store.getters.groups" :key="group.id">
+                            <td> {{ group.name }} </td>
+                            <td> {{ group.users.length }} </td>
+                            <td>
+                                <a v-if="group.name !== 'root'"@click.prevent="$modal.show('groupMembers', {group_id: group.id});">
+                                    Manage users,
+                                </a>
+                                <a v-if="group.name == 'root'" @click.prevent="$modal.show('groupMembers', {group_id: group.id});">
+                                    Manage users
+                                </a>
+                                <a v-if="group.name !== 'root'" @click.prevent="delItem('group', 'deleteGroup', group.name, group.id)">
+                                    Delete
+                                </a>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td></td>
+                            <td></td>
+                            <td><a @click.prevent="$modal.show('newGroup');">Add group</a></td>
+                        </tr>
+                    </table>
+                </tab>
 
-                <div slot="collapse-body">
-                What should be here : <br>
-                - Missions list (editable, can add users, etc...)<br>
-                - Add a mission button (+form)
+                <tab name="Users">
+                    <table>
+                        <tr>
+                            <th>ID</th>
+                            <th>Name</th>
+                            <th>Email</th>
+                            <!--th>Groups</th-->
+                            <th>Actions</th>
+                        </tr>
+                        <tr v-for="user in $store.getters.users" :key="user.id">
+                            <td> {{ user.id }} </td>
+                            <td> {{ user.username }} </td>
+                            <td> {{ user.email }} </td>
+                            <!-- td> <span> {{userGroups}} </span></td-->
+                            <td>
+                                <a v-if="user.id === $store.getters.loggedUserId" @click.prevent="$modal.show('editUser', {user_id: user.id})">Edit</a>
+                                <a v-if="user.id !== $store.getters.loggedUserId" @click.prevent="$modal.show('editUser', {user_id: user.id})">Edit,</a>
+                                <a v-if="user.id !== $store.getters.loggedUserId" @click.prevent="delItem('user', 'deleteUser', user.username, user.id)">Delete</a>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <!--td></td-->
+                            <td><a @click.prevent="$modal.show('newUser')">Add user</a></td>
+                        </tr>
+                    </table>
+                </tab>
 
-
-                    <div class="form-group">
-                        <label for="miss-name">Mission name :</label>
-                        <input type="text" name="miss-name" v-model="miss_name">
-                    </div>
-
-                    <div class="form-group">
-                        <label for="miss-desc">Mission description (markdown) :</label>
-                        <input type="text" name="miss-desc" v-model="miss_desc">
-                    </div>
-
-                    <div class="form-group">
-                        <label for="miss-budget">Mission name :</label>
-                        <input type="number" name="miss-budget" v-model="miss_budget">
-                    </div>
-
-                    <input type="submit" @click.prevent="newMission" value="Send"></button>
-                </div>
-            </collapse>
-
-            <collapse>
-                <div slot="collapse-header">Logs</div>
-
-                <div slot="collapse-body">
-                What should be here :<br>
-                - Logs list, editable
-                </div>
-            </collapse>
-
-            <collapse>
-                <div slot="collapse-header">Blog</div>
-
-                <div slot="collapse-body">
-                What should be here :<br>
-                - Posts list, editable
-                </div>
-            </collapse>
-
-
-            <collapse>
-                <div slot="collapse-header">Groups</div>
-
-                <div slot="collapse-body">
-                What should be here :<br>
-                - Groups list, editable, with number of users
-                - Add group button (+form)
-                </div>
-            </collapse>
-
-            <collapse>
-                <div slot="collapse-header">Users</div>
-                <div slot="collapse-body">
-                    What should be here :<br>
-                    - Groups list, editable, with their groups
-                    - Add group button (form done)
-
-                    <div class="form-group">
-                        <label for="user-name">Username :</label>
-                        <input type="text" name="user-name" v-model="user_name">
-                    </div>
-                    <div class="form-group">
-                        <label for="user-email">Email :</label>
-                        <input type="text" name="user-email" v-model="user_email">
-                    </div>
-                    <div class="form-group">
-                        <label for="user-pwd">Password :</label>
-                        <input type="password" name="user-pwd" v-model="user_pwd">
-                    </div>
-
-                    <div class="form-group">
-                        <label for="user-pwd-2">Password (again) :</label>
-                        <input type="password" name="user-pwd-2" v-model="user_pwd_conf">
-                    </div>
-
-                    <input type="submit" @click.prevent="newUser" value="Send"></button>
-                </div>
-            </collapse>
-        </div>
-
-        <div class="actions">
-
-        </div>
-    </section>
+                <tab name="Events">
+                    <table>
+                        <tr>
+                            <th>ID</th>
+                            <th>Name</th>
+                            <th>Registered</th>
+                            <th>Date</th>
+                            <th>Actions</th>
+                        </tr>
+                        <tr v-for="event in $store.getters.events" :key="event.id">
+                            <td> {{ event.id }} </td>
+                            <td> {{ event.name }} </td>
+                            <td> {{ event.registeredCount }} / {{ event.maxRegistered }} </td>
+                            <td> {{ event.startDate | moment('DD/MM/YYYY') }} - {{ event.endDate | moment('DD/MM/YYYY') }} </td>
+                            <td>
+                                <a @click.prevent="$modal.show('eventMembers', {event_id: event.id})">Manage registered</a>,
+                                <a @click.prevent="$modal.show('editEvent', {event_id: event.id})">Edit</a>,
+                                <a @click.prevent="delItem('event', 'deleteEvent', event.name, event.id)">Delete</a>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td><a @click.prevent="$modal.show('newEvent');">Add event</a></td>
+                        </tr>
+                    </table>
+                </tab>
+            </tabs>
+        </section>
+    </div>
 </template>
 
 <script>
     import store from '@/modules/store';
     import Loader from '@/components/Loader';
-    import Collapse from '@/components/Collapse';
     import UserApi from '@/modules/users/users_api';
+    import {Tabs, Tab} from 'vue-tabs-component';
+
+    import NewMission from './NewMission';
+    import NewGroup from './NewGroup';
+    import NewEvent from './NewEvent';
+    import NewUser from './NewUser';
+    import MissionMembers from './MissionMembers';
+    import EventMembers from './EventMembers';
+    import GroupMembers from './GroupMembers';
+    import EditEvent from './EditEvent';
+    import EditMission from './EditMission';
+    import EditUser from './EditUser';
+
+    import * as moment from 'moment';
 
     export default {
         components: {
             Loader,
-            Collapse
+            Tabs, Tab,
+            NewMission, MissionMembers,  EditMission,
+            NewGroup, GroupMembers,
+            NewEvent, EventMembers, EditEvent,
+            NewUser, EditUser
+
         },
         data() {
             return {
-                loading: false,
-                group_name: '',
-                user_name: '',
-                user_email: '',
-                user_pwd: '',
-                user_pwd_conf: ''
+                loading: false
             };
         },
-        mounted() {
-            this.loading = true;
-            store.dispatch('retrieveUsers')
-                .catch(err => {
-                    this.$notify({
-                        type: 'error',
-                        title: 'Can not retrieve data from server',
-                        text: err.message,
-                        duration: -1
+        computed: {
+            missions() {
+                console.log('salut');
+                return store.getters.missions;
+            },
+            groups() {
+                return store.getters.loggedUser.groups;
+            },
+            users() {
+                let i;
+                let users = [];
+                for(i = 1; i <= store.getters.users.length; i++) {
+                    store.dispatch('selectUser', i)
+                    .then(_ => {
+                        store.dispatch('retrieveGroups')
+                        .then(_ => {
+                            users.push(store.getters.selectedUser);
+                        });
                     });
-                })
-                .then(this.loading = false);
+                }
+                console.log('voilà les user', users);
+                return users;
+            },
+            userGroups() {
+                let i;
+                let groups = [];
+                let u = this.users;
+                for(i = 1; i <= u.length; i++) {
+                    store.dispatch('retrieveGroups')
+                    .then(_ => {
+                        groups.push(u[i]);
+                    });
+                }
+                console.log('tada', groups);
+            }
+        },
+        async mounted() {
+            await this.refreshAll();
+            return this.user;
         },
         methods: {
-            newGroup() {
-                if (group_name)
-                    GroupApi.create(group_name);
-            },
-
-            newMission() {
+            async refreshAll() {
                 this.loading = true;
-                store.dispatch('saveMission')
-                    .then(() => {
-                        this.loading = false;
-                    });
+                await store.dispatch('retrieveMissions', true);
+                await store.dispatch('retrieveUsers', true);
+                await store.dispatch('retrievePosts', true);
+                await store.dispatch('retrieveLogs', true);
+                await store.dispatch('retrieveGroups', true);
+                await store.dispatch('retrieveEvents', true);
+                this.loading = false;
+
             },
-
-            newUser() {
-                if (this.user_name && this.user_email && this.user_pwd) {
-                    if(this.user_pwd != this.user_pwd_conf) {
-                        alert('Passwords don\'t match !');
-                        return false;
-                    }
-
-                    UserApi.add({
-                        username: this.user_name,
-                        email: this.user_email,
-                        password: this.user_pwd
-                    }).then(() => this.$notify({
+            async delItem(type_name, action_name, item_name, item_id) {
+                if(confirm('Delete '+type_name+' "'+item_name+'" ?')) {
+                    this.loading = true;
+                    await store.dispatch(action_name, item_id);
+                    await this.refreshAll();
+                    this.$notify({
                         type: 'success',
                         title: 'Operation successful',
-                        text: 'User was successfully added',
+                        text: type_name+' was successfully deleted',
                         duration: 5000
-                    }))
-                    .then(() => {
-                        this.user_name = '';
-                        this.user_email = '';
-                        this.user_pwd = '';
-                        this.user_pwd_conf = '';
-                    })
-                    .catch((err) => this.$notify({
-                        type: 'error',
-                        title: 'Operation failed',
-                        text: err,
-                        duration: 5000
-                    }));
+                    });
+
                 }
             }
 

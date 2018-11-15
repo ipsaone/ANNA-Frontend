@@ -25,24 +25,36 @@ const actions = {
         }
     },
 
-    selectUser({state, commit, dispatch}, id) {
-        return dispatch('retrieveUsers')
-            .then(_ => {
-                const user = state.users.filter(user => user.id === parseInt(id))[0];
-
-                if (typeof user !== 'undefined') commit('SELECT_USER', user);
-                else throw Error;
-            });
+    async selectUser({state, commit, dispatch}, id) {
+        let user = await UsersApi.get(id);
+        commit('SELECT_USER', user.data);
+        return;
     },
 
-    getUserById({state, dispatch}, id) {
-        return dispatch('retrieveUsers')
-            .then(_ => {
-                const user = state.users.filter(user => user.id === parseInt(id))[0];
+    async getUserById({state}, id) {
+        let user = state.users.filter(us => us.id == id)[0];
+        if(!user) {
+            let res = await UsersApi.get(id);
+            user = res.data;
+        }
+        return user;
+    },
 
-                if (typeof user !== 'undefined') return user;
-                else throw Error;
-            });
+    async insertUser({state, commit, dispatch}, user) {
+        if (user.username && user.email && user.password) {
+            await UsersApi.add(user);
+            await dispatch('retrieveUsers', true);
+        }
+    },
+
+    async deleteUser({state, commit, dispatch}, id) {
+        await UsersApi.delete(id);
+        await dispatch('retrieveUsers', true);
+    },
+
+    async editUser({dispatch}, data) {
+        await UsersApi.edit(data.id, data.user);
+        dispatch('retrieveUsers', true);
     }
 };
 

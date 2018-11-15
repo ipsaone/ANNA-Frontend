@@ -1,20 +1,22 @@
 <template>
-    <section class="form-post">
-        <div class="editor">
-            <h1 class="section-title">Edit post</h1>
+    <div class="basic-layout">
+        <section class="blog form-post content">
+            <div class="editor">
+                <h1 class="section-title">Edit post</h1>
 
-            <input type="text" name="title" placeholder="Title" v-model="title">
-            <markdown-editor v-model="markdown"></markdown-editor>
-        </div>
+                <input type="text" name="title" placeholder="Title" v-model="title">
+                <markdown-editor v-model="markdown" :configs="configs"></markdown-editor>
+            </div>
+        </section>
 
-        <div class="options">
+        <section class="actions">
             <h1 class="section-title">Options</h1>
             <ul>
                 <li><label><input type="checkbox" v-model="isDraft"> Add to draft</label></li>
-                <li class="submit" :class="{active: canConfirm}" @click.prevent="confirm"><i class="fa fa-check" aria-hidden="true"></i>Confirm</li>
+                <li class="submit" :class="{active: canConfirm}" @click.prevent="confirm"><a><i class="fa fa-check" aria-hidden="true"></i> Confirm</a></li>
             </ul>
-        </div>
-    </section>
+        </section>
+    </div>
 </template>
 
 <script>
@@ -29,7 +31,8 @@
             store.dispatch('selectPost', this.$route.params.id)
                 .then(_ => {
                     this.title = this.post.title;
-                    this.markdown = this.post.markdown;
+                    console.log('original : ', this.post.markdown);
+                    this.markdown = this.post.markdown.replace(/<br>/gi, '');
                     this.isDraft = !this.post.published;
                 });
         },
@@ -37,7 +40,12 @@
             return {
                 title: '',
                 markdown: '',
-                isDraft: false
+                isDraft: false,
+
+                configs: {
+                    placeholder: 'Description...',
+                    spellChecker: false
+                },
             };
         },
         computed: {
@@ -49,7 +57,7 @@
             }
         },
         methods: {
-            confirm() {
+            async confirm() {
                 if (!this.canConfirm) {
                     this.$notify({
                         type: 'error',
@@ -62,11 +70,12 @@
                     let post = this.post;
 
                     post.title = this.title;
-                    post.markdown = this.markdown;
+                    post.markdown = this.markdown.replace(/\n\n/gi, '\n\n<br>');
+                    console.log('saved as', post.markdown.replace(/\n\n/gi, '\n\n<br>'));
                     post.isDraft = this.isDraft;
                     delete post.content;
 
-                    store.dispatch('updatePost', post)
+                    await store.dispatch('updatePost', post)
                         .then(this.$router.push({name: 'readPost', params:{id: post.id}}))
                         .catch(err => {
                             this.$notify({
@@ -76,6 +85,8 @@
                                 duration: -1
                             });
                         });
+                    await store.dispatch('selectPost', post.id);
+                    console.log(store.getters.selectedPost);
                 }
             }
         }

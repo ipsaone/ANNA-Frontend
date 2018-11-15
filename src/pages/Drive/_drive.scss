@@ -11,7 +11,7 @@
         }
       }
 
-      tbody {
+      tbody{
         tr {
           background-color: $white-bis;
           line-height: 3em;
@@ -57,4 +57,26 @@
       }
     }
   }
+}
+
+.folder_tree {
+
+  .item_template {
+    list-style-type: none;
+    text-align: left;
+
+    margin-left: 0.5em;
+    padding-left: 1em;
+    border-left: 1px solid $grey-lighter;
+
+  }
+
+  .noborder {
+    border-left: none;
+  }
+
+  min-height: 10em;
+  margin-top: 1em;
+  margin-left: 5em;
+  margin-right: 5em;
 }

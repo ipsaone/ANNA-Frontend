@@ -9,6 +9,7 @@ export default {
     },
 
     getDrafted() {
+        console.log('getDrafted');
         return axios.get(url + '?published=false', {withCredentials: true});
     },
 
