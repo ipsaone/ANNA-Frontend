@@ -13,58 +13,49 @@
             </thead>
 
             <tbody>
-                <!-- Go back -->
-                <tr v-if="folder && folder.name !== 'root'" @dblclick="goBack">
-                    <td><i class="fa fa-folder" aria-hidden="true"></i></td>
-                    <td>...</td>
-                    <td>&nbsp;</td>
-                    <td>&nbsp;</td>
-                </tr>
+            <!-- Go back -->
+            <tr v-if="folder && folder.name !== 'root'" @dblclick="goBack">
+                <td><i class="fa fa-folder" aria-hidden="true"></i></td>
+                <td>...</td>
+                <td>&nbsp;</td>
+                <td>&nbsp;</td>
+            </tr>
 
-                <!-- Actual folder -->
-                <tr class="no-hover" v-if="folder">
-                    <td><i class="fa fa-folder-open" aria-hidden="true"></i></td>
-                    <td>{{ wrapName(folder.name) }}</td>
-                    <td>{{ wrapName(folder.owner.username) }}</td>
-                    <td>{{ convertSize(folder) }}</td>
-                </tr>
+            <!-- Actual folder -->
+            <tr class="no-hover" v-if="folder">
+                <td><i class="fa fa-folder-open" aria-hidden="true"></i></td>
+                <td>{{ wrapName(folder.name) }}</td>
+                <td>{{ wrapName(folder.owner.username) }}</td>
+                <td>{{ convertSize(folder) }}</td>
+            </tr>
 
+            <!-- Separator -->
+            <tr class="spacer">
+                <td>&nbsp;</td>
+                <td>&nbsp;</td>
+                <td>&nbsp;</td>
+                <td>&nbsp;</td>
+            </tr>
+
+            <!-- Content -->
+            <tr v-for="file in content" :key="file.fileId" @click="select(file)"
+                @dblclick="openFile(file)"
+                :class="{selected: file.fileId === selectedFile.fileId}">
+                <td v-html="getIcon(file)"></td>
+                <td class="overflow-wrap-hack">
+                    <div class="content-td">
+                        {{ wrapName(file.name) }}
+                    </div>
+                </td>
+                <td>
+                    {{ wrapName(file.owner.username) }}
+                </td>
+                <td>
+                    {{ convertSize(file) }}
+                </td>
+            </tr>
             </tbody>
         </table>
-
-
-        <div style="height: 65vh; overflow-y: auto; overflow-x: none;">
-            <table >
-                <thead>
-                <tr style="visibility: hidden; font-size: 0.4em;">
-                    <th>Type</th>
-                    <th>Name</th>
-                    <th>Owner</th>
-                    <th>Size</th>
-                </tr>
-                </thead>
-
-                <tbody>
-                <!-- Content -->
-                <tr v-for="file in content" :key="file.fileId" @click="select(file)"
-                    @dblclick="openFile(file)"
-                    :class="{selected: file.fileId === selectedFile.fileId}">
-                    <td v-html="getIcon(file)"></td>
-                    <td class="overflow-wrap-hack">
-                        <div class="content-td">
-                            {{ wrapName(file.name) }}
-                        </div>
-                    </td>
-                    <td>
-                        {{ wrapName(file.owner.username) }}
-                    </td>
-                    <td>
-                        {{ convertSize(file) }}
-                    </td>
-                </tr>
-                </tbody>
-            </table>
-        </div>
     </div>
 </template>
 
