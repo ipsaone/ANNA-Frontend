@@ -16,16 +16,20 @@
         <section class="actions">
             <h1 class="section-title">Actions</h1>
             <ul>
-                <li>
+                <li v-if="$store.getters.loggedUser.groups.length !== 0">
                     <a href="#" @click.prevent="$modal.show('uploadFile')">
                         <i class="fa fa-upload" aria-hidden="true"></i> Upload
                     </a>
                 </li>
 
-                <li>
+                <li v-if="$store.getters.loggedUser.groups.length !== 0">
                     <a href="#" @click.prevent="$modal.show('newFolder')">
                         <i class="fa fa-plus" aria-hidden="true"></i> New folder
                     </a>
+                </li>
+
+                <li style="padding-right: 15px !important">
+                  <p v-if="$store.getters.loggedUser.groups.length == 0" style="margin-right: 160px; word-break: break-word;"> Join a group to be able to upload files and create folders !</p>
                 </li>
 
                 <li>

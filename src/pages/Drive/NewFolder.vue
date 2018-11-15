@@ -38,20 +38,25 @@
                     ownerRead: 1,
                 };
 
-                if (this.name.trim() !== ''){
-                    console.log('groupe de tes morts', store.getters.loggedUser.groups);
+                if (this.name.trim() !== '' & store.getters.loggedUser.groups.length !== 0){
                     await driveApi.uploadFile(data);
                     await this.$modal.hide('newFolder');
                     await store.dispatch('retrieveFolder', store.getters.folder.fileId);
-                } else {
+                } else if (this.name.trim() == '') {
                     this.$notify({
                         type: 'error',
                         title: 'invalid name',
                         text: 'folder name must not be empty',
                         duration: -1
                     });
+                } else {
+                    this.$notify({
+                        type: 'error',
+                        title: 'No assigned group',
+                        text: 'You must be in a group to create a folder.',
+                        duration: -1
+                    });
                 }
-
             }
         }
     };
