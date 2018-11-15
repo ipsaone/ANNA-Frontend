@@ -1,98 +1,82 @@
 .drive {
-  .content {
-    table::-webkit-scrollbar-track {
-        -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
-        border-radius: 10px;
-        background-color: #F5F5F5;
-    }
+    .content {
+        table {
+            tr {
+                td {
+                    table {
+                        tr {
+                            th {
+                               color: $grey-dark;
+                               line-height: 3em;
+                               padding-bottom: 0;
 
-    table::-webkit-scrollbar {
-      width: 4px;
-      background-color: #F5F5F5;
-    }
+                               &:first-child {
+                                 padding-left: 1em;
+                                 max-width: 1em;
+                               }
+                           }
+                           td {
+                              width: 25%;
+                           }
+                           background-color: $white-bis;
+                           line-height: 3em;
+                           font-size: 1.2em;
+                           cursor: pointer;
+                           border: 1px solid $grey-lighter;
 
-    table::-webkit-scrollbar-thumb {
-      border-radius: 10px;
-      -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,.3);
-      background-color: #555;
-    }
-    table {
-      th {
-        color: $grey-dark;
-        line-height: 3em;
+                           &:hover {
+                             background-color: $white-dark;
+                           }
 
-        &:first-child {
-          padding-left: 1em;
-          max-width: 1em;
+                           &.no-hover {
+                             cursor: inherit;
+
+                             &:hover { background-color: $white-bis; }
+                           }
+
+                           &.selected {
+                             background-color: $white-dark;
+                           }
+
+                           td:first-child {
+                             padding-left: 1em;
+                             max-width: 1em;
+                           }
+
+                           td:last-child {
+                             max-width: 1px;
+                           }
+
+                           .overflow-wrap-hack {
+                             max-width: 1px;
+                           }
+                        }
+                   }
+                }
+
+            }
+            .inside-folder {
+                margin-top: 5vh;
+                overflow-y: auto;
+                overflow-x: hidden;
+                height: 50vh;
+            }
+            & ::-webkit-scrollbar-track {
+                -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+                border-radius: 10px;
+                background-color: #F5F5F5;
+            }
+
+            & ::-webkit-scrollbar {
+              width: 4px;
+              background-color: #F5F5F5;
+            }
+
+            & ::-webkit-scrollbar-thumb {
+              border-radius: 10px;
+              -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,.3);
+              background-color: #555;
+            }
         }
-      }
-
-      tbody{
-        tr {
-          background-color: $white-bis;
-          line-height: 3em;
-          font-size: 1.2em;
-          cursor: pointer;
-          border: 1px solid $grey-lighter;
-
-          &:hover {
-            background-color: $white-dark;
-          }
-
-          &.no-hover {
-            cursor: inherit;
-
-            &:hover { background-color: $white-bis; }
-          }
-
-          &.selected {
-            background-color: $white-dark;
-          }
-
-          td:first-child {
-            padding-left: 1em;
-            max-width: 1em;
-          }
-
-          td:last-child {
-            max-width: 1px;
-          }
-
-          .overflow-wrap-hack {
-            max-width: 1px;
-          }
-        }
-
-        .spacer {
-          line-height: 1em;
-          cursor: default;
-          border: none;
-          background-color: $white-ter;
-          &:hover { background-color: inherit; }
-        }
-      }
     }
-  }
-}
-
-.folder_tree {
-
-  .item_template {
-    list-style-type: none;
-    text-align: left;
-
-    margin-left: 0.5em;
-    padding-left: 1em;
-    border-left: 1px solid $grey-lighter;
-
-  }
-
-  .noborder {
-    border-left: none;
-  }
-
-  min-height: 10em;
-  margin-top: 1em;
-  margin-left: 5em;
-  margin-right: 5em;
 }
