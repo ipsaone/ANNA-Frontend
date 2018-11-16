@@ -38,7 +38,7 @@ async function checkLogged() {
     if (!window.location.href.endsWith('login') && !window.location.href.endsWith('login/') && !window.location.href.endsWith('login#') ){
         await store.dispatch('checkLoggedUser');
         if (!store.getters.isLogged){
-            window.location.replace('/login');
+            router.push('login');
         }
     }
 }
@@ -60,7 +60,7 @@ function idleLogout() {
             alert('You have been inactive for too long');
 
             await store.dispatch('logoutUser');
-            window.location.replace('/login');
+            router.push('login');
         }
     }
 
@@ -72,7 +72,7 @@ function idleLogout() {
 
 function isRoot() {
     if (!store.getters.loggedUserIsRoot && (window.location.href.endsWith('administration')||window.location.href.endsWith('administration/'))) {
-        window.location.replace('/dashboard');
+        router.push('dashboard');
     };
 }
 
