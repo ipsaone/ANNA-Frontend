@@ -1,3 +1,5 @@
+//Reset
+@import "reset";
 // Fonts
 @import "font-awesome/font-awesome";
 
@@ -29,9 +31,9 @@
 @import "components/sidebar";
 @import "components/data_circle";
 @import "components/log";
-@import "components/flex_abstract";                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         
+@import "components/flex_abstract";
 @import "components/loader";
-@import "components/context_menu";                               
+@import "components/context_menu";
 @import "components/modal";
 @import "components/collapse";
 
