@@ -104,8 +104,8 @@
         },
         async mounted() {
             await store.dispatch('retrieveMissions', true);
-            if (store.getters.loggedUserMissions.length > 0) {
-                await store.dispatch('retrieveMission', store.getters.loggedUserMissions[0].id);
+            if (store.getters.loggedUserMissions.length > 0){
+                await store.dispatch('retrieveMission', store.getters.loggedUserMissions[0]);
             }
         },
         computed: {
