@@ -2,7 +2,7 @@
     <section class="mission-slider" :key="missionNumber">
         <new-task></new-task>
 
-        <div v-if="loggedUserMissions.length > 0/*&& mission.members.includes(logged.username)*/">
+        <div v-if="loggedUserMissions.length > 0">
             <div class="controls">
                 <a href="#" @click.prevent="prev" :class="{disabled: currentSlide === 0}">
                     <i class="fa fa-chevron-left"></i> Previous

@@ -54,8 +54,7 @@ const actions = {
 
         let leader = await dispatch('getUserById', mission.leaderId);
         mission.leader = leader;
-        await commit('SET_SELECTED', mission);
-        console.log('des data', state.selected);
+        await commit('SET_SELECTED', mission); 
     },
 
     async storeMission({dispatch}, mission) {

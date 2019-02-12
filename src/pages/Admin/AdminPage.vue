@@ -23,7 +23,7 @@
                             <th>Members</th>
                             <th>Actions</th>
                         </tr>
-                        <tr v-for="mission in $store.getters.missions" :key="mission.id">
+                        <tr v-for="mission in missions" :key="mission.id">
                             <td> {{ mission.name }} </td>
                             <td> {{ mission.leader.username }} </td>
                             <!-- TODO : why is it a string in the first place ? (+0 to convert to number) -->

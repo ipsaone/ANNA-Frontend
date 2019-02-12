@@ -52,6 +52,7 @@
         methods: {
             async beforeOpen(event) {
                 this.refreshUsers();
+                await store.dispatch('retrieveMission', event.params.mission_id);
             },
             async addUser(id) {
                 await store.dispatch('addMissionMember', id);
