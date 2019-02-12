@@ -73,6 +73,10 @@
                 },
             };
         },
+        async mounted() {
+            await this.refreshAll();
+            return this.user;
+        },
         methods: {
             async beforeOpen(event) {
                 await store.dispatch('retrieveMissions');
@@ -144,7 +148,16 @@
                     text: 'Mission was successfully added',
                     duration: 5000
                 });
+                this.loading = false;
+            },
+            async refreshAll() {
+                this.loading = true;
                 await store.dispatch('retrieveMissions', true);
+                await store.dispatch('retrieveUsers', true);
+                await store.dispatch('retrievePosts', true);
+                await store.dispatch('retrieveLogs', true);
+                await store.dispatch('retrieveGroups', true);
+                await store.dispatch('retrieveEvents', true);
                 this.loading = false;
             }
         }

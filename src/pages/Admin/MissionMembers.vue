@@ -44,25 +44,26 @@
         computed: {
             mission() {
                 return store.getters.selectedMission;
+            },
+            users() {
+                return store.getters.users;
             }
         },
         methods: {
             async beforeOpen(event) {
-                await store.dispatch('retrieveMission', event.params.mission_id);
                 this.refreshUsers();
-                console.log(this.mission);
             },
             async addUser(id) {
-                console.log('adding', id);
                 await store.dispatch('addMissionMember', id);
-                this.refreshUsers();
+                await this.refreshUsers();
             },
             async remUser(id) {
-                //console.log('removing', id);
                 await store.dispatch('remMissionMember', id);
-                this.refreshUsers();
+                await this.refreshUsers();
             },
-            refreshUsers() {
+            async refreshUsers() {
+                await store.dispatch('retrieveMission', store.getters.selectedMission.id);
+                await store.dispatch('retrieveMissions');
                 if (!this.mission.members) {
                     this.shownUsers = store.getters.users;
                 }

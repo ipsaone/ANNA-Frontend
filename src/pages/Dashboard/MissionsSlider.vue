@@ -2,7 +2,7 @@
     <section class="mission-slider" :key="missionNumber">
         <new-task></new-task>
 
-        <div v-if="mission.id">
+        <div v-if="loggedUserMissions.length > 0/*&& mission.members.includes(logged.username)*/">
             <div class="controls">
                 <a href="#" @click.prevent="prev" :class="{disabled: currentSlide === 0}">
                     <i class="fa fa-chevron-left"></i> Previous
@@ -104,33 +104,44 @@
         },
         async mounted() {
             await store.dispatch('retrieveMissions', true);
-            if (store.getters.missions.length > 0) {
-                await store.dispatch('retrieveMission', store.getters.missions[0].id);
+            console.log('store.getters.loggedUser.participatingMissions', store.getters.loggedUser.participatingMissions);
+            console.log('store.getters.loggedUserMissions', store.getters.loggedUserMissions);
+            if (store.getters.loggedUser.participatingMissions.length > 0) {
+                await store.dispatch('retrieveMission', store.getters.loggedUser.participatingMissions[0].id);
             }
         },
         computed: {
             mission() {
-                console.log('boum', store.getters.selectedMission);
+                console.log('boum', store.getters.loggedUser.participatingMissions);
                 return store.getters.selectedMission;
             },
             missionNumber() {
-                return store.getters.missions.length;
+                return store.getters.loggedUser.participatingMissions.length;
             },
             disabledInput() {
                 return !store.getters.loggedUserIsRoot || store.getters.loggedUserId !== this.mission.leader.id;
+            },
+            logged() {
+                return store.getters.loggedUser;
+            },
+            loggedUserMissions() {
+                return store.getters.loggedUser.participatingMissions;
             }
         },
         methods: {
             next() {
                 if (this.currentSlide < this.missionNumber - 1) {
                     this.currentSlide += 1;
-                    store.dispatch('retrieveMission', store.getters.missions[this.currentSlide].id);
+                    //store.dispatch('retrieveMission', store.getters.missions[this.currentSlide].id);
+                    store.dispatch('retrieveMission', store.getters.loggedUser.participatingMissions[this.currentSlide].id);
                 }
             },
             prev() {
                 if (this.currentSlide > 0) {
                     this.currentSlide -= 1;
-                    store.dispatch('retrieveMission', store.getters.missions[this.currentSlide].id);
+                    //store.dispatch('retrieveMission', store.getters.missions[this.currentSlide].id);
+                    console.log('VOILA QUI JE SUIS \n', store.getters.loggedUser);
+                    store.dispatch('retrieveMission', store.getters.loggedUser.participatingMissions[this.currentSlide].id);
                 }
             },
             async taskChange(task) {

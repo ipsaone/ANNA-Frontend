@@ -89,7 +89,7 @@
             },
             async logout() {
                 await store.dispatch('logoutUser');
-                
+
                 this.$notify({clean: true});
                 store.commit('CLEAR_LOGIN');
                 this.$router.push({name: 'login'});
