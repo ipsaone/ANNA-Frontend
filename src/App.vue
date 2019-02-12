@@ -2,8 +2,7 @@
     <div :class="($route.path === '/login') ? 'login' : 'app'">
         <v-dialog/>
         <notifications/>
-        <div v-if="$route.path !== '/login'">
-            <idle-modal></idle-modal>
+        <div v-if="$route.path !== '/login' && $route.path !=='/'">
             <sidebar></sidebar>
         </div>
         <router-view></router-view>
@@ -13,7 +12,6 @@
 <script>
     import Sidebar from '@/components/Sidebar';
     import store from '@/modules/store';
-    import IdleModal from '@/pages/Login/IdleModal';
 
     import axios from 'axios';
     import Vue from 'vue';
@@ -25,7 +23,7 @@
             text: err.response.data.message || err.response.data.error,
             duration: 5000
         });
-        
+
 
         console.error(err);
         return Promise.reject(err);
@@ -34,8 +32,7 @@
 
     export default {
         components: {
-            Sidebar,
-            IdleModal
+            Sidebar
         },
         name: 'app'
     };

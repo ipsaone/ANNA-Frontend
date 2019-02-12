@@ -17,6 +17,7 @@
                 <tab name="Missions">
                     <table>
                         <tr>
+                            <th>ID</th>
                             <th>Name</th>
                             <th>Leader</th>
                             <th>Budget</th>
@@ -24,6 +25,7 @@
                             <th>Actions</th>
                         </tr>
                         <tr v-for="mission in missions" :key="mission.id">
+                            <td> {{ mission.id }} </td>
                             <td> {{ mission.name }} </td>
                             <td> {{ mission.leader.username }} </td>
                             <!-- TODO : why is it a string in the first place ? (+0 to convert to number) -->
@@ -40,6 +42,7 @@
                             </td>
                         </tr>
                         <tr>
+                            <td></td>
                             <td></td>
                             <td></td>
                             <td></td>
@@ -83,7 +86,7 @@
                 <tab name="Blog">
                     <table>
                         <tr>
-                            <th>Id</th>
+                            <th>ID</th>
                             <th>Title</th>
                             <th>Date</th>
                             <th>Author</th>
@@ -113,11 +116,13 @@
                 <tab name="Groups">
                     <table>
                         <tr>
+                            <th>ID</th>
                             <th>Name</th>
                             <th>Members</th>
                             <th>Actions</th>
                         </tr>
                         <tr v-for="group in $store.getters.groups" :key="group.id">
+                            <td> {{group.id}} </td>
                             <td> {{ group.name }} </td>
                             <td> {{ group.users.length }} </td>
                             <td>
@@ -133,6 +138,7 @@
                             </td>
                         </tr>
                         <tr>
+                            <td></td>
                             <td></td>
                             <td></td>
                             <td><a @click.prevent="$modal.show('newGroup');">Add group</a></td>
