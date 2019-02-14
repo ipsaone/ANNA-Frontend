@@ -86,14 +86,6 @@
                                 duration: 1000
                             });
                         }
-                    })
-                    .catch(err => {
-                        this.$notify({
-                            type: 'error',
-                            title: 'Can not retrieve the posts',
-                            text: err.message,
-                            duration: -1
-                        });
                     });
             }
         }
