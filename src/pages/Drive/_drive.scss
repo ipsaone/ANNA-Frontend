@@ -78,5 +78,36 @@
               background-color: #555;
             }
         }
+        .tableau-permission {
+            display: grid;
+            grid-template-columns: 25% 25% 25% 25% ;
+            grid-row: 33% 33% 33%;
+
+            .case {
+                border-right: 2px solid black;
+                border-bottom: 2px solid black;
+            }
+            #owner, #group, #all {
+                grid-row: 1;
+            }
+            #read, #write {
+                grid-column: 1;
+            }
+            #read {
+                grid-row: 2;
+            }
+            #write {
+                grid-row: 3;
+            }
+            #owner {
+                grid-column: 2;
+            }
+            #group {
+                grid-column: 3;
+            }
+            #all {
+                grid-column: 4;
+            }
+        }
     }
 }

@@ -35,7 +35,7 @@
                 const files = e.target.files || e.dataTransfer.files;
                 if (files.length > 0) this.file = files[0];
             },
-            
+
             beforeClose(event) {
                 this.target = [];
                 this.selectedFolder = '';
@@ -55,7 +55,7 @@
                 await driveApi.editFile(edit);
                 await store.dispatch('retrieveFolder', store.getters.folder.fileId);
                 this.$modal.hide('editFile');
-               
+
             }
         }
     };
