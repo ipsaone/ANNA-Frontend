@@ -1,5 +1,6 @@
 .drive {
     .content {
+        margin: 0;
         table {
             tr {
                 td {
@@ -78,35 +79,110 @@
               background-color: #555;
             }
         }
-        .tableau-permission {
-            display: grid;
-            grid-template-columns: 25% 25% 25% 25% ;
-            grid-row: 33% 33% 33%;
 
-            .case {
-                border-right: 2px solid black;
-                border-bottom: 2px solid black;
-            }
-            #owner, #group, #all {
-                grid-row: 1;
-            }
-            #read, #write {
-                grid-column: 1;
-            }
-            #read {
-                grid-row: 2;
-            }
-            #write {
-                grid-row: 3;
-            }
-            #owner {
+        .big-wrapper {
+            display: grid;
+            grid-template-columns: 50% 50%;
+            grid-template-rows: 10% 10% 80%;
+            padding: 3vh;
+
+            .tableau-permission {
+                position: relative;
+                display: grid;
                 grid-column: 2;
-            }
-            #group {
-                grid-column: 3;
-            }
-            #all {
-                grid-column: 4;
+                grid-row: 3;
+                text-align: center;
+
+                .case {
+                    border-bottom: 2px solid $grey-dark;
+                    border-right: 2px solid $grey-dark;
+
+                    .cochable {
+                        padding: 10px;
+                    }
+                }
+                #owner, #group, #all {
+                    grid-row: 1;
+                }
+                #read, #write {
+                    grid-column: 1;
+                }
+                #read {
+                    grid-row: 2;
+                }
+                #write {
+                    grid-row: 3;
+                }
+                #owner {
+                    grid-column: 2;
+                }
+                #group {
+                    grid-column: 3;
+                }
+                #others {
+                    grid-column: 4;
+                }
+                .checkbox-container {
+                    position: relative;
+                    height: 100%;
+                  	input[type="checkbox"] {
+                  		  display: none;
+                    }
+                    .checkbox {
+                        cursor: pointer;
+                        margin: auto auto auto auto;
+                        transform: scale(1.2);
+                    }
+                }
+
+                .checkbox-container .checkbox {
+                    display: block;
+                  	width: 15px;
+                  	height: 15px;
+                  	background: #d0d0d0;
+
+        	          &:after {
+    		                content: "";
+                    		position: absolute;
+                        left: 0px;
+                    		width: 0px;
+                    		height: 3px;
+                    		background: #3498db;
+
+                    		transform:translate(4px, 11px) rotate(-45deg);
+                    		transform-origin: left;
+                    		transition: all 150ms;
+                    		transition-delay: 0ms;
+      	            }
+
+                	  &:before {
+                    		content: "";
+                    		position: absolute;
+                        left: 0;
+                  		  width: 0px;
+                    		height: 3px;
+                    		background: #3498db;
+
+                    		transform:translate(1px, 6px) rotate(45deg);
+                    		transform-origin: left;
+                    		transition: all 150ms;
+                    		transition-delay: 150ms;
+        	          }
+                }
+
+                .checkbox-container input[type="checkbox"]:checked {
+              	     & ~ .checkbox {
+              		       &:before {
+    			                   width: 7px;
+              			         transition-delay: 0ms;
+              		       }
+
+                		     &:after {
+                  			     width: 13px;
+                      			 transition-delay: 150ms;
+      		               }
+                	   }
+                }
             }
         }
     }
