@@ -43,7 +43,7 @@ async function checkLogged() {
     }
 }
 
-function idleLogout() {
+/*function idleLogout() {
     var t;
     window.onload = resetTimer;
     window.onmousemove = resetTimer;
@@ -70,11 +70,11 @@ function idleLogout() {
     }
 }
 
-function isRoot() {
+*/function isRoot() {
     if (!store.getters.loggedUserIsRoot && (window.location.href.endsWith('administration')||window.location.href.endsWith('administration/'))) {
         router.push('dashboard');
     };
-}
+}/*
 
 // Useful to disconnect user when backend stops
 function checkInterval() {
@@ -84,4 +84,4 @@ function checkInterval() {
             //console.log('10 secondes');
         }
     }, 10000);
-}
+}*/
