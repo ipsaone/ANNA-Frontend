@@ -74,7 +74,7 @@ async function checkLogged() {
     if (!store.getters.loggedUserIsRoot && (window.location.href.endsWith('administration')||window.location.href.endsWith('administration/'))) {
         router.push('dashboard');
     };
-}/*
+}
 
 // Useful to disconnect user when backend stops
 function checkInterval() {
@@ -84,4 +84,4 @@ function checkInterval() {
             //console.log('10 secondes');
         }
     }, 10000);
-}*/
+}
