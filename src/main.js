@@ -26,7 +26,7 @@ new Vue({
     template: '<App/>',
     components: {App},
     mounted: function() {
-        idleLogout();
+        //idleLogout();
         checkLogged();
         checkInterval();
         isRoot();
