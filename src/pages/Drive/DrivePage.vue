@@ -78,15 +78,10 @@
                         </a>
                     </li>
                     <li>
-                        <a href="#" @click.prevent="$modal.show('managePermissions')">
+                        <a href="#" @click.prevent="$modal.show('fileAuth')">
                             <i class="fa fa-key"></i> Manage permissions
                         </a>
                     </li>
-                    <!--<li>
-                        <a href="#" @click.prevent="manageRights">
-                            <i class="fa fa-key"></i> Manage permissions
-                        </a>
-                    </li>-->
                 </ul>
             </div>
         </section>

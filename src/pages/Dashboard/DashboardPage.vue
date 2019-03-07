@@ -25,8 +25,8 @@
                 loading: false
             };
         },
-        mounted() {
-            store.dispatch('retrieveLoggedUser');
+        async mounted() {
+            await store.dispatch('retrieveLoggedUser');
         },
         computed: {
             logs() {
