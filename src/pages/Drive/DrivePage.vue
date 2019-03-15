@@ -78,7 +78,7 @@
                         </a>
                     </li>
                     <li>
-                        <a href="#" @click.prevent="$modal.show('fileAuth')">
+                        <a href="#" @click.prevent="$modal.show('managePermissions')">
                             <i class="fa fa-key"></i> Manage permissions
                         </a>
                     </li>

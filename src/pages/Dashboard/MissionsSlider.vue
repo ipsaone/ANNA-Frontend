@@ -61,9 +61,10 @@
                             <ul>
                                 <li v-for="task in mission.tasks" :key="task.id">
                                     <div class="checkbox-container">
-                                        <input type="checkbox" :name="task.name" :id="task.id">
+                                        <input type="checkbox" :name="task.name"
+                                         :id="'task'+task.id">
                                         <label :for="task.id">{{ task.name }}</label>
-                                        <label class="checkbox" :for="task.id"></label>
+                                        <label class="checkbox" :for="task.id"  @click="taskChange(task)"></label>
                                         <i v-if="$store.getters.loggedUserIsRoot" @click.prevent="delTask(task.id)" class="fa fa-trash"></i>
                                     </div>
                                 </li>

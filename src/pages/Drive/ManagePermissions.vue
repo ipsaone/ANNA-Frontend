@@ -33,10 +33,10 @@
                         <div class="case" id="write">
                             write
                         </div>
-                        <div v-for="number in cases" class="case cochable">
+                        <div v-for="box in cases" class="case cochable">
                             <div class="checkbox-container">
-                                <input type="checkbox" :name="number" :id="cases.indexOf(number)" @click="updatePermission(selectedFile.id, number)">
-                                <label class="checkbox" :for="cases.indexOf(number)"></label>
+                                <input type="checkbox" :name="box" :id="box" @click="updatePermission(selectedFile.id, box)">
+                                <label class="checkbox" :for="box"></label>
                             </div>
                         </div>
                     </div>
@@ -55,12 +55,9 @@
     import driveApi from '@/modules/drive/drive_api';
 
     export default {
-        async mounted() {
-            await store.dispatch('retrieveLoggedUser');
-        },
         computed : {
             cases() {
-                return Array(1, 2, 3, 4, 5, 6);
+                return Array('ownerRead', 'ownerWrite', 'groupRead', 'groupWrite', 'allRead', 'allWrite');
             },
             selectedFile() {
                 return store.getters.selectedFile;
@@ -74,6 +71,9 @@
             },
             loggedUserId() {
                 return store.getters.loggedUserId;
+            },
+            fileRights() {
+                return store.getters.selectedFile.rights;
             }
         },
         methods : {
@@ -81,8 +81,25 @@
                 return store.getters.selectFileId;
             },
             updatePermission(fileId, number) {
+                console.log('salut', document.getElementById(number).checked);
                 console.log('\n file id', fileId, '\n numéro de la case', number
                 , '\n loggedUserId', this.loggedUserId);
+            },
+            async beforeOpen() {
+                await store.dispatch('retrieveLoggedUser');
+                let opts = ['owner', 'group', 'all'];
+                let opts2 = ['Read', 'Write'];
+                for (let key1 in opts) {
+                    for (let key2 in opts2) {
+                        let truc = opts[key1] + opts2[key2];
+                        if (this.fileRights[truc] === true) {
+                            document.getElementById(truc).checked = true;
+                        }
+                        else {
+                            document.getElementById(truc).checked = false;
+                        }
+                    }
+                }
             }
         }
     };
