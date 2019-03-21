@@ -233,4 +233,17 @@
             }
         }
     }
+    .actions {
+        ul {
+            li {
+                .search{
+                    width: 85%;
+                    display: inline;
+                    margin-right: auto;
+                    margin-top: 0;
+                    margin-bottom: 0;
+                }
+            }
+        }
+    }
 }

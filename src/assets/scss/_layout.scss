@@ -18,6 +18,8 @@ $actions-width: 20em;
     border-left: 1px solid $white-darker;
     right: 0;
     width: 33vw;
+    min-width: 100%;
+    max-width: 100%;
 
     @include aside;
   }

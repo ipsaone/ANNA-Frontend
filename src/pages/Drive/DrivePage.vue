@@ -17,6 +17,12 @@
         <section class="actions">
             <h1 class="section-title">Actions</h1>
             <ul>
+                <li id="barre" v-if="$store.getters.loggedUser.groups.length !== 0">
+                    <a href="#">
+                        <i class="fas fa-search" aria-hidden="true" ></i>
+                        <input class="search" type="search" placeholder="Rechercher">
+                    </a>
+                </li>
                 <li v-if="$store.getters.loggedUser.groups.length !== 0">
                     <a href="#" @click.prevent="$modal.show('uploadFile')">
                         <i class="fa fa-upload" aria-hidden="true"></i> Upload
