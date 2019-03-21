@@ -35,14 +35,14 @@
                         </div>
                         <div v-for="box in cases" class="case cochable">
                             <div class="checkbox-container">
-                                <input type="checkbox" :name="box" :id="box" @click="updatePermission(selectedFile.id, box)">
+                                <input type="checkbox" :name="box" :id="box" v-model="rights[box]">
                                 <label class="checkbox" :for="box"></label>
                             </div>
                         </div>
                     </div>
                     <div class="buttons">
-                        <button type="button"class="cancel"> Cancel </button>
-                        <button type="button" class="submit"> Confirm </button>
+                        <button type="button"class="cancel" @click="$modal.hide('managePermissions')"> Cancel </button>
+                        <button type="button" class="submit" @click="updatePermission()"> Confirm </button>
                     </div>
                 </div>
             </div>
@@ -57,7 +57,7 @@
     export default {
         computed : {
             cases() {
-                return Array('ownerRead', 'ownerWrite', 'groupRead', 'groupWrite', 'allRead', 'allWrite');
+                return Array('ownerRead', 'groupRead', 'allRead', 'ownerWrite', 'groupWrite', 'allWrite');
             },
             selectedFile() {
                 return store.getters.selectedFile;
@@ -76,18 +76,43 @@
                 return store.getters.selectedFile.rights;
             }
         },
+        data() {
+            return {
+                contents: '',
+                fileId: 1,
+                rights: {
+                    ownerRead: false,
+                    ownerWrite: false,
+                    groupRead: false,
+                    groupWrite: false,
+                    allRead: false,
+                    allWrite: false
+                }
+            };
+        },
         methods : {
             selectedFileId() {
                 return store.getters.selectFileId;
             },
-            updatePermission(fileId, number) {
-                console.log('salut', document.getElementById(number).checked);
-                console.log('\n file id', fileId, '\n numéro de la case', number
-                , '\n loggedUserId', this.loggedUserId);
+            updatePermission() {
+                driveApi.editFile({
+                    fileId: this.fileId,
+                    data: {
+                        ownerRead: this.rights.ownerRead,
+                        ownerWrite: this.rights.ownerWrite,
+                        groupRead: this.rights.groupRead,
+                        groupWrite: this.rights.groupWrite,
+                        allRead: this.rights.allRead,
+                        allWrite: this.rights.allWrite
+                    }
+                });
             },
             async beforeOpen() {
                 await store.dispatch('retrieveLoggedUser');
-                let opts = ['owner', 'group', 'all'];
+                this.file = this.selectedFile;
+                this.fileId = this.selectedFile.id;
+                this.rights = this.fileRights;
+                /*let opts = ['owner', 'group', 'all'];
                 let opts2 = ['Read', 'Write'];
                 for (let key1 in opts) {
                     for (let key2 in opts2) {
@@ -99,7 +124,7 @@
                             document.getElementById(truc).checked = false;
                         }
                     }
-                }
+                }*/
             }
         }
     };
