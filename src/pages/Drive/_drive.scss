@@ -235,13 +235,15 @@
     }
     .actions {
         ul {
+            #barre{margin-right: 1.2em;white-space: nowrap;}
             li {
                 .search{
                     width: 85%;
+                    height: 1.2em;
                     display: inline;
                     margin-right: auto;
-                    margin-top: 0;
                     margin-bottom: 0;
+                    white-space: nowrap;
                 }
             }
         }
