@@ -19,8 +19,8 @@
             <ul>
                 <li id="barre" style="padding: 0 0 0 0;" v-if="$store.getters.loggedUser.groups.length !== 0">
                     <a href="#">
-                        <i class="fas fa-search" style="padding: 0.8em 0 0.8em 1em" aria-hidden="true" ></i>
-                        <input class="search" style="padding: 0 0 0 0" type="search" placeholder="Rechercher">
+                        <i class="fas fa-search" aria-hidden="true" ></i>
+                        <input class="search" style="padding: 0 0 0 0; margin: 0.8em 0 0.8em 0;" type="search" placeholder="Rechercher">
                     </a>
                 </li>
                 <li v-if="$store.getters.loggedUser.groups.length !== 0">
