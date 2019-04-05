@@ -25,6 +25,9 @@
                 loading: false
             };
         },
+        async mounted() {
+            await store.dispatch('retrieveLoggedUser');
+        },
         computed: {
             logs() {
                 return store.getters.logs;

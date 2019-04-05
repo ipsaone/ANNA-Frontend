@@ -26,9 +26,9 @@ new Vue({
     template: '<App/>',
     components: {App},
     mounted: function() {
-        idleLogout();
+        //idleLogout();
         checkLogged();
-        checkInterval();
+        //checkInterval();
         isRoot();
     }
 });
@@ -43,7 +43,7 @@ async function checkLogged() {
     }
 }
 
-function idleLogout() {
+/*function idleLogout() {
     var t;
     window.onload = resetTimer;
     window.onmousemove = resetTimer;
@@ -68,7 +68,7 @@ function idleLogout() {
         clearTimeout(t);
         t = setTimeout(disconnect, 30 * 60 * 1000);  // time is in milliseconds
     }
-}
+}*/
 
 function isRoot() {
     if (!store.getters.loggedUserIsRoot && (window.location.href.endsWith('administration')||window.location.href.endsWith('administration/'))) {
@@ -77,11 +77,11 @@ function isRoot() {
 }
 
 // Useful to disconnect user when backend stops
-function checkInterval() {
+/*function checkInterval() {
     window.setInterval(function() {
         if(!window.location.href.endsWith('login') && !window.location.href.endsWith('login/')){
             checkLogged();
             //console.log('10 secondes');
         }
     }, 10000);
-}
+}*/

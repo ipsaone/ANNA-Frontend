@@ -73,6 +73,10 @@
                 },
             };
         },
+        async mounted() {
+            await this.refreshAll();
+            return this.user;
+        },
         methods: {
             async beforeOpen(event) {
                 await store.dispatch('retrieveMissions');
@@ -102,8 +106,6 @@
                     return false;
                 }
                 if(!store.getters.users.map(us => us.id).includes(parseInt(this.chief, 10)) || !store.getters.groups.map(gp => gp.id).includes(parseInt(this.group))) {
-                    console.log('in');
-                    console.log('ma bite', typeof this.chief);
                     this.$notify({
                         type: 'error',
                         title: 'Leader or group doesn\'t exist',
@@ -144,7 +146,16 @@
                     text: 'Mission was successfully added',
                     duration: 5000
                 });
+                this.loading = false;
+            },
+            async refreshAll() {
+                this.loading = true;
                 await store.dispatch('retrieveMissions', true);
+                await store.dispatch('retrieveUsers', true);
+                await store.dispatch('retrievePosts', true);
+                await store.dispatch('retrieveLogs', true);
+                await store.dispatch('retrieveGroups', true);
+                await store.dispatch('retrieveEvents', true);
                 this.loading = false;
             }
         }

@@ -32,6 +32,11 @@ const mutations = {
                     state.missions.push(mission.id);
                 });
             }
+            if(user.leaderMissions) {
+                user.leaderMissions.forEach(mission => {
+                    state.missions.push(mission.id);
+                });
+            }
             if(user.events) {
                 user.events.forEach(event => {
                     state.events.push(event.id);

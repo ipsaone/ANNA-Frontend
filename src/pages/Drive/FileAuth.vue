@@ -26,7 +26,7 @@
                         <td><input type="checkbox" v-model="writeOther" :disabled="disableWriteOther"></td>
                     </tr>
                 </table>
-                
+
                 <br>
 
                 <button type="submit" class="button success" @click.prevent="onSubmit">Submit</button>

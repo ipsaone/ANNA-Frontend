@@ -6,6 +6,7 @@
         <file-auth></file-auth>
         <barcode></barcode>
         <move-file></move-file>
+        <manage-permissions></manage-permissions>
 
         <section class="content">
             <h1 class=" section-title">Drive</h1>
@@ -76,11 +77,11 @@
                             <i class="fa fa-trash"></i> Delete
                         </a>
                     </li>
-                    <!--<li>
-                        <a href="#" @click.prevent="manageRights">
+                    <li>
+                        <a href="#" @click.prevent="$modal.show('managePermissions')">
                             <i class="fa fa-key"></i> Manage permissions
                         </a>
-                    </li>-->
+                    </li>
                 </ul>
             </div>
         </section>
@@ -97,6 +98,7 @@
     import FileAuth from './FileAuth';
     import Barcode from './Barcode';
     import MoveFile from './MoveFile';
+    import ManagePermissions from'./ManagePermissions';
     import swal from 'sweetalert2';
 
     export default {
@@ -107,7 +109,8 @@
             EditFile,
             FileAuth,
             Barcode,
-            MoveFile
+            MoveFile,
+            ManagePermissions
         },
         async beforeRouteEnter(to, from, next) {
             let folderId = 1;

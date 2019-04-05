@@ -2,7 +2,7 @@
     <section class="mission-slider" :key="missionNumber">
         <new-task></new-task>
 
-        <div v-if="mission.id">
+        <div v-if="loggedUserMissions.length > 0">
             <div class="controls">
                 <a href="#" @click.prevent="prev" :class="{disabled: currentSlide === 0}">
                     <i class="fa fa-chevron-left"></i> Previous
@@ -61,9 +61,10 @@
                             <ul>
                                 <li v-for="task in mission.tasks" :key="task.id">
                                     <div class="checkbox-container">
-                                        <input type="checkbox" :name="task.name" :id="task.id">
+                                        <input type="checkbox" :name="task.name"
+                                         :id="'task'+task.id">
                                         <label :for="task.id">{{ task.name }}</label>
-                                        <label class="checkbox" :for="task.id"></label>
+                                        <label class="checkbox" :for="'task' + task.id"  @click="taskChange(task)"></label>
                                         <i v-if="$store.getters.loggedUserIsRoot" @click.prevent="delTask(task.id)" class="fa fa-trash"></i>
                                     </div>
                                 </li>
@@ -104,33 +105,38 @@
         },
         async mounted() {
             await store.dispatch('retrieveMissions', true);
-            if (store.getters.missions.length > 0) {
-                await store.dispatch('retrieveMission', store.getters.missions[0].id);
+            if (store.getters.loggedUserMissions.length > 0){
+                await store.dispatch('retrieveMission', store.getters.loggedUserMissions[0]);
             }
         },
         computed: {
             mission() {
-                console.log('boum', store.getters.selectedMission);
                 return store.getters.selectedMission;
             },
             missionNumber() {
-                return store.getters.missions.length;
+                return store.getters.loggedUserMissions.length;
             },
             disabledInput() {
                 return !store.getters.loggedUserIsRoot || store.getters.loggedUserId !== this.mission.leader.id;
+            },
+            logged() {
+                return store.getters.loggedUser;
+            },
+            loggedUserMissions() {
+                return store.getters.loggedUserMissions;
             }
         },
         methods: {
             next() {
                 if (this.currentSlide < this.missionNumber - 1) {
                     this.currentSlide += 1;
-                    store.dispatch('retrieveMission', store.getters.missions[this.currentSlide].id);
+                    store.dispatch('retrieveMission', store.getters.loggedUserMissions[this.currentSlide]);
                 }
             },
             prev() {
                 if (this.currentSlide > 0) {
                     this.currentSlide -= 1;
-                    store.dispatch('retrieveMission', store.getters.missions[this.currentSlide].id);
+                    store.dispatch('retrieveMission', store.getters.loggedUserMissions[this.currentSlide]);
                 }
             },
             async taskChange(task) {
