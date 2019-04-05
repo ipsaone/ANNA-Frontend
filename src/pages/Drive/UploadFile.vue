@@ -49,7 +49,7 @@
                                 </div>
                                 <div class="buttons">
                                     <button type="button"class="cancel" @click="$modal.hide('uploadFile')"> Cancel </button>
-                                    <button type="submit" class="button success">Submit</button>
+                                    <button id="submitButton" type="submit" class="button success">Submit</button>
                                 </div>
                             </div>
                         </div>
@@ -119,9 +119,51 @@
                     ownerRead: this.rights.ownerRead,
                 };
 
-                await driveApi.uploadFile(data);
-                await store.dispatch('retrieveFolder', store.getters.folder.fileId);
-                this.$modal.hide('uploadFile');
+                if (this.file === '') {
+                    this.$notify({
+                        type: 'error',
+                        title: 'No file selected',
+                        text: 'What file do you even want to upload ?',
+                        duration: 5000
+                    });
+                    return 0;
+                }
+
+                if (this.ownerId === '' || this.groupId === '') {
+                    this.$notify({
+                        type: 'error',
+                        title: 'No owner or group',
+                        text: 'Please fill the owner and group inputs',
+                        duration: 5000
+                    });
+                    return 0;
+                }
+
+                if (this.rights.groupWrite != true && this.rights.ownerWrite != true && this.rights.allWrite !=true) {
+                    let confirmation = confirm('Do you still want to upload without write permissions ?');
+                    if (confirmation === true) {
+                        document.getElementById('submitButton').setAttribute('disabled', 'disabled');
+                        await driveApi.uploadFile(data);
+                        document.getElementById('submitButton').removeAttribute('disabled', 'disabled');
+                        await store.dispatch('retrieveFolder', store.getters.folder.fileId);
+                        this.$modal.hide('uploadFile');
+                    } else {
+                        return 0;
+                    }
+                } else {
+                    document.getElementById('submitButton').setAttribute('disabled', 'disabled');
+                    await driveApi.uploadFile(data);
+                    document.getElementById('submitButton').removeAttribute('disabled', 'disabled');
+                    await store.dispatch('retrieveFolder', store.getters.folder.fileId);
+                    this.$modal.hide('uploadFile');
+                    this.$notify({
+                        type: 'success',
+                        title: 'File successfully uploaded',
+                        text: '',
+                        duration: 5000
+                    });
+                }
+
 
             },
             selectedFileId() {
