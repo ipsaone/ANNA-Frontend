@@ -31,10 +31,10 @@ const actions = {
         return;
     },
 
-    async getUserById({state}, id) {
+    getUserById({state}, id) {
         let user = state.users.filter(us => us.id == id)[0];
         if(!user) {
-            let res = await UsersApi.get(id);
+            let res = UsersApi.get(id);
             user = res.data;
         }
         return user;
@@ -65,6 +65,9 @@ const getters = {
 
     selectedUser(state) {
         return state.user;
+    },
+    userGroups(state) {
+        return state.user.groups;
     }
 };
 

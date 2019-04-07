@@ -78,7 +78,6 @@
                     });
                     return false;
                 } else if (id == store.getters.loggedUserId) {
-                    console.log('gros con');
                     swal({
                         title: 'Leave group?',
                         type: 'warning',

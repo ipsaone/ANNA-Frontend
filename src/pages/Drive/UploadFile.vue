@@ -10,13 +10,13 @@
                             <div class="file-information">
                                 <h4> File information </h4>
                                 <ul>
-                                    <li><label for="owner-input">Owner : </label> <input id="owner-input" list="users" type="text" name="owner" value="" v-model="ownerId"></li>
-                                      <li><label for="group-input">Group : </label> <input id="group-input" list="groups" type="text" name="group" value="" v-model="groupId"></li>
+                                    <li><label for="owner-input">Owner : </label> <input id="owner-input" list="users" type="text" name="owner" value="" v-model="ownerId" autocomplete="off" @change="selectUser(ownerId)"></li>
+                                      <li><label for="group-input">Group : </label> <input id="group-input" list="groups" type="text" name="group" value="" v-model="groupId" autocomplete="off"></li>
                                     <datalist id="users">
                                         <option v-for="user in users" :key="user.id" :value="user.id" :label="user.username"/>
                                     </datalist>
                                     <datalist id="groups">
-                                        <option v-for="group in groups" :key="group.id" :value="group.id" :label="group.name"/>
+                                        <option v-for="group in userGroups" :key="group.id" :value="group.id" :label="group.name"/>
                                     </datalist>
 
                                 </ul>
@@ -70,7 +70,7 @@
                 file: '',
                 contents: '',
                 fileId: 1,
-                ownerId: '',
+                ownerId: '1 ',
                 groupId: '',
                 rights: {
                     ownerRead: false,
@@ -83,10 +83,13 @@
             };
         },
         computed : {
-            users(){
+            users() {
                 return store.getters.users;
             },
-            groups(){
+            user() {
+                return store.getters.selectedUser;
+            },
+            groups() {
                 return store.getters.groups;
             },
             cases() {
@@ -95,11 +98,20 @@
             loggedUser() {
                 return store.getters.loggedUser;
             },
+            loggedUserGroups() {
+                return store.getters.loggedUser.groups;
+            },
             loggedUserId() {
                 return store.getters.loggedUserId;
+            },
+            userGroups() {
+                return store.getters.selectedUser.groups;
             }
         },
         methods: {
+            async selectUser(id) {
+                return await store.dispatch('selectUser', id);
+            },
             onFileChange(e) {
                 const files = e.target.files || e.dataTransfer.files;
                 if (files.length > 0) this.file = files[0];
