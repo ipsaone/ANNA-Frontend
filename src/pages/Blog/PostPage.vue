@@ -24,7 +24,7 @@
 
             <ul>
                 <li v-show="canEdit">
-                    <router-link :to="{name: 'editPost', params:{id: post.id}}"><i class="fa fa-pencil"
+                    <router-link :to="{name: 'editPost', params:{id: post.id}}"><i class="fas fa-edit"
                                                                                    aria-hidden="true"></i> Edit
                     </router-link>
                 </li>
@@ -80,8 +80,7 @@
                 return store.getters.selectedPost;
             },
             canEdit() {
-                return (store.getters.selectedPost.id === store.getters.loggedUserId && store.getters.loggedUserIsAuthor)
-                    || store.getters.loggedUserIsRoot;
+                return store.getters.loggedUserIsAuthor || store.getters.loggedUserIsRoot;
             },
             canDelete() {
                 return (store.getters.selectedPost.id === store.getters.loggedUserId && store.getters.loggedUserIsAuthor)
