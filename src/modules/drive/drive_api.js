@@ -1,19 +1,25 @@
 import axios from 'axios';
 import FormData from 'form-data';
 import base from '@/modules/url';
+import store from '@/modules/store';
 
 const url = base + '/storage/';
 
 const config = {
     onUploadProgress: progressEvent => {
         let percentCompleted = Math.floor((progressEvent.loaded * 100) / progressEvent.total);
+        //console.log(percentCompleted, 'mabite');
         // do whatever you like with the percentage complete
         // maybe dispatch an action that will update a progress bar or something
+        store.dispatch('updateProgress', percentCompleted);
     },
     withCredentials: true
 };
 
 export default {
+    getConfig() {
+        return config;
+    },
     async getFolder(id) {
         return axios.get(url + 'files/list/' + id, {withCredentials: true});
     },
@@ -41,7 +47,8 @@ export default {
         form.append('ownerWrite', data.ownerWrite);
         form.append('ownerRead', data.ownerRead);
 
-        return axios.post(url + 'upload/', form, config);
+        console.log('salut salut', config.onUploadProgress.percentCompleted);
+        return axios.post(url + 'upload', form, config);
     },
 
     editFile(edit) {

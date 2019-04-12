@@ -17,6 +17,8 @@
 
     import axios from 'axios';
     import Vue from 'vue';
+    import Progress from 'vue-multiple-progress';
+    Vue.component('VmProgress', Progress);
 
     axios.interceptors.response.use(res => res, err => {
         Vue.notify({

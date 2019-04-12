@@ -3,7 +3,8 @@
         <div class="content anna-modal">
             <h1>Upload a new file</h1>
             <form @submit.prevent="onSubmit">
-                <input type="file" @change="onFileChange">
+                <input type="file" ref="file" @change="onFileChange">
+                <vm-progress max="100" :text-inside="true" :stroke-width="18" :percentage="uploadPercentage"></vm-progress>
                 <div name="managePermissions" height="auto" :scrollable="true">
                         <div class="big-wrapper">
                             <h2> Manage Permissions </h2>
@@ -69,7 +70,7 @@
             return {
                 file: '',
                 contents: '',
-                fileId: 1,
+                //fileId: 1,
                 ownerId: '1 ',
                 groupId: '',
                 rights: {
@@ -88,6 +89,9 @@
             },
             user() {
                 return store.getters.selectedUser;
+            },
+            uploadPercentage() {
+                return store.getters.progress;
             },
             groups() {
                 return store.getters.groups;
@@ -109,6 +113,9 @@
             }
         },
         methods: {
+            handleFileUpload() {
+                this.file = this.$refs.file.files[0];
+            },
             async selectUser(id) {
                 return await store.dispatch('selectUser', id);
             },
@@ -156,6 +163,7 @@
                     if (confirmation === true) {
                         document.getElementById('submitButton').setAttribute('disabled', 'disabled');
                         await driveApi.uploadFile(data);
+                        this.uploadPercentage = store.getters.progress;
                         document.getElementById('submitButton').removeAttribute('disabled', 'disabled');
                         await store.dispatch('retrieveFolder', store.getters.folder.fileId);
                         this.$modal.hide('uploadFile');
