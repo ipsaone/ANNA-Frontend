@@ -49,7 +49,7 @@
                                     </div>
                                 </div>
                                 <div class="buttons">
-                                    <button type="button"class="cancel" @click="$modal.hide('uploadFile')"> Cancel </button>
+                                    <button type="button"class="cancel" @click="cancelUpload"> Cancel </button>
                                     <button id="submitButton" type="submit" class="button success">Submit</button>
                                 </div>
                             </div>
@@ -188,6 +188,10 @@
             },
             selectedFileId() {
                 return store.getters.selectFileId;
+            },
+            async cancelUpload() {
+                await driveApi.cancelUpload();
+                this.$modal.hide('uploadFile');
             },
             async beforeOpen() {
                 await store.dispatch('retrieveLoggedUser');

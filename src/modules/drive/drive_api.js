@@ -5,6 +5,9 @@ import store from '@/modules/store';
 
 const url = base + '/storage/';
 
+const CancelToken = axios.CancelToken;
+var cancel;
+
 const config = {
     onUploadProgress: progressEvent => {
         let percentCompleted = Math.floor((progressEvent.loaded * 100) / progressEvent.total);
@@ -28,6 +31,7 @@ export default {
         window.open(url + 'files/' + id + '?download=true');
     },
 
+
     uploadFile(data) {
         let form = new FormData();
 
@@ -48,7 +52,21 @@ export default {
         form.append('ownerRead', data.ownerRead);
 
         console.log('salut salut', config.onUploadProgress.percentCompleted);
-        return axios.post(url + 'upload', form, config);
+        return axios.post(url + 'upload', form, config,{
+            cancelToken: new CancelToken(function executor(c) {
+                // An executor function receives a cancel function as a parameter
+                cancel = c;
+            })}).then(()=>console.log('successfully uploaded' + data.name))
+                .catch(function(err){
+
+                    if(axios.isCancel(err)){
+                        console.log('im canceled');
+                    }
+                });
+    },
+
+    cancelUpload(){
+        cancel();
     },
 
     editFile(edit) {
