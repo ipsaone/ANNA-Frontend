@@ -6,7 +6,7 @@ import store from '@/modules/store';
 const url = base + '/storage/';
 
 const CancelToken = axios.CancelToken;
-var cancel;
+var cancelCall = CancelToken.source();
 
 const config = {
     onUploadProgress: progressEvent => {
@@ -32,7 +32,7 @@ export default {
     },
 
 
-    uploadFile(data) {
+    async uploadFile(data) {
         let form = new FormData();
 
         if (data.contents !== undefined) {
@@ -51,22 +51,15 @@ export default {
         form.append('ownerWrite', data.ownerWrite);
         form.append('ownerRead', data.ownerRead);
 
-        console.log('salut salut', config.onUploadProgress.percentCompleted);
-        return axios.post(url + 'upload', form, config,{
-            cancelToken: new CancelToken(function executor(c) {
-                // An executor function receives a cancel function as a parameter
-                cancel = c;
-            })}).then(()=>console.log('successfully uploaded' + data.name))
-                .catch(function(err){
-
-                    if(axios.isCancel(err)){
-                        console.log('im canceled');
-                    }
-                });
+        return axios.post(url + 'upload', form, {
+            ...config,
+            cancelToken: cancelCall.token
+        });
     },
 
-    cancelUpload(){
-        cancel();
+    async cancelUpload(){
+        console.log(cancelCall);
+        cancelCall.cancel('cancel ma bite');
     },
 
     editFile(edit) {

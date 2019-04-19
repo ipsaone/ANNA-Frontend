@@ -166,22 +166,26 @@
                         this.uploadPercentage = store.getters.progress;
                         document.getElementById('submitButton').removeAttribute('disabled', 'disabled');
                         await store.dispatch('retrieveFolder', store.getters.folder.fileId);
+                        this.uploadPercentage = 0;
                         this.$modal.hide('uploadFile');
                     } else {
                         return 0;
                     }
                 } else {
                     document.getElementById('submitButton').setAttribute('disabled', 'disabled');
-                    await driveApi.uploadFile(data);
-                    document.getElementById('submitButton').removeAttribute('disabled', 'disabled');
-                    await store.dispatch('retrieveFolder', store.getters.folder.fileId);
-                    this.$modal.hide('uploadFile');
-                    this.$notify({
+                    await driveApi.uploadFile(data)
+                    .then(() => this.$notify({
                         type: 'success',
                         title: 'File successfully uploaded',
                         text: '',
                         duration: 5000
-                    });
+                    }))
+                    .catch(() => console.log('Upload successfully canceled'));
+
+                    document.getElementById('submitButton').removeAttribute('disabled', 'disabled');
+                    await store.dispatch('retrieveFolder', store.getters.folder.fileId);
+                    this.$modal.hide('uploadFile');
+
                 }
 
 
