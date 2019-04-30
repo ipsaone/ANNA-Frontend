@@ -186,6 +186,7 @@
                     await store.dispatch('retrieveFolder', store.getters.folder.fileId);
                     await store.dispatch('resetProgress');
                     this.$modal.hide('uploadFile');
+                    window.location.reload();
 
                 }
 
