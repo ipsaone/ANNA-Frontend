@@ -11,9 +11,26 @@
                     table {
                         tr {
                             th {
-                               color: $grey-dark;
-                               line-height: 3em;
-                               padding-bottom: 0;
+                                i{
+                                    margin-left: 5px;
+                                    border: 1px solid rgba(66, 66, 66, 0.6);
+                                    color: rgba(0, 0, 0, 0.6);
+                                    width: 20px;
+                                    height:  17px;
+                                    text-align: center;
+                                    vertical-align: middle;
+                                    padding-bottom: 20px;
+                                    transition: 0.3s;
+                                }
+                                i:hover {
+                                    color: rgba(0, 0, 0, 1);
+                                }
+                                .rotate{
+                                    transform : rotate(180deg);
+                                }
+                                color: $grey-dark;
+                                line-height: 3em;
+                                padding-bottom: 0;
 
                                &:first-child {
                                  padding-left: 1em;
@@ -83,7 +100,6 @@
               background-color: #555;
             }
         }
-
         .big-wrapper {
             display: grid;
             grid-template-columns: auto auto;

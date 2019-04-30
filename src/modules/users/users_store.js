@@ -31,10 +31,11 @@ const actions = {
         return;
     },
 
-    getUserById({state}, id) {
+    async getUserById({state}, id) {
         let user = state.users.filter(us => us.id == id)[0];
         if(!user) {
-            let res = UsersApi.get(id);
+            let res = await UsersApi.get(id);
+            console.log('TEUB', res.data);
             user = res.data;
         }
         return user;

@@ -55,9 +55,9 @@
                 <table>
                     <tr class="pas-toi">
                       <th>Type</th>
-                      <th>Name</th>
-                      <th>Owner</th>
-                      <th>Size</th>
+                      <th>Name <i @click="clique" class="fas fa-caret-up" :class='classR'></i> </th>
+                      <th>Owner <i @click='clique2' class="fas fa-caret-up" :class='classR2'></i> </th>
+                      <th>Size <i @click='clique3' class="fas fa-caret-up" :class='classR3'></i> </th>
                     </tr>
                     <tr class="pas-toi" v-if="folder && folder.name !== 'root'" @dblclick="goBack">
                         <td><i class="fa fa-folder" aria-hidden="true"></i></td>
@@ -114,7 +114,10 @@
         },
         data() {
             return {
-                loading: false
+                loading: false,
+                classR: '',
+                classR2: '',
+                classR3: '',
             };
         },
         computed: {
@@ -129,6 +132,30 @@
             }
         },
         methods: {
+            clique(){
+                console.log('ce que tu veux', this);
+                if (this.classR === 'rotate') {
+                    this.classR = '';
+                }else if (this.classR === '') {
+                    this.classR = 'rotate';
+                }
+            },
+            clique2(){
+                console.log('ce que tu veux', this);
+                if (this.classR2 === 'rotate') {
+                    this.classR2 = '';
+                }else if (this.classR2 === '') {
+                    this.classR2 = 'rotate';
+                }
+            },
+            clique3(){
+                console.log('ce que tu veux', this);
+                if (this.classR3 === 'rotate') {
+                    this.classR3 = '';
+                }else if (this.classR3 === '') {
+                    this.classR3 = 'rotate';
+                }
+            },
             select(file) {
                 if (file.fileId === this.selectedFile.fileId) store.dispatch('selectFile', {});
                 else store.dispatch('selectFile', file);
