@@ -42,7 +42,6 @@
                 store.dispatch('unselectFile');
             },
             async onSubmit() {
-                console.log(this.selectedFolder);
                 const edit = {
                     fileId: store.getters.selectedFile.fileId,
                     data: {}

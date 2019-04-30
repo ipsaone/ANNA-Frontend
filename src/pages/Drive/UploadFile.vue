@@ -166,7 +166,7 @@
                         this.uploadPercentage = store.getters.progress;
                         document.getElementById('submitButton').removeAttribute('disabled', 'disabled');
                         await store.dispatch('retrieveFolder', store.getters.folder.fileId);
-                        this.uploadPercentage = 0;
+                        await store.dispatch('resetProgress');
                         this.$modal.hide('uploadFile');
                     } else {
                         return 0;
@@ -184,6 +184,7 @@
 
                     document.getElementById('submitButton').removeAttribute('disabled', 'disabled');
                     await store.dispatch('retrieveFolder', store.getters.folder.fileId);
+                    await store.dispatch('resetProgress');
                     this.$modal.hide('uploadFile');
 
                 }

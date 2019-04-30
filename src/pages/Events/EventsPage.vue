@@ -73,7 +73,6 @@
                 this.loading = true;
                 let i;
                 for (i = 0; i < store.getters.events.length; i++) {
-                    console.log(store.getters.events[i]);
                     this.isRegistered(store.getters.events[i].id);
                 }
                 store.dispatch('retrieveEvents', force)
@@ -100,7 +99,6 @@
                 this.$modal.show('event', {'event': event});
             },
             isRegistered(event_id) {
-                console.log('salut salut', store.getters.loggedUserEvents.includes(event_id));
                 return store.getters.loggedUserEvents.includes(event_id);
             },
             async addUser(event_id) {
@@ -113,7 +111,7 @@
                     title: 'You joined the event!',
                     duration: 1000
                 });
-               
+
             },
             withdrawUser(event_id) {
                 EventsApi.withdraw(event_id, store.getters.loggedUserId)

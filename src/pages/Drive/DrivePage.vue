@@ -122,7 +122,6 @@
                 await store.dispatch('retrieveFolder', folderId);
                 next();
             } catch (err) {
-                console.log(err);
                 await store.dispatch('retrieveFolder', 1);
             }
 
@@ -145,7 +144,6 @@
             openFile() {
                 if (this.selectedFile.isDir) {
                     this.loading = true;
-                    console.log(this.selectedFile);
                     store.dispatch('retrieveFolder', this.selectedFile.fileId)
                         .then(_ => store.dispatch('selectFile', {}))
                         .then(_ => this.loading = false);
@@ -162,7 +160,7 @@
             },
             editFile() {
                 if (this.selectedFile.isDir)
-                    console.log('edit folder');
+                    console.log('editDir');
                 else
                     this.$modal.show('editFile');
             },
@@ -192,7 +190,6 @@
                             handler: async () => {
                                 await driveApi.deleteFile(this.selectedFile.fileId);
                                 await store.dispatch('retrieveFolder', store.getters.folder.fileId);
-                                console.log('deleted');
                                 await store.dispatch('unselectFile');
                                 this.$modal.hide('dialog');
                             }

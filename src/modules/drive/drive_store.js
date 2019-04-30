@@ -45,6 +45,10 @@ const actions = {
         });
     },
 
+    resetProgress({commit, dispatch}) {
+        commit('UPDATE_PROGRESS', 0);
+    },
+
     unselectFile({commit}) {
         return new Promise(resolve => {
             commit('SET_SELECTED', {});
