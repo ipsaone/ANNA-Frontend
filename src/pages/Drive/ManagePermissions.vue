@@ -1,17 +1,17 @@
 <template>
-    <modal name="managePermissions" height="auto" :scrollable="true" @before-open="beforeOpen">
+  <modal name="managePermissions" height="auto" :scrollable="true" @before-open="beforeOpen">
         <div class="content anna-modal">
             <div class="big-wrapper">
                 <h2> Edit permissions </h2>
                 <div class="file-information">
                     <h4> File information </h4>
-                    <ul>
+                    <ul v-if="selectedFile.owner" >
                         <li>Owner : <router-link :to="{name: 'profile',
-                            params:{id: selectedFile.owner.id}}">
+                            params:{id: selectedFile.ownerId}}">
                             {{selectedFile.owner.username}}
                                     </router-link>
                         </li>
-                        <li>Group : {{selectedFileGroup.name}} </li>
+                        <li>Group : <p>{{selectedFileGroup.name}}</p> </li>
                     </ul>
                 </div>
                 <div class="permissions">
@@ -63,7 +63,6 @@
                 return store.getters.selectedFile;
             },
             selectedFileGroup() {
-                //store.dispatch('retrieveGroup', this.selectedFile.groupId);
                 return store.getters.selectedGroup;
             },
             loggedUser() {
@@ -109,6 +108,7 @@
             },
             async beforeOpen() {
                 await store.dispatch('retrieveLoggedUser');
+                await store.dispatch('retrieveGroup', this.selectedFile.groupId);
                 this.file = this.selectedFile;
                 this.fileId = this.selectedFile.id;
                 this.rights = this.fileRights;
