@@ -71,7 +71,6 @@ const actions = {
 
     async retrieveLoggedUser({commit, state}) {
         let res = await UsersApi.get(state.logged.id);
-        console.log(res.data);
         commit('SET_LOGGED_USER', res.data);
     },
 
