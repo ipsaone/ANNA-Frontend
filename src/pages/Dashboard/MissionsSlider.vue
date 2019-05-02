@@ -68,7 +68,7 @@
                                         <i v-if="$store.getters.loggedUserIsRoot" @click.prevent="delTask(task.id)" class="fa fa-trash"></i>
                                     </div>
                                 </li>
-                                <em v-if="mission.tasks.length == 0">No tasks yet !</em>
+                                <em v-if="mission.tasks && mission.tasks.length === 0">No tasks yet !</em>
                                 <a @click.prevent="newTask">Add task</a>
                             </ul>
                         </div>
