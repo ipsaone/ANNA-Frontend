@@ -133,7 +133,6 @@
         },
         methods: {
             clique(){
-                console.log('ce que tu veux', this);
                 if (this.classR === 'rotate') {
                     this.classR = '';
                 }else if (this.classR === '') {
@@ -141,7 +140,6 @@
                 }
             },
             clique2(){
-                console.log('ce que tu veux', this);
                 if (this.classR2 === 'rotate') {
                     this.classR2 = '';
                 }else if (this.classR2 === '') {
@@ -149,7 +147,6 @@
                 }
             },
             clique3(){
-                console.log('ce que tu veux', this);
                 if (this.classR3 === 'rotate') {
                     this.classR3 = '';
                 }else if (this.classR3 === '') {
@@ -173,40 +170,66 @@
 
                 if(!file.type) { file.type = ''; }
                 switch (file.type) {
+
                     // PDF
                     case 'application/pdf':
-                        return '<i class="fa fa-file-pdf-o" aria-hidden="true"></i>';
+                        return '<i class="fa fa-file-pdf" aria-hidden="true"></i>';
                         break;
 
                     // Archive
                     case 'application/zip':
-                        return '<i class="fa fa-file-archive-o" aria-hidden="true"></i>';
+                        return '<i class="fa fa-file-archive" aria-hidden="true"></i>';
                         break;
 
                     // Image
                     case 'image/gif':
+                        return '<i class="fas fa-file-image"></i>';
+                        break;
                     case 'image/png':
+                        return '<i class="fas fa-file-image"></i>';
+                        break;
                     case 'image/jpeg':
+                        return '<i class="fas fa-file-image"></i>';
+                        break;
                     case 'image/tiff':
-                        return '<i class="fa fa-file-image-o" aria-hidden="true"></i>';
+                        return '<i class="fa fa-file-image" aria-hidden="true"></i>';
                         break;
 
                     // Audio
                     case 'audio/mpeg':
+                        return '<i class="fas fa-file-audio"></i>';
+                        break;
                     case 'audio/x-ms-wma':
+                        return '<i class="fas fa-file-audio"></i>';
+                        break;
                     case 'audio/vnd.rn-realaudio':
+                        return '<i class="fas fa-file-audio"></i>';
+                        break;
                     case 'audio/x-wav':
-                        return '<i class="fa fa-file-audio-o" aria-hidden="true"></i>';
+                        return '<i class="fas fa-file-audio"></i>';
                         break;
 
+                    // Video
                     case 'video/mpeg':
+                        return '<i class="fas fa-file-video"></i>';
+                        break;
                     case 'video/mp4':
+                        return '<i class="fas fa-file-video"></i>';
+                        break;
                     case 'video/quicktime':
+                        return '<i class="fas fa-file-video"></i>';
+                        break;
                     case 'video/x-ms-wmv':
+                        return '<i class="fas fa-file-video"></i>';
+                        break;
                     case 'video/x-msvideo':
+                        return '<i class="fas fa-file-video"></i>';
+                        break;
                     case 'video/x-flv':
+                        return '<i class="fas fa-file-video"></i>';
+                        break;
                     case 'video/webm':
-                        return '<i class="fa fa-file-video-o" aria-hidden="true"></i>';
+                        return '<i class="fas fa-file-video"></i>';
                         break;
 
                     case 'folder':
@@ -215,7 +238,7 @@
 
                     case '':
                     default:
-                        return '<i class="fa fa-file-o" aria-hidden="true"></i>';
+                        return '<i class="fa fa-file" aria-hidden="true"></i>';
                 }
             },
             convertSize(file) {
