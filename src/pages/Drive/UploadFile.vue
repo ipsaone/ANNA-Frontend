@@ -11,13 +11,13 @@
                             <div class="file-information">
                                 <h4> File information </h4>
                                 <ul>
-                                    <li><label for="owner-input">Owner : </label> <input id="owner-input" list="users" type="text" name="owner" value="" v-model="ownerId" autocomplete="off" @change="selectUser(ownerId)"></li>
-                                      <li><label for="group-input">Group : </label> <input id="group-input" list="groups" type="text" name="group" value="" v-model="groupId" autocomplete="off"></li>
+                                    <li><label for="owner-input">Owner : </label> <input id="owner-input" list="users" type="text" name="owner" value="" v-model="ownerName" autocomplete="off" @change="selectUser(ownerName)"></li>
+                                      <li><label for="group-input">Group : </label> <input id="group-input" list="groups" type="text" name="group" value="" v-model="groupName" autocomplete="off" @change="setGroupId(groupName)"></li>
                                     <datalist id="users">
-                                        <option v-for="user in users" :key="user.id" :value="user.id" :label="user.username"/>
+                                        <option v-for="user in users" :key="user.id" :value="user.username" :label="user.id"/>
                                     </datalist>
                                     <datalist id="groups">
-                                        <option v-for="group in userGroups" :key="group.id" :value="group.id" :label="group.name"/>
+                                        <option v-for="group in userGroups" :key="group.id" :value="group.name" :label="group.id"/>
                                     </datalist>
 
                                 </ul>
@@ -71,15 +71,17 @@
                 file: '',
                 contents: '',
                 //fileId: 1,
-                ownerId: '1 ',
+                ownerId: '1',
+                ownerName: '',
+                groupName: '',
                 groupId: '',
                 rights: {
-                    ownerRead: false,
-                    ownerWrite: false,
-                    groupRead: false,
-                    groupWrite: false,
-                    allRead: false,
-                    allWrite: false
+                    ownerRead: true,
+                    ownerWrite: true,
+                    groupRead: true,
+                    groupWrite: true,
+                    allRead: true,
+                    allWrite: true
                 }
             };
         },
@@ -93,20 +95,11 @@
             uploadPercentage() {
                 return store.getters.progress;
             },
-            groups() {
-                return store.getters.groups;
+            selectedUser() {
+                return store.getters.selectedUser;
             },
             cases() {
                 return Array('ownerRead', 'groupRead', 'allRead', 'ownerWrite', 'groupWrite', 'allWrite');
-            },
-            loggedUser() {
-                return store.getters.loggedUser;
-            },
-            loggedUserGroups() {
-                return store.getters.loggedUser.groups;
-            },
-            loggedUserId() {
-                return store.getters.loggedUserId;
             },
             userGroups() {
                 return store.getters.selectedUser.groups;
@@ -116,8 +109,14 @@
             handleFileUpload() {
                 this.file = this.$refs.file.files[0];
             },
-            async selectUser(id) {
-                return await store.dispatch('selectUser', id);
+            async selectUser(name) {
+                let ownerId =  this.users.find(myUser => myUser.username == name).id;
+                await store.dispatch('selectUser', ownerId);
+                this.ownerId = ownerId;
+            },
+            setGroupId(name) {
+                let groupId = this.userGroups.find(myGroup => myGroup.name == name).id;
+                this.groupId = groupId;
             },
             onFileChange(e) {
                 const files = e.target.files || e.dataTransfer.files;
