@@ -151,33 +151,45 @@
                 .tableau-permissions {
                     display: grid;
                     grid-template-columns: auto auto;
-
+                    border: 2px solid $grey;
 
                     .case {
-                        border-bottom: 2px solid $grey-dark;
-                        border-right: 2px solid $grey-dark;
+                        // border: 1px solid $grey;
+                        // border-bottom: 2px solid $grey-dark;
+                        // border-right: 2px solid $grey-dark;
                         padding: 5px;
                     }
-                    #owner, #group, #all {
+                    #owner, #group, #others {
                         grid-row: 1;
+                    }
+                    #diagonale {
                     }
                     #read, #write {
                         grid-column: 1;
                     }
                     #read {
                         grid-row: 2;
+                        border-top: 1px solid $grey;
                     }
                     #write {
                         grid-row: 3;
+                        border-top: 1px solid $grey;
                     }
                     #owner {
                         grid-column: 2;
+                        border-left: 1px solid $grey;
                     }
                     #group {
                         grid-column: 3;
+                        border-left: 1px solid $grey;
                     }
                     #others {
                         grid-column: 4;
+                        border-left: 1px solid $grey;
+                    }
+                    .cochable {
+                        border-top: 1px solid $grey;
+                        border-left: 1px solid $grey;
                     }
                     .checkbox-container {
                         position: relative;
