@@ -70,8 +70,7 @@
             return {
                 file: '',
                 contents: '',
-                //fileId: 1,
-                ownerId: '1',
+                ownerId: '',
                 ownerName: '',
                 groupName: '',
                 groupId: '',
@@ -110,9 +109,14 @@
                 this.file = this.$refs.file.files[0];
             },
             async selectUser(name) {
-                let ownerId =  this.users.find(myUser => myUser.username == name).id;
-                await store.dispatch('selectUser', ownerId);
-                this.ownerId = ownerId;
+                if(name.trim() != '') {
+                    let ownerId =  this.users.find(myUser => myUser.username == name).id;
+                    await store.dispatch('selectUser', ownerId);
+                    this.ownerId = ownerId;
+                } else {
+                    this.ownerId = '';
+                    this.ownerName = '';
+                }
             },
             setGroupId(name) {
                 let groupId = this.userGroups.find(myGroup => myGroup.name == name).id;
@@ -195,6 +199,12 @@
                 return store.getters.selectFileId;
             },
             async cancelUpload() {
+                this.file = '';
+                this.contents = '';
+                this.ownerId = '';
+                this.ownerName = '';
+                this.groupId = '';
+                this.groupName  = '';
                 await driveApi.cancelUpload();
                 this.$modal.hide('uploadFile');
             },
