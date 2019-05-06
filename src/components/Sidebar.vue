@@ -109,8 +109,5 @@
                 this.tooltipVisible = false;
             }
         },
-        mounted: function() {
-            console.log(store.getters.loggedUserIsRoot);
-        }
     };
 </script>

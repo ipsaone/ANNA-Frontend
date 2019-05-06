@@ -57,10 +57,8 @@
             async beforeOpen(event) {
                 await store.dispatch('retrieveEvent', event.params.event_id);
                 this.refreshUsers();
-                console.log(this.event);
             },
             async addUser(id) {
-                console.log('adding', id);
                 await EventsApi.register(store.getters.selectedEvent.id, id);
                 await this.refreshUsers();
                 await store.dispatch('retrieveEvents', true);
@@ -73,7 +71,6 @@
                 });
             },
             async remUser(id) {
-                console.log('removing', id);
                 await EventsApi.withdraw(store.getters.selectedEvent.id, id);
                 await this.refreshUsers();
                 await store.dispatch('retrieveEvents', true);

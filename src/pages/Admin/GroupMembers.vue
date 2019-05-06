@@ -60,10 +60,8 @@
             async beforeOpen(event) {
                 await store.dispatch('retrieveGroup', event.params.group_id);
                 this.refreshUsers();
-                console.log(this.group);
             },
             async addUser(id) {
-                console.log('adding', id);
                 await store.dispatch('addGroupMember', id);
                 this.refreshUsers();
                 store.dispatch('retrieveGroups', true);
@@ -86,7 +84,6 @@
                         cancelButtonColor: '#7A7A7A',
                         confirmButtonText: 'Delete'
                     }).then(_ => {
-                        console.log('removing', id);
                         store.dispatch('remGroupMember', id)
                         .then(_ => {
                             this.refreshUsers();
@@ -94,7 +91,6 @@
                             store.dispatch('retrieveGroups', true);
                             store.dispatch('retrieveLoggedUser', true)
                             .then(_ => {
-                                console.log('showAdmin', this.showAdmin());
                                 this.showAdmin();
                                 if (!this.showAdmin()) {
                                     window.location.replace('/dashboard');
@@ -111,13 +107,11 @@
                         });
                     });
                 } else {
-                    console.log('removing', id);
                     await store.dispatch('remGroupMember', id);
                     this.refreshUsers();
                     await store.dispatch('retrieveGroups', true);
                     await store.dispatch('retrieveLoggedUser')
                     .then (_ => {
-                        console.log('showAdmin', this.showAdmin());
                         this.showAdmin();
                         if (!this.showAdmin()) {
                             window.location.replace('/dashboard');

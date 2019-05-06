@@ -159,9 +159,7 @@
                 driveApi.downloadFile(this.selectedFile.fileId);
             },
             editFile() {
-                if (this.selectedFile.isDir)
-                    console.log('editDir');
-                else
+                if (!this.selectedFile.isDir)
                     this.$modal.show('editFile');
             },
             deleteFile() {
@@ -176,7 +174,6 @@
                     async () => {
                         await driveApi.deleteFile(this.selectedFile.fileId);
                         await store.dispatch('retrieveFolder', store.getters.folder.fileId);
-                        console.log('deleted');
                         await store.dispatch('unselectFile');
                     };
                 });*/
