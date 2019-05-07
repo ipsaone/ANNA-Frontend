@@ -105,6 +105,9 @@
             },
             userGroups() {
                 return store.getters.selectedUser.groups;
+            },
+            selectedGroup() {
+                return store.getters.selectedGroup;
             }
         },
         methods: {
@@ -116,6 +119,26 @@
                     let ownerId =  this.users.find(myUser => myUser.username == name).id;
                     await store.dispatch('selectUser', ownerId);
                     this.ownerId = ownerId;
+                    if (this.groupName.trim() != '') {
+                        await store.dispatch('retrieveGroup', this.groupId);
+                        let i = 0;
+                        let contains = false;
+                        while (i < this.selectedGroup.users.length) {
+                            console.log(this.selectedGroup.users[i]);
+                            if (this.selectedGroup.users[i].id == this.ownerId) {
+                                console.log('contient');
+                                contains = true;
+                            }
+                            else {
+                                console.log('contient pas');
+                            }
+                            i++;
+                        };
+                        if (contains === false) {
+                            this.groupName = '';
+                            this.groupId = '';
+                        }
+                    }
                 } else {
                     this.ownerId = '';
                     this.ownerName = '';
