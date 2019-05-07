@@ -132,6 +132,9 @@
             }
         },
         methods: {
+            addClass(e) {
+                e.addClass('rotate');
+            },
             clique(){
                 if (this.classR === 'rotate') {
                     this.classR = '';
