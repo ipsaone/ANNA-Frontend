@@ -144,9 +144,37 @@
                     this.ownerName = '';
                 }
             },
-            setGroupId(name) {
+            async setGroupId(name) {
+                console.log('wtf');
                 let groupId = this.userGroups.find(myGroup => myGroup.name == name).id;
                 this.groupId = groupId;
+                if (this.ownerName.trim() != '') {
+                    console.log('mabite');
+                    await store.dispatch('retrieveGroup', this.groupId);
+                    let i = 0;
+                    let contains = false;
+                    while (i < this.selectedGroup.users.length) {
+                        console.log(this.selectedGroup.users[i]);
+                        if (this.selectedGroup.users[i].id == this.ownerId) {
+                            console.log('contient');
+                            contains = true;
+                        }
+                        else {
+                            console.log('contient pas');
+                        }
+                        i++;
+                    };
+                    if (contains === false) {
+                        this.groupName = '';
+                        this.groupId = '';
+                        this.$notify({
+                            type: 'warning',
+                            title: 'Owner doesn\'t belong to this group',
+                            text: 'Please change owner or group',
+                            duration: 5000
+                        });
+                    }
+                }
             },
             onFileChange(e) {
                 const files = e.target.files || e.dataTransfer.files;
@@ -174,7 +202,7 @@
                         text: 'What file do you even want to upload ?',
                         duration: 5000
                     });
-                    return 0;
+                    return false;
                 }
 
                 if (this.ownerId === '' || this.groupId === '') {
@@ -184,7 +212,7 @@
                         text: 'Please fill the owner and group inputs',
                         duration: 5000
                     });
-                    return 0;
+                    return false;
                 }
 
                 if (this.rights.groupWrite != true && this.rights.ownerWrite != true && this.rights.allWrite !=true) {
@@ -197,8 +225,6 @@
                         await store.dispatch('retrieveFolder', store.getters.folder.fileId);
                         await store.dispatch('resetProgress');
                         this.$modal.hide('uploadFile');
-                    } else {
-                        return 0;
                     }
                 } else {
                     document.getElementById('submitButton').setAttribute('disabled', 'disabled');
@@ -220,9 +246,6 @@
                 }
 
 
-            },
-            selectedFileId() {
-                return store.getters.selectFileId;
             },
             async cancelUpload() {
                 this.file = '';
