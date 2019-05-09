@@ -2,7 +2,8 @@ import DriveApi from '@/modules/drive/drive_api';
 
 const state = {
     folder: {},
-    selected: {}
+    selected: {},
+    percentCompleted: 0
 };
 
 const mutations = {
@@ -16,6 +17,9 @@ const mutations = {
 
     CLEAR_DRIVE(state) {
         state.selected = {};
+    },
+    UPDATE_PROGRESS(state, progress) {
+        state.percentCompleted = progress;
     }
 };
 
@@ -34,6 +38,17 @@ const actions = {
         });
     },
 
+    async updateProgress({commit, dispatch}, progress) {
+        return new Promise(resolve => {
+            commit('UPDATE_PROGRESS', progress);
+            resolve();
+        });
+    },
+
+    resetProgress({commit, dispatch}) {
+        commit('UPDATE_PROGRESS', 0);
+    },
+
     unselectFile({commit}) {
         return new Promise(resolve => {
             commit('SET_SELECTED', {});
@@ -42,7 +57,7 @@ const actions = {
     },
 
     async setOwners({dispatch}, folder) {
-        
+
         let user = await dispatch('getUserById', folder.ownerId);
         folder.owner = user;
 
@@ -78,6 +93,10 @@ const getters = {
     selectedFile(state) {
         return state.selected;
     },
+
+    progress(state) {
+        return state.percentCompleted;
+    }
 };
 
 export default {

@@ -14,9 +14,7 @@ const mutations = {
     },
     SET_LEADER(state, data) {
         let index = state.missions.map(mi => mi.id).indexOf(data.id);
-        console.log('plouf', index);
         state.missions[index] = {...state.missions[index], leader: data.user};
-        console.log('plaf', state.missions[index]);
     },
     UNSELECT_MISSION(state) {
         state.selected = {};
@@ -33,7 +31,6 @@ const actions = {
                 mi.leader = leader;
                 return mi;
             }));
-            console.log('patate', missions);
             await commit('SET_ALL_MISSIONS', missions);
 
             if(missions.length == 0) {
@@ -54,7 +51,7 @@ const actions = {
 
         let leader = await dispatch('getUserById', mission.leaderId);
         mission.leader = leader;
-        await commit('SET_SELECTED', mission); 
+        await commit('SET_SELECTED', mission);
     },
 
     async storeMission({dispatch}, mission) {

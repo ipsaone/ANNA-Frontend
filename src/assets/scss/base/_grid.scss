@@ -1,5 +1,6 @@
 .app {
-  display: grid;
+  display : none;
+  // display: grid;
   grid-template-columns: $sidebar-width auto;
   grid-column-gap: 0.8em;
 }

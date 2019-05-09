@@ -31,7 +31,6 @@
             store.dispatch('selectPost', this.$route.params.id)
                 .then(_ => {
                     this.title = this.post.title;
-                    console.log('original : ', this.post.markdown);
                     this.markdown = this.post.markdown.replace(/<br>/gi, '');
                     this.isDraft = !this.post.published;
                 });
@@ -71,7 +70,6 @@
 
                     post.title = this.title;
                     post.markdown = this.markdown.replace(/\n\n/gi, '\n\n<br>');
-                    console.log('saved as', post.markdown.replace(/\n\n/gi, '\n\n<br>'));
                     post.isDraft = this.isDraft;
                     delete post.content;
 
@@ -86,7 +84,6 @@
                             });
                         });
                     await store.dispatch('selectPost', post.id);
-                    console.log(store.getters.selectedPost);
                 }
             }
         }

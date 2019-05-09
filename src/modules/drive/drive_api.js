@@ -1,19 +1,28 @@
 import axios from 'axios';
 import FormData from 'form-data';
 import base from '@/modules/url';
+import store from '@/modules/store';
 
 const url = base + '/storage/';
+
+const CancelToken = axios.CancelToken;
+var cancelCall = CancelToken.source();
 
 const config = {
     onUploadProgress: progressEvent => {
         let percentCompleted = Math.floor((progressEvent.loaded * 100) / progressEvent.total);
+        //console.log(percentCompleted, 'mabite');
         // do whatever you like with the percentage complete
         // maybe dispatch an action that will update a progress bar or something
+        store.dispatch('updateProgress', percentCompleted);
     },
     withCredentials: true
 };
 
 export default {
+    getConfig() {
+        return config;
+    },
     async getFolder(id) {
         return axios.get(url + 'files/list/' + id, {withCredentials: true});
     },
@@ -22,7 +31,8 @@ export default {
         window.open(url + 'files/' + id + '?download=true');
     },
 
-    uploadFile(data) {
+
+    async uploadFile(data) {
         let form = new FormData();
 
         if (data.contents !== undefined) {
@@ -41,7 +51,15 @@ export default {
         form.append('ownerWrite', data.ownerWrite);
         form.append('ownerRead', data.ownerRead);
 
-        return axios.post(url + 'upload/', form, config);
+        return axios.post(url + 'upload', form, {
+            ...config,
+            cancelToken: cancelCall.token
+        });
+    },
+
+    async cancelUpload(){
+        console.log(cancelCall);
+        cancelCall.cancel('cancel ma bite');
     },
 
     editFile(edit) {

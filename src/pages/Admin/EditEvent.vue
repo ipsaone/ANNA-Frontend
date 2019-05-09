@@ -67,8 +67,6 @@
         },
         methods: {
             async beforeOpen(event) {
-                console.log('LOADING EVENT');
-                console.log(event);
                 await store.dispatch('retrieveEvent', event.params.event_id);
                 this.id = this.event.id;
                 this.name = this.event.name;
@@ -82,14 +80,6 @@
             },
             async onSubmit() {
                 this.loading = true;
-                console.log('new Event',{
-                    name: this.name,
-                    markdown: this.description,
-                    maxRegistered: this.max,
-                    startDate: this.start,
-                    endDate: this.end
-                }
-                );
                 await store.dispatch('updateEvent', {
                     id: this.id,
                     event: {

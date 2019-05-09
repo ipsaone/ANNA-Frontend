@@ -24,7 +24,7 @@
 
             <ul>
                 <li v-show="canEdit">
-                    <router-link :to="{name: 'editPost', params:{id: post.id}}"><i class="fa fa-pencil"
+                    <router-link :to="{name: 'editPost', params:{id: post.id}}"><i class="fas fa-edit"
                                                                                    aria-hidden="true"></i> Edit
                     </router-link>
                 </li>
@@ -46,7 +46,6 @@
             let postIWantToRead = {};
             await store.dispatch('selectPost', id)
                 .then(async () => {
-                    console.log(this.post, 'trouvé');
                     let postIWantToRead = this.post;
                     await store.dispatch('selectPost', postIWantToRead.id)
                         .catch(err => {
@@ -58,10 +57,8 @@
                             });
                         });
                 }, async () => {
-                    console.log('pas trouvé');
                     await store.dispatch('selectDraft', id)
                         .then(() => {
-                            //console.log(this.post, 'j\'ai trouvé un draft');
                             let postIWantToRead = this.post;
                             store.dispatch('selectDraft', postIWantToRead.id)
                                 .catch(err => {
@@ -80,8 +77,7 @@
                 return store.getters.selectedPost;
             },
             canEdit() {
-                return (store.getters.selectedPost.id === store.getters.loggedUserId && store.getters.loggedUserIsAuthor)
-                    || store.getters.loggedUserIsRoot;
+                return store.getters.loggedUserIsAuthor || store.getters.loggedUserIsRoot;
             },
             canDelete() {
                 return (store.getters.selectedPost.id === store.getters.loggedUserId && store.getters.loggedUserIsAuthor)

@@ -1,17 +1,17 @@
 <template>
-    <modal name="managePermissions" height="auto" :scrollable="true" @before-open="beforeOpen">
+  <modal name="managePermissions" height="auto" :scrollable="true" @before-open="beforeOpen">
         <div class="content anna-modal">
             <div class="big-wrapper">
                 <h2> Edit permissions </h2>
                 <div class="file-information">
                     <h4> File information </h4>
-                    <ul>
+                    <ul v-if="selectedFile.owner" >
                         <li>Owner : <router-link :to="{name: 'profile',
-                            params:{id: selectedFile.owner.id}}">
+                            params:{id: selectedFile.ownerId}}">
                             {{selectedFile.owner.username}}
                                     </router-link>
                         </li>
-                        <li>Group : {{selectedFileGroup.name}} </li>
+                        <li>Group : <p>{{selectedFileGroup.name}}</p> </li>
                     </ul>
                 </div>
                 <div class="permissions">
@@ -35,14 +35,14 @@
                         </div>
                         <div v-for="box in cases" class="case cochable">
                             <div class="checkbox-container">
-                                <input type="checkbox" :name="box" :id="box" @click="updatePermission(selectedFile.id, box)">
+                                <input type="checkbox" :name="box" :id="box" v-model="rights[box]">
                                 <label class="checkbox" :for="box"></label>
                             </div>
                         </div>
                     </div>
                     <div class="buttons">
-                        <button type="button"class="cancel"> Cancel </button>
-                        <button type="button" class="submit"> Confirm </button>
+                        <button type="button"class="cancel" @click="$modal.hide('managePermissions')"> Cancel </button>
+                        <button type="button" class="submit" @click="updatePermission()"> Confirm </button>
                     </div>
                 </div>
             </div>
@@ -57,13 +57,12 @@
     export default {
         computed : {
             cases() {
-                return Array('ownerRead', 'ownerWrite', 'groupRead', 'groupWrite', 'allRead', 'allWrite');
+                return Array('ownerRead', 'groupRead', 'allRead', 'ownerWrite', 'groupWrite', 'allWrite');
             },
             selectedFile() {
                 return store.getters.selectedFile;
             },
             selectedFileGroup() {
-                //store.dispatch('retrieveGroup', this.selectedFile.groupId);
                 return store.getters.selectedGroup;
             },
             loggedUser() {
@@ -76,18 +75,44 @@
                 return store.getters.selectedFile.rights;
             }
         },
+        data() {
+            return {
+                contents: '',
+                fileId: 1,
+                rights: {
+                    ownerRead: false,
+                    ownerWrite: false,
+                    groupRead: false,
+                    groupWrite: false,
+                    allRead: false,
+                    allWrite: false
+                }
+            };
+        },
         methods : {
             selectedFileId() {
                 return store.getters.selectFileId;
             },
-            updatePermission(fileId, number) {
-                console.log('salut', document.getElementById(number).checked);
-                console.log('\n file id', fileId, '\n numéro de la case', number
-                , '\n loggedUserId', this.loggedUserId);
+            updatePermission() {
+                driveApi.editFile({
+                    fileId: this.fileId,
+                    data: {
+                        ownerRead: this.rights.ownerRead,
+                        ownerWrite: this.rights.ownerWrite,
+                        groupRead: this.rights.groupRead,
+                        groupWrite: this.rights.groupWrite,
+                        allRead: this.rights.allRead,
+                        allWrite: this.rights.allWrite
+                    }
+                });
             },
             async beforeOpen() {
                 await store.dispatch('retrieveLoggedUser');
-                let opts = ['owner', 'group', 'all'];
+                await store.dispatch('retrieveGroup', this.selectedFile.groupId);
+                this.file = this.selectedFile;
+                this.fileId = this.selectedFile.id;
+                this.rights = this.fileRights;
+                /*let opts = ['owner', 'group', 'all'];
                 let opts2 = ['Read', 'Write'];
                 for (let key1 in opts) {
                     for (let key2 in opts2) {
@@ -99,7 +124,7 @@
                             document.getElementById(truc).checked = false;
                         }
                     }
-                }
+                }*/
             }
         }
     };

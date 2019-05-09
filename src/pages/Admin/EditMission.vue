@@ -106,8 +106,6 @@
                     return false;
                 }
                 if(!store.getters.users.map(us => us.id).includes(parseInt(this.chief, 10)) || !store.getters.groups.map(gp => gp.id).includes(parseInt(this.group))) {
-                    console.log('in');
-                    console.log('ma bite', typeof this.chief);
                     this.$notify({
                         type: 'error',
                         title: 'Leader or group doesn\'t exist',

@@ -35,6 +35,7 @@ const actions = {
         let user = state.users.filter(us => us.id == id)[0];
         if(!user) {
             let res = await UsersApi.get(id);
+            console.log('TEUB', res.data);
             user = res.data;
         }
         return user;
@@ -65,6 +66,9 @@ const getters = {
 
     selectedUser(state) {
         return state.user;
+    },
+    userGroups(state) {
+        return state.user.groups;
     }
 };
 

@@ -246,7 +246,6 @@
         },
         computed: {
             missions() {
-                console.log('salut');
                 return store.getters.missions;
             },
             groups() {
@@ -264,7 +263,6 @@
                         });
                     });
                 }
-                console.log('voilà les user', users);
                 return users;
             },
             userGroups() {
@@ -277,7 +275,6 @@
                         groups.push(u[i]);
                     });
                 }
-                console.log('tada', groups);
             }
         },
         async mounted() {

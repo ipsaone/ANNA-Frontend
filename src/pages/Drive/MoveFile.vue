@@ -74,7 +74,6 @@
         methods: {
             async beforeOpen(event) {
                 this.baseFolder = await store.dispatch('getFoldersList', 1);
-                console.log(this.baseFolder);
                 this.selected = 1;
             },
             async setSelected(id) {
@@ -85,7 +84,6 @@
                 this.selected = 0;
             },
             async onSubmit() {
-                console.log(this.selectedFolder);
                 const edit = {
                     fileId: store.getters.selectedFile.fileId,
                     data: {

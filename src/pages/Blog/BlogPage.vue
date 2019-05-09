@@ -74,7 +74,6 @@
         methods: {
             refreshPosts(force = false, hideNotif = false, hideLoader = false) {
                 if(!hideLoader) { this.loading = true; }
-                console.log('retrievelesputaindedrafts');
                 store.dispatch('retrieveDrafts', force);
                 store.dispatch('retrievePosts', force)
                     .then(() => {this.loading = false;})

@@ -59,7 +59,6 @@
         },
         methods: {
             onSubmit() {
-                console.log('Hello world!');
             },
 
             beforeOpen(data) {

@@ -64,11 +64,11 @@
                                         <input type="checkbox" :name="task.name"
                                          :id="'task'+task.id">
                                         <label :for="task.id">{{ task.name }}</label>
-                                        <label class="checkbox" :for="task.id"  @click="taskChange(task)"></label>
+                                        <label class="checkbox" :for="'task' + task.id"  @click="taskChange(task)"></label>
                                         <i v-if="$store.getters.loggedUserIsRoot" @click.prevent="delTask(task.id)" class="fa fa-trash"></i>
                                     </div>
                                 </li>
-                                <em v-if="mission.tasks.length == 0">No tasks yet !</em>
+                                <em v-if="mission.tasks && mission.tasks.length === 0">No tasks yet !</em>
                                 <a @click.prevent="newTask">Add task</a>
                             </ul>
                         </div>

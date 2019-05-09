@@ -30,11 +30,11 @@ new Vue({
         checkLogged();
         //checkInterval();
         isRoot();
+        showAll();
     }
 });
 
 async function checkLogged() {
-    //console.log('Am I logged in?', store.getters.isLogged);
     if (!window.location.href.endsWith('login') && !window.location.href.endsWith('login/') && !window.location.href.endsWith('login#') ){
         await store.dispatch('checkLoggedUser');
         if (!store.getters.isLogged){
@@ -74,6 +74,10 @@ function isRoot() {
     if (!store.getters.loggedUserIsRoot && (window.location.href.endsWith('administration')||window.location.href.endsWith('administration/'))) {
         router.push('dashboard');
     };
+}
+
+function showAll() {
+    document.getElementById('application').style.display = 'grid'; 
 }
 
 // Useful to disconnect user when backend stops
