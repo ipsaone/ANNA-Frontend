@@ -26,6 +26,10 @@ export default {
     async getFolder(id) {
         return axios.get(url + 'files/list/' + id, {withCredentials: true});
     },
+    search(str) {
+        console.log('blabla');
+        return axios.get(url + 'files/search', str);
+    },
 
     downloadFile(id) {
         window.open(url + 'files/' + id + '?download=true');
