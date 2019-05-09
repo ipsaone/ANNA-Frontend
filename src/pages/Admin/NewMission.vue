@@ -13,10 +13,10 @@
                     <label v-else for="group">User has no group. Leaders need to be in a group.</label>
                     <input v-if="userGroups.length != 0" list="groups" type="text" name="groups" id="group" v-model="groupName" autocomplete="off" @change="setGroupId(groupName)">
                     <datalist id="users">
-                        <option v-for="user in users" :key="user.id" :value="user.username" :label="user.id"/>
+                        <option v-for="user in users" :key="user.id" :value="user.username" :label="user.username"/>
                     </datalist>
                     <datalist id="groups">
-                        <option v-for="group in userGroups" :key="group.id" :value="group.name" :label="group.id"/>
+                        <option v-for="group in userGroups" :key="group.id" :value="group.name" :label="group.name"/>
                     </datalist>
                 </div>
 
