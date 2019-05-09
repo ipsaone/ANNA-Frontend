@@ -30,6 +30,7 @@ new Vue({
         checkLogged();
         //checkInterval();
         isRoot();
+        showAll();
     }
 });
 
@@ -73,6 +74,10 @@ function isRoot() {
     if (!store.getters.loggedUserIsRoot && (window.location.href.endsWith('administration')||window.location.href.endsWith('administration/'))) {
         router.push('dashboard');
     };
+}
+
+function showAll() {
+    document.getElementById('application').style.display = 'grid'; 
 }
 
 // Useful to disconnect user when backend stops
