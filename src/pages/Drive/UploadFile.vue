@@ -17,10 +17,10 @@
                                         <label id="replace" v-if="userGroups.length == 0" for="group-input">User has no group. Owners need to be in a group</label>
                                     </li>
                                     <datalist id="users">
-                                        <option v-for="user in users" :key="user.id" :value="user.username" :label="user.id"/>
+                                        <option v-for="user in users" :key="user.id" :value="user.username" :label="user.username"/>
                                     </datalist>
                                     <datalist id="groups">
-                                        <option v-for="group in userGroups" :key="group.id" :value="group.name" :label="group.id"/>
+                                        <option v-for="group in userGroups" :key="group.id" :value="group.name" :label="group.name"/>
                                     </datalist>
 
                                 </ul>
