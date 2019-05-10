@@ -92,6 +92,11 @@
                                   {{ convertSize(file) }}
                               </td>
                           </tr>
+                          <tr v-if="content.length === 0">
+                              <p class="center" @click.prevent="$modal.show('uploadFile')">
+                                  This folder is still empty.
+                              </p>
+                          </tr>
                       </table>
                   </div>
               </td>

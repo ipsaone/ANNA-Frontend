@@ -73,15 +73,16 @@
                         </a>
                     </li>
                     <li>
+                        <a href="#" @click.prevent="$modal.show('managePermissions')">
+                            <i class="fa fa-pen"></i> Edit
+                        </a>
+                    </li>
+                    <li>
                         <a href="#" @click.prevent="deleteFile">
                             <i class="fa fa-trash"></i> Delete
                         </a>
                     </li>
-                    <li>
-                        <a href="#" @click.prevent="$modal.show('managePermissions')">
-                            <i class="fa fa-key"></i> Manage permissions
-                        </a>
-                    </li>
+                    
                 </ul>
             </div>
         </section>

@@ -10,6 +10,10 @@
                 td {
                     table {
                         tr {
+                            .center {
+                                text-align: center;
+                                color: $green;
+                            }
                             th {
                                 i{
                                     margin-left: 5px;
@@ -39,6 +43,12 @@
                            }
                            td {
                               width: 25%;
+                           }
+                           td:nth-child(2) {
+                               width: 50%;
+                           }
+                           td:nth-child(3) {
+                               width: 15%;
                            }
                            background-color: $white-bis;
                            line-height: 3em;
@@ -77,6 +87,9 @@
                 }
 
             }
+
+            
+
             .inside-folder {
                 margin-top: 5vh;
                 overflow-y: auto;
