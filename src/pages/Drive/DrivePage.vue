@@ -11,7 +11,7 @@
         <section class="content">
             <h1 class=" section-title">Drive</h1>
 
-            <drive-table></drive-table>
+            <drive-table :search="searchKeyWord" ></drive-table>
         </section>
 
         <section class="actions">
@@ -118,6 +118,9 @@
             MoveFile,
             ManagePermissions
         },
+        data: {
+            searchKeyWord: '',
+        },
         async beforeRouteEnter(to, from, next) {
             let folderId = 1;
             if(store.getters.folder && store.getters.folder.fileId) {
@@ -141,9 +144,13 @@
             }
         },
         methods: {
-            search(str) {
+            async search(str) {
                 console.log('searchWithKeyWord :', str);
-                driveApi.search(str);
+                await store.dispatch('search', str);
+
+                //let table = document.getElementById('inside-folder-list');
+
+                //table.style.display = 'none';
             },
             manageRights() {
                 this.$modal.show('fileAuth', this.selectedFile);

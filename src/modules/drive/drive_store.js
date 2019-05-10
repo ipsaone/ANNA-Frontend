@@ -3,7 +3,8 @@ import DriveApi from '@/modules/drive/drive_api';
 const state = {
     folder: {},
     selected: {},
-    percentCompleted: 0
+    percentCompleted: 0,
+    searchResults : [],
 };
 
 const mutations = {
@@ -20,7 +21,10 @@ const mutations = {
     },
     UPDATE_PROGRESS(state, progress) {
         state.percentCompleted = progress;
-    }
+    },
+    SET_RESULT(state, result) {
+        state.searchResults = result;
+    },
 };
 
 const actions = {
@@ -74,7 +78,13 @@ const actions = {
     async getFoldersList({dispatch}, folderId) {
         let res = await DriveApi.getFoldersList(folderId);
         return res.data;
-    }
+    },
+
+    async search ({dispatch, commit}, str) {
+        console.log('teub', str);
+        let result = await DriveApi.search(str);
+        commit('SET_RESULT', result.data);
+    },
 };
 
 const getters = {
@@ -96,7 +106,11 @@ const getters = {
 
     progress(state) {
         return state.percentCompleted;
-    }
+    },
+
+    searchResultsContent(state) {
+        return state.searchResults;
+    },
 };
 
 export default {

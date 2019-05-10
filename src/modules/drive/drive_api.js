@@ -27,8 +27,15 @@ export default {
         return axios.get(url + 'files/list/' + id, {withCredentials: true});
     },
     search(str) {
-        console.log('blabla');
-        return axios.get(url + 'files/search', str);
+        console.log('blabla', url);
+
+        let request = {
+            keyword: str,
+            upperFolder: store.getters.folder.id,
+            include:  ['name']
+        };
+        console.log(request);
+        return axios.post(url + 'files/search', request, {withCredentials: true});
     },
 
     downloadFile(id) {
