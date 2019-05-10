@@ -19,7 +19,7 @@
                 <div class="mission-left">
 
                     <div class="description">
-                        <h2>Description :</h2>
+                        <h2>Description</h2>
                         <p class="content" v-html="mission.description" ></p>
                     </div>
 

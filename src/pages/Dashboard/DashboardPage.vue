@@ -3,7 +3,7 @@
         <loader v-if="loading"></loader>
 
         <div class="missions content">
-            <h1 class="section-title">Missions</h1>
+            <h1 class="section-title color-purple">Missions</h1>
 
             <missions-slider></missions-slider>
         </div>

@@ -9,7 +9,7 @@
         <manage-permissions></manage-permissions>
 
         <section class="content">
-            <h1 class=" section-title">Drive</h1>
+            <h1 class="color-green section-title">Drive</h1>
 
             <drive-table></drive-table>
         </section>

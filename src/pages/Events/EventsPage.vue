@@ -4,7 +4,7 @@
         <event></event>
 
         <section class="content">
-            <h1 class="section-title">Events</h1>
+            <h1 class="section-title color-yellow">Events</h1>
 
             <section> <!-- DO NOT REMOVE THE SECTION TAG -->
                 <template v-if="events.length > 0">

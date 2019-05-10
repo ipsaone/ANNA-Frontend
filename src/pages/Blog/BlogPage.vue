@@ -5,7 +5,7 @@
         </transition>
 
         <section class="content">
-            <h1 class="section-title">Blog</h1>
+            <h1 class="section-title color-blue">Blog</h1>
             <template v-if="$store.getters.drafts.length > 0 && canPost">
                 <post-abstract v-for="(post, index) in $store.getters.drafts"
                             :key="post.id"
