@@ -1,6 +1,8 @@
 <template>
     <div class="blog basic-layout">
-        <loader v-if="loading"></loader>
+        <transition name="loader-fade">
+            <loader v-if="loading"></loader>
+        </transition>
 
         <section class="content">
             <h1 class="section-title">Blog</h1>
