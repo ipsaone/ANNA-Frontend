@@ -1,4 +1,13 @@
 .post {
+    a:not(.disabled) {
+        color: $blue
+    }
+
+    .post-title {
+        word-break: break-word;
+    }
+
+    
     article {
         .return {
             display: inline-block;
