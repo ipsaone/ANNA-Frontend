@@ -1,5 +1,13 @@
 .mission-slider {
 
+    a:not(.disabled) {
+        color: $purple;
+
+        &:hover {
+            color: hsl(300, 67%, 43%);
+        }
+    }
+
     .controls {
       display: flex;
       justify-content: space-between;
@@ -39,8 +47,11 @@
             padding: 1vw;
             padding-bottom: 5vh;
             h1, h2 {
+                margin: auto;
+                margin-bottom: 5vh;
+                width: 85%;
                 text-align: center;
-                // border-bottom: 2px solid #aaaaaa;
+                border-bottom: 1px solid #aaaaaa;
                 padding-bottom: 1vh;
             }
 

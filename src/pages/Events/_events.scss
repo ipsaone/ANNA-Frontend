@@ -1,4 +1,14 @@
 .events {
+
+
+    a:not(.disabled) {
+        color: $yellow
+    }
+
+    a.button {
+        color: white;
+    }
+
     .no-event-message {
         margin-left: 2em;
         margin-top: 2em;
