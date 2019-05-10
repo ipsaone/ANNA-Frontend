@@ -52,7 +52,7 @@
                 width: 85%;
                 text-align: center;
                 border-bottom: 1px solid #aaaaaa;
-                padding-bottom: 1vh;
+                padding-bottom: 1.5vh;
             }
 
             .content {
@@ -118,7 +118,8 @@
                 		position: absolute;
                 		width: 0px;
                 		height: 3px;
-                		background: #3498db;
+                        // background: #3498db;
+                        background: $purple;
 
                 		transform:translate(4px, 11px) rotate(-45deg);
                 		transform-origin: left;
@@ -131,7 +132,8 @@
                 		position: absolute;
                 		width: 0px;
                 		height: 3px;
-                		background: #3498db;
+                        // background: #3498db;
+                        background: $purple;
 
                 		transform:translate(1px, 6px) rotate(45deg);
                 		transform-origin: left;
