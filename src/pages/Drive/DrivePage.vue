@@ -11,7 +11,7 @@
         <section class="content">
             <h1 class="color-green section-title">Drive</h1>
 
-            <drive-table :search="searchKeyWord" ></drive-table>
+            <drive-table :search="searchKeyWord"></drive-table>
         </section>
 
         <section class="actions">
