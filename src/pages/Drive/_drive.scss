@@ -33,7 +33,7 @@
                                     transform : rotate(180deg);
                                 }
                                 color: $grey-dark;
-                                line-height: 3em;
+                                line-height: 2em;
                                 padding-bottom: 0;
 
                                &:first-child {
@@ -44,14 +44,17 @@
                            td {
                               width: 25%;
                            }
+                           td:nth-child(1) {
+                               width : 15%;
+                           }
                            td:nth-child(2) {
-                               width: 50%;
+                               width: 60%;
                            }
                            td:nth-child(3) {
                                width: 15%;
                            }
                            background-color: $white-bis;
-                           line-height: 3em;
+                           line-height: 2em;
                            font-size: 1.2em;
                            cursor: pointer;
                            border: 1px solid $grey-lighter;
