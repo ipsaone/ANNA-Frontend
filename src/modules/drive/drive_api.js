@@ -11,9 +11,6 @@ var cancelCall = CancelToken.source();
 const config = {
     onUploadProgress: progressEvent => {
         let percentCompleted = Math.floor((progressEvent.loaded * 100) / progressEvent.total);
-        //console.log(percentCompleted, 'mabite');
-        // do whatever you like with the percentage complete
-        // maybe dispatch an action that will update a progress bar or something
         store.dispatch('updateProgress', percentCompleted);
     },
     withCredentials: true
@@ -25,6 +22,17 @@ export default {
     },
     async getFolder(id) {
         return axios.get(url + 'files/list/' + id, {withCredentials: true});
+    },
+    search(str) {
+        console.log('blabla', url);
+
+        let request = {
+            keyword: str,
+            upperFolder: store.getters.folder.id,
+            include:  ['name']
+        };
+        console.log(request);
+        return axios.post(url + 'files/search', request, {withCredentials: true});
     },
 
     downloadFile(id) {
@@ -59,7 +67,7 @@ export default {
 
     async cancelUpload(){
         console.log(cancelCall);
-        cancelCall.cancel('cancel ma bite');
+        cancelCall.cancel();
     },
 
     editFile(edit) {

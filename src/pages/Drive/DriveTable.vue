@@ -77,7 +77,23 @@
           <tr>
               <td>
                   <div class="inside-folder">
-                      <table>
+                      <table id="result-search" v-if="$store.getters.keyWord.trim() !== ''">
+                          <tr v-for="file in results" :key="file.fileId" @click="select(file)"
+                              @dblclick="openFile(file)"
+                              :class="{selected: file.fileId === selectedFile.fileId}">
+                              <td v-html="getIcon(file)"></td>
+                              <td>
+                                  {{ wrapName(file.name) }}
+                              </td>
+                              <td>
+                                  <!-- {{ wrapName(file.owner.username) }} -->
+                              </td>
+                              <td>
+                                  {{ convertSize(file) }}
+                              </td>
+                          </tr>
+                      </table>
+                      <table id="inside-folder-list" v-else>
                           <tr v-for="file in content" :key="file.fileId" @click="select(file)"
                               @dblclick="openFile(file)"
                               :class="{selected: file.fileId === selectedFile.fileId}">
@@ -92,7 +108,13 @@
                                   {{ convertSize(file) }}
                               </td>
                           </tr>
+                          <tr v-if="content.length === 0">
+                              <p class="center" @click.prevent="$modal.show('uploadFile')">
+                                  This folder is still empty.
+                              </p>
+                          </tr>
                       </table>
+
                   </div>
               </td>
           </tr>
@@ -120,7 +142,14 @@
                 classR3: '',
             };
         },
+        //props: ['searchKeyWord'],
         computed: {
+            results() {
+                return store.getters.searchResultsContent;
+            },
+            keyword() {
+                return this.searchKeyWord;
+            },
             folder() {
                 return store.getters.folder;
             },

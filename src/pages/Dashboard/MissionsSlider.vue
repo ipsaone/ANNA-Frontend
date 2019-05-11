@@ -19,7 +19,7 @@
                 <div class="mission-left">
 
                     <div class="description">
-                        <h2>Description :</h2>
+                        <h2>Description</h2>
                         <p class="content" v-html="mission.description" ></p>
                     </div>
 
@@ -69,7 +69,7 @@
                                     </div>
                                 </li>
                                 <em v-if="mission.tasks && mission.tasks.length === 0">No tasks yet !</em>
-                                <a @click.prevent="newTask">Add task</a>
+                                <a  @click.prevent="newTask">Add task</a>
                             </ul>
                         </div>
                     </div>

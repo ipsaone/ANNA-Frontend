@@ -23,6 +23,8 @@
                                         <option v-for="group in userGroups" :key="group.id" :value="group.name" :label="group.name"/>
                                     </datalist>
 
+                                    <li><label>Serial number : </label><input type="text" /></li>
+
                                 </ul>
                             </div>
                             <div class="permissions">

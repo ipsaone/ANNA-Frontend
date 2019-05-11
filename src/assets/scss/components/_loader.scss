@@ -1,3 +1,11 @@
+.loader-fade-enter-active, .loader-fade-leave-active {
+  transition: opacity 0.5s linear;
+}
+
+.fade-enter, .fade-leave-to {
+  opacity: 0;
+}
+
 .dimmer {
   display: block;
   position: absolute;
@@ -7,12 +15,12 @@
   height: 100%;
   text-align: center;
   vertical-align: middle;
+  opacity: 0.5;
   background-color: rgba(0, 0, 0, 0.85);
-  opacity: 1;
   line-height: 1;
   animation-fill-mode: both;
   animation-duration: 0.5s;
-  transition: background-color 0.5s linear;
+  transition: all 0.5s linear;
   user-select: none;
   will-change: opacity;
   z-index: 1000;

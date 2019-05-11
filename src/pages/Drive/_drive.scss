@@ -10,6 +10,10 @@
                 td {
                     table {
                         tr {
+                            .center {
+                                text-align: center;
+                                color: $green;
+                            }
                             th {
                                 i{
                                     margin-left: 5px;
@@ -29,7 +33,7 @@
                                     transform : rotate(180deg);
                                 }
                                 color: $grey-dark;
-                                line-height: 3em;
+                                line-height: 2em;
                                 padding-bottom: 0;
 
                                &:first-child {
@@ -40,8 +44,17 @@
                            td {
                               width: 25%;
                            }
+                           td:nth-child(1) {
+                               width : 15%;
+                           }
+                           td:nth-child(2) {
+                               width: 60%;
+                           }
+                           td:nth-child(3) {
+                               width: 15%;
+                           }
                            background-color: $white-bis;
-                           line-height: 3em;
+                           line-height: 2em;
                            font-size: 1.2em;
                            cursor: pointer;
                            border: 1px solid $grey-lighter;
@@ -77,11 +90,14 @@
                 }
 
             }
+
+            
+
             .inside-folder {
                 margin-top: 5vh;
                 overflow-y: auto;
                 overflow-x: hidden;
-                height: 50vh;
+                height:60vh;
             }
             & ::-webkit-scrollbar-track {
                 -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
@@ -280,6 +296,22 @@
                     .cancel:hover {
                         background-color: $orange;
                     }
+                }
+            }
+        }
+    }
+    .actions {
+        ul {
+            #barre{margin-right: 1.2em;white-space: nowrap;}
+            li {
+                .search{
+                    width: 85%;
+                    height: 1.2em;
+                    display: inline;
+                    margin-right: auto;
+                    margin-bottom: 0;
+                    margin-top: 0;
+                    white-space: nowrap;
                 }
             }
         }

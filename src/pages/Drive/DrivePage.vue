@@ -9,14 +9,20 @@
         <manage-permissions></manage-permissions>
 
         <section class="content">
-            <h1 class=" section-title">Drive</h1>
+            <h1 class="color-green section-title">Drive</h1>
 
-            <drive-table></drive-table>
+            <drive-table :search="searchKeyWord" ></drive-table>
         </section>
 
         <section class="actions">
             <h1 class="section-title">Actions</h1>
             <ul>
+                <li id="barre" style="padding: 0 0 0 0;" v-if="$store.getters.loggedUser.groups.length !== 0">
+                    <a href="#"@click.prevent="search(searchKeyWord)">
+                        <i class="fas fa-search" aria-hidden="true" ></i>
+                        <input class="search" style="padding: 0 0 0 0; margin: 0.8em 0 0.8em 0;" v-model='searchKeyWord' type="search" placeholder="Rechercher">
+                    </a>
+                </li>
                 <li v-if="$store.getters.loggedUser.groups.length !== 0">
                     <a href="#" @click.prevent="$modal.show('uploadFile')">
                         <i class="fa fa-upload" aria-hidden="true"></i> Upload
@@ -73,15 +79,16 @@
                         </a>
                     </li>
                     <li>
+                        <a href="#" @click.prevent="$modal.show('managePermissions')">
+                            <i class="fa fa-pen"></i> Edit
+                        </a>
+                    </li>
+                    <li>
                         <a href="#" @click.prevent="deleteFile">
                             <i class="fa fa-trash"></i> Delete
                         </a>
                     </li>
-                    <li>
-                        <a href="#" @click.prevent="$modal.show('managePermissions')">
-                            <i class="fa fa-key"></i> Manage permissions
-                        </a>
-                    </li>
+
                 </ul>
             </div>
         </section>
@@ -112,6 +119,9 @@
             MoveFile,
             ManagePermissions
         },
+        //data: {
+            //searchKeyWord: '',
+        //},
         async beforeRouteEnter(to, from, next) {
             let folderId = 1;
             if(store.getters.folder && store.getters.folder.fileId) {
@@ -135,7 +145,17 @@
             }
         },
         methods: {
-            search() {
+            async search(str) {
+                console.log('searchWithKeyWord :', str);
+                if (typeof str === 'undefined') {
+                    str = '';
+                }
+                if (str.trim() !== '') {
+                    await store.dispatch('search', str);
+                }
+
+                console.log('oui.');
+                store.commit('SET_KEYWORD', str);
 
             },
             manageRights() {
