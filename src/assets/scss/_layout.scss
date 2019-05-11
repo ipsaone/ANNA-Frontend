@@ -21,6 +21,10 @@ $actions-width: 20em;
     min-width: 100%;
     max-width: 100%;
 
+    .section-title {
+      margin-left: 0;
+    }
+
     @include aside;
   }
 

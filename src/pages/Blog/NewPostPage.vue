@@ -2,7 +2,7 @@
     <div class="blog basic-layout">
         <section class="form-post">
             <div class="editor">
-                <h1 class="section-title">New post</h1>
+                <h1 class="section-title color-blue">New post</h1>
 
                 <input type="text" name="title" placeholder="Title" v-model="title">
                 <markdown-editor v-model="markdown" :configs="configs"></markdown-editor>

@@ -5,11 +5,17 @@
                 <h2> Edit permissions </h2>
                 <div class="file-information">
                     <h4> File information </h4>
-                    <ul v-if="selectedFile.owner" >
-                        <li>Owner : <router-link :to="{name: 'profile',
-                            params:{id: selectedFile.ownerId}}">
-                            {{selectedFile.owner.username}}
-                                    </router-link>
+                    <ul >
+                        <li>Name : <p>{{selectedFile.name}}</p></li>
+                        <li>Serial nbr : 
+                            <p v-if="selectedFile.serialNbr">{{selectedFile.serialNbr}}</p>
+                            <p v-else>[undefined]</p>
+                        </li>
+                        <li v-if="selectedFile.owner">
+                            Owner : 
+                            <router-link :to="{name: 'profile',params:{id: selectedFile.ownerId}}">
+                                {{selectedFile.owner.username}}
+                            </router-link>
                         </li>
                         <li>Group : <p>{{selectedFileGroup.name}}</p> </li>
                     </ul>

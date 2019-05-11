@@ -9,6 +9,13 @@ html {
   text-rendering: $render-mode;
 }
 
+.color-grey {color: $grey;}
+.color-blue { color: $blue; }
+.color-green { color: $green; }
+.color-purple { color: $purple; }
+.color-yellow { color: $yellow; }
+.color-red { color: $red; }
+
 article, aside, figure, footer, header, hgroup, section {
   display: block;
 }

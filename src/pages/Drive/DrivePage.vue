@@ -9,7 +9,7 @@
         <manage-permissions></manage-permissions>
 
         <section class="content">
-            <h1 class=" section-title">Drive</h1>
+            <h1 class="color-green section-title">Drive</h1>
 
             <drive-table :search="searchKeyWord" ></drive-table>
         </section>
@@ -79,15 +79,16 @@
                         </a>
                     </li>
                     <li>
+                        <a href="#" @click.prevent="$modal.show('managePermissions')">
+                            <i class="fa fa-pen"></i> Edit
+                        </a>
+                    </li>
+                    <li>
                         <a href="#" @click.prevent="deleteFile">
                             <i class="fa fa-trash"></i> Delete
                         </a>
                     </li>
-                    <li>
-                        <a href="#" @click.prevent="$modal.show('managePermissions')">
-                            <i class="fa fa-key"></i> Manage permissions
-                        </a>
-                    </li>
+                    
                 </ul>
             </div>
         </section>
