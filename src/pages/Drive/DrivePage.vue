@@ -11,7 +11,7 @@
         <section class="content">
             <h1 class="color-green section-title">Drive</h1>
 
-            <drive-table :search="searchKeyWord" ></drive-table>
+            <drive-table></drive-table>
         </section>
 
         <section class="actions">
@@ -20,7 +20,7 @@
                 <li id="barre" style="padding-top:0; padding-bottom:0;" v-if="$store.getters.loggedUser.groups.length !== 0">
                     <a href="#" @input="search(searchKeyWord)">
                         <i class="fas fa-search" aria-hidden="true" ></i>
-                        <input class="search" style="padding: 0 0 0 0; margin: 0.8em 0 0.8em 0;" v-model='searchKeyWord' type="search" placeholder="Search">
+                        <input class="search" style="padding: 0 0 0 0; margin: 0.8em 0 0.8em 0;" v-model="searchKeyWord" type="search" placeholder="Search">
                     </a>
                 </li>
                 <li v-if="$store.getters.loggedUser.groups.length !== 0">
@@ -119,9 +119,6 @@
             MoveFile,
             ManagePermissions
         },
-        //data: {
-            //searchKeyWord: '',
-        //},
         async beforeRouteEnter(to, from, next) {
             let folderId = 1;
             if(store.getters.folder && store.getters.folder.fileId) {
@@ -143,6 +140,9 @@
             showOptions() {
                 return typeof this.selectedFile !== 'undefined' && typeof this.selectedFile.fileId !== 'undefined';
             }
+        },
+        data: {
+            searchKeyWord: '',
         },
         methods: {
             async search(str) {
