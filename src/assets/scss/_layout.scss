@@ -19,6 +19,10 @@ $actions-width: 20em;
     right: 0;
     width: 33vw;
 
+    .section-title {
+      margin-left: 0;
+    }
+
     @include aside;
   }
 
