@@ -17,10 +17,10 @@
         <section class="actions">
             <h1 class="section-title">Actions</h1>
             <ul>
-                <li id="barre" style="padding-top:0; padding-bottom:0;" v-if="$store.getters.loggedUser.groups.length !== 0">
+                <li id="barre" v-if="$store.getters.loggedUser.groups.length !== 0">
                     <a href="#" @input="search(searchKeyWord)">
                         <i class="fas fa-search" aria-hidden="true" ></i>
-                        <input class="search" style="padding: 0 0 0 0; margin: 0.8em 0 0.8em 0;" v-model="searchKeyWord" type="search" placeholder="Search">
+                        <input class="search" style="padding: 0; margin: 0;" v-model="searchKeyWord" type="search" placeholder="Search">
                     </a>
                 </li>
                 <li v-if="$store.getters.loggedUser.groups.length !== 0">
