@@ -6,6 +6,7 @@
             <form @submit.prevent="onSubmit">
                 <input type="text" placeholder="Name" v-model="name">
 
+                <!--
                 <div name="managePermissions" height="auto" :scrollable="true">
                         <div class="big-wrapper">
                             <h2> Manage Permissions </h2>
@@ -54,13 +55,14 @@
                             </div>
                         </div>
                 </div>
+                -->
 
 
 
 
 
 
-                <input type="submit" value="Create" class="button success">
+                <input type="submit" @click.prevent="onSubmit" value="Create" class="button success">
             </form>
         </div>
     </modal>
