@@ -182,6 +182,7 @@
                 if (!this.selectedFile.isDir)
                     this.$modal.show('editFile');
             },
+
             deleteFile() {
                 /*swal({
                     title: 'Delete this file?',
