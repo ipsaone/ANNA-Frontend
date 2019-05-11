@@ -88,7 +88,7 @@
                             <i class="fa fa-trash"></i> Delete
                         </a>
                     </li>
-                    
+
                 </ul>
             </div>
         </section>
@@ -119,9 +119,9 @@
             MoveFile,
             ManagePermissions
         },
-        data: {
-            searchKeyWord: '',
-        },
+        //data: {
+            //searchKeyWord: '',
+        //},
         async beforeRouteEnter(to, from, next) {
             let folderId = 1;
             if(store.getters.folder && store.getters.folder.fileId) {
@@ -147,11 +147,16 @@
         methods: {
             async search(str) {
                 console.log('searchWithKeyWord :', str);
-                await store.dispatch('search', str);
+                if (typeof str === 'undefined') {
+                    str = '';
+                }
+                if (str.trim() !== '') {
+                    await store.dispatch('search', str);
+                }
 
-                //let table = document.getElementById('inside-folder-list');
+                console.log('oui.');
+                store.commit('SET_KEYWORD', str);
 
-                //table.style.display = 'none';
             },
             manageRights() {
                 this.$modal.show('fileAuth', this.selectedFile);

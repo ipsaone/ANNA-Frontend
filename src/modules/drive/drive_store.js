@@ -5,6 +5,7 @@ const state = {
     selected: {},
     percentCompleted: 0,
     searchResults : [],
+    searchKeyWord : '',
 };
 
 const mutations = {
@@ -24,6 +25,9 @@ const mutations = {
     },
     SET_RESULT(state, result) {
         state.searchResults = result;
+    },
+    SET_KEYWORD(state, keyWord) {
+        state.searchKeyWord = keyWord;
     },
 };
 
@@ -110,6 +114,10 @@ const getters = {
 
     searchResultsContent(state) {
         return state.searchResults;
+    },
+
+    keyWord(state) {
+        return state.searchKeyWord;
     },
 };
 
