@@ -59,7 +59,7 @@
                       <th>Owner <i @click='clique2' class="fas fa-caret-up" :class='classR2'></i> </th>
                       <th>Size <i @click='clique3' class="fas fa-caret-up" :class='classR3'></i> </th>
                     </tr>
-                    <tr class="pas-toi" v-if="folder && folder.name !== 'root'" @dblclick="goBack">
+                    <tr class="pas-toi" v-if="folder && folder.name !== 'root'" @dblclick="goBack" style="user-select: none">
                         <td><i class="fa fa-folder" aria-hidden="true"></i></td>
                         <td>...</td>
                         <td>&nbsp;</td>
