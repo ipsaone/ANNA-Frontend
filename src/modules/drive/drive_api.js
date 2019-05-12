@@ -27,7 +27,7 @@ export default {
 
         let request = {
             keyword: str,
-            upperFolder: store.getters.folder.id,
+            upperFolder: store.getters.folder.fileId,
             include:  ['name']
         };
         return axios.post(url + 'files/search', request, {withCredentials: true});
