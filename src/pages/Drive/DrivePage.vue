@@ -51,12 +51,12 @@
             <div v-if="showOptions">
                 <h1 class="section-title">Options</h1>
                 <ul>
-                    <li v-if="!selectedFile.isDir">
+                    <li v-if="selectedFile.type != 'folder'">
                         <a href="#" @click.prevent="downloadFile">
                             <i class="fa fa-download" aria-hidden="true"></i> Download
                         </a>
                     </li>
-                    <li v-if="selectedFile.isDir">
+                    <li v-else>
                         <a href="#" @click.prevent="openFile">
                             <i class="fa fa-download" aria-hidden="true"></i> Open
                         </a>
@@ -153,7 +153,7 @@
                 this.$modal.show('fileAuth', this.selectedFile);
             },
             openFile() {
-                if (this.selectedFile.isDir) {
+                if (this.selectedFile.type === 'folder') {
                     this.loading = true;
                     store.dispatch('retrieveFolder', this.selectedFile.fileId)
                         .then(_ => store.dispatch('selectFile', {}))
@@ -170,7 +170,7 @@
                 driveApi.downloadFile(this.selectedFile.fileId);
             },
             editFile() {
-                if (!this.selectedFile.isDir)
+                if (!this.selectedFile.type === 'folder')
                     this.$modal.show('editFile');
             },
 

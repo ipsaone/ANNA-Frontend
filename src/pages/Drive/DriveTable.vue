@@ -196,7 +196,7 @@
                     return name;
             },
             getIcon(file) {
-                if (file.isDir) {
+                if (file.type === 'folder') {
                     return '<i class="fa fa-folder" aria-hidden="true"></i>';
                 }
 
@@ -274,13 +274,13 @@
                 }
             },
             convertSize(file) {
-                if(file.isDir) {
+                if(file.type === 'folder') {
                     return '';
                 }
                 return FileSize(file.size);
             },
             openFile(file) {
-                if (file.isDir) {
+                if (file.type === 'folder') {
                     this.loading = true;
                     store.dispatch('retrieveFolder', file.fileId)
                         .then(_ => store.dispatch('selectFile', {}))
