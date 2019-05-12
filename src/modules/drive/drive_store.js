@@ -95,8 +95,8 @@ const actions = {
         return res.data;
     },
 
-    async search ({dispatch, commit}, str) {
-        let result = await DriveApi.search(str);
+    async search ({dispatch, commit}, searchPara) {
+        let result = await DriveApi.search(searchPara.keywords, searchPara.types);
         await dispatch('setSearchOwners', result.data);
         commit('SET_RESULT', result.data);
     },
