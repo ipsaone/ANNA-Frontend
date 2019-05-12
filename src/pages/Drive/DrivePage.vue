@@ -24,13 +24,13 @@
                     </a>
                 </li>
                 <li v-if="$store.getters.loggedUser.groups.length !== 0">
-                    <a href="#" @click.prevent="$modal.show('uploadFile')">
+                    <a href="#" @click.prevent="$modal.show('uploadFile', {isFolder: false, isEditing: false})">
                         <i class="fa fa-upload" aria-hidden="true"></i> Upload
                     </a>
                 </li>
 
                 <li v-if="$store.getters.loggedUser.groups.length !== 0">
-                    <a href="#" @click.prevent="$modal.show('newFolder')">
+                    <a href="#" @click.prevent="$modal.show('uploadFile', {isFolder: true, isEditing: false})">
                         <i class="fa fa-plus" aria-hidden="true"></i> New folder
                     </a>
                 </li>
@@ -44,13 +44,8 @@
                         <i class="fa fa-barcode"></i> Generate a new barcode
                     </a>
                 </li>
-
-                <!--<li>
-                    <a href="#" @click.prevent="search">
-                        <i class="fa fa-search"></i> Search in folder
-                    </a>
-                </li>-->
             </ul>
+
             <br>
 
             <div v-if="showOptions">
@@ -66,20 +61,16 @@
                             <i class="fa fa-download" aria-hidden="true"></i> Open
                         </a>
                     </li>
-                    <!--
-                    <li>
-                        <a href="#" @click.prevent="editFile">
-                            <i class="fa fa-pencil" aria-hidden="true"></i> Edit
-                        </a>
-                    </li>
-                    -->
                     <li>
                         <a href="#" @click.prevent="moveFile">
                             <i class="fa fa-folder" aria-hidden="true"></i> Move
                         </a>
                     </li>
                     <li>
-                        <a href="#" @click.prevent="$modal.show('managePermissions')">
+                        <a v-if="this.selectedFile.isDir" href="#" @click.prevent="$modal.show('uploadFile', {isFolder: true, isEditing: true})">
+                            <i class="fa fa-pen"></i> Edit
+                        </a>
+                        <a v-else href="#" @click.prevent="$modal.show('uploadFile', {isFolder: false, isEditing: true})">
                             <i class="fa fa-pen"></i> Edit
                         </a>
                     </li>
@@ -141,8 +132,10 @@
                 return typeof this.selectedFile !== 'undefined' && typeof this.selectedFile.fileId !== 'undefined';
             }
         },
-        data: {
-            searchKeyWord: '',
+        data() {
+            return {
+                searchKeyWord: '',
+            };
         },
         methods: {
             async search(str) {

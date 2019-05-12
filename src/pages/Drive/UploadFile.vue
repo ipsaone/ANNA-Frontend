@@ -1,10 +1,15 @@
 <template>
     <modal name="uploadFile" height="auto" :scrollable="true"  @before-open="beforeOpen">
         <div class="content anna-modal">
-            <h1>Upload a new file</h1>
+            <h1 v-if="isFolder && !isEditing">Create a new folder</h1>
+            <h1 v-if="isFolder && isEditing">Edit selected folder</h1>
+            <h1 v-if="!isFolder && !isEditing">Upload a new file</h1>
+            <h1 v-if="!isFolder && isEditing">Edit selected file</h1>
             <form @submit.prevent="onSubmit">
-                <input type="file" ref="file" @change="onFileChange">
-                <vm-progress max="100" :text-inside="true" :stroke-width="18" :percentage="uploadPercentage"></vm-progress>
+                <input v-if="!isFolder && !isEditing" type="file" ref="file" @change="onFileChange">
+                <vm-progress v-if="!isFolder && !isEditing" max="100" :text-inside="true" :stroke-width="18" :percentage="uploadPercentage"></vm-progress>
+                <input v-if="isFolder && !isEditing" type="text" autocomplete="off" v-model="name" placeholder="Folder name">
+                <input v-if="isFolder && isEditing" type="text" autocomplete="off" v-model="name">
                 <div name="managePermissions" height="auto" :scrollable="true">
                         <div class="big-wrapper">
                             <h2> Manage Permissions </h2>
@@ -16,10 +21,10 @@
                                         <label v-if="userGroups.length != 0" for="group-input">Group : </label> <input id="group-input" v-if="userGroups.length != 0" list="groups" type="text" name="group" value="" v-model="groupName" autocomplete="off" @change="setGroupId(groupName)">
                                         <label id="replace" v-if="userGroups.length == 0" for="group-input">User has no group. Owners need to be in a group</label>
                                     </li>
-                                    <datalist id="users">
+                                    <datalist id="users" autocomplete="off">
                                         <option v-for="user in users" :key="user.id" :value="user.username" :label="user.username"/>
                                     </datalist>
-                                    <datalist id="groups">
+                                    <datalist id="groups" autocomplete="off">
                                         <option v-for="group in userGroups" :key="group.id" :value="group.name" :label="group.name"/>
                                     </datalist>
 
@@ -73,7 +78,10 @@
     export default {
         data() {
             return {
+                isFolder: '',
+                isEditing: '',
                 file: '',
+                name: '',
                 contents: '',
                 ownerId: '',
                 ownerName: '',
@@ -110,6 +118,9 @@
             },
             selectedGroup() {
                 return store.getters.selectedGroup;
+            },
+            selectedFile() {
+                return store.getters.selectedFile;
             }
         },
         methods: {
@@ -126,13 +137,11 @@
                         let i = 0;
                         let contains = false;
                         while (i < this.selectedGroup.users.length) {
-                            console.log(this.selectedGroup.users[i]);
                             if (this.selectedGroup.users[i].id == this.ownerId) {
-                                console.log('contient');
                                 contains = true;
                             }
                             else {
-                                console.log('contient pas');
+                                // console.log('contient pas');
                             }
                             i++;
                         };
@@ -147,22 +156,18 @@
                 }
             },
             async setGroupId(name) {
-                console.log('wtf');
                 let groupId = this.userGroups.find(myGroup => myGroup.name == name).id;
                 this.groupId = groupId;
                 if (this.ownerName.trim() != '') {
-                    console.log('mabite');
                     await store.dispatch('retrieveGroup', this.groupId);
                     let i = 0;
                     let contains = false;
                     while (i < this.selectedGroup.users.length) {
-                        console.log(this.selectedGroup.users[i]);
                         if (this.selectedGroup.users[i].id == this.ownerId) {
-                            console.log('contient');
                             contains = true;
                         }
                         else {
-                            console.log('contient pas');
+                            // console.log('contient pas');
                         }
                         i++;
                     };
@@ -183,9 +188,8 @@
                 if (files.length > 0) this.file = files[0];
             },
             async onSubmit() {
-                const data = {
-                    contents: this.file,
-                    name: this.file.name,
+
+                let data = {
                     ownerId: parseInt(this.ownerId, 10),
                     dirId: store.getters.folder.fileId,
                     groupId: parseInt(this.groupId, 10),
@@ -197,7 +201,7 @@
                     ownerRead: this.rights.ownerRead,
                 };
 
-                if (this.file === '') {
+                if (this.file === '' && this.name.trim() === '') {
                     this.$notify({
                         type: 'error',
                         title: 'No file selected',
@@ -205,6 +209,14 @@
                         duration: 5000
                     });
                     return false;
+                }
+
+                if(this.isFolder) {
+                    data.name = this.name;
+                    data.isDir = true;
+                } else {
+                    data.contents = this.file;
+                    data.name = this.file.name;
                 }
 
                 if (this.ownerId === '' || this.groupId === '') {
@@ -221,7 +233,10 @@
                     let confirmation = confirm('Do you still want to upload without write permissions ?');
                     if (confirmation === true) {
                         document.getElementById('submitButton').setAttribute('disabled', 'disabled');
-                        await driveApi.uploadFile(data);
+                        if(!this.isEditing)
+                            await driveApi.uploadFile(data);
+                        else
+                            await driveApi.editFile({fileId: this.selectedFile.fileId, data});
                         this.uploadPercentage = store.getters.progress;
                         document.getElementById('submitButton').removeAttribute('disabled', 'disabled');
                         await store.dispatch('retrieveFolder', store.getters.folder.fileId);
@@ -230,7 +245,10 @@
                     }
                 } else {
                     document.getElementById('submitButton').setAttribute('disabled', 'disabled');
-                    await driveApi.uploadFile(data)
+                    if(!this.isEditing)
+                        await driveApi.uploadFile(data);
+                    else
+                        await driveApi.editFile({fileId: this.selectedFile.fileId, data})
                     .then(() => this.$notify({
                         type: 'success',
                         title: 'File successfully uploaded',
@@ -259,7 +277,23 @@
                 await driveApi.cancelUpload();
                 this.$modal.hide('uploadFile');
             },
-            async beforeOpen() {
+            async beforeOpen(event) {
+                if (event.params.isEditing) {
+                    this.ownerId = this.selectedFile.owner.id;
+                    this.ownerName = this.selectedFile.owner.username;
+                    this.groupId = this.selectedFile.groupId;
+                    await store.dispatch('retrieveGroup', this.groupId);
+                    this.groupName = this.selectedGroup.name;
+                    this.name = this.selectedFile.name;
+                } else {
+                    this.ownerId = '';
+                    this.ownerName = '';
+                    this.groupId = '';
+                    this.groupName = '';
+                    this.name = '';
+                }
+                this.isEditing = event.params.isEditing;
+                this.isFolder = event.params.isFolder;
                 await store.dispatch('retrieveLoggedUser');
             }
         }
