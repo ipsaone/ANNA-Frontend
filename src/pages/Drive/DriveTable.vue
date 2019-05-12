@@ -96,6 +96,12 @@
                               <td>
                                   {{ convertSize(file) }}
                               </td>
+
+                          </tr>
+                          <tr v-if="results.length === 0">
+                              <p class="center" >
+                                  No Results
+                              </p>
                           </tr>
                       </table>
                       <table id="inside-folder-list" v-else>
@@ -150,7 +156,6 @@
                 classR3: '',
             };
         },
-        //props: ['searchKeyWord'],
         computed: {
             results() {
                 return store.getters.searchResultsContent;
