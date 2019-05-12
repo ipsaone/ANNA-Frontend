@@ -56,6 +56,7 @@ export default {
         form.append('groupWrite', data.groupWrite);
         form.append('ownerWrite', data.ownerWrite);
         form.append('ownerRead', data.ownerRead);
+        form.append('serialNbr', data.serialNbr);
 
         return axios.post(url + 'upload', form, {
             ...config,
@@ -84,6 +85,7 @@ export default {
         if (data.groupWrite !== undefined) form.append('groupWrite', data.groupWrite);
         if (data.ownerWrite !== undefined) form.append('ownerWrite', data.ownerWrite);
         if (data.ownerRead !== undefined) form.append('ownerRead', data.ownerRead);
+        if (data.serialNbr !== undefined) form.append('serialNbr', data.serialNbr);
 
         return axios.put(url + 'upload/' + edit.fileId, form, config);
     },

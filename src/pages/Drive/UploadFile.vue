@@ -28,7 +28,7 @@
                                         <option v-for="group in userGroups" :key="group.id" :value="group.name" :label="group.name"/>
                                     </datalist>
 
-                                    <li v-if="!isFolder"><label>Serial number : </label><input type="text" /></li>
+                                    <li v-if="!isFolder"><label>Serial number : </label><input type="text" v-model="serialNbr"/></li>
 
                                 </ul>
                             </div>
@@ -94,7 +94,8 @@
                     groupWrite: true,
                     allRead: true,
                     allWrite: true
-                }
+                },
+                serialNbr: ''
             };
         },
         computed : {
@@ -199,6 +200,7 @@
                     groupWrite: this.rights.groupWrite,
                     ownerWrite: this.rights.ownerWrite,
                     ownerRead: this.rights.ownerRead,
+                    serialNbr: this.serialNbr
                 };
 
                 if (this.file === '' && this.name.trim() === '') {
@@ -275,6 +277,7 @@
                 this.groupId = '';
                 this.groupName  = '';
                 this.name = '';
+                this.serialNbr = '';
                 await driveApi.cancelUpload();
                 this.$modal.hide('uploadFile');
             },
