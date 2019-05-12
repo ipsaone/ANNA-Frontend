@@ -85,8 +85,8 @@
                               <td>
                                   {{ wrapName(file.name) }}
                               </td>
-                              <td>
-                                  <!-- {{ wrapName(file.owner.username) }} -->
+                              <td v-if="file.owner">
+                                  {{ wrapName(file.owner.username) }}
                               </td>
                               <td>
                                   {{ convertSize(file) }}

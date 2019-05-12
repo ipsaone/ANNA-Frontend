@@ -34,7 +34,7 @@ const mutations = {
 const actions = {
     async retrieveFolder({commit, dispatch}, id) {
         let folder = await DriveApi.getFolder(id);
-        await dispatch('setOwners', folder.data);
+        await dispatch('setFolderOwners', folder.data);
         commit('SET_FOLDER', folder.data);
         await dispatch('unselectFile');
     },
@@ -64,7 +64,7 @@ const actions = {
         });
     },
 
-    async setOwners({dispatch}, folder) {
+    async setFolderOwners({dispatch}, folder) {
 
         let user = await dispatch('getUserById', folder.ownerId);
         folder.owner = user;
@@ -79,6 +79,17 @@ const actions = {
         return folder;
     },
 
+    async setSearchOwners({dispatch}, searchResults) {
+        let promises  = [];
+        searchResults.forEach(result => {
+            promises.push(dispatch('getUserById', result.ownerId).then(user => {result.owner = user;}));
+        });
+
+        await Promise.all(promises);
+
+        return true;
+    },
+
     async getFoldersList({dispatch}, folderId) {
         let res = await DriveApi.getFoldersList(folderId);
         return res.data;
@@ -87,6 +98,7 @@ const actions = {
     async search ({dispatch, commit}, str) {
         console.log('teub', str);
         let result = await DriveApi.search(str);
+        await dispatch('setSearchOwners', result.data);
         commit('SET_RESULT', result.data);
     },
 };
