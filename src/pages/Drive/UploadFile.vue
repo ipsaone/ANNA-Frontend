@@ -274,6 +274,7 @@
                 this.ownerName = '';
                 this.groupId = '';
                 this.groupName  = '';
+                this.name = '';
                 await driveApi.cancelUpload();
                 this.$modal.hide('uploadFile');
             },
