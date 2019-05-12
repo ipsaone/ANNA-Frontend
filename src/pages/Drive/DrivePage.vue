@@ -22,6 +22,10 @@
                         <i class="fas fa-search" aria-hidden="true" ></i>
                         <input class="search" style="padding: 0; margin: 0;" v-model="searchKeyWord" type="search">
                     </a>
+                    <div class="search_options" v-if="searchKeyWord.length > 0">
+                        <input type="checkbox" checked="checked">Name
+                        <input type="checkbox" checked="checked">Serial number
+                    </div>
                 </li>
                 <li v-if="$store.getters.loggedUser.groups.length !== 0">
                     <a href="#" @click.prevent="$modal.show('uploadFile', {isFolder: false, isEditing: false})">

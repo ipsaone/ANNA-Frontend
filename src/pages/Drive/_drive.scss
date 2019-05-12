@@ -96,7 +96,7 @@
                 }
 
             }
-
+            
             .inside-folder {
                 margin-top: 5vh;
                 overflow-y: auto;
@@ -322,6 +322,15 @@
                     margin-bottom: 0;
                     margin-top: 0;
                     white-space: nowrap;
+                }
+            }
+            .search_options {
+                margin-top: 0.5em;
+
+                input {
+                    margin-right : 0.3em;
+                    margin-left: 1em;
+
                 }
             }
         }
