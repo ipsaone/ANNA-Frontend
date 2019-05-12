@@ -139,7 +139,6 @@
         },
         methods: {
             async search(str) {
-                console.log('searchWithKeyWord :', str);
                 if (typeof str === 'undefined') {
                     str = '';
                 }
@@ -147,7 +146,6 @@
                     await store.dispatch('search', str);
                 }
 
-                console.log('oui.');
                 store.commit('SET_KEYWORD', str);
 
             },

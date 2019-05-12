@@ -190,8 +190,8 @@
                 else store.dispatch('selectFile', file);
             },
             wrapName(name) {
-                if (name && name.length > 18)
-                    return name.substring(0, 18) + '...';
+                if (name && name.length > 42)
+                    return name.substring(0, 42) + '...';
                 else
                     return name;
             },
@@ -277,7 +277,6 @@
                 if(file.isDir) {
                     return '';
                 }
-
                 return FileSize(file.size);
             },
             openFile(file) {

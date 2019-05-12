@@ -85,7 +85,6 @@ const actions = {
     },
 
     async search ({dispatch, commit}, str) {
-        console.log('teub', str);
         let result = await DriveApi.search(str);
         commit('SET_RESULT', result.data);
     },
