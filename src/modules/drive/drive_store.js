@@ -96,7 +96,6 @@ const actions = {
     },
 
     async search ({dispatch, commit}, str) {
-        console.log('teub', str);
         let result = await DriveApi.search(str);
         await dispatch('setSearchOwners', result.data);
         commit('SET_RESULT', result.data);

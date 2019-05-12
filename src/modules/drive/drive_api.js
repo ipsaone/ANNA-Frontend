@@ -24,14 +24,12 @@ export default {
         return axios.get(url + 'files/list/' + id, {withCredentials: true});
     },
     search(str) {
-        console.log('blabla', url);
 
         let request = {
             keyword: str,
             upperFolder: store.getters.folder.id,
             include:  ['name']
         };
-        console.log(request);
         return axios.post(url + 'files/search', request, {withCredentials: true});
     },
 
@@ -66,7 +64,6 @@ export default {
     },
 
     async cancelUpload(){
-        console.log(cancelCall);
         cancelCall.cancel();
     },
 
