@@ -54,8 +54,9 @@
             <td>
                 <table>
                     <tr class="pas-toi">
-                      <th>Type</th>
+                      <th>Type<i @click="clique" class="fas fa-caret-up" :class='classR'></i></th>
                       <th>Name <i @click="clique" class="fas fa-caret-up" :class='classR'></i> </th>
+                      <th>Serial nbr<i @click="clique" class="fas fa-caret-up" :class='classR'></i></th>
                       <th>Owner <i @click='clique2' class="fas fa-caret-up" :class='classR2'></i> </th>
                       <th>Size <i @click='clique3' class="fas fa-caret-up" :class='classR3'></i> </th>
                     </tr>
@@ -68,6 +69,7 @@
                     <tr class="pas-toi no-hover" v-if="folder">
                         <td><i class="fa fa-folder-open" aria-hidden="true"></i></td>
                         <td>{{ wrapName(folder.name) }}</td>
+                        <td></td>
                         <td>{{ wrapName(folder.owner.username) }}</td>
                         <td>{{ convertSize(folder) }}</td>
                     </tr>
@@ -85,6 +87,9 @@
                               <td>
                                   {{ wrapName(file.name) }}
                               </td>
+                              <td>
+                                  {{ wrapName(file.serialNbr) }}
+                              </td>
                               <td v-if="file.owner">
                                   {{ wrapName(file.owner.username) }}
                               </td>
@@ -100,6 +105,9 @@
                               <td v-html="getIcon(file)"></td>
                               <td>
                                   {{ wrapName(file.name) }}
+                              </td>
+                              <td>
+                                  {{ wrapName(file.serialNbr) }}
                               </td>
                               <td>
                                   {{ wrapName(file.owner.username) }}
