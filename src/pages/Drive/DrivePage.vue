@@ -20,7 +20,7 @@
                 <li id="barre" v-if="$store.getters.loggedUser.groups.length !== 0">
                     <a href="#" @input="search(searchKeyWord)">
                         <i class="fas fa-search" aria-hidden="true" ></i>
-                        <input class="search" style="padding: 0; margin: 0;" v-model="searchKeyWord" type="search" placeholder="Search">
+                        <input class="search" style="padding: 0; margin: 0;" v-model="searchKeyWord" type="search">
                     </a>
                 </li>
                 <li v-if="$store.getters.loggedUser.groups.length !== 0">
