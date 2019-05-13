@@ -27,13 +27,13 @@
                         <input type="checkbox"  value='serialNbr' v-model="searchTypes" checked="checked">Serial number
                     </div>
                 </li>
-                <li v-if="$store.getters.loggedUser.groups.length !== 0">
+                <li v-if="$store.getters.loggedUser.groups && $store.getters.loggedUser.groups.length !== 0">
                     <a href="#" @click.prevent="$modal.show('uploadFile', {isFolder: false, isEditing: false})">
                         <i class="fa fa-upload" aria-hidden="true"></i> Upload
                     </a>
                 </li>
 
-                <li v-if="$store.getters.loggedUser.groups.length !== 0">
+                <li v-if="$store.getters.loggedUser.groups && $store.getters.loggedUser.groups.length !== 0">
                     <a href="#" @click.prevent="$modal.show('uploadFile', {isFolder: true, isEditing: false})">
                         <i class="fa fa-plus" aria-hidden="true"></i> New folder
                     </a>

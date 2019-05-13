@@ -287,10 +287,12 @@
                     this.groupName = this.selectedGroup.name;
                     this.name = this.selectedFile.name;
                 } else {
-                    this.ownerId = '';
-                    this.ownerName = store.getters.loggedUser.username;
-                    this.groupId = '';
-                    this.groupName = store.getters.groups.sort((a, b) => a.id - b.id)[0].name;
+                    let user = store.getters.loggedUser;
+                    let group = store.getters.groups.sort((a, b) => a.id - b.id)[0];
+                    this.ownerId = user.id;
+                    this.ownerName = user.username;
+                    this.groupId = group.id;
+                    this.groupName = group.name;
                     this.name = '';
                 }
                 this.isEditing = event.params.isEditing;
