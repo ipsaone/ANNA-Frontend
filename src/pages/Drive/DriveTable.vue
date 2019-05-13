@@ -204,14 +204,14 @@
                 else store.dispatch('selectFile', file);
             },
             wrapName(name) {
-                if (name && name.length > 42)
-                    return name.substring(0, 42) + '...';
+                if (name && name.length > 38)
+                    return name.substring(0, 38) + '...';
                 else
                     return name;
             },
             wrapName2(name) {
-                if (name && name.length > 20)
-                    return name.substring(0, 20) + '...';
+                if (name && name.length > 16)
+                    return name.substring(0, 16) + '...';
                 else
                     return name;
             },
