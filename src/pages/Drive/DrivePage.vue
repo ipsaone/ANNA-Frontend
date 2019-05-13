@@ -20,7 +20,7 @@
                 <li id="barre" v-if="$store.getters.loggedUser.groups.length !== 0">
                     <a href="#" @input="search(searchKeyWord,searchTypes)">
                         <i class="fas fa-search" aria-hidden="true" ></i>
-                        <input class="search" style="padding: 0; margin: 0;" v-model="searchKeyWord" type="search" placeholder="Search">
+                        <input class="search" style="padding: 0; margin: 0;" v-model="searchKeyWord" type="search">
                     </a>
                     <div class="search_options" v-if="searchKeyWord.length > 0">
                         <input type="checkbox"  value='name' v-model="searchTypes" checked="checked">Name
