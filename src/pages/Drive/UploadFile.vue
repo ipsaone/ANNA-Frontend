@@ -264,7 +264,6 @@
                     await store.dispatch('resetProgress');
                     this.$modal.hide('uploadFile');
                     // window.location.reload();
-
                 }
 
 
@@ -282,6 +281,7 @@
                 this.$modal.hide('uploadFile');
             },
             async beforeOpen(event) {
+                await store.dispatch('retrieveUsers');
                 if (event.params.isEditing) {
                     this.ownerId = this.selectedFile.owner.id;
                     this.ownerName = this.selectedFile.owner.username;
