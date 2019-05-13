@@ -63,6 +63,7 @@
                 await this.refreshUsers();
             },
             async refreshUsers() {
+                await store.dispatch('retrieveUsers');
                 await store.dispatch('retrieveMission', store.getters.selectedMission.id);
                 await store.dispatch('retrieveMissions');
                 if (!this.mission.members) {
