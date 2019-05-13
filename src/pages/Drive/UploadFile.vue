@@ -288,9 +288,9 @@
                     this.name = this.selectedFile.name;
                 } else {
                     this.ownerId = '';
-                    this.ownerName = '';
+                    this.ownerName = store.getters.loggedUser.username;
                     this.groupId = '';
-                    this.groupName = '';
+                    this.groupName = store.getters.groups.sort((a, b) => a.id - b.id)[0].name;
                     this.name = '';
                 }
                 this.isEditing = event.params.isEditing;
