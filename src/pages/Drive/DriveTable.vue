@@ -79,7 +79,7 @@
           <tr>
               <td>
                   <div class="inside-folder">
-                      <table id="result-search" v-if="$store.getters.keyWord.trim() !== ''">
+                      <table id="result-search" v-if="keyword && keyWord.trim() !== ''">
                           <tr v-for="file in results" :key="file.fileId" @click="select(file)"
                               @dblclick="openFile(file)"
                               :class="{selected: file.fileId === selectedFile.fileId}">
