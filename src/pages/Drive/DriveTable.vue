@@ -61,8 +61,9 @@
                       <th>Size <i @click='clique3' class="fas fa-caret-up" :class='classR3'></i> </th>
                     </tr>
                     <tr class="pas-toi" v-if="folder && folder.name !== 'root'" @dblclick="goBack" style="user-select: none">
-                        <td><i class="fa fa-folder" aria-hidden="true"></i></td>
-                        <td>...</td>
+                        <td><i class="fa fa-backward" aria-hidden="true"></i></td>
+                        <td>..</td>
+                        <td>&nbsp;</td>
                         <td>&nbsp;</td>
                         <td>&nbsp;</td>
                     </tr>
@@ -88,7 +89,7 @@
                                   {{ wrapName(file.name) }}
                               </td>
                               <td>
-                                  {{ wrapName(file.serialNbr) }}
+                                  {{ wrapName2(file.serialNbr) }}
                               </td>
                               <td v-if="file.owner">
                                   {{ wrapName(file.owner.username) }}
@@ -113,7 +114,7 @@
                                   {{ wrapName(file.name) }}
                               </td>
                               <td>
-                                  {{ wrapName(file.serialNbr) }}
+                                  {{ wrapName2(file.serialNbr) }}
                               </td>
                               <td>
                                   {{ wrapName(file.owner.username) }}
@@ -205,6 +206,12 @@
             wrapName(name) {
                 if (name && name.length > 42)
                     return name.substring(0, 42) + '...';
+                else
+                    return name;
+            },
+            wrapName2(name) {
+                if (name && name.length > 20)
+                    return name.substring(0, 20) + '...';
                 else
                     return name;
             },
