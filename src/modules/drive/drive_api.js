@@ -23,12 +23,12 @@ export default {
     async getFolder(id) {
         return axios.get(url + 'files/list/' + id, {withCredentials: true});
     },
-    search(str, searchTypes) {
+    search(str) {
 
         let request = {
             keyword: str,
             upperFolder: store.getters.folder.fileId,
-            include: searchTypes,
+            include:  ['name']
         };
         return axios.post(url + 'files/search', request, {withCredentials: true});
     },
