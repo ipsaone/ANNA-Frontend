@@ -95,7 +95,8 @@
                     allRead: true,
                     allWrite: true
                 },
-                serialNbr: ''
+                serialNbr: '',
+                uploadPercentage: 0
             };
         },
         computed : {
@@ -104,9 +105,6 @@
             },
             user() {
                 return store.getters.selectedUser;
-            },
-            uploadPercentage() {
-                return store.getters.progress;
             },
             selectedUser() {
                 return store.getters.selectedUser;
@@ -239,7 +237,6 @@
                             await driveApi.uploadFile(data);
                         else
                             await driveApi.editFile({fileId: this.selectedFile.fileId, data});
-                        this.uploadPercentage = store.getters.progress;
                         document.getElementById('submitButton').removeAttribute('disabled', 'disabled');
                         await store.dispatch('retrieveFolder', store.getters.folder.fileId);
                         await store.dispatch('resetProgress');
@@ -281,8 +278,8 @@
                 this.$modal.hide('uploadFile');
             },
             async beforeOpen(event) {
-                await store.dispatch('retrieveUsers');
-                if (event.params.isEditing) {
+                await dispatch('retrieveUsers');
+                if (event && event.params && event.params.isEditing) {
                     this.ownerId = this.selectedFile.owner.id;
                     this.ownerName = this.selectedFile.owner.username;
                     this.groupId = this.selectedFile.groupId;
@@ -290,10 +287,12 @@
                     this.groupName = this.selectedGroup.name;
                     this.name = this.selectedFile.name;
                 } else {
-                    this.ownerId = '';
-                    this.ownerName = '';
-                    this.groupId = '';
-                    this.groupName = '';
+                    let user = store.getters.loggedUser;
+                    let group = store.getters.groups.sort((a, b) => a.id - b.id)[0];
+                    this.ownerId = user.id;
+                    this.ownerName = user.username;
+                    this.groupId = group.id;
+                    this.groupName = group.name;
                     this.name = '';
                 }
                 this.isEditing = event.params.isEditing;
