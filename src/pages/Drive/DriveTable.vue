@@ -54,11 +54,11 @@
             <td>
                 <table>
                     <tr class="pas-toi">
-                      <th>Type<i @click="clique" class="fas fa-caret-up" :class='classR'></i></th>
-                      <th>Name <i @click="clique" class="fas fa-caret-up" :class='classR'></i> </th>
-                      <th>Serial nbr<i @click="clique" class="fas fa-caret-up" :class='classR'></i></th>
-                      <th>Owner <i @click='clique2' class="fas fa-caret-up" :class='classR2'></i> </th>
-                      <th>Size <i @click='clique3' class="fas fa-caret-up" :class='classR3'></i> </th>
+                      <th>Type<!--i @click="clique" class="fas fa-caret-up" :class='classR'></i--></th>
+                      <th>Name <!--i @click="clique" class="fas fa-caret-up" :class='classR'></i--> </th>
+                      <th>Serial nbr<!--i @click="clique" class="fas fa-caret-up" :class='classR'></i--></th>
+                      <th>Owner <!--i @click='clique2' class="fas fa-caret-up" :class='classR2'></i--> </th>
+                      <th>Size <!--i @click='clique3' class="fas fa-caret-up" :class='classR3'></i--> </th>
                     </tr>
                     <tr class="pas-toi" v-if="folder && folder.name !== 'root'" @dblclick="goBack" style="user-select: none">
                         <td><i class="fa fa-backward" aria-hidden="true"></i></td>
@@ -80,7 +80,7 @@
           <tr>
               <td>
                   <div class="inside-folder">
-                      <table id="result-search" v-if="$store.getters.keyWord.trim() !== ''">
+                      <table id="result-search" v-if="keyword && keyWord.trim() !== ''">
                           <tr v-for="file in results" :key="file.fileId" @click="select(file)"
                               @dblclick="openFile(file)"
                               :class="{selected: file.fileId === selectedFile.fileId}">
