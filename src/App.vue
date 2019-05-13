@@ -21,9 +21,13 @@
     Vue.component('VmProgress', Progress);
 
     axios.interceptors.response.use(res => res, err => {
+        let title = 'An error occured';
+        if(err.response) {
+            title += ' (code '+err.response.status+')';
+        }
         Vue.notify({
             type: 'error',
-            title: 'An error occured (code '+err.response.status+')',
+            title,
             text: err.response.data.message || err.response.data.error,
             duration: 5000
         });
