@@ -286,6 +286,7 @@
                     await store.dispatch('retrieveGroup', this.groupId);
                     this.groupName = this.selectedGroup.name;
                     this.name = this.selectedFile.name;
+                    this.serialNbr = this.selectedFile.serialNbr;
                 } else {
                     let user = store.getters.loggedUser;
                     let group = store.getters.groups.sort((a, b) => a.id - b.id)[0];
@@ -294,7 +295,9 @@
                     this.groupId = group.id;
                     this.groupName = group.name;
                     this.name = '';
+                    this.serialNbr = '';
                 }
+
                 this.isEditing = event.params.isEditing;
                 this.isFolder = event.params.isFolder;
                 await store.dispatch('retrieveLoggedUser');
