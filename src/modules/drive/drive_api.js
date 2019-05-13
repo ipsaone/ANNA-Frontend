@@ -24,7 +24,6 @@ export default {
         return axios.get(url + 'files/list/' + id, {withCredentials: true});
     },
     search(str, searchTypes) {
-
         let request = {
             keyword: str,
             upperFolder: store.getters.folder.fileId,

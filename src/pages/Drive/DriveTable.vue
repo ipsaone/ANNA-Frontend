@@ -32,7 +32,7 @@
           <tr>
               <td>
                   <div class="inside-folder">
-                      <table id="result-search" v-if="keyword && keyWord.trim() !== ''">
+                      <table id="result-search" v-if="keyword && keyword.trim().length > 0">
                           <tr v-for="file in results" :key="file.fileId" @click="select(file)"
                               @dblclick="openFile(file)"
                               :class="{selected: file.fileId === selectedFile.fileId}">
@@ -114,7 +114,7 @@
                 return store.getters.searchResultsContent;
             },
             keyword() {
-                return this.searchKeyWord;
+                return store.getters.keyWord;
             },
             folder() {
                 return store.getters.folder;
