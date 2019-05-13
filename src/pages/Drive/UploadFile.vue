@@ -278,7 +278,7 @@
                 this.$modal.hide('uploadFile');
             },
             async beforeOpen(event) {
-                await dispatch('retrieveUsers');
+                await store.dispatch('retrieveUsers');
                 if (event && event.params && event.params.isEditing) {
                     this.ownerId = this.selectedFile.owner.id;
                     this.ownerName = this.selectedFile.owner.username;
