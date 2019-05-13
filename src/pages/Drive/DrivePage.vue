@@ -18,13 +18,13 @@
             <h1 class="section-title">Actions</h1>
             <ul>
                 <li id="barre" v-if="$store.getters.loggedUser.groups.length !== 0">
-                    <a href="#" @input="search(searchKeyWord)">
+                    <a href="#" @input="search(searchKeyWord,searchTypes)">
                         <i class="fas fa-search" aria-hidden="true" ></i>
                         <input class="search" style="padding: 0; margin: 0;" v-model="searchKeyWord" type="search" placeholder="Search">
                     </a>
                     <div class="search_options" v-if="searchKeyWord.length > 0">
-                        <input type="checkbox" checked="checked">Name
-                        <input type="checkbox" checked="checked">Serial number
+                        <input type="checkbox"  value='name' v-model="searchTypes" checked="checked">Name
+                        <input type="checkbox"  value='serialNbr' v-model="searchTypes" checked="checked">Serial number
                     </div>
                 </li>
                 <li v-if="$store.getters.loggedUser.groups.length !== 0">
@@ -139,15 +139,23 @@
         data() {
             return {
                 searchKeyWord: '',
+                searchTypes: [],
             };
         },
         methods: {
-            async search(str) {
+            async search(str,searchTypes) {
                 if (typeof str === 'undefined') {
                     str = '';
                 }
+                if (searchTypes.length === 0) {
+                    searchTypes = [ 'name', 'serialNbr'];
+                }
+                let searchPara = {
+                    keywords: str,
+                    types: searchTypes,
+                };
                 if (str.trim() !== '') {
-                    await store.dispatch('search', str);
+                    await store.dispatch('search', searchPara);
                 }
 
                 store.commit('SET_KEYWORD', str);
