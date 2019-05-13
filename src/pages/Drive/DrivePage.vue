@@ -2,11 +2,8 @@
     <section class="drive basic-layout">
         <upload-file></upload-file>
         <new-folder></new-folder>
-        <edit-file></edit-file>
-        <file-auth></file-auth>
         <barcode></barcode>
         <move-file></move-file>
-        <manage-permissions></manage-permissions>
 
         <section class="content">
             <h1 class="color-green section-title">Drive</h1>
@@ -96,11 +93,8 @@
     import DriveTable from './DriveTable';
     import UploadFile from './UploadFile';
     import NewFolder from './NewFolder';
-    import EditFile from './EditFile';
-    import FileAuth from './FileAuth';
     import Barcode from './Barcode';
     import MoveFile from './MoveFile';
-    import ManagePermissions from'./ManagePermissions';
     import swal from 'sweetalert2';
 
     export default {
@@ -108,11 +102,8 @@
             DriveTable,
             UploadFile,
             NewFolder,
-            EditFile,
-            FileAuth,
             Barcode,
             MoveFile,
-            ManagePermissions
         },
         async beforeRouteEnter(to, from, next) {
             let folderId = 1;
