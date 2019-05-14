@@ -303,7 +303,6 @@
                 await driveApi.cancelUpload();
                 await store.dispatch('resetProgress');
                 this.$modal.hide('uploadFile');
-                window.location.reload();
             },
             async beforeOpen(event) {
                 await store.dispatch('retrieveUsers');
