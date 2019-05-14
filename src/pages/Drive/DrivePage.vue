@@ -37,8 +37,8 @@
                 </li>
 
                 <li style="padding-right: 15px !important">
-                    <p  v-if="$store.getters.loggedUser.groups.length == 0" 
-                        style="margin-right: 160px; word-break: break-word;"> 
+                    <p  v-if="$store.getters.loggedUser.groups.length == 0"
+                        style="margin-right: 160px; word-break: break-word;">
 
                         Join a group to be able to upload files and create folders !
                     </p>
@@ -72,14 +72,14 @@
                         </a>
                     </li>
                     <li>
-                        <a  v-if="this.selectedFile.isDir" 
-                            href="#" 
+                        <a  v-if="this.selectedFile.isDir"
+                            href="#"
                             @click.prevent="$modal.show('uploadFile', {isFolder: true, isEditing: true})">
 
                             <i class="fa fa-pen"></i> Edit
                         </a>
-                        <a  v-else 
-                            href="#" 
+                        <a  v-else
+                            href="#"
                             @click.prevent="$modal.show('uploadFile', {isFolder: false, isEditing: true})">
                             <i class="fa fa-pen"></i> Edit
                         </a>
@@ -132,6 +132,17 @@
             selectedFile() {
                 return store.getters.selectedFile;
             },
+            userGroups: {
+                get: function () {
+                    if (store.getters.selectedUser.length)
+                        return store.getters.selectedUser.groups;
+                    else
+                        return Array();
+                },
+                set: function () {
+                    var userGroups = Array();
+                }
+            },
             showOptions() {
                 return typeof this.selectedFile !== 'undefined' && typeof this.selectedFile.fileId !== 'undefined';
             }
@@ -141,6 +152,9 @@
                 searchKeyWord: '',
                 searchTypes: ['name', 'serialNbr'],
             };
+        },
+        async mounted() {
+            await store.dispatch('retrieveLoggedUser');
         },
         methods: {
             async search(str,searchTypes) {
