@@ -52,6 +52,8 @@
         methods: {
             async beforeOpen(event) {
                 this.refreshUsers();
+                await store.dispatch('retrieveMissions');
+                console.log(event.params);
                 await store.dispatch('retrieveMission', event.params.mission_id);
             },
             async addUser(id) {
@@ -64,7 +66,6 @@
             },
             async refreshUsers() {
                 await store.dispatch('retrieveUsers');
-                await store.dispatch('retrieveMission', store.getters.selectedMission.id);
                 await store.dispatch('retrieveMissions');
                 if (!this.mission.members) {
                     this.shownUsers = store.getters.users;

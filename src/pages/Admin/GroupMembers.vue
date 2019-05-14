@@ -58,8 +58,9 @@
         },
         methods: {
             async beforeOpen(event) {
-                await store.dispatch('retrieveGroup', event.params.group_id);
                 this.refreshUsers();
+                await store.dispatch('retrieveGroups');
+                await store.dispatch('retrieveGroup', event.params.group_id);
             },
             async addUser(id) {
                 await store.dispatch('addGroupMember', id);

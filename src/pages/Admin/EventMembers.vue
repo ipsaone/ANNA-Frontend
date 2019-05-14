@@ -55,8 +55,9 @@
         },
         methods: {
             async beforeOpen(event) {
-                await store.dispatch('retrieveEvent', event.params.event_id);
                 this.refreshUsers();
+                await store.dispatch('retrieveEvents');
+                await store.dispatch('retrieveEvent', event.params.event_id);
             },
             async addUser(id) {
                 await EventsApi.register(store.getters.selectedEvent.id, id);
@@ -83,7 +84,6 @@
                 });
             },
             async refreshUsers() {
-                await store.dispatch('retrieveEvent', store.getters.selectedEvent.id);
                 if (!this.event.users) {
                     this.shownUsers = store.getters.users;
                 }
