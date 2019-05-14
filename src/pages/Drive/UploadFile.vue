@@ -1,29 +1,33 @@
 <template>
     <modal name="uploadFile" height="auto" :scrollable="true"  @before-open="beforeOpen">
         <div class="content anna-modal">
+<<<<<<< HEAD
 
             <!-- TITLE -->
+=======
+>>>>>>> parent of a02f27f... Switch upload owner/group selector to select tag
             <h1 v-if="isFolder && !isEditing">Create a new folder</h1>
             <h1 v-if="isFolder && isEditing">Edit selected folder</h1>
             <h1 v-if="!isFolder && !isEditing">Upload a new file</h1>
             <h1 v-if="!isFolder && isEditing">Edit selected file</h1>
-
-            <!-- FORM -->
             <form @submit.prevent="onSubmit">
-                <!-- File input -->
                 <input v-if="!isFolder && !isEditing" type="file" ref="file" @change="onFileChange">
+<<<<<<< HEAD
                 <vm-progress v-if="!isFolder && !isEditing" max="100" :text-inside="true" :stroke-width="18" :percentage="uploadPercentage"></vm-progress>
+=======
+                <vm-progress v-if="!isFolder && !isEditing" max="100" :text-inside="true" :stroke-width="18" :percentage="$store.getters.progress"></vm-progress>
+>>>>>>> parent of a02f27f... Switch upload owner/group selector to select tag
                 <input v-if="isFolder && !isEditing" type="text" autocomplete="off" v-model="name" placeholder="Folder name">
                 <input v-if="isFolder && isEditing" type="text" autocomplete="off" v-model="name">
                 <div name="managePermissions" height="auto" :scrollable="true">
                         <div class="big-wrapper">
                             <h2> Manage Permissions </h2>
-
-                            <!-- File owner/group -->
                             <div class="file-information">
                                 <h4> File information </h4>
                                 <ul>
+                                    <li><label for="owner-input">Owner : </label> <input id="owner-input" list="users" type="text" name="owner" value="" v-model="ownerName" autocomplete="off" @change="selectUser(ownerName)"></li>
                                     <li>
+<<<<<<< HEAD
                                         <label for="owner-input">Owner : </label>
 
                                         <select id="owner-input"
@@ -55,19 +59,31 @@
                                         <label id="replace" v-if="userGroups.length == 0" for="group-input">
                                             User has no group. Owners need to be in a group
                                         </label>
+=======
+                                        <label v-if="userGroups.length != 0" for="group-input">Group : </label> <input id="group-input" v-if="userGroups.length != 0" list="groups" type="text" name="group" value="" v-model="groupName" autocomplete="off" @change="setGroupId(groupName)">
+                                        <label id="replace" v-if="userGroups.length == 0" for="group-input">User has no group. Owners need to be in a group</label>
+>>>>>>> parent of a02f27f... Switch upload owner/group selector to select tag
                                     </li>
+                                    <datalist id="users" autocomplete="off">
+                                        <option v-for="user in users" :key="user.id" :value="user.username" :label="user.username"/>
+                                    </datalist>
+                                    <datalist id="groups" autocomplete="off">
+                                        <option v-for="group in userGroups" :key="group.id" :value="group.name" :label="group.name"/>
+                                    </datalist>
 
+<<<<<<< HEAD
 
                                     <!-- Serial Number input -->
                                     <li v-if="!isFolder">
                                         <label>Serial number : </label>
                                         <input type="text" v-model="serialNbr"/>
                                     </li>
+=======
+                                    <li v-if="!isFolder"><label>Serial number : </label><input type="text" v-model="serialNbr"/></li>
+>>>>>>> parent of a02f27f... Switch upload owner/group selector to select tag
 
                                 </ul>
                             </div>
-
-                            <!-- File permissions checkboxes -->
                             <div class="permissions">
                                 <h4> Permissions </h4>
                                 <div class="tableau-permissions">
