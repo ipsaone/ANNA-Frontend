@@ -12,6 +12,7 @@
   },
   "dependencies": {
     "axios": "^0.17.0",
+    "cleave.js": "^1.4.10",
     "filesize": "^3.6.1",
     "font-awesome": "^4.7.0",
     "form-data": "^2.3.1",
