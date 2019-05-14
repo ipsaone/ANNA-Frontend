@@ -1,7 +1,7 @@
 <template>
     <modal name="uploadFile" height="auto" :scrollable="true"  @before-open="beforeOpen">
         <div class="content anna-modal">
-            
+
             <!-- TITLE -->
             <h1 v-if="isFolder && !isEditing">Create a new folder</h1>
             <h1 v-if="isFolder && isEditing">Edit selected folder</h1>
@@ -12,18 +12,9 @@
             <form @submit.prevent="onSubmit">
                 <!-- File input -->
                 <input v-if="!isFolder && !isEditing" type="file" ref="file" @change="onFileChange">
-
-                <!-- Progress bar -->
-                <vm-progress    v-if="!isFolder && !isEditing" 
-                                max="100" :text-inside="true" 
-                                :stroke-width="18" 
-                                :percentage="$store.getters.progress">
-                </vm-progress>
-
-                <!-- Folder name input -->
-                <input v-if="isFolder" type="text" autocomplete="off" v-model="name" placeholder="Folder name">
-
-                <!-- Permissions section -->
+                <vm-progress v-if="!isFolder && !isEditing" max="100" :text-inside="true" :stroke-width="18" :percentage="uploadPercentage"></vm-progress>
+                <input v-if="isFolder && !isEditing" type="text" autocomplete="off" v-model="name" placeholder="Folder name">
+                <input v-if="isFolder && isEditing" type="text" autocomplete="off" v-model="name">
                 <div name="managePermissions" height="auto" :scrollable="true">
                         <div class="big-wrapper">
                             <h2> Manage Permissions </h2>
@@ -33,32 +24,32 @@
                                 <h4> File information </h4>
                                 <ul>
                                     <li>
-                                        <label for="owner-input">Owner : </label> 
+                                        <label for="owner-input">Owner : </label>
 
                                         <select id="owner-input"
-                                                name="owner" 
-                                                v-model="ownerName" 
+                                                name="owner"
+                                                v-model="ownerName"
                                                 @change="selectUser(ownerName)">
 
-                                                    <option v-for="user in users" 
-                                                        :key="user.id" 
-                                                        :value="user.username" 
+                                                    <option v-for="user in users"
+                                                        :key="user.id"
+                                                        :value="user.username"
                                                         :label="user.username"/>
-                                            
+
                                         </select>
                                     <li>
-                                        <label v-if="userGroups.length != 0" for="group-input">Group : </label> 
-                                        <select id="group-input" 
-                                                v-if="userGroups.length != 0" 
-                                                name="group" 
-                                                v-model="groupName" 
+                                        <label v-if="userGroups.length != 0" for="group-input">Group : </label>
+                                        <select id="group-input"
+                                                v-if="userGroups.length != 0"
+                                                name="group"
+                                                v-model="groupName"
                                                 @change="setGroupId(groupName)">
 
-                                                <option v-for="group in userGroups" 
-                                                    :key="group.id" 
-                                                    :value="group.name" 
+                                                <option v-for="group in userGroups"
+                                                    :key="group.id"
+                                                    :value="group.name"
                                                     :label="group.name"/>
-                                                
+
                                         </select>
 
                                         <label id="replace" v-if="userGroups.length == 0" for="group-input">
@@ -66,7 +57,7 @@
                                         </label>
                                     </li>
 
-                                    
+
                                     <!-- Serial Number input -->
                                     <li v-if="!isFolder">
                                         <label>Serial number : </label>
