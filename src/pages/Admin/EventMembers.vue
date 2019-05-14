@@ -60,15 +60,11 @@
                 this.refreshUsers();
             },
             async addUser(id) {
-                await store.dispatch('retrieveEvent', this.event.id);
-                await EventsApi.register(store.getters.selectedEvent.id, id);
-                await store.dispatch('retrieveEvent', this.event.id);
+                await store.dispatch('addEventMember', id);
                 await this.refreshUsers();
             },
             async remUser(id) {
-                await store.dispatch('retrieveEvent', this.event.id);
-                await EventsApi.withdraw(store.getters.selectedEvent.id, id);
-                await store.dispatch('retrieveEvent', this.event.id);
+                await store.dispatch('remMissionMember', id);
                 await this.refreshUsers();
             },
             async refreshUsers() {
