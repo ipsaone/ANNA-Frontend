@@ -20,8 +20,8 @@
                         <input class="search" style="padding: 0; margin: 0;" v-model="searchKeyWord" type="search">
                     </a>
                     <div class="search_options" v-if="searchKeyWord.length > 0">
-                        <input type="checkbox"  value='name' v-model="searchTypes" checked="checked">Name
-                        <input type="checkbox"  value='serialNbr' v-model="searchTypes" checked="checked">Serial number
+                        <input type="checkbox"  value='name' v-model="searchTypes">Name
+                        <input type="checkbox"  value='serialNbr' v-model="searchTypes">Serial number
                     </div>
                 </li>
                 <li v-if="$store.getters.loggedUser.groups && $store.getters.loggedUser.groups.length !== 0">
@@ -37,7 +37,11 @@
                 </li>
 
                 <li style="padding-right: 15px !important">
-                  <p v-if="$store.getters.loggedUser.groups.length == 0" style="margin-right: 160px; word-break: break-word;"> Join a group to be able to upload files and create folders !</p>
+                    <p  v-if="$store.getters.loggedUser.groups.length == 0" 
+                        style="margin-right: 160px; word-break: break-word;"> 
+
+                        Join a group to be able to upload files and create folders !
+                    </p>
                 </li>
 
                 <li>
@@ -68,10 +72,15 @@
                         </a>
                     </li>
                     <li>
-                        <a v-if="this.selectedFile.isDir" href="#" @click.prevent="$modal.show('uploadFile', {isFolder: true, isEditing: true})">
+                        <a  v-if="this.selectedFile.isDir" 
+                            href="#" 
+                            @click.prevent="$modal.show('uploadFile', {isFolder: true, isEditing: true})">
+
                             <i class="fa fa-pen"></i> Edit
                         </a>
-                        <a v-else href="#" @click.prevent="$modal.show('uploadFile', {isFolder: false, isEditing: true})">
+                        <a  v-else 
+                            href="#" 
+                            @click.prevent="$modal.show('uploadFile', {isFolder: false, isEditing: true})">
                             <i class="fa fa-pen"></i> Edit
                         </a>
                     </li>
@@ -130,7 +139,7 @@
         data() {
             return {
                 searchKeyWord: '',
-                searchTypes: [],
+                searchTypes: ['name', 'serialNbr'],
             };
         },
         methods: {
