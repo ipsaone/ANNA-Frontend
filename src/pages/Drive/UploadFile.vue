@@ -37,7 +37,6 @@
 
                                         <select id="owner-input"
                                                 name="owner" 
-                                                value="" 
                                                 v-model="ownerName" 
                                                 @change="selectUser(ownerName)">
 
@@ -52,7 +51,6 @@
                                         <select id="group-input" 
                                                 v-if="userGroups.length != 0" 
                                                 name="group" 
-                                                value="" 
                                                 v-model="groupName" 
                                                 @change="setGroupId(groupName)">
 
