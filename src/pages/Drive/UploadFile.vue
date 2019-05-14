@@ -1,11 +1,16 @@
 <template>
     <modal name="uploadFile" height="auto" :scrollable="true"  @before-open="beforeOpen">
         <div class="content anna-modal">
+
+            <!-- TITLE -->
             <h1 v-if="isFolder && !isEditing">Create a new folder</h1>
             <h1 v-if="isFolder && isEditing">Edit selected folder</h1>
             <h1 v-if="!isFolder && !isEditing">Upload a new file</h1>
             <h1 v-if="!isFolder && isEditing">Edit selected file</h1>
+
+            <!-- FORM -->
             <form @submit.prevent="onSubmit">
+                <!-- File input -->
                 <input v-if="!isFolder && !isEditing" type="file" ref="file" @change="onFileChange">
                 <vm-progress v-if="!isFolder && !isEditing" max="100" :text-inside="true" :stroke-width="18" :percentage="uploadPercentage"></vm-progress>
                 <input v-if="isFolder && !isEditing" type="text" autocomplete="off" v-model="name" placeholder="Folder name">
@@ -13,25 +18,56 @@
                 <div name="managePermissions" height="auto" :scrollable="true">
                         <div class="big-wrapper">
                             <h2> Manage Permissions </h2>
+
+                            <!-- File owner/group -->
                             <div class="file-information">
                                 <h4> File information </h4>
                                 <ul>
-                                    <li><label for="owner-input">Owner : </label> <input id="owner-input" list="users" type="text" name="owner" value="" v-model="ownerName" autocomplete="off" @change="selectUser(ownerName)"></li>
                                     <li>
-                                        <label v-if="userGroups.length != 0" for="group-input">Group : </label> <input id="group-input" v-if="userGroups.length != 0" list="groups" type="text" name="group" value="" v-model="groupName" autocomplete="off" @change="setGroupId(groupName)">
-                                        <label id="replace" v-if="userGroups.length == 0" for="group-input">User has no group. Owners need to be in a group</label>
-                                    </li>
-                                    <datalist id="users" autocomplete="off">
-                                        <option v-for="user in users" :key="user.id" :value="user.username" :label="user.username"/>
-                                    </datalist>
-                                    <datalist id="groups" autocomplete="off">
-                                        <option v-for="group in userGroups" :key="group.id" :value="group.name" :label="group.name"/>
-                                    </datalist>
+                                        <label for="owner-input">Owner : </label>
 
-                                    <li v-if="!isFolder"><label>Serial number : </label><input type="text" v-model="serialNbr"/></li>
+                                        <select id="owner-input"
+                                                name="owner"
+                                                v-model="ownerName"
+                                                @change="selectUser(ownerName)">
+
+                                                    <option v-for="user in users"
+                                                        :key="user.id"
+                                                        :value="user.username"
+                                                        :label="user.username"/>
+
+                                        </select>
+                                    <li>
+                                        <label v-if="userGroups.length != 0" for="group-input">Group : </label>
+                                        <select id="group-input"
+                                                v-if="userGroups.length != 0"
+                                                name="group"
+                                                v-model="groupName"
+                                                @change="setGroupId(groupName)">
+
+                                                <option v-for="group in userGroups"
+                                                    :key="group.id"
+                                                    :value="group.name"
+                                                    :label="group.name"/>
+
+                                        </select>
+
+                                        <label id="replace" v-if="userGroups.length == 0" for="group-input">
+                                            User has no group. Owners need to be in a group
+                                        </label>
+                                    </li>
+
+
+                                    <!-- Serial Number input -->
+                                    <li v-if="!isFolder">
+                                        <label>Serial number : </label>
+                                        <input type="text" v-model="serialNbr"/>
+                                    </li>
 
                                 </ul>
                             </div>
+
+                            <!-- File permissions checkboxes -->
                             <div class="permissions">
                                 <h4> Permissions </h4>
                                 <div class="tableau-permissions">
