@@ -132,17 +132,6 @@
             selectedFile() {
                 return store.getters.selectedFile;
             },
-            userGroups: {
-                get: function () {
-                    if (store.getters.selectedUser.length)
-                        return store.getters.selectedUser.groups;
-                    else
-                        return Array();
-                },
-                set: function () {
-                    var userGroups = Array();
-                }
-            },
             showOptions() {
                 return typeof this.selectedFile !== 'undefined' && typeof this.selectedFile.fileId !== 'undefined';
             }
