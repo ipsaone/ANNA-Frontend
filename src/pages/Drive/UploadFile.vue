@@ -7,7 +7,7 @@
             <h1 v-if="!isFolder && isEditing">Edit selected file</h1>
             <form @submit.prevent="onSubmit">
                 <input v-if="!isFolder && !isEditing" type="file" ref="file" @change="onFileChange">
-                <vm-progress v-if="!isFolder && !isEditing" max="100" :text-inside="true" :stroke-width="18" :percentage="uploadPercentage"></vm-progress>
+                <vm-progress v-if="!isFolder && !isEditing" max="100" :text-inside="true" :stroke-width="18" :percentage="$store.getters.progress"></vm-progress>
                 <input v-if="isFolder && !isEditing" type="text" autocomplete="off" v-model="name" placeholder="Folder name">
                 <input v-if="isFolder && isEditing" type="text" autocomplete="off" v-model="name">
                 <div name="managePermissions" height="auto" :scrollable="true">
@@ -96,7 +96,6 @@
                     allWrite: true
                 },
                 serialNbr: '',
-                uploadPercentage: 0
             };
         },
         computed : {
