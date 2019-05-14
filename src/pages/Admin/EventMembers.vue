@@ -55,9 +55,9 @@
         },
         methods: {
             async beforeOpen(event) {
-                this.refreshUsers();
                 await store.dispatch('retrieveEvents');
                 await store.dispatch('retrieveEvent', event.params.event_id);
+                this.refreshUsers();
             },
             async addUser(id) {
                 await EventsApi.register(store.getters.selectedEvent.id, id);
