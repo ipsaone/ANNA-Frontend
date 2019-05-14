@@ -95,8 +95,7 @@
                     allRead: true,
                     allWrite: true
                 },
-                serialNbr: '',
-                uploadPercentage: 0
+                serialNbr: ''
             };
         },
         computed : {
@@ -111,6 +110,15 @@
             },
             cases() {
                 return Array('ownerRead', 'groupRead', 'allRead', 'ownerWrite', 'groupWrite', 'allWrite');
+            },
+            uploadPercentage: {
+                get: function () {
+                    return store.getters.progress;
+                },
+                set: function () {
+                    var uploadPercentage = 0;
+                }
+
             },
             userGroups() {
                 return store.getters.selectedUser.groups;
@@ -233,10 +241,15 @@
                     let confirmation = confirm('Do you still want to upload without write permissions ?');
                     if (confirmation === true) {
                         document.getElementById('submitButton').setAttribute('disabled', 'disabled');
-                        if(!this.isEditing)
+                        if(!this.isEditing) {
                             await driveApi.uploadFile(data);
-                        else
+                            this.uploadPercentage = store.getters.progress;
+
+                        } else {
                             await driveApi.editFile({fileId: this.selectedFile.fileId, data});
+                            // useless as long as we can't change file whhen editing
+                            // this.uploadPercentage = store.getters.progress;
+                        }
                         document.getElementById('submitButton').removeAttribute('disabled', 'disabled');
                         await store.dispatch('retrieveFolder', store.getters.folder.fileId);
                         await store.dispatch('resetProgress');
@@ -244,23 +257,26 @@
                     }
                 } else {
                     document.getElementById('submitButton').setAttribute('disabled', 'disabled');
-                    if(!this.isEditing)
+                    if(!this.isEditing) {
                         await driveApi.uploadFile(data);
-                    else
-                        await driveApi.editFile({fileId: this.selectedFile.fileId, data})
-                    .then(() => this.$notify({
+                        this.uploadPercentage = store.getters.progress;
+                    } else {
+                        await driveApi.editFile({fileId: this.selectedFile.fileId, data});
+                        // useless as long as we can't change file whhen editing
+                        // this.uploadPercentage = store.getters.progress;
+                    }
+                    /* .then(() => this.$notify({
                         type: 'success',
                         title: 'File successfully uploaded',
                         text: '',
                         duration: 5000
                     }))
-                    .catch(() => console.log('Upload successfully canceled'));
+                    .catch(() => console.log('Upload successfully canceled')); */
 
                     document.getElementById('submitButton').removeAttribute('disabled', 'disabled');
                     await store.dispatch('retrieveFolder', store.getters.folder.fileId);
                     await store.dispatch('resetProgress');
                     this.$modal.hide('uploadFile');
-                    // window.location.reload();
                 }
 
 
@@ -275,12 +291,16 @@
                 this.name = '';
                 this.serialNbr = '';
                 await driveApi.cancelUpload();
+                await store.dispatch('resetProgress');
                 this.$modal.hide('uploadFile');
+                window.location.reload();
             },
             async beforeOpen(event) {
                 await store.dispatch('retrieveUsers');
                 if (event && event.params && event.params.isEditing) {
+                    console.log('a');
                     this.ownerId = this.selectedFile.owner.id;
+                    console.log('b');
                     this.ownerName = this.selectedFile.owner.username;
                     this.groupId = this.selectedFile.groupId;
                     await store.dispatch('retrieveGroup', this.groupId);
