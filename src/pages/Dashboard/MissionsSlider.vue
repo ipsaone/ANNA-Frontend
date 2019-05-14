@@ -65,11 +65,11 @@
                                          :id="'task'+task.id" v-model="task.done" @change="taskChange(task)">
                                         <label :for="task.id">{{ task.name }}</label>
                                         <label class="checkbox" :for="'task' + task.id"></label>
-                                        <i v-if="$store.getters.loggedUserIsRoot" @click.prevent="delTask(task.id)" class="fa fa-trash"></i>
+                                        <i v-if="$store.getters.loggedUserIsRoot || logged.id === mission.leaderId" @click.prevent="delTask(task.id)" class="fa fa-trash"></i>
                                     </div>
                                 </li>
                                 <em v-if="mission.tasks && mission.tasks.length === 0">No tasks yet !</em>
-                                <a  @click.prevent="newTask">Add task</a>
+                                <a v-if="$store.getters.loggedUserIsRoot || logged.id === mission.leaderId" @click.prevent="newTask">Add task</a>
                             </ul>
                         </div>
                     </div>
