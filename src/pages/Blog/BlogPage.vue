@@ -6,8 +6,8 @@
 
         <section class="content">
             <h1 class="section-title color-blue">Blog</h1>
-            <template v-if="$store.getters.drafts.length > 0 && canPost">
-                <post-abstract v-for="(post, index) in $store.getters.drafts"
+            <template v-if="drafts.length > 0 && canPost">
+                <post-abstract v-for="(post, index) in drafts"
                             :key="post.id"
                             :post="post"
                             :index="index +1"
@@ -47,7 +47,7 @@
     import Loader from '@/components/Loader';
 
     export default {
-        mounted() {
+        async mounted() {
             this.refreshPosts(true, true, false);
         },
         data() {
@@ -70,14 +70,15 @@
                 return this.posts.length;
             },
             canPost() {
-                return store.getters.loggedUserIsAuthor || store.getters.loggedUserIsRoot;
+                return store.getters.loggedUserIsRoot;
             }
         },
         methods: {
-            refreshPosts(force = false, hideNotif = false, hideLoader = false) {
-                if(!hideLoader) { this.loading = true; }
-                store.dispatch('retrieveDrafts', force);
-                store.dispatch('retrievePosts', force)
+            async refreshPosts(force = false, hideNotif = false, hideLoader = false) {
+                if(!hideLoader)
+                    this.loading = true;
+                await store.dispatch('retrieveDrafts', force);
+                await store.dispatch('retrievePosts', force)
                     .then(() => {this.loading = false;})
                     .then(_ => {
                         if (!hideNotif) {
