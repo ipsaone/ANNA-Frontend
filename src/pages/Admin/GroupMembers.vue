@@ -58,6 +58,7 @@
         },
         methods: {
             async beforeOpen(event) {
+                await store.dispatch('retrieveGroups');
                 await store.dispatch('retrieveGroup', event.params.group_id);
                 this.refreshUsers();
             },

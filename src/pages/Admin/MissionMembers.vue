@@ -51,8 +51,9 @@
         },
         methods: {
             async beforeOpen(event) {
-                this.refreshUsers();
+                await store.dispatch('retrieveMissions', true);
                 await store.dispatch('retrieveMission', event.params.mission_id);
+                this.refreshUsers();
             },
             async addUser(id) {
                 await store.dispatch('addMissionMember', id);
@@ -64,8 +65,7 @@
             },
             async refreshUsers() {
                 await store.dispatch('retrieveUsers');
-                await store.dispatch('retrieveMission', store.getters.selectedMission.id);
-                await store.dispatch('retrieveMissions');
+                await store.dispatch('retrieveMissions', true);
                 if (!this.mission.members) {
                     this.shownUsers = store.getters.users;
                 }

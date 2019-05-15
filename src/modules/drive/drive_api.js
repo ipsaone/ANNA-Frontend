@@ -5,7 +5,7 @@ import store from '@/modules/store';
 
 const url = base + '/storage/';
 
-const CancelToken = axios.CancelToken;
+let CancelToken = axios.CancelToken;
 var cancelCall = CancelToken.source();
 
 const config = {
@@ -65,6 +65,8 @@ export default {
 
     async cancelUpload(){
         cancelCall.cancel();
+        CancelToken = axios.CancelToken;
+        cancelCall = CancelToken.source();
     },
 
     editFile(edit) {
