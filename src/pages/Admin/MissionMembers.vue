@@ -3,6 +3,7 @@
         <div class="content anna-modal mission-members manage-members">
 
             <h1 v-if="mission.name"> Mission: {{ mission.name }}</h1>
+            <h1> Leader : {{this.mission.leader.username}} </h1>
             <i class="fa fa-times" v-on:click="$modal.hide('missionMembers')"></i>
 
             <div class="lists-wrapper">
@@ -71,12 +72,15 @@
                 }
                 this.shownUsers =  store.getters.users.filter(el1 => {
                     let found = false;
+                    console.log(this.mission);
                     this.mission.members.forEach(el2 => {
                         if (el1.id == el2.id) {
                             found = true;
                         }
                     });
-
+                    if (el1.id == this.mission.leaderId) {
+                        found = true;
+                    }
                     return !found;
                 });
             },
