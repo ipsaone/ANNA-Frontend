@@ -28,7 +28,9 @@
         Vue.notify({
             type: 'error',
             title,
-            text: (err.response.data ? err.response.data.message || err.response.data.error : 'Erreur inconnue'),
+            text: ((err && err.response && err.response.data) 
+                        ? err.response.data.message || err.response.data.error 
+                        : 'Erreur inconnue'),
             duration: 5000
         });
 

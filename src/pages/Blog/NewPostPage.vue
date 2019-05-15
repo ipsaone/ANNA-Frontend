@@ -57,7 +57,7 @@
             }
         },
         methods: {
-            submit() {
+            async submit() {
                 if (!this.canSubmit) {
                     this.$notify({
                         type: 'error',
@@ -73,8 +73,8 @@
                         published: !this.isDraft,
                         authorId: store.getters.loggedUserId
                     };
-                    store.dispatch('retrievePosts');
-                    store.dispatch('storePost', post)
+                    await store.dispatch('retrievePosts');
+                    await store.dispatch('storePost', post)
                         .then(this.$router.push({name: 'blog'}))
                         .catch(err => {
                             this.$notify({

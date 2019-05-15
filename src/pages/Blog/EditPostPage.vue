@@ -27,13 +27,12 @@
         components: {
             markdownEditor
         },
-        mounted() {
-            store.dispatch('selectPost', this.$route.params.id)
-                .then(_ => {
-                    this.title = this.post.title;
-                    this.markdown = this.post.markdown.replace(/<br>/gi, '');
-                    this.isDraft = !this.post.published;
-                });
+        async mounted() {
+            await store.dispatch('selectPost', this.$route.params.id);
+            this.title = this.post.title;
+            this.markdown = this.post.markdown.replace(/<br>/gi, '');
+            this.isDraft = !this.post.published;
+               
         },
         data() {
             return {

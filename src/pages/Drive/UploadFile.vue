@@ -295,14 +295,11 @@
                 await driveApi.cancelUpload();
                 await store.dispatch('resetProgress');
                 this.$modal.hide('uploadFile');
-                window.location.reload();
             },
             async beforeOpen(event) {
                 await store.dispatch('retrieveUsers');
                 if (event && event.params && event.params.isEditing) {
-                    console.log('a');
                     this.ownerId = this.selectedFile.owner.id;
-                    console.log('b');
                     this.ownerName = this.selectedFile.owner.username;
                     this.groupId = this.selectedFile.groupId;
                     await store.dispatch('retrieveGroup', this.groupId);
