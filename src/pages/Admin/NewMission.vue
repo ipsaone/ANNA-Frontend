@@ -9,9 +9,9 @@
                 <div class="inline-form">
                     <label for="chief">Chief: </label>
                     <input list="users" type="text" name="chief" id="chief" v-model="chiefName" autocomplete="off" @change="selectUser(chiefName)"><br/>
-                    <label v-if="userGroups.length != 0" for="group">Group: </label>
+                    <label v-if="userGroups && userGroups.length != 0" for="group">Group: </label>
                     <label v-else for="group">User has no group. Leaders need to be in a group.</label>
-                    <input v-if="userGroups.length != 0" list="groups" type="text" name="groups" id="group" v-model="groupName" autocomplete="off" @change="setGroupId(groupName)">
+                    <input v-if="userGroups && userGroups.length != 0" list="groups" type="text" name="groups" id="group" v-model="groupName" autocomplete="off" @change="setGroupId(groupName)">
                     <datalist id="users">
                         <option v-for="user in users" :key="user.id" :value="user.username" :label="user.username"/>
                     </datalist>
