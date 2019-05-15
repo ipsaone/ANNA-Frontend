@@ -68,7 +68,7 @@ const actions = {
     async updatePost({dispatch}, post) {
         await PostsApi.update(post);
         await dispatch('retrievePosts', true);
-        await dispatch('selectPost', post.id);
+        await dispatch('selectPost', data.id);
     },
 
     async deletePost({dispatch}, id) {
