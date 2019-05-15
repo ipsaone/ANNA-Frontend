@@ -3,7 +3,7 @@
         <div class="content anna-modal mission-members manage-members">
 
             <h1 v-if="mission.name"> Mission: {{ mission.name }}</h1>
-            <h1> Leader : {{this.mission.leader.username}} </h1>
+            <h1 v-if="mission.leader"> Leader : {{ mission.leader.username }} </h1>
             <i class="fa fa-times" v-on:click="$modal.hide('missionMembers')"></i>
 
             <div class="lists-wrapper">
@@ -52,6 +52,7 @@
         },
         methods: {
             async beforeOpen(event) {
+                await store.dispatch('retrieveUsers');
                 await store.dispatch('retrieveMissions', true);
                 await store.dispatch('retrieveMission', event.params.mission_id);
                 this.refreshUsers();
