@@ -15,7 +15,7 @@
             <h1 class="section-title">Actions</h1>
             <ul>
                 <li id="barre" v-if="$store.getters.loggedUser.groups.length !== 0">
-                    <a href="#" @input="search(searchKeyWord,searchTypes)">
+                    <a href="#" @input="search(searchKeyWord, searchTypes)">
                         <i class="fas fa-search" aria-hidden="true" ></i>
                         <input class="search" style="padding: 0; margin: 0;" v-model="searchKeyWord" type="search">
                     </a>
@@ -146,22 +146,23 @@
             await store.dispatch('retrieveLoggedUser');
         },
         methods: {
-            async search(str,searchTypes) {
-                if (typeof str === 'undefined') {
-                    str = '';
-                }
-                if (searchTypes.length === 0) {
-                    searchTypes = [ 'name', 'serialNbr'];
-                }
-                let searchPara = {
-                    keywords: str,
-                    types: searchTypes,
-                };
-                if (str.trim() !== '') {
+            async search(str, searchTypes) {
+                if (str.trim().length >= 2) {
+
+                    if (typeof str === 'undefined') {
+                        str = '';
+                    }
+                    if (searchTypes.length === 0) {
+                        searchTypes = [ 'name', 'serialNbr'];
+                    }
+                    let searchPara = {
+                        keywords: str,
+                        types: searchTypes,
+                    };
                     await store.dispatch('search', searchPara);
                 }
-
                 store.commit('SET_KEYWORD', str);
+
 
             },
             manageRights() {

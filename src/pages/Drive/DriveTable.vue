@@ -32,7 +32,7 @@
           <tr>
               <td>
                   <div class="inside-folder">
-                      <table id="result-search" v-if="keyword && keyword.trim().length > 0">
+                      <table id="result-search" v-if="keyword && keyword.trim().length >= 2">
                           <tr v-for="file in results" :key="file.fileId" @click="select(file)"
                               @dblclick="openFile(file)"
                               :class="{selected: file.fileId === selectedFile.fileId}">
