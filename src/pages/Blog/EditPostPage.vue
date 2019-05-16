@@ -91,7 +91,7 @@
                     // delete post.content;
 
                     await store.dispatch('updatePost', post)
-                        .then(this.$router.push({name: 'readPost', params:{id: post.id}}))
+                        .then(() => this.$router.push({name: 'readPost', params:{id: post.id}}))
                         .catch(err => {
                             this.$notify({
                                 type: 'error',
