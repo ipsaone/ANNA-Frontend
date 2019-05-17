@@ -5,7 +5,7 @@
           <tr style="border-bottom: none">
             <td>
                 <table>
-                    <tr class="pas-toi">
+                    <tr class="pas-toi no-hover" style="cursor: default">
                       <th>Type<!--i @click="clique" class="fas fa-caret-up" :class='classR'></i--></th>
                       <th>Name <!--i @click="clique" class="fas fa-caret-up" :class='classR'></i--> </th>
                       <th>Serial nbr<!--i @click="clique" class="fas fa-caret-up" :class='classR'></i--></th>
