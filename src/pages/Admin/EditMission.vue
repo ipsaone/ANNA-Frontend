@@ -8,15 +8,15 @@
 
                 <div class="inline-form">
                     <label for="chief">Chief: </label>
-                    <input list="users" type="text" name="chief" id="chief" v-model="chief"><br/>
-                    <label for="group">Group: </label>
-                    <input list="groups" type="text" name="groups" id="group" v-model="group">
-
+                    <input list="users" type="text" name="chief" id="chief" v-model="chiefName" autocomplete="off" @change="selectUser(chiefName)"><br/>
+                    <label v-if="userGroups && userGroups.length != 0" for="group">Group: </label>
+                    <label v-else for="group">User has no group. Leaders need to be in a group.</label>
+                    <input v-if="userGroups && userGroups.length != 0" list="groups" type="text" name="groups" id="group" v-model="groupName" autocomplete="off" @change="setGroupId(groupName)">
                     <datalist id="users">
-                        <option v-for="user in users" :key="user.id" :value="user.id" :label="user.username"/>
+                        <option v-for="user in users" :key="user.id" :value="user.username" :label="user.username"/>
                     </datalist>
                     <datalist id="groups">
-                        <option v-for="group in groups" :key="group.id" :value="group.id" :label="group.name"/>
+                        <option v-for="group in userGroups" :key="group.id" :value="group.name" :label="group.name"/>
                     </datalist>
                 </div>
 
@@ -55,14 +55,19 @@
             },
             groups(){
                 return store.getters.groups;
+            },
+            userGroups() {
+                return store.getters.selectedUser.groups;
             }
         },
         data() {
             return {
                 id: 0,
                 name: '',
-                chief: '',
-                group: '',
+                chief: 1,
+                chiefName: '',
+                group: 1,
+                groupName: '',
                 markdown: '',
                 budgetAssigned: '',
                 budgetUsed: '',
@@ -78,6 +83,15 @@
             return this.user;
         },
         methods: {
+            async selectUser(name) {
+                let chiefId = this.users.find(myUser => myUser.username == name).id;
+                await store.dispatch('selectUser', chiefId);
+                this.chief = chiefId;
+            },
+            setGroupId(name) {
+                let groupId = this.userGroups.find(myGroup => myGroup.name == name).id;
+                this.group = groupId;
+            },
             async beforeOpen(event) {
                 await store.dispatch('retrieveMissions');
                 await store.dispatch('retrieveMission', event.params.mission_id);
