@@ -20,8 +20,8 @@
                         <input class="search" style="padding: 0; margin: 0;" v-model="searchKeyWord" type="search">
                     </a>
                     <div class="search_options" v-if="searchKeyWord.length > 0">
-                        <input type="checkbox"  value='name' v-model="searchTypes">Name
-                        <input type="checkbox"  value='serialNbr' v-model="searchTypes">Serial number
+                        <input type="checkbox"  value='name' v-model="searchTypes" @change="search(searchKeyWord, searchTypes)">Name
+                        <input type="checkbox"  value='serialNbr' v-model="searchTypes" @change="search(searchKeyWord, searchTypes)">Serial number
                     </div>
                 </li>
                 <li v-if="$store.getters.loggedUser.groups && $store.getters.loggedUser.groups.length !== 0">
