@@ -3,7 +3,7 @@
         <div class="content anna-modal">
             <h1>Generate a barcode</h1>
 
-            <input type="text" placeholder="Text..." v-model="text">
+            <input type="text" placeholder="Serial number..." v-model="text">
             <canvas id="barcode" ref="barcode"></canvas>
         </div>
     </modal>

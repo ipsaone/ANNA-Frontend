@@ -10,8 +10,8 @@ const mutations = {
         state.events = events;
     },
 
-    SELECT_EVENT(state, event) {
-        state.event = event;
+    SELECT_EVENT(state, evt) {
+        state.event = evt;
     },
 
     CLEAR_EVENT(state) {
@@ -25,7 +25,7 @@ const actions = {
             let events = await EventsApi.getAll();
             commit('SET_ALL_EVENTS', events.data);
         }
-        
+
         return true;
     },
 
@@ -54,9 +54,16 @@ const actions = {
         dispatch('retrieveEvents', true);
     },
 
-    async registerEvent({dispatch}, event_id, user_id) {
-        await EventsApi.register(event_id, user_id);
-        dispatch('retrieveEvents', true);
+    async addEventMember({dispatch, state}, user_id) {
+        let data = await EventsApi.register(state.selected.id, user_id);
+        await dispatch('retrieveEvent', state.selected.id);
+        return data;
+    },
+
+    async remEventMember({dispatch, state}, user_id) {
+        let data = await EventsApi.withdraw(state.selected.id, user_id);
+        await dispatch('retrieveEvent', state.selected.id);
+        return data;
     },
 };
 

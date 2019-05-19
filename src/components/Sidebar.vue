@@ -23,6 +23,7 @@
             </transition>
 
             <div class="actions" @mouseover="mouseOverButton" @mouseleave="mouseLeaveButton">
+                <!--
                 <a class="button badge" data-text="Notifications" @click.prevent="showNotifications"
                    :data-badge="(notifications) ? notifications : false"
                    style="cursor: not-allowed">
@@ -32,6 +33,7 @@
                 <router-link :to="{name: 'profile', params:{id: logged.id}}" class="button" data-text="Profile">
                     <i class="fa fa-user" aria-hidden="true"></i>
                 </router-link>
+                -->
 
                 <a class="button" data-text="Logout" @click.prevent="logout">
                     <i class="fa fa-power-off" aria-hidden="true"></i>
@@ -53,14 +55,14 @@
                 tooltipText: '',
                 tooltipRedBorder: false,
                 links: [
-                    {title: 'Dashboard', name: 'dashboard', color: 'grey', class: 'main'},
+                    {title: 'Dashboard', name: 'dashboard', color: 'purple', class: 'main'},
                     {title: 'Blog', name: 'blog', color: 'blue'},
                     {title: 'Drive', name: 'drive', color: 'green'},
                     // {title: 'Forum', name: 'forum', color: 'purple'},
                     {title: 'Events', name: 'events', color: 'yellow'},
                     // {title: 'Logs', name: 'logs', color: 'red'},
                     // {title: 'Gantt', name: 'gantt', color: 'red'},
-                    {title: 'Administration', name: 'admin', color: 'purple'}
+                    {title: 'Administration', name: 'admin', color: 'grey'}
                 ]
             };
 
@@ -109,8 +111,5 @@
                 this.tooltipVisible = false;
             }
         },
-        mounted: function() {
-            console.log(store.getters.loggedUserIsRoot);
-        }
     };
 </script>

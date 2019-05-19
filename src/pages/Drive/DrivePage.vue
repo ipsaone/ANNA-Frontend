@@ -2,35 +2,46 @@
     <section class="drive basic-layout">
         <upload-file></upload-file>
         <new-folder></new-folder>
-        <edit-file></edit-file>
-        <file-auth></file-auth>
         <barcode></barcode>
         <move-file></move-file>
-        <manage-permissions></manage-permissions>
 
         <section class="content">
-            <h1 class=" section-title">Drive</h1>
+            <h1 class="color-green section-title">Drive</h1>
 
-            <drive-table></drive-table>
+            <drive-table :search="searchKeyWord"></drive-table>
         </section>
 
         <section class="actions">
             <h1 class="section-title">Actions</h1>
             <ul>
-                <li v-if="$store.getters.loggedUser.groups.length !== 0">
-                    <a href="#" @click.prevent="$modal.show('uploadFile')">
+                <li id="barre" v-if="$store.getters.loggedUser.groups.length !== 0">
+                    <a href="#" @input="search(searchKeyWord, searchTypes)">
+                        <i class="fas fa-search" aria-hidden="true" ></i>
+                        <input class="search" style="padding: 0; margin: 0;" v-model="searchKeyWord" type="search">
+                    </a>
+                    <div class="search_options" v-if="searchKeyWord.length > 0">
+                        <input type="checkbox"  value='name' v-model="searchTypes" @change="search(searchKeyWord, searchTypes)">Name
+                        <input type="checkbox"  value='serialNbr' v-model="searchTypes" @change="search(searchKeyWord, searchTypes)">Serial number
+                    </div>
+                </li>
+                <li v-if="$store.getters.loggedUser.groups && $store.getters.loggedUser.groups.length !== 0">
+                    <a href="#" @click.prevent="$modal.show('uploadFile', {isFolder: false, isEditing: false})">
                         <i class="fa fa-upload" aria-hidden="true"></i> Upload
                     </a>
                 </li>
 
-                <li v-if="$store.getters.loggedUser.groups.length !== 0">
-                    <a href="#" @click.prevent="$modal.show('newFolder')">
+                <li v-if="$store.getters.loggedUser.groups && $store.getters.loggedUser.groups.length !== 0">
+                    <a href="#" @click.prevent="$modal.show('uploadFile', {isFolder: true, isEditing: false})">
                         <i class="fa fa-plus" aria-hidden="true"></i> New folder
                     </a>
                 </li>
 
                 <li style="padding-right: 15px !important">
-                  <p v-if="$store.getters.loggedUser.groups.length == 0" style="margin-right: 160px; word-break: break-word;"> Join a group to be able to upload files and create folders !</p>
+                    <p  v-if="$store.getters.loggedUser.groups.length == 0"
+                        style="margin-right: 160px; word-break: break-word;">
+
+                        Join a group to be able to upload files and create folders !
+                    </p>
                 </li>
 
                 <li>
@@ -38,38 +49,39 @@
                         <i class="fa fa-barcode"></i> Generate a new barcode
                     </a>
                 </li>
-
-                <!--<li>
-                    <a href="#" @click.prevent="search">
-                        <i class="fa fa-search"></i> Search in folder
-                    </a>
-                </li>-->
             </ul>
+
             <br>
 
             <div v-if="showOptions">
                 <h1 class="section-title">Options</h1>
                 <ul>
-                    <li v-if="!selectedFile.isDir">
+                    <li v-if="selectedFile.type != 'folder'">
                         <a href="#" @click.prevent="downloadFile">
                             <i class="fa fa-download" aria-hidden="true"></i> Download
                         </a>
                     </li>
-                    <li v-if="selectedFile.isDir">
+                    <li v-else>
                         <a href="#" @click.prevent="openFile">
                             <i class="fa fa-download" aria-hidden="true"></i> Open
                         </a>
                     </li>
-                    <!--
-                    <li>
-                        <a href="#" @click.prevent="editFile">
-                            <i class="fa fa-pencil" aria-hidden="true"></i> Edit
-                        </a>
-                    </li>
-                    -->
                     <li>
                         <a href="#" @click.prevent="moveFile">
                             <i class="fa fa-folder" aria-hidden="true"></i> Move
+                        </a>
+                    </li>
+                    <li>
+                        <a  v-if="this.selectedFile.isDir"
+                            href="#"
+                            @click.prevent="$modal.show('uploadFile', {isFolder: true, isEditing: true})">
+
+                            <i class="fa fa-pen"></i> Edit
+                        </a>
+                        <a  v-else
+                            href="#"
+                            @click.prevent="$modal.show('uploadFile', {isFolder: false, isEditing: true})">
+                            <i class="fa fa-pen"></i> Edit
                         </a>
                     </li>
                     <li>
@@ -77,11 +89,7 @@
                             <i class="fa fa-trash"></i> Delete
                         </a>
                     </li>
-                    <li>
-                        <a href="#" @click.prevent="$modal.show('managePermissions')">
-                            <i class="fa fa-key"></i> Manage permissions
-                        </a>
-                    </li>
+
                 </ul>
             </div>
         </section>
@@ -94,11 +102,8 @@
     import DriveTable from './DriveTable';
     import UploadFile from './UploadFile';
     import NewFolder from './NewFolder';
-    import EditFile from './EditFile';
-    import FileAuth from './FileAuth';
     import Barcode from './Barcode';
     import MoveFile from './MoveFile';
-    import ManagePermissions from'./ManagePermissions';
     import swal from 'sweetalert2';
 
     export default {
@@ -106,11 +111,8 @@
             DriveTable,
             UploadFile,
             NewFolder,
-            EditFile,
-            FileAuth,
             Barcode,
             MoveFile,
-            ManagePermissions
         },
         async beforeRouteEnter(to, from, next) {
             let folderId = 1;
@@ -122,7 +124,6 @@
                 await store.dispatch('retrieveFolder', folderId);
                 next();
             } catch (err) {
-                console.log(err);
                 await store.dispatch('retrieveFolder', 1);
             }
 
@@ -135,17 +136,41 @@
                 return typeof this.selectedFile !== 'undefined' && typeof this.selectedFile.fileId !== 'undefined';
             }
         },
+        data() {
+            return {
+                searchKeyWord: '',
+                searchTypes: ['name', 'serialNbr'],
+            };
+        },
+        async mounted() {
+            await store.dispatch('retrieveLoggedUser');
+        },
         methods: {
-            search() {
+            async search(str, searchTypes) {
+                if (str.trim().length >= 2) {
+
+                    if (typeof str === 'undefined') {
+                        str = '';
+                    }
+                    if (searchTypes.length === 0) {
+                        searchTypes = [ 'name', 'serialNbr'];
+                    }
+                    let searchPara = {
+                        keywords: str,
+                        types: searchTypes,
+                    };
+                    await store.dispatch('search', searchPara);
+                }
+                store.commit('SET_KEYWORD', str);
+
 
             },
             manageRights() {
                 this.$modal.show('fileAuth', this.selectedFile);
             },
             openFile() {
-                if (this.selectedFile.isDir) {
+                if (this.selectedFile.type === 'folder') {
                     this.loading = true;
-                    console.log(this.selectedFile);
                     store.dispatch('retrieveFolder', this.selectedFile.fileId)
                         .then(_ => store.dispatch('selectFile', {}))
                         .then(_ => this.loading = false);
@@ -161,11 +186,10 @@
                 driveApi.downloadFile(this.selectedFile.fileId);
             },
             editFile() {
-                if (this.selectedFile.isDir)
-                    console.log('edit folder');
-                else
+                if (!this.selectedFile.type === 'folder')
                     this.$modal.show('editFile');
             },
+
             deleteFile() {
                 /*swal({
                     title: 'Delete this file?',
@@ -178,7 +202,6 @@
                     async () => {
                         await driveApi.deleteFile(this.selectedFile.fileId);
                         await store.dispatch('retrieveFolder', store.getters.folder.fileId);
-                        console.log('deleted');
                         await store.dispatch('unselectFile');
                     };
                 });*/
@@ -192,7 +215,6 @@
                             handler: async () => {
                                 await driveApi.deleteFile(this.selectedFile.fileId);
                                 await store.dispatch('retrieveFolder', store.getters.folder.fileId);
-                                console.log('deleted');
                                 await store.dispatch('unselectFile');
                                 this.$modal.hide('dialog');
                             }

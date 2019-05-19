@@ -10,10 +10,31 @@
                 td {
                     table {
                         tr {
+                            .center {
+                                text-align: center;
+                                color: $green;
+                            }
                             th {
-                               color: $grey-dark;
-                               line-height: 3em;
-                               padding-bottom: 0;
+                                i{
+                                    margin-left: 5px;
+                                    // border: 1px solid rgba(66, 66, 66, 0.6);
+                                    color: rgba(0, 0, 0, 0.6);
+                                    width: 20px;
+                                    height:  17px;
+                                    text-align: center;
+                                    vertical-align: middle;
+                                    padding-bottom: 20px;
+                                    transition: 0.3s;
+                                }
+                                i:hover {
+                                    color: rgba(0, 0, 0, 1);
+                                }
+                                .rotate{
+                                    transform : rotate(180deg);
+                                }
+                                color: $grey-dark;
+                                line-height: 2em;
+                                padding-bottom: 0;
 
                                &:first-child {
                                  padding-left: 1em;
@@ -23,9 +44,24 @@
                            td {
                               width: 25%;
                            }
+                           td:nth-child(1) {
+                               width : 10%;
+                           }
+                           td:nth-child(2) {
+                               width: 40%;
+                           }
+                           td:nth-child(3) {
+                               width: 20%;
+                           }
+                           td:nth-child(4) {
+                               width: 15%;
+                           }
+                           td:nth-child(5) {
+                               width: 10%;
+                           }
                            background-color: $white-bis;
-                           line-height: 3em;
-                           font-size: 1.2em;
+                           line-height: 2em;
+                           font-size: 1.1em;
                            cursor: pointer;
                            border: 1px solid $grey-lighter;
 
@@ -60,11 +96,12 @@
                 }
 
             }
+            
             .inside-folder {
-                margin-top: 5vh;
+                margin-top: 1.3em;
                 overflow-y: auto;
                 overflow-x: hidden;
-                height: 50vh;
+                height:60vh;
             }
             & ::-webkit-scrollbar-track {
                 -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
@@ -83,10 +120,9 @@
               background-color: #555;
             }
         }
-
         .big-wrapper {
             display: grid;
-            grid-template-columns: auto auto;
+            grid-template-columns: 50% 50%;
             grid-column-gap: 1vh;
             grid-template-rows: auto auto;
             grid-row-gap: 5px;
@@ -101,18 +137,31 @@
             .file-information {
                 border-right: 1px solid $grey-lighter;
                 display: grid;
+                grid-template-rows: 20% 40% 40%;
 
                 li {
                     display: grid;
                     grid-template-columns: 30% 70%;
                     grid-column: 1 / 3;
+
+                    input, select {
+                        margin: 0.5em auto;
+                    }
+
                     label {
                         margin: auto;
                         grid-column: 1;
                     }
-                    input {
+                    #replace {
+                        margin: auto;
+                        grid-column: 1 / 3;
+                        width: 80%;
+                        min-height: 80px;
+                    }
+                    input, select {
                         grid-column: 2;
                         width: 90%;
+                        height: 70%;
                     };
                 }
 
@@ -135,33 +184,45 @@
                 .tableau-permissions {
                     display: grid;
                     grid-template-columns: auto auto;
-
+                    border: 2px solid $grey;
 
                     .case {
-                        border-bottom: 2px solid $grey-dark;
-                        border-right: 2px solid $grey-dark;
+                        // border: 1px solid $grey;
+                        // border-bottom: 2px solid $grey-dark;
+                        // border-right: 2px solid $grey-dark;
                         padding: 5px;
                     }
-                    #owner, #group, #all {
+                    #owner, #group, #others {
                         grid-row: 1;
+                    }
+                    #diagonale {
                     }
                     #read, #write {
                         grid-column: 1;
                     }
                     #read {
                         grid-row: 2;
+                        border-top: 1px solid $grey;
                     }
                     #write {
                         grid-row: 3;
+                        border-top: 1px solid $grey;
                     }
                     #owner {
                         grid-column: 2;
+                        border-left: 1px solid $grey;
                     }
                     #group {
                         grid-column: 3;
+                        border-left: 1px solid $grey;
                     }
                     #others {
                         grid-column: 4;
+                        border-left: 1px solid $grey;
+                    }
+                    .cochable {
+                        border-top: 1px solid $grey;
+                        border-left: 1px solid $grey;
                     }
                     .checkbox-container {
                         position: relative;
@@ -245,6 +306,31 @@
                     .cancel:hover {
                         background-color: $orange;
                     }
+                }
+            }
+        }
+    }
+    .actions {
+        ul {
+            #barre{margin-right: 1.2em;white-space: nowrap;}
+            li {
+                .search{
+                    width: 85%;
+                    height: 1.2em;
+                    display: inline;
+                    margin-right: auto;
+                    margin-bottom: 0;
+                    margin-top: 0;
+                    white-space: nowrap;
+                }
+            }
+            .search_options {
+                margin-top: 0.5em;
+
+                input {
+                    margin-right : 0.3em;
+                    margin-left: 1em;
+
                 }
             }
         }

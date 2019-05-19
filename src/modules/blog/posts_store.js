@@ -36,7 +36,6 @@ const actions = {
     },
 
     async retrieveDrafts({commit, state}, force = false) {
-        console.log('draaaaaaaaaaaafts');
         let drafts = await PostsApi.getDrafted();
         commit('SET_ALL_DRAFTS', drafts.data);
     },

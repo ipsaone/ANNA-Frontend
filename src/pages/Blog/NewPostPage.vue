@@ -2,7 +2,7 @@
     <div class="blog basic-layout">
         <section class="form-post">
             <div class="editor">
-                <h1 class="section-title">New post</h1>
+                <h1 class="section-title color-blue">New post</h1>
 
                 <input type="text" name="title" placeholder="Title" v-model="title">
                 <markdown-editor v-model="markdown" :configs="configs"></markdown-editor>
@@ -57,7 +57,7 @@
             }
         },
         methods: {
-            submit() {
+            async submit() {
                 if (!this.canSubmit) {
                     this.$notify({
                         type: 'error',
@@ -73,8 +73,9 @@
                         published: !this.isDraft,
                         authorId: store.getters.loggedUserId
                     };
-                    store.dispatch('retrievePosts');
-                    store.dispatch('storePost', post)
+                    await store.dispatch('retrievePosts');
+                    await store.dispatch('retrieveDrafts');
+                    await store.dispatch('storePost', post)
                         .then(this.$router.push({name: 'blog'}))
                         .catch(err => {
                             this.$notify({
@@ -84,6 +85,8 @@
                                 duration: -1
                             });
                         });
+                    await store.dispatch('retrievePosts');
+                    await store.dispatch('retrieveDrafts');
                 }
             },
 

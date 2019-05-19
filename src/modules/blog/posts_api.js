@@ -9,7 +9,6 @@ export default {
     },
 
     getDrafted() {
-        console.log('getDrafted');
         return axios.get(url + '?published=false', {withCredentials: true});
     },
 
@@ -18,7 +17,7 @@ export default {
     },
 
     update(post) {
-        return axios.put(url + post.id, post, {withCredentials: true});
+        return axios.put(url + post.id, post.content, {withCredentials: true});
     },
 
     delete(id) {

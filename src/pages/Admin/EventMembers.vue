@@ -55,38 +55,21 @@
         },
         methods: {
             async beforeOpen(event) {
+                await store.dispatch('retrieveEvents', true);
                 await store.dispatch('retrieveEvent', event.params.event_id);
                 this.refreshUsers();
-                console.log(this.event);
             },
             async addUser(id) {
-                console.log('adding', id);
-                await EventsApi.register(store.getters.selectedEvent.id, id);
+                await store.dispatch('addEventMember', id);
                 await this.refreshUsers();
-                await store.dispatch('retrieveEvents', true);
-                await store.dispatch('retrieveEvents', false);
-                this.loading = false;
-                this.$notify({
-                    type: 'success',
-                    title: 'Events updated!',
-                    duration: 1000
-                });
             },
             async remUser(id) {
-                console.log('removing', id);
-                await EventsApi.withdraw(store.getters.selectedEvent.id, id);
+                await store.dispatch('remMissionMember', id);
                 await this.refreshUsers();
-                await store.dispatch('retrieveEvents', true);
-                await store.dispatch('retrieveEvents', false);
-                this.loading = false;
-                this.$notify({
-                    type: 'success',
-                    title: 'Events updated!',
-                    duration: 1000
-                });
             },
             async refreshUsers() {
-                await store.dispatch('retrieveEvent', store.getters.selectedEvent.id);
+                await store.dispatch('retrieveUsers');
+                await store.dispatch('retrieveEvents', true);
                 if (!this.event.users) {
                     this.shownUsers = store.getters.users;
                 }

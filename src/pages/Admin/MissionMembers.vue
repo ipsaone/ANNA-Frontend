@@ -3,6 +3,7 @@
         <div class="content anna-modal mission-members manage-members">
 
             <h1 v-if="mission.name"> Mission: {{ mission.name }}</h1>
+            <h1 v-if="mission.leader"> Leader : {{ mission.leader.username }} </h1>
             <i class="fa fa-times" v-on:click="$modal.hide('missionMembers')"></i>
 
             <div class="lists-wrapper">
@@ -51,8 +52,10 @@
         },
         methods: {
             async beforeOpen(event) {
-                this.refreshUsers();
+                await store.dispatch('retrieveUsers');
+                await store.dispatch('retrieveMissions', true);
                 await store.dispatch('retrieveMission', event.params.mission_id);
+                this.refreshUsers();
             },
             async addUser(id) {
                 await store.dispatch('addMissionMember', id);
@@ -63,19 +66,22 @@
                 await this.refreshUsers();
             },
             async refreshUsers() {
-                await store.dispatch('retrieveMission', store.getters.selectedMission.id);
-                await store.dispatch('retrieveMissions');
+                await store.dispatch('retrieveUsers');
+                await store.dispatch('retrieveMissions', true);
                 if (!this.mission.members) {
                     this.shownUsers = store.getters.users;
                 }
                 this.shownUsers =  store.getters.users.filter(el1 => {
                     let found = false;
+                    console.log(this.mission);
                     this.mission.members.forEach(el2 => {
                         if (el1.id == el2.id) {
                             found = true;
                         }
                     });
-
+                    if (el1.id == this.mission.leaderId) {
+                        found = true;
+                    }
                     return !found;
                 });
             },

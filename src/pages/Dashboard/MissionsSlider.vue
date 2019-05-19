@@ -19,7 +19,7 @@
                 <div class="mission-left">
 
                     <div class="description">
-                        <h2>Description :</h2>
+                        <h2>Description</h2>
                         <p class="content" v-html="mission.description" ></p>
                     </div>
 
@@ -62,14 +62,14 @@
                                 <li v-for="task in mission.tasks" :key="task.id">
                                     <div class="checkbox-container">
                                         <input type="checkbox" :name="task.name"
-                                         :id="'task'+task.id">
+                                         :id="'task'+task.id" v-model="task.done" @change="taskChange(task)">
                                         <label :for="task.id">{{ task.name }}</label>
-                                        <label class="checkbox" :for="'task' + task.id"  @click="taskChange(task)"></label>
-                                        <i v-if="$store.getters.loggedUserIsRoot" @click.prevent="delTask(task.id)" class="fa fa-trash"></i>
+                                        <label class="checkbox" :for="'task' + task.id"></label>
+                                        <i v-if="$store.getters.loggedUserIsRoot || logged.id === mission.leaderId" @click.prevent="delTask(task.id)" class="fa fa-trash"></i>
                                     </div>
                                 </li>
-                                <em v-if="mission.tasks.length == 0">No tasks yet !</em>
-                                <a @click.prevent="newTask">Add task</a>
+                                <em v-if="mission.tasks && mission.tasks.length === 0">No tasks yet !</em>
+                                <a v-if="$store.getters.loggedUserIsRoot || logged.id === mission.leaderId" @click.prevent="newTask">Add task</a>
                             </ul>
                         </div>
                     </div>
@@ -143,7 +143,7 @@
                 const data = {
                     task: {
                         id: task.id,
-                        done: !task.done,
+                        done: task.done,
                         name: task.name
                     },
                     missionId: task.missionId
