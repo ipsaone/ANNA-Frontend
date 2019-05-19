@@ -1,22 +1,28 @@
 import DriveApi from '@/modules/drive/drive_api';
 
 const state = {
+    // DRIVE V1
     folder: {},
     selected: {},
     percentCompleted: 0,
     searchResults : [],
     searchKeyWord : '',
+
+    // DRIVE V2
+        // each folder is {type: 'folder', meta: {}, children: []}
+        // each file is {type: 'file', meta: {}}
+    fileTree: {},
+    curFolder: 0
 };
 
 const mutations = {
+    // DRIVE V1
     SET_FOLDER(state, folder) {
         state.folder = folder;
     },
-
     SET_SELECTED(state, file) {
         state.selected = file;
     },
-
     CLEAR_DRIVE(state) {
         state.selected = {};
     },
@@ -29,11 +35,33 @@ const mutations = {
     SET_KEYWORD(state, keyWord) {
         state.searchKeyWord = keyWord;
     },
+
+
+    // DRIVE V2
+    SET_FOLDER_V2(state, folderId) {
+        state.curFolder = folderId;
+    },
+    INSERT_FOLDER_V2(state, parentPath, child) {
+    
+    },
+    REMOVE_FOLDER_V2(state, parentPath, childId) {
+
+    },
+    INSERT_FILE_META_V2(state, parentPath, meta) {
+
+    }
+    
+    
+
+
+
 };
 
 const actions = {
+    // DRIVE V1
     async retrieveFolder({commit, dispatch}, id) {
         let folder = await DriveApi.getFolder(id);
+        console.log(folder);
         await dispatch('setFolderOwners', folder.data);
         commit('SET_FOLDER', folder.data);
         await dispatch('unselectFile');
@@ -100,9 +128,32 @@ const actions = {
         await dispatch('setSearchOwners', result.data);
         commit('SET_RESULT', result.data);
     },
+
+
+
+
+    // DRIVE V2
+
+    // folderPath : path to folder using IDs [folderId, folderId, folderId] 
+    async loadMeta_v2({dispatch, commit}, folderPath, fileId) {
+        // call API to get data
+        // 
+    },
+    async loadFolder_v2({dispatch, commit}, folderPath, preload=false) {
+        // load children list
+        // for each children :
+            // load meta
+        // if preload:
+            // preload folder
+    },
+    async preload_v2({dispatch, commit}, folderPath) {
+        // for each child folder:
+            // loadFolder, preload=false
+    }
 };
 
 const getters = {
+    // DRIVE V1
     folder(state) {
         return state.folder;
     },
@@ -130,6 +181,13 @@ const getters = {
     keyWord(state) {
         return state.searchKeyWord;
     },
+
+
+
+    // DRIVE V2
+    curFolder_v2(state) {
+        return state.curFolder;
+    }
 };
 
 export default {

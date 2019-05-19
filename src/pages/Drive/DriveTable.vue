@@ -259,11 +259,11 @@
                         .then(_ => this.loading = false);
                 }
             },
-            goBack() {
+            async goBack() {
                 this.loading = true;
-                store.dispatch('retrieveFolder', this.folder.dirId)
-                    .then(_ => store.dispatch('selectFile', {}))
-                    .then(_ => this.loading = false);
+                await store.dispatch('retrieveFolder', this.folder.dirId)
+                    .then(() => store.dispatch('selectFile', {}))
+                    .then(() => this.loading = false);
             }
         }
     };
