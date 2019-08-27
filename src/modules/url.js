@@ -1,2 +1,2 @@
-export default 'http://192.168.50.5:8080';
+export default 'http://backend.ipsaone.space';
 // export default 'https://one.ipsa.fr/backend';
