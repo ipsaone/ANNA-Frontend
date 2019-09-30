@@ -257,7 +257,7 @@
 
                         } else {
                             await driveApi.editFile({fileId: this.selectedFile.fileId, data});
-                            // useless as long as we can't change file whhen editing
+                            // useless as long as we can't change file when editing
                             // this.uploadPercentage = store.getters.progress;
                         }
                         document.getElementById('submitButton').removeAttribute('disabled', 'disabled');
@@ -282,8 +282,9 @@
                         duration: 5000
                     }))
                     .catch(() => console.log('Upload successfully canceled')); */
-
-                    document.getElementById('submitButton').removeAttribute('disabled', 'disabled');
+                    if(document.getElementById('submitButton')) {
+                        document.getElementById('submitButton').removeAttribute('disabled', 'disabled');
+                    }
                     await store.dispatch('retrieveFolder', store.getters.folder.fileId);
                     await store.dispatch('resetProgress');
                     this.$modal.hide('uploadFile');
