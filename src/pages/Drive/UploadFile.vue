@@ -253,7 +253,7 @@
                     let confirmation = confirm('Do you still want to upload without write permissions ?');
                     if (confirmation === true) {
                         document.getElementById('submitButton').setAttribute('disabled', 'disabled');
-                        if(!this.isEditing) {
+                        /*if(!this.isEditing) {
                             await driveApi.uploadFile(data);
                             this.uploadPercentage = store.getters.progress;
 
@@ -261,6 +261,71 @@
                             await driveApi.editFile({fileId: this.selectedFile.fileId, data});
                             // useless as long as we can't change file when editing
                             // this.uploadPercentage = store.getters.progress;
+                        }*/
+                        if (this.isEditing) {
+                            await driveApi.editFile({fileId: this.selectedFile.fileId, data});
+                        } else {
+                            let alreadyExists = false;
+                            if(this.isFolder) {
+                                this.folder.children.forEach(child => {
+                                    if(child.name == data.name) {
+                                        alreadyExists = true;
+                                    }
+                                });
+                                if(alreadyExists) {
+                                    this.$notify({
+                                        type: 'warning',
+                                        title: 'A folder with this name already exists',
+                                        text: 'Please change folder name',
+                                        duration: 5000
+                                    });
+                                } else {
+                                    await driveApi.uploadFile(data);
+                                    this.uploadPercentage = store.getters.progress;
+                                }
+                            } else {
+                                let editingFileid;
+                                this.folder.children.forEach(child => {
+                                    if(child.name == data.name) {
+                                        alreadyExists = true;
+                                        editingFileid = child.fileId;
+                                    }
+                                });
+                                if(alreadyExists) {
+                                    let confirmation = confirm('A file with the name '
+                                    + data.name + ' already exists. \nContinuing will upload a new version of the file.');
+                                    if (confirmation === true) {
+                                        document.getElementById('submitButton').setAttribute('disabled', 'disabled');
+                                        await driveApi.editFile({fileId: editingFileid, data});
+                                        this.uploadPercentage = store.getters.progress;
+                                    }
+                                    /*this.$modal.show('dialog', {
+                                        title: 'A file with the name ' + data.name + ' already exists.',
+                                        text: 'Continuing will create a upload a new version of the file',
+                                        buttons: [
+                                            {
+                                                title: 'Upload',
+                                                default: false,
+                                                handler: async () => {
+                                                    console.log('this : ', this);
+                                                    await driveApi.editFile({fileId: editingFileid, data});
+                                                    await store.dispatch('retrieveFolder', store.getters.folder.fileId);
+                                                    this.uploadPercentage = store.getters.progress;
+                                                    this.$modal.hide('dialog');
+                                                    await store.dispatch('resetProgress');
+                                                }
+                                            },
+                                            {
+                                                title: 'Cancel'
+                                            }
+                                        ]
+                                    });*/
+                                } else {
+                                    await driveApi.uploadFile(data);
+                                    await store.dispatch('retrieveFolder', store.getters.folder.fileId);
+                                    this.uploadPercentage = store.getters.progress;
+                                }
+                            }
                         }
                         document.getElementById('submitButton').removeAttribute('disabled', 'disabled');
                         await store.dispatch('retrieveFolder', store.getters.folder.fileId);
@@ -277,68 +342,72 @@
                         // useless as long as we can't change file whhen editing
                         // this.uploadPercentage = store.getters.progress;
                     }*/
-                    let alreadyExists = false;
-                    if(this.isFolder) {
-                        this.folder.children.forEach(child => {
-                            if(child.name == data.name) {
-                                alreadyExists = true;
-                            }
-                        });
-                        if(alreadyExists) {
-                            this.$notify({
-                                type: 'warning',
-                                title: 'A folder with this name already exists',
-                                text: 'Please change folder name',
-                                duration: 5000
-                            });
-                        } else {
-                            await driveApi.uploadFile(data);
-                            this.uploadPercentage = store.getters.progress;
-                        }
+                    if (this.isEditing) {
+                        await driveApi.editFile({fileId: this.selectedFile.fileId, data});
                     } else {
-                        let editingFileid;
-                        this.folder.children.forEach(child => {
-                            if(child.name == data.name) {
-                                alreadyExists = true;
-                                editingFileid = child.fileId;
-                            }
-                        });
-                        if(alreadyExists) {
-                            let confirmation = confirm('A file with the name '
-                            + data.name + ' already exists. \nContinuing will upload a new version of the file.');
-                            if (confirmation === true) {
-                                document.getElementById('submitButton').setAttribute('disabled', 'disabled');
-                                await driveApi.editFile({fileId: editingFileid, data});
+                        let alreadyExists = false;
+                        if(this.isFolder) {
+                            this.folder.children.forEach(child => {
+                                if(child.name == data.name) {
+                                    alreadyExists = true;
+                                }
+                            });
+                            if(alreadyExists) {
+                                this.$notify({
+                                    type: 'warning',
+                                    title: 'A folder with this name already exists',
+                                    text: 'Please change folder name',
+                                    duration: 5000
+                                });
+                            } else {
+                                await driveApi.uploadFile(data);
                                 this.uploadPercentage = store.getters.progress;
                             }
-                            /*this.$modal.show('dialog', {
-                                title: 'A file with the name ' + data.name + ' already exists.',
-                                text: 'Continuing will create a upload a new version of the file',
-                                buttons: [
-                                    {
-                                        title: 'Upload',
-                                        default: false,
-                                        handler: async () => {
-                                            console.log('this : ', this);
-                                            await driveApi.editFile({fileId: editingFileid, data});
-                                            await store.dispatch('retrieveFolder', store.getters.folder.fileId);
-                                            this.uploadPercentage = store.getters.progress;
-                                            this.$modal.hide('dialog');
-                                            await store.dispatch('resetProgress');
-                                        }
-                                    },
-                                    {
-                                        title: 'Cancel'
-                                    }
-                                ]
-                            });*/
                         } else {
-                            await driveApi.uploadFile(data);
-                            await store.dispatch('retrieveFolder', store.getters.folder.fileId);
-                            this.uploadPercentage = store.getters.progress;
+                            let editingFileid;
+                            this.folder.children.forEach(child => {
+                                if(child.name == data.name) {
+                                    alreadyExists = true;
+                                    editingFileid = child.fileId;
+                                }
+                            });
+                            if(alreadyExists) {
+                                let confirmation = confirm('A file with the name '
+                                + data.name + ' already exists. \nContinuing will upload a new version of the file.');
+                                if (confirmation === true) {
+                                    document.getElementById('submitButton').setAttribute('disabled', 'disabled');
+                                    await driveApi.editFile({fileId: editingFileid, data});
+                                    this.uploadPercentage = store.getters.progress;
+                                }
+                                /*this.$modal.show('dialog', {
+                                    title: 'A file with the name ' + data.name + ' already exists.',
+                                    text: 'Continuing will create a upload a new version of the file',
+                                    buttons: [
+                                        {
+                                            title: 'Upload',
+                                            default: false,
+                                            handler: async () => {
+                                                console.log('this : ', this);
+                                                await driveApi.editFile({fileId: editingFileid, data});
+                                                await store.dispatch('retrieveFolder', store.getters.folder.fileId);
+                                                this.uploadPercentage = store.getters.progress;
+                                                this.$modal.hide('dialog');
+                                                await store.dispatch('resetProgress');
+                                            }
+                                        },
+                                        {
+                                            title: 'Cancel'
+                                        }
+                                    ]
+                                });*/
+                            } else {
+                                await driveApi.uploadFile(data);
+                                await store.dispatch('retrieveFolder', store.getters.folder.fileId);
+                                this.uploadPercentage = store.getters.progress;
+                            }
                         }
-
                     }
+
 
                     /* .then(() => this.$notify({
                         type: 'success',
