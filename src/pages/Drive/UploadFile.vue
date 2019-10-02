@@ -120,7 +120,6 @@
                 set: function () {
                     var uploadPercentage = 0;
                 }
-
             },
             userGroups: {
                 get: function () {

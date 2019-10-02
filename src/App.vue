@@ -7,6 +7,7 @@
         <div v-if="$route.path !== '/login' && $route.path !=='/'">
             <sidebar></sidebar>
         </div>
+        <vm-progress v-if="uploadPercentage!=0" id="uploadProgressCircle" type="circle" :percentage="uploadPercentage" :width="75"></vm-progress>
         <router-view></router-view>
     </div>
 </template>
@@ -28,8 +29,8 @@
         Vue.notify({
             type: 'error',
             title,
-            text: ((err && err.response && err.response.data) 
-                        ? err.response.data.message || err.response.data.error 
+            text: ((err && err.response && err.response.data)
+                        ? err.response.data.message || err.response.data.error
                         : 'Erreur inconnue'),
             duration: 5000
         });
@@ -43,6 +44,16 @@
     export default {
         components: {
             Sidebar
+        },
+        computed: {
+            uploadPercentage: {
+                get: function () {
+                    return store.getters.progress;
+                },
+                set: function () {
+                    var uploadPercentage = 0;
+                }
+            }
         },
         name: 'app'
     };
