@@ -56,7 +56,7 @@
             <div v-if="showOptions">
                 <h1 class="section-title">Options</h1>
                 <ul>
-                    <li v-if="selectedFile.type != 'folder'">
+                    <li v-if="!this.selectedFile.isDir">
                         <a href="#" @click.prevent="downloadFile">
                             <i class="fa fa-download" aria-hidden="true"></i> Download
                         </a>
@@ -64,6 +64,11 @@
                     <li v-else>
                         <a href="#" @click.prevent="openFile">
                             <i class="fa fa-download" aria-hidden="true"></i> Open
+                        </a>
+                    </li>
+                    <li v-if="!this.selectedFile.isDir">
+                        <a href="#">
+                            <i class="fas fa-history"></i> Show history
                         </a>
                     </li>
                     <li>
@@ -81,7 +86,7 @@
                         <a  v-else
                             href="#"
                             @click.prevent="$modal.show('uploadFile', {isFolder: false, isEditing: true})">
-                            <i class="fa fa-pen"></i> Edit
+                            <i class="fa fa-pen"></i> Edit permissions
                         </a>
                     </li>
                     <li>
