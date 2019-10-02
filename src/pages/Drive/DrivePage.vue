@@ -14,12 +14,12 @@
         <section class="actions">
             <h1 class="section-title">Actions</h1>
             <ul>
-                <li id="barre" v-if="$store.getters.loggedUser.groups.length !== 0">
+                <li id="barre" v-if="$store.getters.loggedUser.groups && $store.getters.loggedUser.groups.length !== 0">
                     <a href="#" @input="search(searchKeyWord, searchTypes)">
                         <i class="fas fa-search" aria-hidden="true" ></i>
                         <input class="search" style="padding: 0; margin: 0;" v-model="searchKeyWord" type="search">
                     </a>
-                    <div class="search_options" v-if="searchKeyWord.length > 0">
+                    <div class="search_options" v-if="searchKeyWord && searchKeyWord.length > 0">
                         <input type="checkbox"  value='name' v-model="searchTypes" @change="search(searchKeyWord, searchTypes)">Name
                         <input type="checkbox"  value='serialNbr' v-model="searchTypes" @change="search(searchKeyWord, searchTypes)">Serial number
                     </div>
@@ -37,7 +37,7 @@
                 </li>
 
                 <li style="padding-right: 15px !important">
-                    <p  v-if="$store.getters.loggedUser.groups.length == 0"
+                    <p  v-if="$store.getters.loggedUser.groups && $store.getters.loggedUser.groups.length == 0"
                         style="margin-right: 160px; word-break: break-word;">
 
                         Join a group to be able to upload files and create folders !
