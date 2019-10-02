@@ -81,7 +81,7 @@
                         <a  v-else
                             href="#"
                             @click.prevent="$modal.show('uploadFile', {isFolder: false, isEditing: true})">
-                            <i class="fa fa-pen"></i> Edit
+                            <i class="fa fa-pen"></i> Edit permissions
                         </a>
                     </li>
                     <li>
