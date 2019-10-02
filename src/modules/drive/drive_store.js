@@ -42,7 +42,7 @@ const mutations = {
         state.curFolder = folderId;
     },
     INSERT_FOLDER_V2(state, parentPath, child) {
-
+    
     },
     REMOVE_FOLDER_V2(state, parentPath, childId) {
 
@@ -50,8 +50,8 @@ const mutations = {
     INSERT_FILE_META_V2(state, parentPath, meta) {
 
     }
-
-
+    
+    
 
 
 
@@ -61,7 +61,7 @@ const actions = {
     // DRIVE V1
     async retrieveFolder({commit, dispatch}, id) {
         let folder = await DriveApi.getFolder(id);
-        // console.log(folder);
+        console.log(folder);
         await dispatch('setFolderOwners', folder.data);
         commit('SET_FOLDER', folder.data);
         await dispatch('unselectFile');
@@ -134,10 +134,10 @@ const actions = {
 
     // DRIVE V2
 
-    // folderPath : path to folder using IDs [folderId, folderId, folderId]
+    // folderPath : path to folder using IDs [folderId, folderId, folderId] 
     async loadMeta_v2({dispatch, commit}, folderPath, fileId) {
         // call API to get data
-        //
+        // 
     },
     async loadFolder_v2({dispatch, commit}, folderPath, preload=false) {
         // load children list

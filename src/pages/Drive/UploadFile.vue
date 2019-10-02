@@ -113,9 +113,6 @@
             cases() {
                 return Array('ownerRead', 'groupRead', 'allRead', 'ownerWrite', 'groupWrite', 'allWrite');
             },
-            folder() {
-                return store.getters.folder;
-            },
             uploadPercentage: {
                 get: function () {
                     return store.getters.progress;
@@ -254,31 +251,8 @@
                     if (confirmation === true) {
                         document.getElementById('submitButton').setAttribute('disabled', 'disabled');
                         if(!this.isEditing) {
-                            this.folder.children.forEach(child => {
-                                if (child.name == data.name) {
-                                    this.$modal.show('dialog', {
-                                        title: 'A file with the name ' + data.name + ' already exists in this folder',
-                                        text: 'Continuing will upload a new version of the file.',
-                                        buttons: [
-                                            {
-                                                title: 'Edit',
-                                                default: true,
-                                                handler: async () => {
-                                                    await driveApi.editFile({fileId: child.fileId, data});
-                                                    await store.dispatch('retrieveFolder', store.getters.folder.fileId);
-                                                    this.$modal.hide('dialog');
-                                                }
-                                            },
-                                            {
-                                                title: 'Cancel'
-                                            }
-                                        ]
-                                    });
-                                } else async() => {
-                                    await driveApi.uploadFile(data);
-                                    this.uploadPercentage = store.getters.progress;
-                                };
-                            });
+                            await driveApi.uploadFile(data);
+                            this.uploadPercentage = store.getters.progress;
 
                         } else {
                             await driveApi.editFile({fileId: this.selectedFile.fileId, data});
@@ -293,32 +267,8 @@
                 } else {
                     document.getElementById('submitButton').setAttribute('disabled', 'disabled');
                     if(!this.isEditing) {
-                        this.folder.children.forEach(child => {
-                            if (child.name == data.name) {
-                                this.$modal.show('dialog', {
-                                    title: 'A file with the name ' + data.name + ' already exists in this folder',
-                                    text: 'Continuing will upload a new version of the file.',
-                                    buttons: [
-                                        {
-                                            title: 'Edit',
-                                            default: true,
-                                            handler: async () => {
-                                                await driveApi.editFile({fileId: child.fileId, data});
-                                                await store.dispatch('retrieveFolder', store.getters.folder.fileId);
-                                                await store.dispatch('unselectFile');
-                                                this.$modal.hide('dialog');
-                                            }
-                                        },
-                                        {
-                                            title: 'Cancel'
-                                        }
-                                    ]
-                                });
-                            } else async() => {
-                                await driveApi.uploadFile(data);
-                                this.uploadPercentage = store.getters.progress;
-                            };
-                        });
+                        await driveApi.uploadFile(data);
+                        this.uploadPercentage = store.getters.progress;
                     } else {
                         await driveApi.editFile({fileId: this.selectedFile.fileId, data});
                         // useless as long as we can't change file whhen editing
