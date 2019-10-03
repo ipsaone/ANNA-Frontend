@@ -8,7 +8,7 @@
         <section class="content">
             <h1 class="color-green section-title">Drive</h1>
 
-            <drive-table :search="searchKeyWord"></drive-table>
+            <drive-table :search="searchKeyWord" showHistory="false"></drive-table>
         </section>
 
         <section class="actions">
@@ -67,7 +67,7 @@
                         </a>
                     </li>
                     <li v-if="!this.selectedFile.isDir">
-                        <a href="#">
+                        <a href="#" @click.prevent="toggleShowHistory">
                             <i class="fas fa-history"></i> Show history
                         </a>
                     </li>
@@ -194,7 +194,9 @@
                 if (!this.selectedFile.type === 'folder')
                     this.$modal.show('editFile');
             },
-
+            toggleShowHistory() {
+                store.dispatch('toggleShowHistory');
+            },
             deleteFile() {
                 /*swal({
                     title: 'Delete this file?',

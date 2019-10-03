@@ -32,6 +32,37 @@
           <tr>
               <td>
                   <div class="inside-folder">
+                      <table id="file-history" v-if="showHistory">
+                          <tr>
+                              <th colspan="5">
+                                  <p class="center" style="color: #7a7a7a">
+                                      File History
+                                  </p>
+                              </th>
+                          </tr>
+                          <tr v-for="file in content" :key="file.fileId" @click="select(file)"
+                              @dblclick="openFile(file)"
+                              :class="{selected: file.fileId === selectedFile.fileId}">
+                              <td v-html="getIcon(file)"></td>
+                              <td>
+                                 {{ wrapName(file.name) }}
+                              </td>
+                              <td>
+                                  {{ wrapName2(file.serialNbr) }}
+                              </td>
+                              <td>
+                                  {{ wrapName(file.owner.username) }}
+                              </td>
+                              <td>
+                                  {{ convertSize(file) }}
+                              </td>
+                          </tr>
+                          <tr v-if="content.length === 0">
+                              <p class="center">
+                                  No older versions of this file were found.
+                              </p>
+                          </tr>
+                      </table>
                       <table id="result-search" v-if="keyword && keyword.trim().length >= 2">
                           <tr v-for="file in results" :key="file.fileId" @click="select(file)"
                               @dblclick="openFile(file)"
@@ -57,7 +88,7 @@
                               </p>
                           </tr>
                       </table>
-                      <table id="inside-folder-list" v-else>
+                      <table id="inside-folder-list" v-if="!(keyword && keyword.trim().length >= 2) && !showHistory">
                           <tr v-for="file in content" :key="file.fileId" @click="select(file)"
                               @dblclick="openFile(file)"
                               :class="{selected: file.fileId === selectedFile.fileId}">
@@ -76,7 +107,7 @@
                               </td>
                           </tr>
                           <tr v-if="content.length === 0">
-                              <p class="center" @click.prevent="$modal.show('uploadFile')">
+                              <p class="center" @click.prevent="$modal.show('uploadFile', {isFolder: false, isEditing: false})">
                                   This folder is still empty.
                               </p>
                           </tr>
@@ -124,6 +155,9 @@
             },
             selectedFile() {
                 return store.getters.selectedFile;
+            },
+            showHistory() {
+                return store.getters.showHistory;
             }
         },
         methods: {

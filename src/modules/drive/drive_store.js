@@ -7,6 +7,7 @@ const state = {
     percentCompleted: 0,
     searchResults : [],
     searchKeyWord : '',
+    showHistory: false,
 
     // DRIVE V2
         // each folder is {type: 'folder', meta: {}, children: []}
@@ -36,6 +37,9 @@ const mutations = {
         state.searchKeyWord = keyWord;
     },
 
+    SET_SHOW_HISTORY(state) {
+        state.showHistory = !state.showHistory;
+    },
 
     // DRIVE V2
     SET_FOLDER_V2(state, folderId) {
@@ -50,10 +54,6 @@ const mutations = {
     INSERT_FILE_META_V2(state, parentPath, meta) {
 
     }
-
-
-
-
 
 };
 
@@ -128,7 +128,9 @@ const actions = {
         commit('SET_RESULT', result.data);
     },
 
-
+    toggleShowHistory({dispatch, commit}) {
+        commit('SET_SHOW_HISTORY');
+    },
 
 
     // DRIVE V2
@@ -179,6 +181,10 @@ const getters = {
 
     keyWord(state) {
         return state.searchKeyWord;
+    },
+
+    showHistory(state) {
+        return state.showHistory;
     },
 
 
