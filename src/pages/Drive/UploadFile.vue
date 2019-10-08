@@ -104,11 +104,16 @@
             users() {
                 return store.getters.users;
             },
-            user() {
-                return store.getters.selectedUser;
-            },
-            selectedUser() {
-                return store.getters.selectedUser;
+            // user() {
+            //     return store.getters.selectedUser;
+            // },
+            selectedUser: {
+                get: function () {
+                    return store.getters.selectedUser;
+                },
+                set: function () {
+                    var selectedUser = {};
+                }
             },
             cases() {
                 return Array('ownerRead', 'groupRead', 'allRead', 'ownerWrite', 'groupWrite', 'allWrite');
@@ -440,30 +445,44 @@
                 this.$modal.hide('uploadFile');
             },
             async beforeOpen(event) {
+                console.log(event);
                 await store.dispatch('retrieveUsers');
-                await store.dispatch('retrieveLoggedUser');
+                // if (this.selectedFile.ownerId) {
+                //     await store.dispatch('getUserById', this.selectedFile.ownerId);
+                // } else {
+                //     await store.dispatch('retrieveLoggedUser');
+                // }
+                await store.dispatch('retrieveGroups');
                 if (event && event.params && event.params.isEditing) {
-                    this.ownerId = this.selectedFile.owner.id;
+                    this.ownerId = this.selectedFile.ownerId;
                     this.ownerName = this.selectedFile.owner.username;
                     this.groupId = this.selectedFile.groupId;
                     await store.dispatch('retrieveGroup', this.groupId);
                     this.groupName = this.selectedGroup.name;
                     this.name = this.selectedFile.name;
                     this.serialNbr = this.selectedFile.serialNbr;
+                    this.rights = this.selectedFile.rights;
                 } else {
-                    let user = store.getters.loggedUser;
-                    let group = store.getters.groups.sort((a, b) => a.id - b.id)[0];
+                    let user = event.params.loggedUser;
+                    let group = event.params.loggedUser.groups.sort((a, b) => a.id - b.id)[0];
                     this.ownerId = user.id;
                     this.ownerName = user.username;
                     this.groupId = group.id;
                     this.groupName = group.name;
                     this.name = '';
                     this.serialNbr = '';
+                    this.rights = { ownerRead: true,
+                        ownerWrite: true,
+                        groupRead: true,
+                        groupWrite: true,
+                        allRead: true,
+                        allWrite: true
+                    };
                 }
 
-                this.isEditing = event.params.isEditing;
-                this.isFolder = event.params.isFolder;
-                await store.dispatch('retrieveLoggedUser');
+                // this.isEditing = event.params.isEditing;
+                // this.isFolder = event.params.isFolder;
+                // await store.dispatch('retrieveLoggedUser');
             }
         }
     };

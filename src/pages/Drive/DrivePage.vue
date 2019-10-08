@@ -14,7 +14,7 @@
         <section class="actions">
             <h1 class="section-title">Actions</h1>
             <ul>
-                <li id="barre" v-if="$store.getters.loggedUser.groups && $store.getters.loggedUser.groups.length !== 0">
+                <li id="barre" v-if="loggedUser.groups && loggedUser.groups.length !== 0">
                     <a href="#" @input="search(searchKeyWord, searchTypes)">
                         <i class="fas fa-search" aria-hidden="true" ></i>
                         <input class="search" style="padding: 0; margin: 0;" v-model="searchKeyWord" type="search">
@@ -24,20 +24,20 @@
                         <input type="checkbox"  value='serialNbr' v-model="searchTypes" @change="search(searchKeyWord, searchTypes)">Serial number
                     </div>
                 </li>
-                <li v-if="$store.getters.loggedUser.groups && $store.getters.loggedUser.groups.length !== 0">
-                    <a href="#" @click.prevent="$modal.show('uploadFile', {isFolder: false, isEditing: false})">
+                <li v-if="loggedUser.groups && loggedUser.groups.length !== 0">
+                    <a href="#" @click.prevent="$modal.show('uploadFile', {isFolder: false, isEditing: false, loggedUser})">
                         <i class="fa fa-upload" aria-hidden="true"></i> Upload
                     </a>
                 </li>
 
-                <li v-if="$store.getters.loggedUser.groups && $store.getters.loggedUser.groups.length !== 0">
-                    <a href="#" @click.prevent="$modal.show('uploadFile', {isFolder: true, isEditing: false})">
+                <li v-if="loggedUser.groups && loggedUser.groups.length !== 0">
+                    <a href="#" @click.prevent="$modal.show('uploadFile', {isFolder: true, isEditing: false, loggedUser})">
                         <i class="fa fa-plus" aria-hidden="true"></i> New folder
                     </a>
                 </li>
 
                 <li style="padding-right: 15px !important">
-                    <p  v-if="$store.getters.loggedUser.groups && $store.getters.loggedUser.groups.length == 0"
+                    <p  v-if="loggedUser.groups && loggedUser.groups.length == 0"
                         style="margin-right: 160px; word-break: break-word;">
 
                         Join a group to be able to upload files and create folders !
@@ -67,16 +67,24 @@
                         </a>
                     </li>
                     <li v-if="!this.selectedFile.isDir">
-                        <a href="#" @click.prevent="toggleShowHistory">
-                            <i class="fas fa-history"></i> Show history
+                        <a href="#" v-if="!showHistory" @click.prevent="toggleShowHistory">
+                          <i v-if="!showHistory" class="fas fa-history"></i> Show history
+                        </a>
+                        <a href="#" v-else @click.prevent="toggleShowHistory">
+                            <i v-if="showHistory" class="fas fa-times"></i> Hide history
                         </a>
                     </li>
-                    <li>
+                    <!--li>
+                        <a href="#" @click.prevent="downloadMeta">
+                            <i></i> Download Meta
+                        </a>
+                    </li-->
+                    <li v-if="!showHistory">
                         <a href="#" @click.prevent="moveFile">
                             <i class="fa fa-folder" aria-hidden="true"></i> Move
                         </a>
                     </li>
-                    <li>
+                    <li v-if="!showHistory">
                         <a  v-if="this.selectedFile.isDir"
                             href="#"
                             @click.prevent="$modal.show('uploadFile', {isFolder: true, isEditing: true})">
@@ -86,10 +94,10 @@
                         <a  v-else
                             href="#"
                             @click.prevent="$modal.show('uploadFile', {isFolder: false, isEditing: true})">
-                            <i class="fa fa-pen"></i> Edit permissions
+                            <i class="fa fa-pen"></i> Edit
                         </a>
                     </li>
-                    <li>
+                    <li v-if="!showHistory">
                         <a href="#" @click.prevent="deleteFile">
                             <i class="fa fa-trash"></i> Delete
                         </a>
@@ -138,7 +146,13 @@
                 return store.getters.selectedFile;
             },
             showOptions() {
-                return typeof this.selectedFile !== 'undefined' && typeof this.selectedFile.fileId !== 'undefined';
+                return typeof this.selectedFile !== 'undefined' && typeof this.selectedFile.fileId !== 'undefined' || this.showHistory;
+            },
+            showHistory() {
+                return store.getters.showHistory;
+            },
+            loggedUser() {
+                return store.getters.loggedUser;
             }
         },
         data() {
@@ -190,12 +204,19 @@
             downloadFile() {
                 driveApi.downloadFile(this.selectedFile.fileId);
             },
+            // downloadMeta() {
+            //     driveApi.downloadMeta(this.selectedFile.fileId);
+            // },
             editFile() {
                 if (!this.selectedFile.type === 'folder')
                     this.$modal.show('editFile');
             },
             toggleShowHistory() {
-                store.dispatch('toggleShowHistory');
+                if(!store.getters.showHistory){
+                    store.dispatch('showHistory', this.selectedFile.fileId);
+                } else {
+                    store.dispatch('hideHistory');
+                }
             },
             deleteFile() {
                 /*swal({
