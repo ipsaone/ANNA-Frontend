@@ -8,6 +8,7 @@ const state = {
     searchResults : [],
     searchKeyWord : '',
     showHistory: false,
+    meta: [],
 
     // DRIVE V2
         // each folder is {type: 'folder', meta: {}, children: []}
@@ -37,8 +38,16 @@ const mutations = {
         state.searchKeyWord = keyWord;
     },
 
-    SET_SHOW_HISTORY(state) {
-        state.showHistory = !state.showHistory;
+    SHOW_HISTORY(state) {
+        state.showHistory = true;
+    },
+
+    HIDE_HISTORY(state) {
+        state.showHistory = false;
+    },
+
+    SET_META(state, data) {
+        state.meta = data;
     },
 
     // DRIVE V2
@@ -128,8 +137,14 @@ const actions = {
         commit('SET_RESULT', result.data);
     },
 
-    toggleShowHistory({dispatch, commit}) {
-        commit('SET_SHOW_HISTORY');
+    async showHistory({dispatch, commit}, fileId) {
+        let res = await DriveApi.getMeta(fileId);
+        commit('SET_META', res.data);
+        commit('SHOW_HISTORY');
+    },
+
+    async hideHistory({dispatch, commit}) {
+        commit('HIDE_HISTORY');
     },
 
 
@@ -187,7 +202,9 @@ const getters = {
         return state.showHistory;
     },
 
-
+    metaData(state) {
+        return state.meta;
+    },
 
     // DRIVE V2
     curFolder_v2(state) {

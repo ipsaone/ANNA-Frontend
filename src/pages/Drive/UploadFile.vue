@@ -445,7 +445,6 @@
                 this.$modal.hide('uploadFile');
             },
             async beforeOpen(event) {
-                console.log(event);
                 await store.dispatch('retrieveUsers');
                 // if (this.selectedFile.ownerId) {
                 //     await store.dispatch('getUserById', this.selectedFile.ownerId);
@@ -482,7 +481,7 @@
 
                 this.isEditing = event.params.isEditing;
                 this.isFolder = event.params.isFolder;
-                // await store.dispatch('retrieveLoggedUser');
+                await store.dispatch('retrieveLoggedUser');
             }
         }
     };

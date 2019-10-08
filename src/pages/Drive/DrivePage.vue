@@ -57,7 +57,10 @@
                 <h1 class="section-title">Options</h1>
                 <ul>
                     <li v-if="!this.selectedFile.isDir">
-                        <a href="#" @click.prevent="downloadFile">
+                        <a v-if="!showHistory" href="#" @click.prevent="downloadFile">
+                            <i class="fa fa-download" aria-hidden="true"></i> Download
+                        </a>
+                        <a v-else href="#" @click.prevent="downloadRev">
                             <i class="fa fa-download" aria-hidden="true"></i> Download
                         </a>
                     </li>
@@ -203,6 +206,9 @@
             },
             downloadFile() {
                 driveApi.downloadFile(this.selectedFile.fileId);
+            },
+            downloadRev() {
+                driveApi.downloadRev(this.selectedFile.fileId, this.selectedFile.id);
             },
             // downloadMeta() {
             //     driveApi.downloadMeta(this.selectedFile.fileId);
