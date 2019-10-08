@@ -480,8 +480,8 @@
                     };
                 }
 
-                // this.isEditing = event.params.isEditing;
-                // this.isFolder = event.params.isFolder;
+                this.isEditing = event.params.isEditing;
+                this.isFolder = event.params.isFolder;
                 // await store.dispatch('retrieveLoggedUser');
             }
         }
