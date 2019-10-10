@@ -16,12 +16,10 @@ const mutations = {
 };
 
 const actions = {
-    retrieveUsers({commit, state}, force = false) {
+    async retrieveUsers({commit, state}, force = false) {
         if (state.users.length === 0 || force) {
-            return UsersApi.getAll().then(users => commit('SET_ALL_USERS', users.data));
-        }
-        else {
-            return Promise.resolve();
+            let users = await UsersApi.getAll();
+            commit('SET_ALL_USERS', users.data);
         }
     },
 

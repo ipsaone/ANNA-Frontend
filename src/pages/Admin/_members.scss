@@ -2,7 +2,7 @@
     overflow-y: hidden;
 }
 
-.content .fa-times {
+.anna-modal .fa-times {
     position: absolute;
     font-size: 30px;
     top: 10px;
@@ -10,7 +10,7 @@
     cursor: pointer;
 }
 
-.lists-wrapper{
+.lists-wrapper {
     display: grid;
     grid-template-columns: 1fr 1fr;
     grid-column-gap: 2px solid black;

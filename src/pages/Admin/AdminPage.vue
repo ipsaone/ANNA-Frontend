@@ -155,7 +155,7 @@
                             <!--th>Groups</th-->
                             <th>Actions</th>
                         </tr>
-                        <tr v-for="user in $store.getters.users" :key="user.id">
+                        <tr v-for="user in users" :key="user.id">
                             <td> {{ user.id }} </td>
                             <td> {{ user.username }} </td>
                             <td> {{ user.email }} </td>
@@ -252,29 +252,7 @@
                 return store.getters.loggedUser.groups;
             },
             users() {
-                let i;
-                let users = [];
-                for(i = 1; i <= store.getters.users.length; i++) {
-                    store.dispatch('selectUser', i)
-                    .then(_ => {
-                        store.dispatch('retrieveGroups')
-                        .then(_ => {
-                            users.push(store.getters.selectedUser);
-                        });
-                    });
-                }
-                return users;
-            },
-            userGroups() {
-                let i;
-                let groups = [];
-                let u = this.users;
-                for(i = 1; i <= u.length; i++) {
-                    store.dispatch('retrieveGroups')
-                    .then(_ => {
-                        groups.push(u[i]);
-                    });
-                }
+                return store.getters.users;
             }
         },
         async mounted() {
