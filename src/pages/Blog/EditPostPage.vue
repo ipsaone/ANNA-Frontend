@@ -80,7 +80,7 @@
                         id: this.post.id,
                         content: {
                             authorId: this.loggedUserId,
-                            markdown: this.markdown.replace(/\n\n/gi, '\n\n<br>'),
+                            markdown: this.markdown.replace(/\n/gi, '\n<br>'),
                             published: !this.isDraft,
                             title: this.title
                         }
@@ -109,7 +109,7 @@
                     if(res) {
                         const post = {
                             title: this.title,
-                            markdown: this.markdown.replace(/\n\n/gi, '\n\n<br>'),
+                            markdown: this.markdown.replace(/\n/gi, '\n\n<br>'),
                             published: false,
                             authorId: store.getters.loggedUserId
                         };

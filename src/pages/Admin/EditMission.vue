@@ -101,7 +101,7 @@
                 this.name = store.getters.selectedMission.name;
                 this.chief = this.mission.leaderId ? this.mission.leaderId.toString() : '';
                 this.group = this.mission.groupId ? this.mission.groupId.toString() : '';
-                this.markdown = this.mission.markdown;
+                this.markdown =   this.mission.markdown.replace(/<br>/gi, '');
                 this.budgetUsed = this.mission.budgetUsed ? this.mission.budgetUsed.toString() : 0;
                 this.budgetAssigned = this.mission.budgetAssigned ? this.mission.budgetAssigned.toString() : 0;
 
@@ -146,7 +146,7 @@
                     id: this.id,
                     mission: {
                         name: this.name,
-                        markdown: this.markdown,
+                        markdown: this.markdown.replace(/\n/gi, '\n<br>'),
                         leaderId: parseInt(this.chief, 10),
                         groupId: parseInt(this.group, 10),
                         budgetAssigned: parseFloat(this.budgetAssigned, 10),

@@ -122,7 +122,7 @@
                 this.loading = true;
                 await store.dispatch('storeMission', {
                     name: this.name,
-                    markdown: this.markdown,
+                    markdown: this.markdown.replace(/\n/gi, '\n<br>'),
                     leaderId: parseInt(this.chief, 10),
                     groupId: parseInt(this.group, 10),
                     budgetAssigned: parseFloat(this.budgetAssigned, 10)

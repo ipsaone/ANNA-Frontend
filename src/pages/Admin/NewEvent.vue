@@ -40,7 +40,7 @@
 
     export default {
         components: {
-            markdownEditor
+            markdownEditor,
         },
         data() {
             return {
@@ -73,10 +73,10 @@
                 this.end = new Date();
             },
             onSubmit() {
-                
+
                 let evt =  {
                     name: this.name,
-                    markdown: this.description,
+                    markdown: this.description.replace(/\n/gi, '\n<br>'),
                     maxRegistered: this.max,
                     startDate: this.start,
                     endDate: this.end
