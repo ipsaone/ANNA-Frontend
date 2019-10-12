@@ -5,24 +5,22 @@
             <form>
                 <input type="text" name="Name" id="Name" placeholder="Name..." v-model="name">
 
-                <markdown-editor v-model="description" :configs="configs"></markdown-editor>
+                <markdown-editor v-model="description" :configs="configs" class="md-editor"></markdown-editor>
 
                 <div class="form-group">
                     <label for="evt_start">Start date :</label>
-                    <datepicker placeholder="Select Date" v-model="start"></datepicker>
+                    <datepicker class="datepicker" placeholder="Select Date" v-model="start"></datepicker>
                 </div>
 
                 <div class="form-group">
                     <label for="evt_end">End date :</label>
-                    <datepicker placeholder="Select Date" v-model="end"></datepicker>
+                    <datepicker class="datepicker" placeholder="Select Date" v-model="end"></datepicker>
                 </div>
 
                 <div class="form-group">
                     <label for="evt_max">Open slots :</label>
-                    <input type="number" name="evt_max" v-model="max">
+                    <input id="openslots-input" type="number" name="evt_max" v-model="max">
                 </div>
-
-
 
                 <div class="buttons">
                     <button type="button" @click.prevent="exit" class="cancel">Cancel</button>
@@ -70,7 +68,7 @@
         },
         methods: {
             exit() {
-                this.$modal.hide('newEvent');
+                this.$modal.hide('eventModal');
             },
             async beforeOpen(event) {
                 this.isEditing = event.params.isEditing;
@@ -105,12 +103,12 @@
                         }
                     });
                     this.$modal.hide('eventModal');
-                    this.$notify({
-                        type: 'succes',
-                        title: 'Operation successful',
-                        text: 'Event was successfully updated',
-                        duration: 5000
-                    });
+                    // this.$notify({
+                    //     type: 'succes',
+                    //     title: 'Operation successful',
+                    //     text: 'Event was successfully updated',
+                    //     duration: 5000
+                    // });
                     await store.dispatch('retrieveEvents');
                     this.loading= false;
                 } else {
@@ -123,13 +121,13 @@
                     };
                     store.dispatch('storeEvent', evt);
                     this.loading = false;
-                    this.$modal.hide('newEvent');
-                    this.$notify({
-                        type: 'success',
-                        title: 'Operation successful',
-                        text: 'Mission was successfully added',
-                        duration: 5000
-                    });
+                    this.$modal.hide('eventModal');
+                    // this.$notify({
+                    //     type: 'success',
+                    //     title: 'Operation successful',
+                    //     text: 'Mission was successfully added',
+                    //     duration: 5000
+                    // });
                     await store.dispatch('retrieveEvents');
                     this.loading = false;
                 }
