@@ -181,6 +181,21 @@
     }
 }
 
+.userModal {
+    .form-group {
+        display: grid;
+        grid-template-columns: 50% 50%;
+        margin: 0.5em;
+        label {
+            grid-column: 1;
+            margin: auto auto auto 0;
+        }
+        input {
+            grid-column: 2;
+            margin: auto;
+        }
+    }
+}
 v--modal-box v--modal {
     height: inherit;
 }
