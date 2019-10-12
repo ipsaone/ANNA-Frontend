@@ -71,7 +71,7 @@
                 await store.dispatch('retrieveEvent', event.params.event_id);
                 this.id = this.event.id;
                 this.name = this.event.name;
-                this.description = this.event.markdown.replace(/<br>/gi, '');;
+                this.description = this.event.markdown.replace(/<br>/gi, '');
                 this.max = this.event.maxRegistered;
                 this.start = moment(this.event.startDate).format('YYYY-MM-DD');
                 this.end = moment(this.event.endDate).format('YYYY-MM-DD');

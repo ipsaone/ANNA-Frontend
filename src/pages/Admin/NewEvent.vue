@@ -9,12 +9,12 @@
 
                 <div class="form-group">
                     <label for="evt_start">Start date :</label>
-                    <input type="date" name="evt_start" v-model="start">
+                    <datepicker placeholder="Select Date" v-model="start"></datepicker>
                 </div>
 
                 <div class="form-group">
                     <label for="evt_end">End date :</label>
-                    <input type="date" name="evt_end" v-model="end">
+                    <datepicker placeholder="Select Date" v-model="end"></datepicker>
                 </div>
 
                 <div class="form-group">
@@ -37,10 +37,12 @@
 <script>
     import store from '@/modules/store';
     import markdownEditor from 'vue-simplemde/src/markdown-editor';
+    import Datepicker from 'vuejs-datepicker';
 
     export default {
         components: {
             markdownEditor,
+            Datepicker
         },
         data() {
             return {

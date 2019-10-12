@@ -2,11 +2,12 @@
     <div class='admin'>
         <new-mission></new-mission>
         <new-group></new-group>
-        <new-event></new-event>
+        <!--new-event></new-event-->
         <new-user></new-user>
         <group-members></group-members>
         <mission-members></mission-members>
-        <edit-event></edit-event>
+        <!--edit-event></edit-event-->
+        <event-modal></event-modal>
         <edit-mission></edit-mission>
         <event-members></event-members>
         <edit-user></edit-user>
@@ -192,7 +193,8 @@
                             <td> {{ event.startDate | moment('DD/MM/YYYY') }} - {{ event.endDate | moment('DD/MM/YYYY') }} </td>
                             <td>
                                 <a @click.prevent="$modal.show('eventMembers', {event_id: event.id})">Manage registered</a>,
-                                <a @click.prevent="$modal.show('editEvent', {event_id: event.id})">Edit</a>,
+                                <!--a @click.prevent="$modal.show('editEvent', {event_id: event.id})">Edit</a>,-->
+                                <a @click.prevent="$modal.show('eventModal', {event_id: event.id, isEditing: true})">Edit</a>,
                                 <a @click.prevent="delItem('event', 'deleteEvent', event.name, event.id)">Delete</a>
                             </td>
                         </tr>
@@ -201,7 +203,9 @@
                             <td></td>
                             <td></td>
                             <td></td>
-                            <td><a @click.prevent="$modal.show('newEvent');">Add event</a></td>
+                            <td><!--a @click.prevent="$modal.show('newEvent');">Add event</a-->
+                                <a @click.prevent="$modal.show('eventModal', {isEditing: false})">Add event</a>
+                            </td>
                         </tr>
                     </table>
                 </tab>
@@ -218,12 +222,13 @@
 
     import NewMission from './NewMission';
     import NewGroup from './NewGroup';
-    import NewEvent from './NewEvent';
+    // import NewEvent from './NewEvent';
     import NewUser from './NewUser';
     import MissionMembers from './MissionMembers';
     import EventMembers from './EventMembers';
     import GroupMembers from './GroupMembers';
-    import EditEvent from './EditEvent';
+    // import EditEvent from './EditEvent';
+    import EventModal from './EventModal';
     import EditMission from './EditMission';
     import EditUser from './EditUser';
 
@@ -235,7 +240,8 @@
             Tabs, Tab,
             NewMission, MissionMembers,  EditMission,
             NewGroup, GroupMembers,
-            NewEvent, EventMembers, EditEvent,
+            // NewEvent, EditEvent,
+            EventMembers, EventModal,
             NewUser, EditUser
 
         },
