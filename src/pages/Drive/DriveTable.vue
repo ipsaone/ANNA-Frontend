@@ -130,7 +130,8 @@ v-if="file.size"<template>
 <script>
     import store from '@/modules/store';
     import Loader from '@/components/Loader';
-    import FileSize from 'filesize';import moment from 'moment';
+    import FileSize from 'filesize';
+    import moment from 'moment';
 
     export default {
         components: {

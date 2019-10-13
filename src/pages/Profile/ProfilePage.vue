@@ -5,10 +5,12 @@
           <h1 class="page-title"> Profile page </h1>
 
           <div class="myself">
-                <span> {{ user.username }} </span>
+                <h2> {{ user.username }} </h2>
                 <span> {{ user.email }} </span>
-                <img src="https://tse2.mm.bing.net/th?id=OIP.pNG1rtt42rb6YYQpfusd4AHaGm&pid=Api"
-                 alt="member picture">
+                <br>
+                <span> Creation date : {{ getDate(user.createdAt) }} </span>
+                <!--img src="https://tse2.mm.bing.net/th?id=OIP.pNG1rtt42rb6YYQpfusd4AHaGm&pid=Api"
+                 alt="member picture"-->
             </div>
 
               <div class="events">
@@ -45,6 +47,7 @@
     import UserApi from '@/modules/users/users_api';
     import GroupsApi from '@/modules/groups/groups_api';
     import MissionsApi from '@/modules/missions/missions_api';
+    import moment from 'moment';
 
     export default {
         components: {},
@@ -68,7 +71,9 @@
             }
         },
         methods: {
-
+            getDate(date) {
+                return moment(date).format('YYYY-MM-DD');
+            },
         }
     };
 </script>

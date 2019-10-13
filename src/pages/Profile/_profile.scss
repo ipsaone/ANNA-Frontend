@@ -6,7 +6,7 @@
     grid-row-gap: 50px;
     grid-template-areas: "header header" "events myself" "groups missions";
 
-    .groups, .missions, .events{
+    .groups, .missions, .events, .myself {
       width: 80%;
       box-shadow: 2px 2px 10px 1px #999999;
       border-radius: 5px;
@@ -17,7 +17,7 @@
               text-align: center;
               border-bottom: 2px solid #aaaaaa;
           }
-          ul {
+          ul, span {
               margin: 0 20px;
               li:before {
                   content: "-"
@@ -43,39 +43,40 @@
         grid-column: 1;
     }
 
-    .myself {
-        width: 80%;
-        box-shadow: 2px 2px 10px 1px #999999;
-        border-radius: 5px;
-        padding: 15px 0;
-        margin: auto;
-        min-height: 200px;
-        grid-row: 2;
-        grid-column: 2;
-        display: grid;
-        grid-template-columns: 66% 33%;
-        grid-column-gap: 10px;
-        span {
-            font-size: 20px;
-            grid-column: 1;
-            margin-top: auto;
-            margin-bottom: auto;
-            overflow-wrap: break-word;
-            padding-left: 20px;
-        }
-        span:first-child {
-            font-weight: bold;
-            font-size: 25px;
-            text-align: center;
-        }
-        img {
-            padding-right: 15px;
-            margin: auto;
-            vertical-align: middle;
-            grid-column: 2;
-            grid-row: 1 / span 2;
-        }
-    }
+
+    // .myself {
+    //     width: 80%;
+    //     box-shadow: 2px 2px 10px 1px #999999;
+    //     border-radius: 5px;
+    //     padding: 15px 0;
+    //     margin: auto;
+    //     min-height: 200px;
+    //     grid-row: 2;
+    //     grid-column: 2;
+    //     display: grid;
+    //     grid-template-columns: 66% 33%;
+    //     grid-column-gap: 10px;
+    //     span {
+    //         font-size: 20px;
+    //         grid-column: 1;
+    //         margin-top: auto;
+    //         margin-bottom: auto;
+    //         overflow-wrap: break-word;
+    //         padding-left: 20px;
+    //     }
+    //     span:first-child {
+    //         font-weight: bold;
+    //         font-size: 25px;
+    //         text-align: center;
+    //     }
+    //     img {
+    //         padding-right: 15px;
+    //         margin: auto;
+    //         vertical-align: middle;
+    //         grid-column: 2;
+    //         grid-row: 1 / span 2;
+    //     }
+    // }
 
     .page-title {
         grid-row: 1;
