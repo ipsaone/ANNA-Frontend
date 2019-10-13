@@ -7,8 +7,8 @@
                 <markdown-editor v-model="markdown" :configs="configs"></markdown-editor>
 
                 <div class="inline-form">
-                    <label for="chief">Chief: </label>
-                    <input list="users" type="text" name="chief" id="chief" v-model="chiefName" autocomplete="off" @change="selectUser(chiefName)"><br/>
+                    <label for="leader">Leader: </label>
+                    <input list="users" type="text" name="leader" id="leader" v-model="leaderName" autocomplete="off" @change="selectUser(leaderName)"><br/>
                     <label v-if="userGroups && userGroups.length != 0" for="group">Group: </label>
                     <label v-else for="group">User has no group. Leaders need to be in a group.</label>
                     <input v-if="userGroups && userGroups.length != 0" list="groups" type="text" name="groups" id="group" v-model="groupName" autocomplete="off" @change="setGroupId(groupName)">
@@ -50,23 +50,26 @@
             mission() {
                 return store.getters.selectedMission;
             },
-            users(){
+            users() {
                 return store.getters.users;
             },
-            groups(){
+            groups() {
                 return store.getters.groups;
             },
             userGroups() {
                 return store.getters.selectedUser.groups;
+            },
+            group() {
+                return store.getters.selectedGroup;
             }
         },
         data() {
             return {
                 id: 0,
                 name: '',
-                chief: 1,
-                chiefName: '',
-                group: 1,
+                leaderId: 1,
+                leaderName: '',
+                groupId: 1,
                 groupName: '',
                 markdown: '',
                 budgetAssigned: '',
@@ -84,23 +87,26 @@
         },
         methods: {
             async selectUser(name) {
-                let chiefId = this.users.find(myUser => myUser.username == name).id;
-                await store.dispatch('selectUser', chiefId);
-                this.chief = chiefId;
+                let leaderId = this.users.find(myUser => myUser.username == name).id;
+                await store.dispatch('selectUser', leaderId);
+                this.leaderId = leaderId;
             },
             setGroupId(name) {
                 let groupId = this.userGroups.find(myGroup => myGroup.name == name).id;
-                this.group = groupId;
+                this.groupId = groupId;
             },
             async beforeOpen(event) {
                 await store.dispatch('retrieveMissions');
                 await store.dispatch('retrieveMission', event.params.mission_id);
                 await store.dispatch('retrieveUsers');
                 await store.dispatch('retrieveGroups');
+                await store.dispatch('retrieveGroup', this.mission.groupId);
                 this.id = this.mission.id;
                 this.name = store.getters.selectedMission.name;
-                this.chief = this.mission.leaderId ? this.mission.leaderId.toString() : '';
-                this.group = this.mission.groupId ? this.mission.groupId.toString() : '';
+                this.leaderId = this.mission.leaderId ? this.mission.leaderId.toString() : '';
+                this.leaderName = this.mission.leader.username;
+                this.groupId = this.mission.groupId ? this.mission.groupId.toString() : '';
+                this.groupName = this.group.name;
                 this.markdown =   this.mission.markdown.replace(/<br>/gi, '');
                 this.budgetUsed = this.mission.budgetUsed ? this.mission.budgetUsed.toString() : 0;
                 this.budgetAssigned = this.mission.budgetAssigned ? this.mission.budgetAssigned.toString() : 0;
@@ -119,15 +125,15 @@
                     });
                     return false;
                 }
-                if(!store.getters.users.map(us => us.id).includes(parseInt(this.chief, 10)) || !store.getters.groups.map(gp => gp.id).includes(parseInt(this.group))) {
+                if(!store.getters.users.map(us => us.id).includes(parseInt(this.leaderId, 10)) || !store.getters.groups.map(gp => gp.id).includes(parseInt(this.groupId))) {
                     this.$notify({
                         type: 'error',
                         title: 'Leader or group doesn\'t exist',
                         text: 'Please select an existing leader and group',
                         duration: 5000
                     });
-                    this.chief = 1;
-                    this.group = 1;
+                    this.leaderId = 1;
+                    this.groupId = 1;
                     return false;
                 }
                 if(parseFloat(this.budgetAssigned, 10) < 0 || parseFloat(this.budgetUsed, 10) < 0) {
@@ -147,8 +153,8 @@
                     mission: {
                         name: this.name,
                         markdown: this.markdown.replace(/\n/gi, '\n<br>'),
-                        leaderId: parseInt(this.chief, 10),
-                        groupId: parseInt(this.group, 10),
+                        leaderId: parseInt(this.leader, 10),
+                        groupId: parseInt(this.groupId, 10),
                         budgetAssigned: parseFloat(this.budgetAssigned, 10),
                         budgetUsed: parseFloat(this.budgetUsed, 10)
                     }
