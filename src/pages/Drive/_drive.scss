@@ -163,7 +163,11 @@
                         grid-column: 2;
                         width: 90%;
                         height: 70%;
-                    };
+                    }
+                    input::-webkit-calendar-picker-indicator {
+                        display: none !important;
+                    }
+
                 }
 
             }
