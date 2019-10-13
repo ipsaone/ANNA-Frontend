@@ -18,7 +18,7 @@
                 <tab name="Missions">
                     <table>
                         <tr>
-                            <th>ID</th>
+                            <!--th>ID</th-->
                             <th>Name</th>
                             <th>Leader</th>
                             <th>Budget</th>
@@ -26,7 +26,7 @@
                             <th>Actions</th>
                         </tr>
                         <tr v-for="mission in missions" :key="mission.id">
-                            <td> {{ mission.id }} </td>
+                            <!--td> {{ mission.id }} </td-->
                             <td> {{ mission.name }} </td>
                             <td> {{ mission.leader.username }} </td>
                             <!-- TODO : why is it a string in the first place ? (+0 to convert to number) -->
@@ -43,7 +43,7 @@
                             </td>
                         </tr>
                         <tr>
-                            <td></td>
+                            <!--td></td-->
                             <td></td>
                             <td></td>
                             <td></td>
@@ -87,14 +87,14 @@
                 <tab name="Blog">
                     <table>
                         <tr>
-                            <th>ID</th>
+                            <!--th>ID</th-->
                             <th>Title</th>
                             <th>Date</th>
                             <th>Author</th>
                             <th>Actions</th>
                         </tr>
                         <tr v-for="post in $store.getters.posts" :key="post.id">
-                            <td> {{ post.id }} </td>
+                            <!--td> {{ post.id }} </td-->
                             <td> {{ post.title }} </td>
                             <td> {{ post.createdAt | moment('DD/MM/YYYY') }} </td>
                             <td> {{ post.author.username }} </td>
@@ -105,7 +105,7 @@
                             </td>
                         </tr>
                         <tr>
-                            <td></td>
+                            <!--td></td-->
                             <td></td>
                             <td></td>
                             <td></td>
@@ -117,13 +117,13 @@
                 <tab name="Groups">
                     <table>
                         <tr>
-                            <th>ID</th>
+                            <!--th>ID</th-->
                             <th>Name</th>
                             <th>Members</th>
                             <th>Actions</th>
                         </tr>
                         <tr v-for="group in $store.getters.groups" :key="group.id">
-                            <td> {{group.id}} </td>
+                            <!--td> {{group.id}} </td-->
                             <td> {{ group.name }} </td>
                             <td> {{ group.users.length }} </td>
                             <td>
@@ -139,7 +139,7 @@
                             </td>
                         </tr>
                         <tr>
-                            <td></td>
+                            <!--td></td-->
                             <td></td>
                             <td></td>
                             <td><a @click.prevent="$modal.show('newGroup');">Add group</a></td>
@@ -150,14 +150,14 @@
                 <tab name="Users">
                     <table>
                         <tr>
-                            <th>ID</th>
+                            <!--th>ID</th-->
                             <th>Name</th>
                             <th>Email</th>
                             <!--th>Groups</th-->
                             <th>Actions</th>
                         </tr>
                         <tr v-for="user in users" :key="user.id">
-                            <td> {{ user.id }} </td>
+                            <!--td> {{ user.id }} </td-->
                             <td> {{ user.username }} </td>
                             <td> {{ user.email }} </td>
                             <!-- td> <span> {{userGroups}} </span></td-->
@@ -168,7 +168,7 @@
                             </td>
                         </tr>
                         <tr>
-                            <td></td>
+                            <!--td></td-->
                             <td></td>
                             <td></td>
                             <!--td></td-->
@@ -180,14 +180,14 @@
                 <tab name="Events">
                     <table>
                         <tr>
-                            <th>ID</th>
+                            <!--th>ID</th-->
                             <th>Name</th>
                             <th>Registered</th>
                             <th>Date</th>
                             <th>Actions</th>
                         </tr>
                         <tr v-for="event in $store.getters.events" :key="event.id">
-                            <td> {{ event.id }} </td>
+                            <!--td> {{ event.id }} </td-->
                             <td> {{ event.name }} </td>
                             <td> {{ event.registeredCount }} / {{ event.maxRegistered }} </td>
                             <td> {{ event.startDate | moment('DD/MM/YYYY') }} - {{ event.endDate | moment('DD/MM/YYYY') }} </td>
@@ -199,7 +199,7 @@
                             </td>
                         </tr>
                         <tr>
-                            <td></td>
+                            <!--td></td-->
                             <td></td>
                             <td></td>
                             <td></td>
