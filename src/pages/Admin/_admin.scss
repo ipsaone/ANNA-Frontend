@@ -73,16 +73,8 @@
 }
 
 .admin .anna-modal {
-    input::-webkit-calendar-picker-indicator {
-        display: none !important;
-    }
 
     padding: 0 1vw;
-    form::-webkit-scrollbar-track {
-        -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
-        border-radius: 10px;
-        background-color: $white-dark;
-    }
 
     .vdp-datepicker{
       position: relative !important;
@@ -92,6 +84,16 @@
 
     .vdp-datepicker__calendar {
         display: grid;
+    }
+
+    input::-webkit-calendar-picker-indicator {
+        display: none !important;
+    }
+
+    form::-webkit-scrollbar-track {
+        -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+        border-radius: 10px;
+        background-color: $white-dark;
     }
 
     form::-webkit-scrollbar {

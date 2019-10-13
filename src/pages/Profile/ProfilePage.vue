@@ -2,37 +2,48 @@
     <div class="profile">
         <div class="content">
 
-          <h1 class="page-title"> Profile page </h1>
+          <h1 class="page-title"> Profile page : {{ user.username }}</h1>
 
           <div class="myself">
-                <h2> {{ user.username }} </h2>
-                <span> {{ user.email }} </span>
-                <br>
-                <span> Creation date : {{ getDate(user.createdAt) }} </span>
+                <h2> Info </h2>
+                <div class="content-wrapper">
+                    <span> Email: {{ user.email }} </span>
+                    <br>
+                    <span> Creation date: {{ getDate(user.createdAt) }} </span>
                 <!--img src="https://tse2.mm.bing.net/th?id=OIP.pNG1rtt42rb6YYQpfusd4AHaGm&pid=Api"
                  alt="member picture"-->
+                </div>
             </div>
 
               <div class="events">
                   <h2> Events </h2>
-                  <ul>
-                      <li v-for="event in user.events" :key="event.id"> {{event.name}} </li>
-                  </ul>
+                  <div class="content-wrapper">
+                      <ul>
+                          <li v-for="event in user.events" :key="event.id"> {{event.name}} </li>
+                      </ul>
+                  </div>
               </div>
 
 
             <div class="groups">
                 <h2> Groups </h2>
-                <ul>
-                    <li v-for="group in user.groups" :key="group.id"> {{group.name}} </li>
-                </ul>
+                <div class="content-wrapper">
+                    <ul>
+                        <li v-for="group in user.groups" :key="group.id"> {{group.name}} </li>
+                    </ul>
+                </div>
             </div>
 
             <div class="missions">
                 <h2> Missions </h2>
-                <ul>
-                    <li v-for="mission in user.participatingMissions" :key="mission.id"> {{mission.name}} </li>
-                </ul>
+                <div class="content-wrapper" id="missions-wrapper">
+                    <ul id="leading"> Leading:
+                        <li v-for="mission in user.leaderMissions" :key="mission.id"> {{mission.name}} </li>
+                    </ul>
+                    <ul id="participating"> Participating:
+                        <li v-for="mission in user.participatingMissions" :key="mission.id"> {{mission.name}}</li>
+                    </ul>
+                </div>
             </div>
             </div>
 
