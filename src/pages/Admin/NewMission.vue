@@ -126,6 +126,9 @@
                     leaderId: parseInt(this.leader, 10),
                     groupId: parseInt(this.group, 10),
                     budgetAssigned: parseFloat(this.budgetAssigned, 10)
+                })
+                .then(async (res) => {
+                    await store.dispatch('retrieveMission', res.data.id);
                 });
                 this.$modal.hide('newMission');
                 this.$notify({

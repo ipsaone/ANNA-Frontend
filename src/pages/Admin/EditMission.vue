@@ -153,11 +153,14 @@
                     mission: {
                         name: this.name,
                         markdown: this.markdown.replace(/\n/gi, '\n<br>'),
-                        leaderId: parseInt(this.leader, 10),
+                        leaderId: parseInt(this.leaderId, 10),
                         groupId: parseInt(this.groupId, 10),
                         budgetAssigned: parseFloat(this.budgetAssigned, 10),
                         budgetUsed: parseFloat(this.budgetUsed, 10)
                     }
+                })
+                .then(async () => {
+                    await store.dispatch('retrieveMission', this.id);
                 });
                 this.$modal.hide('editMission');
                 this.$notify({
@@ -170,12 +173,8 @@
             },
             async refreshAll() {
                 this.loading = true;
-                await store.dispatch('retrieveMissions', true);
                 await store.dispatch('retrieveUsers', true);
-                await store.dispatch('retrievePosts', true);
-                await store.dispatch('retrieveLogs', true);
                 await store.dispatch('retrieveGroups', true);
-                await store.dispatch('retrieveEvents', true);
                 this.loading = false;
             }
         }

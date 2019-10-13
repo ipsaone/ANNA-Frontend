@@ -1,6 +1,7 @@
 <template>
     <section class="mission-slider" :key="missionNumber">
         <new-task></new-task>
+        <edit-mission class="admin"></edit-mission>
 
         <div v-if="loggedUserMissions.length > 0">
             <div class="controls">
@@ -8,12 +9,15 @@
                     <i class="fa fa-chevron-left"></i> Previous
                 </a>
 
-                <h1>{{ mission.name }}</h1>
+                <h1 style="margin-bottom: 0;">{{ mission.name }}</h1>
 
                 <a href="#" @click.prevent="next" :class="{disabled: currentSlide === missionNumber-1}">
                     Next <i class="fa fa-chevron-right"></i>
                 </a>
             </div>
+            <h3 v-if="logged.id === mission.leaderId" style="text-align:center; font-size: 1.2em; margin-top: -5px;">
+                <a @click.prevent="$modal.show('editMission', {mission_id: mission.id})">Edit</a>
+            </h3>
 
             <div class="mission">
                 <div class="mission-left">
@@ -91,12 +95,13 @@
 
 <script>
     import store from '@/modules/store';
-
+    import EditMission from '../Admin/EditMission';
     import newTask from './newTask';
 
     export default {
         components: {
-            newTask
+            newTask,
+            EditMission
         },
         data() {
             return {
