@@ -1,4 +1,4 @@
-<template>
+v-if="file.size"<template>
     <div>
         <loader v-if="loading"></loader>
         <table>
@@ -26,7 +26,8 @@
                         <td></td>
                         <td>{{ wrapName(folder.owner.username) }}</td>
                         <td v-if="showHistory"> {{ getDate(folder.updatedAt) }} </td>
-                        <td>{{ convertSize(folder) }}</td>
+                        <td v-if="convertSize(folder) > 0">{{ convertSize(folder) }}</td>
+                        <td v-else></td>
                     </tr>
                 </table>
             </td>
@@ -58,9 +59,10 @@
                               <td>
                                   {{ getDate(rev.updatedAt) }}
                               </td>
-                              <td>
+                              <td v-if="rev.size > 0">
                                   {{ convertSize(rev) }}
                               </td>
+                              <td v-else></td>
                           </tr>
                       </table>
                       <table id="result-search" v-if="keyword && keyword.trim().length >= 2">
@@ -77,9 +79,10 @@
                               <td v-if="file.owner">
                                   {{ wrapName(file.owner.username) }}
                               </td>
-                              <td>
+                              <td v-if="file.size > 0">
                                   {{ convertSize(file) }}
                               </td>
+                              <td v-else></td>
 
                           </tr>
                           <tr v-if="results.length === 0">
@@ -102,9 +105,10 @@
                               <td>
                                   {{ wrapName(file.owner.username) }}
                               </td>
-                              <td>
+                              <td v-if="file.size > 0">
                                   {{ convertSize(file) }}
                               </td>
+                              <td v-else></td>
                           </tr>
                           <tr v-if="content.length === 0">
                               <p class="center" @click.prevent="$modal.show('uploadFile', {isFolder: false, isEditing: false})">
