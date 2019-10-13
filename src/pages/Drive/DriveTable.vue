@@ -47,7 +47,7 @@ v-if="file.size"<template>
                               @dblclick="openFolder(rev)" v-if="rev.exists == true"
                               :class="{selected: rev.id === selectedFile.id}">
                               <td v-html="getIcon(rev)"></td>
-                              <td>
+                              <td :title="rev.name">
                                  {{ wrapName(rev.name) }}
                               </td>
                               <td>
@@ -70,7 +70,7 @@ v-if="file.size"<template>
                               @dblclick="openFolder(file)"
                               :class="{selected: file.fileId === selectedFile.fileId}">
                               <td v-html="getIcon(file)"></td>
-                              <td>
+                              <td :title="file.name">
                                   {{ wrapName(file.name) }}
                               </td>
                               <td>
@@ -96,7 +96,7 @@ v-if="file.size"<template>
                               @dblclick="openFolder(file)"
                               :class="{selected: file.fileId === selectedFile.fileId}">
                               <td v-html="getIcon(file)"></td>
-                              <td>
+                              <td :title="file.name">
                                   {{ wrapName(file.name) }}
                               </td>
                               <td>
