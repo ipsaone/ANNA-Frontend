@@ -153,7 +153,12 @@
             },
             async selectUser(name) {
                 if(name.trim() != '') {
-                    let ownerId =  this.users.find(myUser => myUser.username == name).id;
+                    let ownerId;
+                    if(this.users.find(myUser => myUser.username == name)) {
+                        ownerId =  this.users.find(myUser => myUser.username == name).id;
+                    } else {
+                        return false;
+                    }
                     await store.dispatch('selectUser', ownerId);
                     this.ownerId = ownerId;
                     if (this.groupName.trim() != '') {
@@ -180,7 +185,12 @@
                 }
             },
             async setGroupId(name) {
-                let groupId = this.userGroups.find(myGroup => myGroup.name == name).id;
+                let groupId;
+                if (this.userGroups.find(myGroup => myGroup.name == name)) {
+                    groupId = this.userGroups.find(myGroup => myGroup.name == name).id;
+                } else {
+                    return false;
+                }
                 this.groupId = groupId;
                 if (this.ownerName.trim() != '') {
                     await store.dispatch('retrieveGroup', this.groupId);
