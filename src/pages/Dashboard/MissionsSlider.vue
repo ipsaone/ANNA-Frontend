@@ -38,7 +38,7 @@
                                 Members:
                                 <li v-for="member in mission.members" v-if="member.id" :key="member.id">
                                     <router-link :to="{name: 'profile', params:{id: member.id}}">
-                                        - {{ member.username }},
+                                        - {{ member.username }}
                                     </router-link>
                                 </li>
                             </ul>
