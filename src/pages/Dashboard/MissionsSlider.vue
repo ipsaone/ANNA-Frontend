@@ -2,6 +2,7 @@
     <section class="mission-slider" :key="missionNumber">
         <new-task></new-task>
         <edit-mission class="admin"></edit-mission>
+        <mission-members class="admin"></mission-members>
 
         <div v-if="loggedUserMissions.length > 0">
             <div class="controls">
@@ -17,6 +18,9 @@
             </div>
             <h3 v-if="logged.id === mission.leaderId" style="text-align:center; font-size: 1.2em; margin-top: -5px;">
                 <a @click.prevent="$modal.show('editMission', {mission_id: mission.id})">Edit</a>
+            </h3>
+            <h3 v-if="logged.id === mission.leaderId" style="text-align:center; font-size: 1.2em; margin-top: -5px;">
+                <a @click.prevent="$modal.show('missionMembers', {mission_id: mission.id})">Manage members</a>
             </h3>
 
             <div class="mission">
@@ -96,12 +100,13 @@
 <script>
     import store from '@/modules/store';
     import EditMission from '../Admin/EditMission';
+    import MissionMembers from '../Admin/MissionMembers';
     import newTask from './newTask';
 
     export default {
         components: {
             newTask,
-            EditMission
+            EditMission, MissionMembers
         },
         data() {
             return {

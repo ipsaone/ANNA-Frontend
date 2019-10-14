@@ -57,6 +57,7 @@
             async beforeOpen(event) {
                 await store.dispatch('retrieveEvents', true);
                 await store.dispatch('retrieveEvent', event.params.event_id);
+                console.log(this.event);
                 this.refreshUsers();
             },
             async addUser(id) {
@@ -75,7 +76,10 @@
                 }
                 this.shownUsers =  store.getters.users.filter(el1 => {
                     let found = false;
+                    console.log('el1', el1);
+                    console.log('event: ', this.event);
                     this.event.registered.forEach(el2 => {
+                        console.log('el2', el2);
                         if (el1.id == el2.id) {
                             found = true;
                         }
