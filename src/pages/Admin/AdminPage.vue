@@ -25,7 +25,7 @@
                             <th>Members</th>
                             <th>Actions</th>
                         </tr>
-                        <tr v-for="mission in missions" :key="mission.id">
+                        <tr v-for="mission in orderedMissions" :key="mission.id">
                             <!--td> {{ mission.id }} </td-->
                             <td> {{ mission.name }} </td>
                             <td> {{ mission.leader.username }} </td>
@@ -122,18 +122,18 @@
                             <th>Members</th>
                             <th>Actions</th>
                         </tr>
-                        <tr v-for="group in $store.getters.groups" :key="group.id">
+                        <tr v-for="group in orderedGroups" :key="group.id">
                             <!--td> {{group.id}} </td-->
                             <td> {{ group.name }} </td>
                             <td> {{ group.users.length }} </td>
                             <td>
-                                <a v-if="group.name !== 'root'"@click.prevent="$modal.show('groupMembers', {group_id: group.id});">
+                                <a v-if="group.name !== 'root' && group.name !== 'default' "@click.prevent="$modal.show('groupMembers', {group_id: group.id});">
                                     Manage users,
                                 </a>
                                 <a v-if="group.name == 'root'" @click.prevent="$modal.show('groupMembers', {group_id: group.id});">
                                     Manage users
                                 </a>
-                                <a v-if="group.name !== 'root'" @click.prevent="delItem('group', 'deleteGroup', group.name, group.id)">
+                                <a v-if="group.name !== 'root' && group.name !== 'default'" @click.prevent="delItem('group', 'deleteGroup', group.name, group.id)">
                                     Delete
                                 </a>
                             </td>
@@ -156,7 +156,7 @@
                             <!--th>Groups</th-->
                             <th>Actions</th>
                         </tr>
-                        <tr v-for="user in users" :key="user.id">
+                        <tr v-for="user in orderedUsers" :key="user.id">
                             <!--td> {{ user.id }} </td-->
                             <td> {{ user.username }} </td>
                             <td> {{ user.email }} </td>
@@ -233,6 +233,7 @@
     import EditUser from './EditUser';
 
     import * as moment from 'moment';
+    import * as _ from 'lodash';
 
     export default {
         components: {
@@ -254,11 +255,20 @@
             missions() {
                 return store.getters.missions;
             },
+            orderedMissions() {
+                return _.orderBy(this.missions, 'id');
+            },
             groups() {
-                return store.getters.loggedUser.groups;
+                return store.getters.groups;
+            },
+            orderedGroups() {
+                return _.orderBy(this.groups, 'id');
             },
             users() {
                 return store.getters.users;
+            },
+            orderedUsers() {
+                return _.orderBy(this.users, 'id');
             }
         },
         async mounted() {

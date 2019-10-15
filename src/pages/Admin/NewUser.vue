@@ -82,7 +82,12 @@
                             text: 'User was successfully added',
                             duration: 5000
                         }))
-                        .then(() => {this.$modal.hide('newUser');});
+                        .then(async () => {
+                            await store.dispatch('retrieveGroups', true);
+                        })
+                        .then(() => {
+                            this.$modal.hide('newUser');
+                        });
                 }
             }
         }

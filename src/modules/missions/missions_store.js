@@ -55,8 +55,9 @@ const actions = {
     },
 
     async storeMission({dispatch}, mission) {
-        await MissionsApi.save(mission);
+        let res = await MissionsApi.save(mission);
         dispatch('retrieveMissions', true);
+        return res;
     },
 
     async updateMission({dispatch, commit}, mission) {

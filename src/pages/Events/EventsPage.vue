@@ -1,5 +1,5 @@
 <template>
-    <div class="events">
+    <div id="events">
         <loader v-if="loading"></loader>
         <event></event>
 

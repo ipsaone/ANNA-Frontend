@@ -57,6 +57,7 @@
             async beforeOpen(event) {
                 await store.dispatch('retrieveEvents', true);
                 await store.dispatch('retrieveEvent', event.params.event_id);
+                console.log(this.event);
                 this.refreshUsers();
             },
             async addUser(id) {
@@ -70,9 +71,6 @@
             async refreshUsers() {
                 await store.dispatch('retrieveUsers');
                 await store.dispatch('retrieveEvents', true);
-                if (!this.event.users) {
-                    this.shownUsers = store.getters.users;
-                }
                 this.shownUsers = store.getters.users.filter(user => !this.event.registered.map(reg => reg.id).includes(user.id));
             }
         }
