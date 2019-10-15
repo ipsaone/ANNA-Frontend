@@ -55,14 +55,14 @@ const actions = {
     },
 
     async addEventMember({dispatch, state}, user_id) {
-        let data = await EventsApi.register(state.selected.id, user_id);
-        await dispatch('retrieveEvent', state.selected.id);
+        let data = await EventsApi.register(state.event.id, user_id);
+        await dispatch('retrieveEvent', state.event.id);
         return data;
     },
 
     async remEventMember({dispatch, state}, user_id) {
-        let data = await EventsApi.withdraw(state.selected.id, user_id);
-        await dispatch('retrieveEvent', state.selected.id);
+        let data = await EventsApi.withdraw(state.event.id, user_id);
+        await dispatch('retrieveEvent', state.event.id);
         return data;
     },
 };

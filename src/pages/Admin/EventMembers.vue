@@ -73,16 +73,7 @@
                 if (!this.event.users) {
                     this.shownUsers = store.getters.users;
                 }
-                this.shownUsers =  store.getters.users.filter(el1 => {
-                    let found = false;
-                    this.event.registered.forEach(el2 => {
-                        if (el1.id == el2.id) {
-                            found = true;
-                        }
-                    });
-
-                    return !found;
-                });
+                this.shownUsers = store.getters.users.filter(user => !this.event.registered.map(reg => reg.id).includes(user.id));
             }
         }
     };
