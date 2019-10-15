@@ -65,7 +65,7 @@
                 await this.refreshUsers();
             },
             async remUser(id) {
-                await store.dispatch('remMissionMember', id);
+                await store.dispatch('remEventMember', id);
                 await this.refreshUsers();
             },
             async refreshUsers() {
