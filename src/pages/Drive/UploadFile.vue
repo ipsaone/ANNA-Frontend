@@ -222,7 +222,7 @@
                 if (files.length > 0) this.file = files[0];
             },
             async onSubmit() {
-
+                let interrupt = false;
                 let data = {
                     ownerId: parseInt(this.ownerId, 10),
                     dirId: store.getters.folder.fileId,
@@ -268,17 +268,24 @@
                     let confirmation = confirm('Do you still want to upload without write permissions ?');
                     if (confirmation === true) {
                         document.getElementById('submitButton').setAttribute('disabled', 'disabled');
-                        /*if(!this.isEditing) {
-                            await driveApi.uploadFile(data);
-                            this.uploadPercentage = store.getters.progress;
-
-                        } else {
-                            await driveApi.editFile({fileId: this.selectedFile.fileId, data});
-                            // useless as long as we can't change file when editing
-                            // this.uploadPercentage = store.getters.progress;
-                        }*/
                         if (this.isEditing) {
-                            await driveApi.editFile({fileId: this.selectedFile.fileId, data});
+                            if(this.serialNbr.trim() != '') {
+                                await driveApi.editFile({fileId: this.selectedFile.fileId, data})
+                                .catch(_ => {
+                                    interrupt = true;
+                                    if(document.getElementById('submitButton')) {
+                                        document.getElementById('submitButton').removeAttribute('disabled', 'disabled');
+                                    }
+                                });
+                            } else {
+                                interrupt = true;
+                                this.$notify({
+                                    type: 'warning',
+                                    title: 'Serial number must not be empty',
+                                    text: 'Please fill in the serial Number input',
+                                    duration: 5000
+                                });
+                            }
                         } else {
                             let alreadyExists = false;
                             if(this.isFolder) {
@@ -295,7 +302,23 @@
                                         duration: 5000
                                     });
                                 } else {
-                                    await driveApi.uploadFile(data);
+                                    if(this.serialNbr.trim() != '') {
+                                        await driveApi.uploadFile(data)
+                                        .catch(_ => {
+                                            interrupt = true;
+                                            if(document.getElementById('submitButton')) {
+                                                document.getElementById('submitButton').removeAttribute('disabled', 'disabled');
+                                            }
+                                        });
+                                    } else {
+                                        interrupt = true;
+                                        this.$notify({
+                                            type: 'warning',
+                                            title: 'Serial number must not be empty',
+                                            text: 'Please fill in the serial Number input',
+                                            duration: 5000
+                                        });
+                                    }
                                     this.uploadPercentage = store.getters.progress;
                                 }
                             } else {
@@ -311,32 +334,45 @@
                                     + data.name + ' already exists. \nContinuing will upload a new version of the file.');
                                     if (confirmation === true) {
                                         document.getElementById('submitButton').setAttribute('disabled', 'disabled');
-                                        await driveApi.editFile({fileId: editingFileid, data});
-                                        this.uploadPercentage = store.getters.progress;
-                                    }
-                                    /*this.$modal.show('dialog', {
-                                        title: 'A file with the name ' + data.name + ' already exists.',
-                                        text: 'Continuing will create a upload a new version of the file',
-                                        buttons: [
-                                            {
-                                                title: 'Upload',
-                                                default: false,
-                                                handler: async () => {
-                                                    console.log('this : ', this);
-                                                    await driveApi.editFile({fileId: editingFileid, data});
-                                                    await store.dispatch('retrieveFolder', store.getters.folder.fileId);
-                                                    this.uploadPercentage = store.getters.progress;
-                                                    this.$modal.hide('dialog');
-                                                    await store.dispatch('resetProgress');
+                                        if(this.serialNbr.trim() != '') {
+                                            await driveApi.editFile({fileId: editingFileid, data})
+                                            .catch(_ => {
+                                                interrupt = true;
+                                                if(document.getElementById('submitButton')) {
+                                                    document.getElementById('submitButton').removeAttribute('disabled', 'disabled');
                                                 }
-                                            },
-                                            {
-                                                title: 'Cancel'
-                                            }
-                                        ]
-                                    });*/
+                                            });
+                                        } else {
+                                            interrupt = true;
+                                            this.$notify({
+                                                type: 'warning',
+                                                title: 'Serial number must not be empty',
+                                                text: 'Please fill in the serial Number input',
+                                                duration: 5000
+                                            });
+                                        }
+                                        this.uploadPercentage = store.getters.progress;
+                                    } else {
+                                        interrupt = true;
+                                    }
                                 } else {
-                                    await driveApi.uploadFile(data);
+                                    if(this.serialNbr.trim() != '') {
+                                        await driveApi.uploadFile(data)
+                                        .catch(_ => {
+                                            interrupt = true;
+                                            if(document.getElementById('submitButton')) {
+                                                document.getElementById('submitButton').removeAttribute('disabled', 'disabled');
+                                            }
+                                        });
+                                    } else {
+                                        interrupt = true;
+                                        this.$notify({
+                                            type: 'warning',
+                                            title: 'Serial number must not be empty',
+                                            text: 'Please fill in the serial Number input',
+                                            duration: 5000
+                                        });
+                                    }
                                     await store.dispatch('retrieveFolder', store.getters.folder.fileId);
                                     this.uploadPercentage = store.getters.progress;
                                 }
@@ -345,20 +381,30 @@
                         document.getElementById('submitButton').removeAttribute('disabled', 'disabled');
                         await store.dispatch('retrieveFolder', store.getters.folder.fileId);
                         await store.dispatch('resetProgress');
-                        this.$modal.hide('uploadFile');
+                        if (!interrupt) {
+                            this.$modal.hide('uploadFile');
+                        }
                     }
                 } else {
                     document.getElementById('submitButton').setAttribute('disabled', 'disabled');
-                    /*if(!this.isEditing) {
-                        await driveApi.uploadFile(data);
-                        this.uploadPercentage = store.getters.progress;
-                    } else {
-                        await driveApi.editFile({fileId: this.selectedFile.fileId, data});
-                        // useless as long as we can't change file whhen editing
-                        // this.uploadPercentage = store.getters.progress;
-                    }*/
                     if (this.isEditing) {
-                        await driveApi.editFile({fileId: this.selectedFile.fileId, data});
+                        if(this.serialNbr.trim() != '') {
+                            await driveApi.editFile({fileId: this.selectedFile.fileId, data})
+                            .catch(_ => {
+                                interrupt = true;
+                                if(document.getElementById('submitButton')) {
+                                    document.getElementById('submitButton').removeAttribute('disabled', 'disabled');
+                                }
+                            });
+                        } else {
+                            interrupt = true;
+                            this.$notify({
+                                type: 'warning',
+                                title: 'Serial number must not be empty',
+                                text: 'Please fill in the serial Number input',
+                                duration: 5000
+                            });
+                        }
                     } else {
                         let alreadyExists = false;
                         if(this.isFolder) {
@@ -375,7 +421,23 @@
                                     duration: 5000
                                 });
                             } else {
-                                await driveApi.uploadFile(data);
+                                if(this.serialNbr.trim() != '') {
+                                    await driveApi.uploadFile(data)
+                                    .catch(_ => {
+                                        interrupt = true;
+                                        if(document.getElementById('submitButton')) {
+                                            document.getElementById('submitButton').removeAttribute('disabled', 'disabled');
+                                        }
+                                    });
+                                } else {
+                                    interrupt = true;
+                                    this.$notify({
+                                        type: 'warning',
+                                        title: 'Serial number must not be empty',
+                                        text: 'Please fill in the serial Number input',
+                                        duration: 5000
+                                    });
+                                }
                                 this.uploadPercentage = store.getters.progress;
                             }
                         } else {
@@ -391,52 +453,58 @@
                                 + data.name + ' already exists. \nContinuing will upload a new version of the file.');
                                 if (confirmation === true) {
                                     document.getElementById('submitButton').setAttribute('disabled', 'disabled');
-                                    await driveApi.editFile({fileId: editingFileid, data});
-                                    this.uploadPercentage = store.getters.progress;
-                                }
-                                /*this.$modal.show('dialog', {
-                                    title: 'A file with the name ' + data.name + ' already exists.',
-                                    text: 'Continuing will create a upload a new version of the file',
-                                    buttons: [
-                                        {
-                                            title: 'Upload',
-                                            default: false,
-                                            handler: async () => {
-                                                console.log('this : ', this);
-                                                await driveApi.editFile({fileId: editingFileid, data});
-                                                await store.dispatch('retrieveFolder', store.getters.folder.fileId);
-                                                this.uploadPercentage = store.getters.progress;
-                                                this.$modal.hide('dialog');
-                                                await store.dispatch('resetProgress');
+                                    if(this.serialNbr.trim() != '') {
+                                        await driveApi.editFile({fileId: editingFileid, data})
+                                        .catch(_ => {
+                                            interrupt = true;
+                                            if(document.getElementById('submitButton')) {
+                                                document.getElementById('submitButton').removeAttribute('disabled', 'disabled');
                                             }
-                                        },
-                                        {
-                                            title: 'Cancel'
-                                        }
-                                    ]
-                                });*/
+                                        });
+                                    } else {
+                                        interrupt = true;
+                                        this.$notify({
+                                            type: 'warning',
+                                            title: 'Serial number must not be empty',
+                                            text: 'Please fill in the serial Number input',
+                                            duration: 5000
+                                        });
+                                    }
+                                    this.uploadPercentage = store.getters.progress;
+                                } else {
+                                    interrupt = true;
+                                }
                             } else {
-                                await driveApi.uploadFile(data);
+                                if(this.serialNbr.trim() != '') {
+                                    await driveApi.uploadFile(data)
+                                    .catch(_ => {
+                                        interrupt = true;
+                                        if(document.getElementById('submitButton')) {
+                                            document.getElementById('submitButton').removeAttribute('disabled', 'disabled');
+                                        }
+                                    });
+                                } else {
+                                    interrupt = true;
+                                    this.$notify({
+                                        type: 'warning',
+                                        title: 'Serial number must not be empty',
+                                        text: 'Please fill in the serial Number input',
+                                        duration: 5000
+                                    });
+                                }
                                 await store.dispatch('retrieveFolder', store.getters.folder.fileId);
                                 this.uploadPercentage = store.getters.progress;
                             }
                         }
                     }
-
-
-                    /* .then(() => this.$notify({
-                        type: 'success',
-                        title: 'File successfully uploaded',
-                        text: '',
-                        duration: 5000
-                    }))
-                    .catch(() => console.log('Upload successfully canceled')); */
                     if(document.getElementById('submitButton')) {
                         document.getElementById('submitButton').removeAttribute('disabled', 'disabled');
                     }
                     await store.dispatch('retrieveFolder', store.getters.folder.fileId);
                     await store.dispatch('resetProgress');
-                    this.$modal.hide('uploadFile');
+                    if (!interrupt) {
+                        this.$modal.hide('uploadFile');
+                    }
                 }
 
 
@@ -456,11 +524,6 @@
             },
             async beforeOpen(event) {
                 await store.dispatch('retrieveUsers');
-                // if (this.selectedFile.ownerId) {
-                //     await store.dispatch('getUserById', this.selectedFile.ownerId);
-                // } else {
-                //     await store.dispatch('retrieveLoggedUser');
-                // }
                 await store.dispatch('retrieveGroups');
                 if (event && event.params && event.params.isEditing) {
                     this.ownerId = this.selectedFile.ownerId;
