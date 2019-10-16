@@ -1,6 +1,5 @@
-v-if="file.size"<template>
+<template>
     <div>
-        <loader v-if="loading"></loader>
         <table>
           <tr style="border-bottom: none">
             <td>

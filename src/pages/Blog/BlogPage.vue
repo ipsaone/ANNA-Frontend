@@ -1,8 +1,5 @@
 <template>
     <div class="blog basic-layout">
-        <transition name="loader-fade">
-            <loader v-if="loading"></loader>
-        </transition>
 
         <section class="content">
             <h1 class="section-title color-blue">Blog</h1>
