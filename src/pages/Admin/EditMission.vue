@@ -9,15 +9,15 @@
                 <div class="inline-form">
                     <label for="leader">Leader: </label>
                     <input list="users" type="text" name="leader" id="leader" v-model="leaderName" autocomplete="off" @change="selectUser(leaderName)"><br/>
-                    <label v-if="userGroups && userGroups.length != 0" for="group">Group: </label>
-                    <label v-else for="group">User has no group. Leaders need to be in a group.</label>
-                    <input v-if="userGroups && userGroups.length != 0" list="groups" type="text" name="groups" id="group" v-model="groupName" autocomplete="off" @change="setGroupId(groupName)">
+                    <!--label v-if="userGroups && userGroups.length != 0" for="group">Group: </label-->
+                    <!--label v-else for="group">User has no group. Leaders need to be in a group.</label-->
+                    <!--input v-if="userGroups && userGroups.length != 0" list="groups" type="text" name="groups" id="group" v-model="groupName" autocomplete="off" @change="setGroupId(groupName)"-->
                     <datalist id="users">
                         <option v-for="user in users" :key="user.id" :value="user.username" :label="user.username"/>
                     </datalist>
-                    <datalist id="groups">
+                    <!--datalist id="groups">
                         <option v-for="group in userGroups" :key="group.id" :value="group.name" :label="group.name"/>
-                    </datalist>
+                    </datalist-->
                 </div>
 
                 <div class="inline-form">
@@ -147,6 +147,7 @@
                     this.budgetUsed = 0.0;
                     return false;
                 }
+                this.setGroupId('default');
                 this.loading = true;
                 await store.dispatch('updateMission', {
                     id: this.id,
