@@ -3,15 +3,15 @@
         <div class="content anna-modal">
 
             <!-- TITLE -->
-            <h1 v-if="isFolder && !isEditing">Create a new folder</h1>
-            <h1 v-if="isFolder && isEditing">Edit selected folder</h1>
-            <h1 v-if="!isFolder && !isEditing">Upload a new file</h1>
-            <h1 v-if="!isFolder && isEditing">Edit selected file</h1>
+            <h1 v-if="isDir && !isEditing">Create a new folder</h1>
+            <h1 v-if="isDir && isEditing">Edit selected folder</h1>
+            <h1 v-if="!isDir && !isEditing">Upload a new file</h1>
+            <h1 v-if="!isDir && isEditing">Edit selected file</h1>
             <form @submit.prevent="onSubmit">
-                <input v-if="!isFolder && !isEditing" type="file" ref="file" @change="onFileChange">
-                <vm-progress v-if="!isFolder && !isEditing" max="100" :text-inside="true" :stroke-width="18" :percentage="uploadPercentage"></vm-progress>
-                <input v-if="isFolder && !isEditing" type="text" autocomplete="off" v-model="name" placeholder="Folder name">
-                <input v-if="isFolder && isEditing" type="text" autocomplete="off" v-model="name">
+                <input v-if="!isDir && !isEditing" type="file" ref="file" @change="onFileChange">
+                <vm-progress v-if="!isDir && !isEditing" max="100" :text-inside="true" :stroke-width="18" :percentage="uploadPercentage"></vm-progress>
+                <input v-if="isDir && !isEditing" type="text" autocomplete="off" v-model="name" placeholder="Folder name">
+                <input v-if="isDir && isEditing" type="text" autocomplete="off" v-model="name">
                 <div name="managePermissions" height="auto" :scrollable="true">
                         <div class="big-wrapper">
                             <h2> Manage Permissions </h2>
@@ -30,7 +30,7 @@
                                         <option v-for="group in userGroups" :key="group.id" :value="group.name" :label="group.name"/>
                                     </datalist>
 
-                                    <li v-if="!isFolder"><label>Serial number : </label><input type="text" v-model="serialNbr"/></li>
+                                    <li v-if="!isDir"><label>Serial number : </label><input type="text" v-model="serialNbr"/></li>
 
                                 </ul>
                             </div>
@@ -80,7 +80,7 @@
     export default {
         data() {
             return {
-                isFolder: '',
+                isDir: '',
                 isEditing: '',
                 file: '',
                 name: '',
@@ -246,7 +246,7 @@
                     return false;
                 }
 
-                if(this.isFolder) {
+                if(this.isDir) {
                     data.name = this.name;
                     data.isDir = true;
                 } else {
@@ -269,26 +269,16 @@
                     if (confirmation === true) {
                         document.getElementById('submitButton').setAttribute('disabled', 'disabled');
                         if (this.isEditing) {
-                            if(this.serialNbr.trim() != '') {
-                                await driveApi.editFile({fileId: this.selectedFile.fileId, data})
-                                .catch(_ => {
-                                    interrupt = true;
-                                    if(document.getElementById('submitButton')) {
-                                        document.getElementById('submitButton').removeAttribute('disabled', 'disabled');
-                                    }
-                                });
-                            } else {
+                            await driveApi.editFile({fileId: this.selectedFile.fileId, data})
+                            .catch(_ => {
                                 interrupt = true;
-                                this.$notify({
-                                    type: 'warning',
-                                    title: 'Serial number must not be empty',
-                                    text: 'Please fill in the serial Number input',
-                                    duration: 5000
-                                });
-                            }
+                                if(document.getElementById('submitButton')) {
+                                    document.getElementById('submitButton').removeAttribute('disabled', 'disabled');
+                                }
+                            });
                         } else {
                             let alreadyExists = false;
-                            if(this.isFolder) {
+                            if(this.isDir) {
                                 this.folder.children.forEach(child => {
                                     if(child.name == data.name) {
                                         alreadyExists = true;
@@ -302,23 +292,13 @@
                                         duration: 5000
                                     });
                                 } else {
-                                    if(this.serialNbr.trim() != '') {
-                                        await driveApi.uploadFile(data)
-                                        .catch(_ => {
-                                            interrupt = true;
-                                            if(document.getElementById('submitButton')) {
-                                                document.getElementById('submitButton').removeAttribute('disabled', 'disabled');
-                                            }
-                                        });
-                                    } else {
+                                    await driveApi.uploadFile(data)
+                                    .catch(_ => {
                                         interrupt = true;
-                                        this.$notify({
-                                            type: 'warning',
-                                            title: 'Serial number must not be empty',
-                                            text: 'Please fill in the serial Number input',
-                                            duration: 5000
-                                        });
-                                    }
+                                        if(document.getElementById('submitButton')) {
+                                            document.getElementById('submitButton').removeAttribute('disabled', 'disabled');
+                                        }
+                                    });
                                     this.uploadPercentage = store.getters.progress;
                                 }
                             } else {
@@ -334,45 +314,25 @@
                                     + data.name + ' already exists. \nContinuing will upload a new version of the file.');
                                     if (confirmation === true) {
                                         document.getElementById('submitButton').setAttribute('disabled', 'disabled');
-                                        if(this.serialNbr.trim() != '') {
-                                            await driveApi.editFile({fileId: editingFileid, data})
-                                            .catch(_ => {
-                                                interrupt = true;
-                                                if(document.getElementById('submitButton')) {
-                                                    document.getElementById('submitButton').removeAttribute('disabled', 'disabled');
-                                                }
-                                            });
-                                        } else {
-                                            interrupt = true;
-                                            this.$notify({
-                                                type: 'warning',
-                                                title: 'Serial number must not be empty',
-                                                text: 'Please fill in the serial Number input',
-                                                duration: 5000
-                                            });
-                                        }
-                                        this.uploadPercentage = store.getters.progress;
-                                    } else {
-                                        interrupt = true;
-                                    }
-                                } else {
-                                    if(this.serialNbr.trim() != '') {
-                                        await driveApi.uploadFile(data)
+                                        await driveApi.editFile({fileId: editingFileid, data})
                                         .catch(_ => {
                                             interrupt = true;
                                             if(document.getElementById('submitButton')) {
                                                 document.getElementById('submitButton').removeAttribute('disabled', 'disabled');
                                             }
                                         });
+                                        this.uploadPercentage = store.getters.progress;
                                     } else {
                                         interrupt = true;
-                                        this.$notify({
-                                            type: 'warning',
-                                            title: 'Serial number must not be empty',
-                                            text: 'Please fill in the serial Number input',
-                                            duration: 5000
-                                        });
                                     }
+                                } else {
+                                    await driveApi.uploadFile(data)
+                                    .catch(_ => {
+                                        interrupt = true;
+                                        if(document.getElementById('submitButton')) {
+                                            document.getElementById('submitButton').removeAttribute('disabled', 'disabled');
+                                        }
+                                    });
                                     await store.dispatch('retrieveFolder', store.getters.folder.fileId);
                                     this.uploadPercentage = store.getters.progress;
                                 }
@@ -388,26 +348,16 @@
                 } else {
                     document.getElementById('submitButton').setAttribute('disabled', 'disabled');
                     if (this.isEditing) {
-                        if(this.serialNbr.trim() != '') {
-                            await driveApi.editFile({fileId: this.selectedFile.fileId, data})
-                            .catch(_ => {
-                                interrupt = true;
-                                if(document.getElementById('submitButton')) {
-                                    document.getElementById('submitButton').removeAttribute('disabled', 'disabled');
-                                }
-                            });
-                        } else {
+                        await driveApi.editFile({fileId: this.selectedFile.fileId, data})
+                        .catch(_ => {
                             interrupt = true;
-                            this.$notify({
-                                type: 'warning',
-                                title: 'Serial number must not be empty',
-                                text: 'Please fill in the serial Number input',
-                                duration: 5000
-                            });
-                        }
+                            if(document.getElementById('submitButton')) {
+                                document.getElementById('submitButton').removeAttribute('disabled', 'disabled');
+                            }
+                        });
                     } else {
                         let alreadyExists = false;
-                        if(this.isFolder) {
+                        if(this.isDir) {
                             this.folder.children.forEach(child => {
                                 if(child.name == data.name) {
                                     alreadyExists = true;
@@ -421,23 +371,13 @@
                                     duration: 5000
                                 });
                             } else {
-                                if(this.serialNbr.trim() != '') {
-                                    await driveApi.uploadFile(data)
-                                    .catch(_ => {
-                                        interrupt = true;
-                                        if(document.getElementById('submitButton')) {
-                                            document.getElementById('submitButton').removeAttribute('disabled', 'disabled');
-                                        }
-                                    });
-                                } else {
+                                await driveApi.uploadFile(data)
+                                .catch(_ => {
                                     interrupt = true;
-                                    this.$notify({
-                                        type: 'warning',
-                                        title: 'Serial number must not be empty',
-                                        text: 'Please fill in the serial Number input',
-                                        duration: 5000
-                                    });
-                                }
+                                    if(document.getElementById('submitButton')) {
+                                        document.getElementById('submitButton').removeAttribute('disabled', 'disabled');
+                                    }
+                                });
                                 this.uploadPercentage = store.getters.progress;
                             }
                         } else {
@@ -453,45 +393,25 @@
                                 + data.name + ' already exists. \nContinuing will upload a new version of the file.');
                                 if (confirmation === true) {
                                     document.getElementById('submitButton').setAttribute('disabled', 'disabled');
-                                    if(this.serialNbr.trim() != '') {
-                                        await driveApi.editFile({fileId: editingFileid, data})
-                                        .catch(_ => {
-                                            interrupt = true;
-                                            if(document.getElementById('submitButton')) {
-                                                document.getElementById('submitButton').removeAttribute('disabled', 'disabled');
-                                            }
-                                        });
-                                    } else {
-                                        interrupt = true;
-                                        this.$notify({
-                                            type: 'warning',
-                                            title: 'Serial number must not be empty',
-                                            text: 'Please fill in the serial Number input',
-                                            duration: 5000
-                                        });
-                                    }
-                                    this.uploadPercentage = store.getters.progress;
-                                } else {
-                                    interrupt = true;
-                                }
-                            } else {
-                                if(this.serialNbr.trim() != '') {
-                                    await driveApi.uploadFile(data)
+                                    await driveApi.editFile({fileId: editingFileid, data})
                                     .catch(_ => {
                                         interrupt = true;
                                         if(document.getElementById('submitButton')) {
                                             document.getElementById('submitButton').removeAttribute('disabled', 'disabled');
                                         }
                                     });
+                                    this.uploadPercentage = store.getters.progress;
                                 } else {
                                     interrupt = true;
-                                    this.$notify({
-                                        type: 'warning',
-                                        title: 'Serial number must not be empty',
-                                        text: 'Please fill in the serial Number input',
-                                        duration: 5000
-                                    });
                                 }
+                            } else {
+                                await driveApi.uploadFile(data)
+                                .catch(_ => {
+                                    interrupt = true;
+                                    if(document.getElementById('submitButton')) {
+                                        document.getElementById('submitButton').removeAttribute('disabled', 'disabled');
+                                    }
+                                });
                                 await store.dispatch('retrieveFolder', store.getters.folder.fileId);
                                 this.uploadPercentage = store.getters.progress;
                             }
@@ -553,7 +473,7 @@
                 }
 
                 this.isEditing = event.params.isEditing;
-                this.isFolder = event.params.isFolder;
+                this.isDir = event.params.isDir;
                 await store.dispatch('retrieveLoggedUser');
             }
         }
