@@ -6,11 +6,11 @@
             <td>
                 <table>
                     <tr class="pas-toi no-hover" style="cursor: default">
-                      <th>Type<!--i @click="clique" class="fas fa-caret-up" :class='classR'></i--></th>
-                      <th>Name <!--i @click="clique" class="fas fa-caret-up" :class='classR'></i--> </th>
-                      <th>Serial nbr<!--i @click="clique" class="fas fa-caret-up" :class='classR'></i--></th>
-                      <th>Owner <!--i @click='clique2' class="fas fa-caret-up" :class='classR2'></i--> </th>
-                      <th>Size <!--i @click='clique3' class="fas fa-caret-up" :class='classR3'></i--> </th>
+                      <th>Type<i @click="clique" class="fas fa-caret-up" :class='classR'></i></th>
+                      <th>Name <i @click="clique" class="fas fa-caret-up" :class='classR'></i> </th>
+                      <th>Serial nbr<i @click="clique" class="fas fa-caret-up" :class='classR'></i></th>
+                      <th>Owner <i @click='clique2' class="fas fa-caret-up" :class='classR2'></i> </th>
+                      <th>Size <i @click='clique3' class="fas fa-caret-up" :class='classR3'></i> </th>
                     </tr>
                     <tr class="pas-toi" v-if="folder && folder.name !== 'root'" @dblclick="goBack" style="user-select: none">
                         <td><i class="fa fa-backward" aria-hidden="true"></i></td>
