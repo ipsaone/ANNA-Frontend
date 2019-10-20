@@ -1,6 +1,5 @@
 <template>
-    <div class="events">
-        <loader v-if="loading"></loader>
+    <div id="events">
         <event></event>
 
         <section class="content">
@@ -10,7 +9,7 @@
                 <template v-if="events.length > 0">
                     <div class="event flex-abstract" v-for="event in events" :key="event.id" @click="showEvent(event)">
                         <p class="registered" v-show="event.maxRegistered">{{ event.registeredCount }}/{{ event.maxRegistered }}</p>
-                        <h1><a href="#">{{ event.name }}</a></h1>
+                        <h1 style="text-shadow: 0 0 1px #000000"><a href="#">{{ event.name }}</a></h1>
                         <p class="date">The {{ event.startDate | moment('DD/MM/YYYY') }}</p>
                         <p v-if="event.maxRegistered > 0 && event.registeredCount < event.maxRegistered">
                             <a href="#" @click.prevent.stop="addUser(event.id)" class="button success" v-if="!isRegistered(event.id)">

@@ -57,6 +57,7 @@
             async beforeOpen(event) {
                 await store.dispatch('retrieveEvents', true);
                 await store.dispatch('retrieveEvent', event.params.event_id);
+                console.log(this.event);
                 this.refreshUsers();
             },
             async addUser(id) {
@@ -64,25 +65,13 @@
                 await this.refreshUsers();
             },
             async remUser(id) {
-                await store.dispatch('remMissionMember', id);
+                await store.dispatch('remEventMember', id);
                 await this.refreshUsers();
             },
             async refreshUsers() {
                 await store.dispatch('retrieveUsers');
                 await store.dispatch('retrieveEvents', true);
-                if (!this.event.users) {
-                    this.shownUsers = store.getters.users;
-                }
-                this.shownUsers =  store.getters.users.filter(el1 => {
-                    let found = false;
-                    this.event.registered.forEach(el2 => {
-                        if (el1.id == el2.id) {
-                            found = true;
-                        }
-                    });
-
-                    return !found;
-                });
+                this.shownUsers = store.getters.users.filter(user => !this.event.registered.map(reg => reg.id).includes(user.id));
             }
         }
     };

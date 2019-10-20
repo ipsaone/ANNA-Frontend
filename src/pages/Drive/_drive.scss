@@ -41,9 +41,7 @@
                                  max-width: 1em;
                                }
                            }
-                           td {
-                              width: 25%;
-                           }
+
                            td:nth-child(1) {
                                width : 10%;
                            }
@@ -51,13 +49,16 @@
                                width: 40%;
                            }
                            td:nth-child(3) {
-                               width: 20%;
-                           }
-                           td:nth-child(4) {
                                width: 15%;
                            }
-                           td:nth-child(5) {
+                           td:nth-child(4) {
                                width: 10%;
+                           }
+                           td:nth-child(5) {
+                               width: 15%;
+                           }
+                           td:nth-child(6) {
+                              width: 10%;
                            }
                            background-color: $white-bis;
                            line-height: 2em;
@@ -96,7 +97,7 @@
                 }
 
             }
-            
+
             .inside-folder {
                 margin-top: 1.3em;
                 overflow-y: auto;
@@ -162,7 +163,11 @@
                         grid-column: 2;
                         width: 90%;
                         height: 70%;
-                    };
+                    }
+                    input::-webkit-calendar-picker-indicator {
+                        display: none !important;
+                    }
+
                 }
 
             }

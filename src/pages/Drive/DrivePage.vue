@@ -8,36 +8,36 @@
         <section class="content">
             <h1 class="color-green section-title">Drive</h1>
 
-            <drive-table :search="searchKeyWord"></drive-table>
+            <drive-table :search="searchKeyWord" showHistory="false"></drive-table>
         </section>
 
         <section class="actions">
             <h1 class="section-title">Actions</h1>
             <ul>
-                <li id="barre" v-if="$store.getters.loggedUser.groups.length !== 0">
+                <li id="barre" v-if="loggedUser.groups && loggedUser.groups.length !== 0">
                     <a href="#" @input="search(searchKeyWord, searchTypes)">
                         <i class="fas fa-search" aria-hidden="true" ></i>
                         <input class="search" style="padding: 0; margin: 0;" v-model="searchKeyWord" type="search">
                     </a>
-                    <div class="search_options" v-if="searchKeyWord.length > 0">
+                    <div class="search_options" v-if="searchKeyWord && searchKeyWord.length > 0">
                         <input type="checkbox"  value='name' v-model="searchTypes" @change="search(searchKeyWord, searchTypes)">Name
                         <input type="checkbox"  value='serialNbr' v-model="searchTypes" @change="search(searchKeyWord, searchTypes)">Serial number
                     </div>
                 </li>
-                <li v-if="$store.getters.loggedUser.groups && $store.getters.loggedUser.groups.length !== 0">
-                    <a href="#" @click.prevent="$modal.show('uploadFile', {isFolder: false, isEditing: false})">
+                <li v-if="loggedUser.groups && loggedUser.groups.length !== 0">
+                    <a href="#" @click.prevent="$modal.show('uploadFile', {isDir: false, isEditing: false, loggedUser})">
                         <i class="fa fa-upload" aria-hidden="true"></i> Upload
                     </a>
                 </li>
 
-                <li v-if="$store.getters.loggedUser.groups && $store.getters.loggedUser.groups.length !== 0">
-                    <a href="#" @click.prevent="$modal.show('uploadFile', {isFolder: true, isEditing: false})">
+                <li v-if="loggedUser.groups && loggedUser.groups.length !== 0">
+                    <a href="#" @click.prevent="$modal.show('uploadFile', {isDir: true, isEditing: false, loggedUser})">
                         <i class="fa fa-plus" aria-hidden="true"></i> New folder
                     </a>
                 </li>
 
                 <li style="padding-right: 15px !important">
-                    <p  v-if="$store.getters.loggedUser.groups.length == 0"
+                    <p  v-if="loggedUser.groups && loggedUser.groups.length == 0"
                         style="margin-right: 160px; word-break: break-word;">
 
                         Join a group to be able to upload files and create folders !
@@ -56,8 +56,11 @@
             <div v-if="showOptions">
                 <h1 class="section-title">Options</h1>
                 <ul>
-                    <li v-if="selectedFile.type != 'folder'">
-                        <a href="#" @click.prevent="downloadFile">
+                    <li v-if="!this.selectedFile.isDir">
+                        <a v-if="!showHistory" href="#" @click.prevent="downloadFile">
+                            <i class="fa fa-download" aria-hidden="true"></i> Download
+                        </a>
+                        <a v-else href="#" @click.prevent="downloadRev">
                             <i class="fa fa-download" aria-hidden="true"></i> Download
                         </a>
                     </li>
@@ -66,25 +69,38 @@
                             <i class="fa fa-download" aria-hidden="true"></i> Open
                         </a>
                     </li>
-                    <li>
+                    <li v-if="!this.selectedFile.isDir">
+                        <a href="#" v-if="!showHistory" @click.prevent="toggleShowHistory">
+                          <i v-if="!showHistory" class="fas fa-history"></i> Show history
+                        </a>
+                        <a href="#" v-else @click.prevent="toggleShowHistory">
+                            <i v-if="showHistory" class="fas fa-times"></i> Hide history
+                        </a>
+                    </li>
+                    <!--li>
+                        <a href="#" @click.prevent="downloadMeta">
+                            <i></i> Download Meta
+                        </a>
+                    </li-->
+                    <li v-if="!showHistory">
                         <a href="#" @click.prevent="moveFile">
                             <i class="fa fa-folder" aria-hidden="true"></i> Move
                         </a>
                     </li>
-                    <li>
+                    <li v-if="!showHistory">
                         <a  v-if="this.selectedFile.isDir"
                             href="#"
-                            @click.prevent="$modal.show('uploadFile', {isFolder: true, isEditing: true})">
+                            @click.prevent="$modal.show('uploadFile', {isDir: true, isEditing: true})">
 
                             <i class="fa fa-pen"></i> Edit
                         </a>
                         <a  v-else
                             href="#"
-                            @click.prevent="$modal.show('uploadFile', {isFolder: false, isEditing: true})">
+                            @click.prevent="$modal.show('uploadFile', {isDir: false, isEditing: true})">
                             <i class="fa fa-pen"></i> Edit
                         </a>
                     </li>
-                    <li>
+                    <li v-if="!showHistory">
                         <a href="#" @click.prevent="deleteFile">
                             <i class="fa fa-trash"></i> Delete
                         </a>
@@ -133,7 +149,13 @@
                 return store.getters.selectedFile;
             },
             showOptions() {
-                return typeof this.selectedFile !== 'undefined' && typeof this.selectedFile.fileId !== 'undefined';
+                return typeof this.selectedFile !== 'undefined' && typeof this.selectedFile.fileId !== 'undefined' || this.showHistory;
+            },
+            showHistory() {
+                return store.getters.showHistory;
+            },
+            loggedUser() {
+                return store.getters.loggedUser;
             }
         },
         data() {
@@ -185,11 +207,23 @@
             downloadFile() {
                 driveApi.downloadFile(this.selectedFile.fileId);
             },
+            downloadRev() {
+                driveApi.downloadRev(this.selectedFile.fileId, this.selectedFile.id);
+            },
+            // downloadMeta() {
+            //     driveApi.downloadMeta(this.selectedFile.fileId);
+            // },
             editFile() {
                 if (!this.selectedFile.type === 'folder')
                     this.$modal.show('editFile');
             },
-
+            toggleShowHistory() {
+                if(!store.getters.showHistory){
+                    store.dispatch('showHistory', this.selectedFile.fileId);
+                } else {
+                    store.dispatch('hideHistory');
+                }
+            },
             deleteFile() {
                 /*swal({
                     title: 'Delete this file?',

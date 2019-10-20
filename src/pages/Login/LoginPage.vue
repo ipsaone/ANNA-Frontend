@@ -1,6 +1,5 @@
 <template>
     <section class="grid">
-        <loader v-if="loading"></loader>
 
         <img src="../../assets/images/logo.png" alt="IPSA ONE logo" class="logo">
 

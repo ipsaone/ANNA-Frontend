@@ -1,7 +1,5 @@
 <template>
     <section class="dashboard">
-        <loader v-if="loading"></loader>
-
         <section class="content">
             <h1 class="section-title color-purple">Missions</h1>
 

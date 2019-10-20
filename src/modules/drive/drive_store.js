@@ -7,6 +7,8 @@ const state = {
     percentCompleted: 0,
     searchResults : [],
     searchKeyWord : '',
+    showHistory: false,
+    meta: [],
 
     // DRIVE V2
         // each folder is {type: 'folder', meta: {}, children: []}
@@ -36,13 +38,24 @@ const mutations = {
         state.searchKeyWord = keyWord;
     },
 
+    SHOW_HISTORY(state) {
+        state.showHistory = true;
+    },
+
+    HIDE_HISTORY(state) {
+        state.showHistory = false;
+    },
+
+    SET_META(state, data) {
+        state.meta = data;
+    },
 
     // DRIVE V2
     SET_FOLDER_V2(state, folderId) {
         state.curFolder = folderId;
     },
     INSERT_FOLDER_V2(state, parentPath, child) {
-    
+
     },
     REMOVE_FOLDER_V2(state, parentPath, childId) {
 
@@ -50,10 +63,6 @@ const mutations = {
     INSERT_FILE_META_V2(state, parentPath, meta) {
 
     }
-    
-    
-
-
 
 };
 
@@ -61,7 +70,6 @@ const actions = {
     // DRIVE V1
     async retrieveFolder({commit, dispatch}, id) {
         let folder = await DriveApi.getFolder(id);
-        console.log(folder);
         await dispatch('setFolderOwners', folder.data);
         commit('SET_FOLDER', folder.data);
         await dispatch('unselectFile');
@@ -129,15 +137,23 @@ const actions = {
         commit('SET_RESULT', result.data);
     },
 
+    async showHistory({dispatch, commit}, fileId) {
+        let res = await DriveApi.getMeta(fileId);
+        commit('SET_META', res.data);
+        commit('SHOW_HISTORY');
+    },
 
+    async hideHistory({dispatch, commit}) {
+        commit('HIDE_HISTORY');
+    },
 
 
     // DRIVE V2
 
-    // folderPath : path to folder using IDs [folderId, folderId, folderId] 
+    // folderPath : path to folder using IDs [folderId, folderId, folderId]
     async loadMeta_v2({dispatch, commit}, folderPath, fileId) {
         // call API to get data
-        // 
+        //
     },
     async loadFolder_v2({dispatch, commit}, folderPath, preload=false) {
         // load children list
@@ -182,7 +198,13 @@ const getters = {
         return state.searchKeyWord;
     },
 
+    showHistory(state) {
+        return state.showHistory;
+    },
 
+    metaData(state) {
+        return state.meta;
+    },
 
     // DRIVE V2
     curFolder_v2(state) {

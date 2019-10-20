@@ -51,6 +51,7 @@
                 return this.name.trim() !== '' && this.description.trim() !== '' && this.max >= 0;
             }
         },
+
         data() {
             return {
                 id: 0,
@@ -70,7 +71,7 @@
                 await store.dispatch('retrieveEvent', event.params.event_id);
                 this.id = this.event.id;
                 this.name = this.event.name;
-                this.description = this.event.markdown;
+                this.description = this.event.markdown.replace(/<br>/gi, '');
                 this.max = this.event.maxRegistered;
                 this.start = moment(this.event.startDate).format('YYYY-MM-DD');
                 this.end = moment(this.event.endDate).format('YYYY-MM-DD');
@@ -84,7 +85,7 @@
                     id: this.id,
                     event: {
                         name: this.name,
-                        markdown: this.description,
+                        markdown: this.description.replace(/\n/gi, '\n<br>'),
                         maxRegistered: this.max,
                         startDate: this.start,
                         endDate: this.end

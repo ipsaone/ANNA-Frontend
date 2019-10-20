@@ -69,7 +69,7 @@
                 else {
                     const post = {
                         title: this.title,
-                        markdown: this.markdown.replace(/\n\n/gi, '\n\n<br>'),
+                        markdown: this.markdown.replace(/\n/gi, '\n\n<br>'),
                         published: !this.isDraft,
                         authorId: store.getters.loggedUserId
                     };
@@ -96,7 +96,7 @@
                     if(res) {
                         const post = {
                             title: this.title,
-                            markdown: this.markdown.replace(/\n\n/gi, '\n\n<br>'),
+                            markdown: this.markdown.replace(/\n/gi, '\n\n<br>'),
                             published: false,
                             authorId: store.getters.loggedUserId
                         };
