@@ -25,13 +25,13 @@
                     </div>
                 </li>
                 <li v-if="loggedUser.groups && loggedUser.groups.length !== 0">
-                    <a href="#" @click.prevent="$modal.show('uploadFile', {isFolder: false, isEditing: false, loggedUser})">
+                    <a href="#" @click.prevent="$modal.show('uploadFile', {isDir: false, isEditing: false, loggedUser})">
                         <i class="fa fa-upload" aria-hidden="true"></i> Upload
                     </a>
                 </li>
 
                 <li v-if="loggedUser.groups && loggedUser.groups.length !== 0">
-                    <a href="#" @click.prevent="$modal.show('uploadFile', {isFolder: true, isEditing: false, loggedUser})">
+                    <a href="#" @click.prevent="$modal.show('uploadFile', {isDir: true, isEditing: false, loggedUser})">
                         <i class="fa fa-plus" aria-hidden="true"></i> New folder
                     </a>
                 </li>
@@ -90,13 +90,13 @@
                     <li v-if="!showHistory">
                         <a  v-if="this.selectedFile.isDir"
                             href="#"
-                            @click.prevent="$modal.show('uploadFile', {isFolder: true, isEditing: true})">
+                            @click.prevent="$modal.show('uploadFile', {isDir: true, isEditing: true})">
 
                             <i class="fa fa-pen"></i> Edit
                         </a>
                         <a  v-else
                             href="#"
-                            @click.prevent="$modal.show('uploadFile', {isFolder: false, isEditing: true})">
+                            @click.prevent="$modal.show('uploadFile', {isDir: false, isEditing: true})">
                             <i class="fa fa-pen"></i> Edit
                         </a>
                     </li>
