@@ -3,7 +3,7 @@
         <upload-file></upload-file>
         <new-folder></new-folder>
         <barcode></barcode>
-        <move-file></move-file>
+        <move-filev2></move-filev2>
 
         <section class="content">
             <h1 class="color-green section-title">Drive</h1>
@@ -119,7 +119,7 @@
     import UploadFile from './UploadFile';
     import NewFolder from './NewFolder';
     import Barcode from './Barcode';
-    import MoveFile from './MoveFile';
+    import MoveFilev2 from './MoveFilev2';
     import swal from 'sweetalert2';
 
     export default {
@@ -128,7 +128,7 @@
             UploadFile,
             NewFolder,
             Barcode,
-            MoveFile,
+            MoveFilev2,
         },
         async beforeRouteEnter(to, from, next) {
             let folderId = 1;
@@ -187,9 +187,6 @@
 
 
             },
-            manageRights() {
-                this.$modal.show('fileAuth', this.selectedFile);
-            },
             openFile() {
                 if (this.selectedFile.type === 'folder') {
                     this.loading = true;
@@ -199,7 +196,7 @@
                 }
             },
             moveFile() {
-                this.$modal.show('moveFile');
+                this.$modal.show('moveFilev2', {file: this.selectedFile});
             },
             newBarcode() {
                 this.$modal.show('barcode');

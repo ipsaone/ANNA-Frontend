@@ -68,7 +68,7 @@ const mutations = {
 
 const actions = {
     // DRIVE V1
-    async retrieveFolder({commit, dispatch}, id) {
+    async retrieveFolder({commit, dispatch}, id, force=true) {
         let folder = await DriveApi.getFolder(id);
         await dispatch('setFolderOwners', folder.data);
         commit('SET_FOLDER', folder.data);

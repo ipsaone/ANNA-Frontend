@@ -1,6 +1,6 @@
 <template>
     <modal name="uploadFile" height="auto" :scrollable="true"  @before-open="beforeOpen">
-        <div class="content anna-modal">
+        <div class="content anna-modal" id="upload-file">
 
             <!-- TITLE -->
             <h1 v-if="isDir && !isEditing">Create a new folder</h1>
@@ -14,7 +14,7 @@
                 <input v-if="isDir && isEditing" type="text" autocomplete="off" v-model="name">
                 <div name="managePermissions" height="auto" :scrollable="true">
                         <div class="big-wrapper">
-                            <h2> Manage Permissions </h2>
+                            <h2 id="manage-permissions"> Manage Permissions </h2>
                             <div class="file-information">
                                 <h4> File information </h4>
                                 <ul>
