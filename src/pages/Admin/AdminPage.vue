@@ -289,18 +289,6 @@
 
             },
             async delItem(type_name, action_name, item_name, item_id) {
-                /*if(confirm('Delete '+type_name+' "'+item_name+'" ?')) {
-                    this.loading = true;
-                    await store.dispatch(action_name, item_id);
-                    await this.refreshAll();
-                    this.$notify({
-                        type: 'success',
-                        title: 'Operation successful',
-                        text: type_name+' was successfully deleted',
-                        duration: 5000
-                    });
-
-                }*/
                 swal({
                     title: 'Remove '+type_name+'?',
                     type: 'warning',
