@@ -120,10 +120,22 @@ export default {
                     dirId: this.firstParent.id
                 }
             };
-            await driveApi.editFile(edit);
+            await driveApi.editFile(edit)
+            .then(_ => {
+                this.$notify({
+                    type: 'success',
+                    title: 'Operation successful',
+                    text: 'File or directory was moved',
+                    duration: 5000
+                });
+            })
+            .catch(_ => {
+                this.$modal.hide('moveFilev2');
+            });
             await store.dispatch('retrieveFolder', store.getters.folder.fileId);
-            this.firstParent = await store.dispatch('getFoldersList', this.file.dirId);
-            this.$modal.hide('moveFile');
+            //this.firstParent = await store.dispatch('getFoldersList', this.file.dirId);
+            this.$modal.hide('moveFilev2');
+            await store.dispatch('resetProgress');
         }
     }
 
