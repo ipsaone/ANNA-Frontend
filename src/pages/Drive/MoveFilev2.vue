@@ -115,13 +115,14 @@ export default {
         },
         async onSubmit() {
             const edit = {
-                fileId: store.getters.selectedFile.fileId,
+                fileId: this.file.fileId,
                 data: {
                     dirId: this.firstParent.id
                 }
             };
             await driveApi.editFile(edit);
             await store.dispatch('retrieveFolder', store.getters.folder.fileId);
+            this.firstParent = await store.dispatch('getFoldersList', this.file.dirId);
             this.$modal.hide('moveFile');
         }
     }
