@@ -15,8 +15,8 @@ before_install:
 
 after_success:
 - zip -r ./dist.zip ./dist
-- scp -i ~/travis_deploy_key ./dist.zip travis@ipsaone.space:~/dist-deploying.zip
-- ssh -i ~/travis_deploy_key travis@ipsaone.space -- unzip ~/dist-deploying.zip -d ~/ANNA-Frontend-prod-new
-- ssh -i ~/travis_deploy_key travis@ipsaone.space -- mv ~/ANNA-Frontend-prod ~/ANNA-Frontend-prod-old
-- ssh -i ~/travis_deploy_key travis@ipsaone.space -- mv ~/ANNA-Frontend-prod-new/dist ~/ANNA-Frontend-prod
-- ssh -i ~/travis_deploy_key travis@ipsaone.space -- rm -rf ~/dist-deploying.zip ~/ANNA-Frontend-prod-old ~/ANNA-Frontend-prod-new
+- scp -i ~/travis_deploy_key ./dist.zip travis@ipsaone.space:~/dist-$TRAVIS_BRANCH-deploying.zip
+- ssh -i ~/travis_deploy_key travis@ipsaone.space -- unzip ~/dist-$TRAVIS_BRANCH-deploying.zip -d ~/ANNA-Frontend-$TRAVIS_BRANCH-new
+- ssh -i ~/travis_deploy_key travis@ipsaone.space -- mv ~/ANNA-Frontend- ~/ANNA-Frontend-$TRAVIS_BRANCH-old
+- ssh -i ~/travis_deploy_key travis@ipsaone.space -- mv ~/ANNA-Frontend-$TRAVIS_BRANCH-new/dist ~/ANNA-Frontend-$TRAVIS_BRANCH
+- ssh -i ~/travis_deploy_key travis@ipsaone.space -- rm -rf ~/dist-deploying.zip ~/ANNA-Frontend-$TRAVIS_BRANCH-old ~/ANNA-Frontend-$TRAVIS_BRANCH-new
