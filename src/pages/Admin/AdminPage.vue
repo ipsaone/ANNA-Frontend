@@ -234,6 +234,7 @@
 
     import * as moment from 'moment';
     import * as _ from 'lodash';
+    import swal from 'sweetalert2';
 
     export default {
         components: {
@@ -288,18 +289,24 @@
 
             },
             async delItem(type_name, action_name, item_name, item_id) {
-                if(confirm('Delete '+type_name+' "'+item_name+'" ?')) {
+                swal({
+                    title: 'Remove '+type_name+'?',
+                    type: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#E74D3C',
+                    cancelButtonColor: '#7A7A7A',
+                    confirmButtonText: 'Delete'
+                }).then(_ => {
                     this.loading = true;
-                    await store.dispatch(action_name, item_id);
-                    await this.refreshAll();
+                    store.dispatch(action_name, item_id);
+                    this.refreshAll();
                     this.$notify({
                         type: 'success',
                         title: 'Operation successful',
                         text: type_name+' was successfully deleted',
                         duration: 5000
                     });
-
-                }
+                });
             }
 
         }
