@@ -28,7 +28,7 @@ new Vue({
     mounted: function() {
         //idleLogout();
         checkLogged();
-        //checkInterval();
+        checkInterval();
         isRoot();
         showAll();
     }
@@ -81,11 +81,11 @@ function showAll() {
 }
 
 // Useful to disconnect user when backend stops
-/*function checkInterval() {
+function checkInterval() {
     window.setInterval(function() {
         if(!window.location.href.endsWith('login') && !window.location.href.endsWith('login/')){
             checkLogged();
             //console.log('10 secondes');
         }
     }, 10000);
-}*/
+}

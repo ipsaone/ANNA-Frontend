@@ -11,3 +11,6 @@ before_install:
 - echo -e "Host ipsaone.space\n\tStrictHostKeyChecking no\n" >> ~/.ssh/config
 - ssh-add ~/travis_deploy_key
 - ssh -i ~/travis_deploy_key travis@ipsaone.space pwd
+
+after_success:
+- zip -r ./dist.zip ./dist
