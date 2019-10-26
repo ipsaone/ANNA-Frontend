@@ -54,7 +54,6 @@
         methods: {
             async beforeOpen(event) {
                 await store.dispatch('retrieveUsers');
-                await store.dispatch('retrieveMissions', true);
                 await store.dispatch('retrieveMission', event.params.mission_id);
                 this.refreshUsers();
             },
