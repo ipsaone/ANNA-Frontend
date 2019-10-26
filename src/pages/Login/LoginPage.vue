@@ -1,6 +1,5 @@
 <template>
     <section class="grid">
-        <loader v-if="loading"></loader>
 
         <img src="../../assets/images/logo.png" alt="IPSA ONE logo" class="logo">
 
@@ -51,22 +50,7 @@
                         });
                     })
                     .catch(err => {
-                        console.log(err);
-                        if(err.response && err.response.status == 401) {
-                            this.$notify({
-                                type: 'error',
-                                title: 'Couldn\'t log in',
-                                text: err.response.data.error ? err.response.data.error : 'No data from server',
-                                duration: 5000
-                            });
-                        } else {
-                            this.$notify({
-                                type: 'error',
-                                title: 'Unknown error',
-                                text: err.message,
-                                duration: -1
-                            });
-                        }
+                        this.loading = false;
                     })
                     .then(_ => {
                         this.loading = false;

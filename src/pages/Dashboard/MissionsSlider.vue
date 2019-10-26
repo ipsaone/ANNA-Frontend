@@ -1,25 +1,33 @@
 <template>
     <section class="mission-slider" :key="missionNumber">
         <new-task></new-task>
+        <edit-mission class="admin"></edit-mission>
+        <mission-members class="admin"></mission-members>
 
-        <div v-if="mission.id">
+        <div v-if="loggedUserMissions.length > 0">
             <div class="controls">
                 <a href="#" @click.prevent="prev" :class="{disabled: currentSlide === 0}">
                     <i class="fa fa-chevron-left"></i> Previous
                 </a>
 
-                <h1>{{ mission.name }}</h1>
+                <h1 style="margin-bottom: 0;">{{ mission.name }}</h1>
 
                 <a href="#" @click.prevent="next" :class="{disabled: currentSlide === missionNumber-1}">
                     Next <i class="fa fa-chevron-right"></i>
                 </a>
             </div>
+            <h3 v-if="logged.id === mission.leaderId" style="text-align:center; font-size: 1.2em; margin-top: -5px;">
+                <a @click.prevent="$modal.show('editMission', {mission_id: mission.id})">Edit</a>
+            </h3>
+            <h3 v-if="logged.id === mission.leaderId" style="text-align:center; font-size: 1.2em; margin-top: -5px;">
+                <a @click.prevent="$modal.show('missionMembers', {mission_id: mission.id})">Manage members</a>
+            </h3>
 
             <div class="mission">
                 <div class="mission-left">
 
                     <div class="description">
-                        <h2>Description :</h2>
+                        <h2>Description</h2>
                         <p class="content" v-html="mission.description" ></p>
                     </div>
 
@@ -38,7 +46,7 @@
                                 Members:
                                 <li v-for="member in mission.members" v-if="member.id" :key="member.id">
                                     <router-link :to="{name: 'profile', params:{id: member.id}}">
-                                        - {{ member.username }},
+                                        - {{ member.username }}
                                     </router-link>
                                 </li>
                             </ul>
@@ -61,14 +69,15 @@
                             <ul>
                                 <li v-for="task in mission.tasks" :key="task.id">
                                     <div class="checkbox-container">
-                                        <input type="checkbox" :name="task.name" :id="task.id">
+                                        <input type="checkbox" :name="task.name"
+                                         :id="'task'+task.id" v-model="task.done" @change="taskChange(task)">
                                         <label :for="task.id">{{ task.name }}</label>
-                                        <label class="checkbox" :for="task.id"></label>
-                                        <i v-if="$store.getters.loggedUserIsRoot" @click.prevent="delTask(task.id)" class="fa fa-trash"></i>
+                                        <label class="checkbox" :for="'task' + task.id"></label>
+                                        <i v-if="$store.getters.loggedUserIsRoot || logged.id === mission.leaderId" @click.prevent="delTask(task.id)" class="fa fa-trash"></i>
                                     </div>
                                 </li>
-                                <em v-if="mission.tasks.length == 0">No tasks yet !</em>
-                                <a @click.prevent="newTask">Add task</a>
+                                <em v-if="mission.tasks && mission.tasks.length === 0">No tasks yet !</em>
+                                <a v-if="$store.getters.loggedUserIsRoot || logged.id === mission.leaderId" @click.prevent="newTask">Add task</a>
                             </ul>
                         </div>
                     </div>
@@ -79,7 +88,7 @@
         <div v-else>
             <p class="no-mission-message">
                 <b>Error 404 : mission not found</b><br>
-                You aren't signed-up to any mission. Ask your mission chief !
+                You aren't signed-up to any mission. Ask your mission leader !
                 <br><br>
                 Feel free to go read the <router-link :to="{name: 'blog'}">latest blog entries</router-link> until he finally does his work ;-)
 
@@ -90,12 +99,14 @@
 
 <script>
     import store from '@/modules/store';
-
+    import EditMission from '../Admin/EditMission';
+    import MissionMembers from '../Admin/MissionMembers';
     import newTask from './newTask';
 
     export default {
         components: {
-            newTask
+            newTask,
+            EditMission, MissionMembers
         },
         data() {
             return {
@@ -104,40 +115,45 @@
         },
         async mounted() {
             await store.dispatch('retrieveMissions', true);
-            if (store.getters.missions.length > 0) {
-                await store.dispatch('retrieveMission', store.getters.missions[0].id);
+            if (store.getters.loggedUserMissions.length > 0){
+                await store.dispatch('retrieveMission', store.getters.loggedUserMissions[0]);
             }
         },
         computed: {
             mission() {
-                console.log('boum', store.getters.selectedMission);
                 return store.getters.selectedMission;
             },
             missionNumber() {
-                return store.getters.missions.length;
+                return store.getters.loggedUserMissions.length;
             },
             disabledInput() {
                 return !store.getters.loggedUserIsRoot || store.getters.loggedUserId !== this.mission.leader.id;
+            },
+            logged() {
+                return store.getters.loggedUser;
+            },
+            loggedUserMissions() {
+                return store.getters.loggedUserMissions;
             }
         },
         methods: {
             next() {
                 if (this.currentSlide < this.missionNumber - 1) {
                     this.currentSlide += 1;
-                    store.dispatch('retrieveMission', store.getters.missions[this.currentSlide].id);
+                    store.dispatch('retrieveMission', store.getters.loggedUserMissions[this.currentSlide]);
                 }
             },
             prev() {
                 if (this.currentSlide > 0) {
                     this.currentSlide -= 1;
-                    store.dispatch('retrieveMission', store.getters.missions[this.currentSlide].id);
+                    store.dispatch('retrieveMission', store.getters.loggedUserMissions[this.currentSlide]);
                 }
             },
             async taskChange(task) {
                 const data = {
                     task: {
                         id: task.id,
-                        done: !task.done,
+                        done: task.done,
                         name: task.name
                     },
                     missionId: task.missionId

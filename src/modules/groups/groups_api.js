@@ -13,8 +13,8 @@ export default {
     async save(group) {
         return axios.post(url, group, {withCredentials: true});
     },
-    async update(id) {
-        return axios.put(url + id, group, {withCredentials: true});
+    async update(group) {
+        return axios.put(url + group.id, {name: group.name}, {withCredentials: true});
     },
     async getGroup(id) {
         return axios.get(url + id, {withCredentials: true});

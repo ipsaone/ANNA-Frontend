@@ -18,6 +18,12 @@ $actions-width: 20em;
     border-left: 1px solid $white-darker;
     right: 0;
     width: 33vw;
+    min-width: 100%;
+    max-width: 100%;
+
+    .section-title {
+      margin-left: 0;
+    }
 
     @include aside;
   }
@@ -25,4 +31,11 @@ $actions-width: 20em;
   .section-title {
     margin-bottom: 1em;
   }
+
+}
+
+#uploadProgressCircle {
+    position: fixed;
+    bottom: 1em;
+    right: 1.5em;
 }

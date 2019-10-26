@@ -32,6 +32,11 @@ const mutations = {
                     state.missions.push(mission.id);
                 });
             }
+            if(user.leaderMissions) {
+                user.leaderMissions.forEach(mission => {
+                    state.missions.push(mission.id);
+                });
+            }
             if(user.events) {
                 user.events.forEach(event => {
                     state.events.push(event.id);
@@ -66,7 +71,6 @@ const actions = {
 
     async retrieveLoggedUser({commit, state}) {
         let res = await UsersApi.get(state.logged.id);
-        console.log(res.data);
         commit('SET_LOGGED_USER', res.data);
     },
 

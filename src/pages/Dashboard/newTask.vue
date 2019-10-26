@@ -33,10 +33,19 @@
                     },
                     missionId: store.getters.selectedMission.id
                 };
+                if (data.task.name.trim() != '') {
+                    await store.dispatch('storeTask', data);
+                    await store.dispatch('retrieveMission');
+                    this.$modal.hide('newTask');
+                } else {
+                    this.$notify({
+                        type: 'error',
+                        title: 'Task name must not be empty',
+                        text: 'Please give this task a name',
+                        duration: -1
+                    });
+                }
 
-                await store.dispatch('storeTask', data);
-                await store.dispatch('retrieveMission');
-                this.$modal.hide('newTask');
             }
         }
     };

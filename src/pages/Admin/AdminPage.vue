@@ -2,14 +2,16 @@
     <div class='admin'>
         <new-mission></new-mission>
         <new-group></new-group>
-        <new-event></new-event>
+        <!--new-event></new-event-->
         <new-user></new-user>
         <group-members></group-members>
         <mission-members></mission-members>
-        <edit-event></edit-event>
+        <!--edit-event></edit-event-->
+        <event-modal></event-modal>
         <edit-mission></edit-mission>
         <event-members></event-members>
         <edit-user></edit-user>
+        <edit-group></edit-group>
 
         <section class="content">
             <h1 class="section-title">Administration</h1>
@@ -17,13 +19,15 @@
                 <tab name="Missions">
                     <table>
                         <tr>
+                            <!--th>ID</th-->
                             <th>Name</th>
                             <th>Leader</th>
                             <th>Budget</th>
                             <th>Members</th>
                             <th>Actions</th>
                         </tr>
-                        <tr v-for="mission in $store.getters.missions" :key="mission.id">
+                        <tr v-for="mission in orderedMissions" :key="mission.id">
+                            <!--td> {{ mission.id }} </td-->
                             <td> {{ mission.name }} </td>
                             <td> {{ mission.leader.username }} </td>
                             <!-- TODO : why is it a string in the first place ? (+0 to convert to number) -->
@@ -40,6 +44,7 @@
                             </td>
                         </tr>
                         <tr>
+                            <!--td></td-->
                             <td></td>
                             <td></td>
                             <td></td>
@@ -83,14 +88,14 @@
                 <tab name="Blog">
                     <table>
                         <tr>
-                            <th>Id</th>
+                            <!--th>ID</th-->
                             <th>Title</th>
                             <th>Date</th>
                             <th>Author</th>
                             <th>Actions</th>
                         </tr>
                         <tr v-for="post in $store.getters.posts" :key="post.id">
-                            <td> {{ post.id }} </td>
+                            <!--td> {{ post.id }} </td-->
                             <td> {{ post.title }} </td>
                             <td> {{ post.createdAt | moment('DD/MM/YYYY') }} </td>
                             <td> {{ post.author.username }} </td>
@@ -101,7 +106,7 @@
                             </td>
                         </tr>
                         <tr>
-                            <td></td>
+                            <!--td></td-->
                             <td></td>
                             <td></td>
                             <td></td>
@@ -113,26 +118,29 @@
                 <tab name="Groups">
                     <table>
                         <tr>
+                            <!--th>ID</th-->
                             <th>Name</th>
                             <th>Members</th>
                             <th>Actions</th>
                         </tr>
-                        <tr v-for="group in $store.getters.groups" :key="group.id">
+                        <tr v-for="group in orderedGroups" :key="group.id">
+                            <!--td> {{group.id}} </td-->
                             <td> {{ group.name }} </td>
                             <td> {{ group.users.length }} </td>
                             <td>
-                                <a v-if="group.name !== 'root'"@click.prevent="$modal.show('groupMembers', {group_id: group.id});">
+                                <a v-if="group.name !== 'default' "@click.prevent="$modal.show('groupMembers', {group_id: group.id});">
                                     Manage users,
                                 </a>
-                                <a v-if="group.name == 'root'" @click.prevent="$modal.show('groupMembers', {group_id: group.id});">
-                                    Manage users
+                                <a @click.prevent="$modal.show('editGroup', {group_id: group.id, group_name: group.name});">
+                                    Edit name,
                                 </a>
-                                <a v-if="group.name !== 'root'" @click.prevent="delItem('group', 'deleteGroup', group.name, group.id)">
+                                <a v-if="group.name !== 'root' && group.name !== 'default'" @click.prevent="delItem('group', 'deleteGroup', group.name, group.id)">
                                     Delete
                                 </a>
                             </td>
                         </tr>
                         <tr>
+                            <!--td></td-->
                             <td></td>
                             <td></td>
                             <td><a @click.prevent="$modal.show('newGroup');">Add group</a></td>
@@ -143,14 +151,14 @@
                 <tab name="Users">
                     <table>
                         <tr>
-                            <th>ID</th>
+                            <!--th>ID</th-->
                             <th>Name</th>
                             <th>Email</th>
                             <!--th>Groups</th-->
                             <th>Actions</th>
                         </tr>
-                        <tr v-for="user in $store.getters.users" :key="user.id">
-                            <td> {{ user.id }} </td>
+                        <tr v-for="user in orderedUsers" :key="user.id">
+                            <!--td> {{ user.id }} </td-->
                             <td> {{ user.username }} </td>
                             <td> {{ user.email }} </td>
                             <!-- td> <span> {{userGroups}} </span></td-->
@@ -161,7 +169,7 @@
                             </td>
                         </tr>
                         <tr>
-                            <td></td>
+                            <!--td></td-->
                             <td></td>
                             <td></td>
                             <!--td></td-->
@@ -173,29 +181,32 @@
                 <tab name="Events">
                     <table>
                         <tr>
-                            <th>ID</th>
+                            <!--th>ID</th-->
                             <th>Name</th>
                             <th>Registered</th>
                             <th>Date</th>
                             <th>Actions</th>
                         </tr>
                         <tr v-for="event in $store.getters.events" :key="event.id">
-                            <td> {{ event.id }} </td>
+                            <!--td> {{ event.id }} </td-->
                             <td> {{ event.name }} </td>
                             <td> {{ event.registeredCount }} / {{ event.maxRegistered }} </td>
                             <td> {{ event.startDate | moment('DD/MM/YYYY') }} - {{ event.endDate | moment('DD/MM/YYYY') }} </td>
                             <td>
                                 <a @click.prevent="$modal.show('eventMembers', {event_id: event.id})">Manage registered</a>,
-                                <a @click.prevent="$modal.show('editEvent', {event_id: event.id})">Edit</a>,
+                                <!--a @click.prevent="$modal.show('editEvent', {event_id: event.id})">Edit</a>,-->
+                                <a @click.prevent="$modal.show('eventModal', {event_id: event.id, isEditing: true})">Edit</a>,
                                 <a @click.prevent="delItem('event', 'deleteEvent', event.name, event.id)">Delete</a>
                             </td>
                         </tr>
                         <tr>
+                            <!--td></td-->
                             <td></td>
                             <td></td>
                             <td></td>
-                            <td></td>
-                            <td><a @click.prevent="$modal.show('newEvent');">Add event</a></td>
+                            <td><!--a @click.prevent="$modal.show('newEvent');">Add event</a-->
+                                <a @click.prevent="$modal.show('eventModal', {isEditing: false})">Add event</a>
+                            </td>
                         </tr>
                     </table>
                 </tab>
@@ -212,24 +223,29 @@
 
     import NewMission from './NewMission';
     import NewGroup from './NewGroup';
-    import NewEvent from './NewEvent';
+    import EditGroup from './EditGroup';
+    // import NewEvent from './NewEvent';
     import NewUser from './NewUser';
     import MissionMembers from './MissionMembers';
     import EventMembers from './EventMembers';
     import GroupMembers from './GroupMembers';
-    import EditEvent from './EditEvent';
+    // import EditEvent from './EditEvent';
+    import EventModal from './EventModal';
     import EditMission from './EditMission';
     import EditUser from './EditUser';
 
     import * as moment from 'moment';
+    import * as _ from 'lodash';
+    import swal from 'sweetalert2';
 
     export default {
         components: {
             Loader,
             Tabs, Tab,
             NewMission, MissionMembers,  EditMission,
-            NewGroup, GroupMembers,
-            NewEvent, EventMembers, EditEvent,
+            NewGroup, GroupMembers, EditGroup,
+            // NewEvent, EditEvent,
+            EventMembers, EventModal,
             NewUser, EditUser
 
         },
@@ -240,38 +256,22 @@
         },
         computed: {
             missions() {
-                console.log('salut');
                 return store.getters.missions;
             },
+            orderedMissions() {
+                return _.orderBy(this.missions, 'id');
+            },
             groups() {
-                return store.getters.loggedUser.groups;
+                return store.getters.groups;
+            },
+            orderedGroups() {
+                return _.orderBy(this.groups, 'id');
             },
             users() {
-                let i;
-                let users = [];
-                for(i = 1; i <= store.getters.users.length; i++) {
-                    store.dispatch('selectUser', i)
-                    .then(_ => {
-                        store.dispatch('retrieveGroups')
-                        .then(_ => {
-                            users.push(store.getters.selectedUser);
-                        });
-                    });
-                }
-                console.log('voilà les user', users);
-                return users;
+                return store.getters.users;
             },
-            userGroups() {
-                let i;
-                let groups = [];
-                let u = this.users;
-                for(i = 1; i <= u.length; i++) {
-                    store.dispatch('retrieveGroups')
-                    .then(_ => {
-                        groups.push(u[i]);
-                    });
-                }
-                console.log('tada', groups);
+            orderedUsers() {
+                return _.orderBy(this.users, 'id');
             }
         },
         async mounted() {
@@ -291,18 +291,24 @@
 
             },
             async delItem(type_name, action_name, item_name, item_id) {
-                if(confirm('Delete '+type_name+' "'+item_name+'" ?')) {
+                swal({
+                    title: 'Remove '+type_name+'?',
+                    type: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#E74D3C',
+                    cancelButtonColor: '#7A7A7A',
+                    confirmButtonText: 'Delete'
+                }).then(_ => {
                     this.loading = true;
-                    await store.dispatch(action_name, item_id);
-                    await this.refreshAll();
+                    store.dispatch(action_name, item_id);
+                    this.refreshAll();
                     this.$notify({
                         type: 'success',
                         title: 'Operation successful',
                         text: type_name+' was successfully deleted',
                         duration: 5000
                     });
-
-                }
+                });
             }
 
         }

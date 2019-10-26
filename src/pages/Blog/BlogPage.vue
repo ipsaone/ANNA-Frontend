@@ -1,11 +1,10 @@
 <template>
     <div class="blog basic-layout">
-        <loader v-if="loading"></loader>
 
         <section class="content">
-            <h1 class="section-title">Blog</h1>
-            <template v-if="$store.getters.drafts.length > 0 && canPost">
-                <post-abstract v-for="(post, index) in $store.getters.drafts"
+            <h1 class="section-title color-blue">Blog</h1>
+            <template v-if="drafts.length > 0 && canPost">
+                <post-abstract v-for="(post, index) in drafts"
                             :key="post.id"
                             :post="post"
                             :index="index +1"
@@ -45,7 +44,7 @@
     import Loader from '@/components/Loader';
 
     export default {
-        mounted() {
+        async mounted() {
             this.refreshPosts(true, true, false);
         },
         data() {
@@ -68,15 +67,15 @@
                 return this.posts.length;
             },
             canPost() {
-                return store.getters.loggedUserIsAuthor || store.getters.loggedUserIsRoot;
+                return store.getters.loggedUserIsRoot;
             }
         },
         methods: {
-            refreshPosts(force = false, hideNotif = false, hideLoader = false) {
-                if(!hideLoader) { this.loading = true; }
-                console.log('retrievelesputaindedrafts');
-                store.dispatch('retrieveDrafts', force);
-                store.dispatch('retrievePosts', force)
+            async refreshPosts(force = false, hideNotif = false, hideLoader = false) {
+                if(!hideLoader)
+                    this.loading = true;
+                await store.dispatch('retrieveDrafts', force);
+                await store.dispatch('retrievePosts', force)
                     .then(() => {this.loading = false;})
                     .then(_ => {
                         if (!hideNotif) {
@@ -86,14 +85,6 @@
                                 duration: 1000
                             });
                         }
-                    })
-                    .catch(err => {
-                        this.$notify({
-                            type: 'error',
-                            title: 'Can not retrieve the posts',
-                            text: err.message,
-                            duration: -1
-                        });
                     });
             }
         }

@@ -1,4 +1,17 @@
-.events {
+#events {
+
+    .section-title {
+        margin-bottom: 2em;
+    }
+
+    a:not(.disabled) {
+        color: $yellow
+    }
+
+    a.button {
+        color: white;
+    }
+
     .no-event-message {
         margin-left: 2em;
         margin-top: 2em;

@@ -40,7 +40,7 @@
     text-align: center;
 
     li {
-      border-bottom: solid 1px $black-ter;
+      margin-bottom: 1px;
 
       &:last-child {
         border-bottom: none;
@@ -110,7 +110,7 @@
 
     .actions {
       display: grid;
-      grid-template-columns: 1fr 1fr 1fr;
+      grid-template-columns: 1fr;
       background-color: $grey-darker;
 
       .button {

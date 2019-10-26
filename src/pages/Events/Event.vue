@@ -28,7 +28,6 @@
             beforeOpen(data) {
                 store.commit('SELECT_EVENT', data.params.event);
                 this.event = store.getters.selectedEvent;
-                console.log('event', this.event);
             },
             beforeClose(event) {
                 store.dispatch('unselectEvent');

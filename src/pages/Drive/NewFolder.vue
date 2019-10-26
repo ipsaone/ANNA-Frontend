@@ -1,11 +1,11 @@
 <template>
-    <modal name="newFolder" height="auto" :scrollable="true">
+    <modal name="newFolder" height="auto" :scrollable="true" @before-open="beforeOpen">
         <div class="content anna-modal">
             <h1>New folder</h1>
 
             <form @submit.prevent="onSubmit">
                 <input type="text" placeholder="Name" v-model="name">
-                <input type="submit" value="Create" class="button success">
+                <input type="submit" @click.prevent="onSubmit" value="Create" class="button success">
             </form>
         </div>
     </modal>
@@ -19,10 +19,15 @@
     export default {
         data() {
             return {
-                name: ''
+                name: '',
+                isEditing: ''
             };
         },
         methods: {
+            beforeOpen(event) {
+                console.log(event.params.isEditing);
+                this.isEditing = event.params.isEditing;
+            },
             async onSubmit() {
                 const data = {
                     name: this.name,

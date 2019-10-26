@@ -1,6 +1,5 @@
 <template>
     <section class="logs basic-layout">
-        <loader v-if="loading"></loader>
         <log></log>
         <upload-log></upload-log>
 

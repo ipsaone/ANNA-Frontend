@@ -3,6 +3,9 @@
 @import 'members';
 
 .admin {
+    .section-title {
+        margin-bottom: 1em;
+    }
 
     .content {
         margin-right: 1em;
@@ -10,18 +13,18 @@
 
     overflow: hidden;
 
-    label {
-        width: 15em;
-    }
-
-    .form-group {
-        display: flex;
-        flex-direction: row;
-        justify-content: center;
-        align-items: center;
-        flex-wrap: nowrap;
-        text-align: left;
-    }
+    // label {
+    //     width: 15em;
+    // }
+    //
+    // .form-group {
+    //     display: flex;
+    //     flex-direction: row;
+    //     justify-content: center;
+    //     align-items: center;
+    //     flex-wrap: nowrap;
+    //     text-align: left;
+    // }
 
     h2 {
         text-align: center;
@@ -32,7 +35,7 @@
     }
 
     .form-group {
-        height: 3em;
+        height: 2.5em;
     }
 
     .buttons {
@@ -41,8 +44,6 @@
             transition: 0.3s;
             border: 1px solid $grey-lighter;
         }
-
-
 
         .submit {
             background-color: $white-dark;
@@ -72,25 +73,136 @@
 }
 
 .admin .anna-modal {
+
     padding: 0 1vw;
+
+    .vdp-datepicker{
+      position: relative !important;
+      display: grid;
+      grid-template-rows: auto;
+    }
+
+    .vdp-datepicker__calendar {
+        display: grid;
+    }
+
+    input::-webkit-calendar-picker-indicator {
+        display: none !important;
+    }
+
     form::-webkit-scrollbar-track {
         -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
         border-radius: 10px;
-        background-color: #F5F5F5;
+        background-color: $white-dark;
     }
 
     form::-webkit-scrollbar {
-      width: 4px;
-      background-color: #F5F5F5;
+      width: 5px;
+      background-color: $white-dark
     }
 
     form::-webkit-scrollbar-thumb {
       border-radius: 10px;
       -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,.3);
-      background-color: #555;
+      background-color: $grey;
+    }
+
+    .markdown-editor {
+        overflow: auto;
+        word-wrap: break-word;
+
+        .CodeMirror-line {
+            padding-bottom: 0.1rem;
+        }
+
+        ::-webkit-scrollbar-track {
+            -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+            border-radius: 10px;
+            background-color: $white-dark;
+        }
+
+        ::-webkit-scrollbar {
+          width: 5px;
+          background-color: $white-dark;
+        }
+
+        ::-webkit-scrollbar-thumb {
+          border-radius: 10px;
+          -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,.3);
+          background-color: $grey;
+        }
+
     }
 }
 
+.eventModal {
+    // display: grid;
+    // grid-template-columns: 50% 50%;
+    //
+    // h1 {
+    //     grid-column: 1 / 3;
+    // }
+    form {
+        grid-column: 1 / 3;
+        display: grid;
+        grid-template-columns: 50% 50%;
+        grid-row-gap: 1em;
+        input {
+            margin: 0 !important;
+        }
+
+        #Name {
+            grid-column: 1 / 3;
+        }
+        .md-editor {
+            grid-column: 1 / 3;
+        }
+        .form-group {
+            grid-column: 1 / 3;
+            display: grid;
+            grid-template-columns: 30% 70%;
+            label {
+                grid-column: 1;
+                margin: auto 0 !important;
+            }
+            .datepicker{
+                input:focus{outline:0;}
+            }
+            .datepicker, #openslots-input {
+                width: 300px;
+                margin: auto 0 auto auto !important;
+            }
+        }
+        .buttons {
+            display: grid;
+            grid-column: 2;
+            grid-column-gap: 0.5em;
+
+            :first-child {
+                grid-column: 1;
+            }
+            :last-child {
+                grid-column: 2;
+            }
+        }
+    }
+}
+
+.userModal {
+    .form-group {
+        display: grid;
+        grid-template-columns: 50% 50%;
+        margin: 0.5em;
+        label {
+            grid-column: 1;
+            margin: auto auto auto 0;
+        }
+        input {
+            grid-column: 2;
+            margin: auto;
+        }
+    }
+}
 v--modal-box v--modal {
     height: inherit;
 }

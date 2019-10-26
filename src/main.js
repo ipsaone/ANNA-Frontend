@@ -26,24 +26,24 @@ new Vue({
     template: '<App/>',
     components: {App},
     mounted: function() {
-        idleLogout();
+        //idleLogout();
         checkLogged();
         checkInterval();
         isRoot();
+        showAll();
     }
 });
 
 async function checkLogged() {
-    //console.log('Am I logged in?', store.getters.isLogged);
     if (!window.location.href.endsWith('login') && !window.location.href.endsWith('login/') && !window.location.href.endsWith('login#') ){
         await store.dispatch('checkLoggedUser');
         if (!store.getters.isLogged){
-            window.location.replace('/login');
+            router.push('login');
         }
     }
 }
 
-function idleLogout() {
+/*function idleLogout() {
     var t;
     window.onload = resetTimer;
     window.onmousemove = resetTimer;
@@ -60,7 +60,7 @@ function idleLogout() {
             alert('You have been inactive for too long');
 
             await store.dispatch('logoutUser');
-            window.location.replace('/login');
+            router.push('login');
         }
     }
 
@@ -68,12 +68,16 @@ function idleLogout() {
         clearTimeout(t);
         t = setTimeout(disconnect, 30 * 60 * 1000);  // time is in milliseconds
     }
-}
+}*/
 
 function isRoot() {
     if (!store.getters.loggedUserIsRoot && (window.location.href.endsWith('administration')||window.location.href.endsWith('administration/'))) {
-        window.location.replace('/dashboard');
+        router.push('dashboard');
     };
+}
+
+function showAll() {
+    document.getElementById('application').style.display = 'grid'; 
 }
 
 // Useful to disconnect user when backend stops

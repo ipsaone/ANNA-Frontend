@@ -8,12 +8,12 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 h1 {
-  font-size: 2.8em;
+  font-size: 2.4em;
   font-weight: $weight-semibold;
 }
 
 h2 {
-  font-size: 2.2em;
+  font-size: 2em;
   font-weight: $weight-semibold;
 }
 
@@ -39,11 +39,11 @@ h6 {
 
 .section-title {
   margin: 0.2em 0.4em;
-  color: $grey;
   font-size: 2.2em;
   font-weight: $weight-normal;
   letter-spacing: 0.1em;
   text-transform: uppercase;
+  margin-left: 2em;
 
   &:before {
     content: "#";

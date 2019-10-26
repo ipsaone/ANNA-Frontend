@@ -7,17 +7,17 @@
                 <markdown-editor v-model="markdown" :configs="configs"></markdown-editor>
 
                 <div class="inline-form">
-                    <label for="chief">Chief: </label>
-                    <input list="users" type="text" name="chief" id="chief" v-model="chief"><br/>
-                    <label for="group">Group: </label>
-                    <input list="groups" type="text" name="groups" id="group" v-model="group">
-
+                    <label for="leader">Leader: </label>
+                    <input list="users" type="text" name="leader" id="leader" v-model="leaderName" autocomplete="off" @change="selectUser(leaderName)"><br/>
+                    <!--label v-if="userGroups && userGroups.length != 0" for="group">Group: </label>
+                    <label v-else for="group">User has no group. Leaders need to be in a group.</label-->
+                    <!--input v-if="userGroups && userGroups.length != 0" list="groups" type="text" name="groups" id="group" v-model="groupName" autocomplete="off" @change="setGroupId(groupName)"-->
                     <datalist id="users">
-                        <option v-for="user in users" :key="user.id" :value="user.id" :label="user.username"/>
+                        <option v-for="user in users" :key="user.id" :value="user.username" :label="user.username"/>
                     </datalist>
-                    <datalist id="groups">
-                        <option v-for="group in groups" :key="group.id" :value="group.id" :label="group.name"/>
-                    </datalist>
+                    <!--datalist id="groups">
+                        <option v-for="group in userGroups" :key="group.id" :value="group.name" :label="group.name"/>
+                    </datalist-->
                 </div>
 
                 <div class="inline-form">
@@ -51,8 +51,10 @@
             return {
                 name: '',
                 markdown: '',
-                chief: 1,
+                leader: 1,
+                leaderName: '',
                 group: 1,
+                groupName: '',
                 budgetAssigned: 0.0,
 
                 configs: {
@@ -62,14 +64,29 @@
             };
         },
         computed: {
-            users(){
+            users() {
                 return store.getters.users;
             },
-            groups(){
+            groups() {
                 return store.getters.groups;
+            },
+            selectedUser() {
+                return store.getters.selectedUser;
+            },
+            userGroups() {
+                return store.getters.selectedUser.groups;
             }
         },
         methods: {
+            async selectUser(name) {
+                let leaderId = this.users.find(myUser => myUser.username == name).id;
+                await store.dispatch('selectUser', leaderId);
+                this.leader = leaderId;
+            },
+            setGroupId(name) {
+                let groupId = this.userGroups.find(myGroup => myGroup.name == name).id;
+                this.group = groupId;
+            },
             async onSubmit() {
                 if(this.name.trim() == '') {
                     this.$notify({
@@ -80,16 +97,14 @@
                     });
                     return false;
                 }
-                if(!store.getters.users.map(us => us.id).includes(parseInt(this.chief, 10)) || !store.getters.groups.map(gp => gp.id).includes(parseInt(this.group))) {
-                    console.log('in');
-                    console.log('ma bite', typeof this.chief);
+                if(!store.getters.users.map(us => us.id).includes(parseInt(this.leader, 10)) || !store.getters.groups.map(gp => gp.id).includes(parseInt(this.group))) {
                     this.$notify({
                         type: 'error',
                         title: 'Leader or group doesn\'t exist',
                         text: 'Please select an existing leader and group',
                         duration: 5000
                     });
-                    this.chief = 1;
+                    this.leader = 1;
                     this.group = 1;
                     return false;
                 }
@@ -105,12 +120,16 @@
                     return false;
                 }
                 this.loading = true;
+                this.setGroupId('default');
                 await store.dispatch('storeMission', {
                     name: this.name,
-                    markdown: this.markdown,
-                    leaderId: parseInt(this.chief, 10),
+                    markdown: this.markdown.replace(/\n/gi, '\n<br>'),
+                    leaderId: parseInt(this.leader, 10),
                     groupId: parseInt(this.group, 10),
                     budgetAssigned: parseFloat(this.budgetAssigned, 10)
+                })
+                .then(async (res) => {
+                    await store.dispatch('retrieveMission', res.data.id);
                 });
                 this.$modal.hide('newMission');
                 this.$notify({
@@ -122,8 +141,8 @@
 
                 this.name = '';
                 this.markdown = '';
-                this.chief = 1;
-                this.group = 1;
+                this.leader = 1;
+                //this.group = 1;
                 this.budgetAssigned = 0.0;
                 this.loading = false;
             }

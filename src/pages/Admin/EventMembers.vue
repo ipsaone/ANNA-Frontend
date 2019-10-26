@@ -55,51 +55,23 @@
         },
         methods: {
             async beforeOpen(event) {
+                await store.dispatch('retrieveEvents', true);
                 await store.dispatch('retrieveEvent', event.params.event_id);
-                this.refreshUsers();
                 console.log(this.event);
+                this.refreshUsers();
             },
             async addUser(id) {
-                console.log('adding', id);
-                await EventsApi.register(store.getters.selectedEvent.id, id);
+                await store.dispatch('addEventMember', id);
                 await this.refreshUsers();
-                await store.dispatch('retrieveEvents', true);
-                await store.dispatch('retrieveEvents', false);
-                this.loading = false;
-                this.$notify({
-                    type: 'success',
-                    title: 'Events updated!',
-                    duration: 1000
-                });
             },
             async remUser(id) {
-                console.log('removing', id);
-                await EventsApi.withdraw(store.getters.selectedEvent.id, id);
+                await store.dispatch('remEventMember', id);
                 await this.refreshUsers();
-                await store.dispatch('retrieveEvents', true);
-                await store.dispatch('retrieveEvents', false);
-                this.loading = false;
-                this.$notify({
-                    type: 'success',
-                    title: 'Events updated!',
-                    duration: 1000
-                });
             },
             async refreshUsers() {
-                await store.dispatch('retrieveEvent', store.getters.selectedEvent.id);
-                if (!this.event.users) {
-                    this.shownUsers = store.getters.users;
-                }
-                this.shownUsers =  store.getters.users.filter(el1 => {
-                    let found = false;
-                    this.event.registered.forEach(el2 => {
-                        if (el1.id == el2.id) {
-                            found = true;
-                        }
-                    });
-
-                    return !found;
-                });
+                await store.dispatch('retrieveUsers');
+                await store.dispatch('retrieveEvents', true);
+                this.shownUsers = store.getters.users.filter(user => !this.event.registered.map(reg => reg.id).includes(user.id));
             }
         }
     };

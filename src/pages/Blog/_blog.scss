@@ -1,5 +1,9 @@
 .blog {
 
+    a:not(.disabled) {
+        color: $blue
+    }
+
     .post-title {
         word-break: break-word;
     }
@@ -15,7 +19,7 @@
         word-wrap: break-word;
 
         .CodeMirror-line {
-            padding-bottom: 1rem;
+            padding-bottom: 0.1rem;
         }
 
     }

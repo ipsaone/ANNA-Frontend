@@ -1,28 +1,51 @@
 import axios from 'axios';
 import FormData from 'form-data';
 import base from '@/modules/url';
+import store from '@/modules/store';
 
 const url = base + '/storage/';
+
+let CancelToken = axios.CancelToken;
+var cancelCall = CancelToken.source();
 
 const config = {
     onUploadProgress: progressEvent => {
         let percentCompleted = Math.floor((progressEvent.loaded * 100) / progressEvent.total);
-        // do whatever you like with the percentage complete
-        // maybe dispatch an action that will update a progress bar or something
+        store.dispatch('updateProgress', percentCompleted);
     },
     withCredentials: true
 };
 
 export default {
+    getConfig() {
+        return config;
+    },
     async getFolder(id) {
         return axios.get(url + 'files/list/' + id, {withCredentials: true});
+    },
+    search(str, searchTypes) {
+        let request = {
+            keyword: str,
+            upperFolder: store.getters.folder.fileId,
+            include: searchTypes,
+        };
+        return axios.post(url + 'files/search', request, {withCredentials: true});
     },
 
     downloadFile(id) {
         window.open(url + 'files/' + id + '?download=true');
     },
 
-    uploadFile(data) {
+    downloadRev(fileId, dataId) {
+        window.open(url + 'files/' + fileId + '?download=true&data=' + dataId);
+    },
+
+    getMeta(id) {
+        return axios.get(url + 'files/' + id, {withCredentials: true});
+    },
+
+
+    async uploadFile(data) {
         let form = new FormData();
 
         if (data.contents !== undefined) {
@@ -40,8 +63,18 @@ export default {
         form.append('groupWrite', data.groupWrite);
         form.append('ownerWrite', data.ownerWrite);
         form.append('ownerRead', data.ownerRead);
+        form.append('serialNbr', data.serialNbr);
 
-        return axios.post(url + 'upload/', form, config);
+        return axios.post(url + 'upload', form, {
+            ...config,
+            cancelToken: cancelCall.token
+        });
+    },
+
+    async cancelUpload(){
+        cancelCall.cancel();
+        CancelToken = axios.CancelToken;
+        cancelCall = CancelToken.source();
     },
 
     editFile(edit) {
@@ -61,8 +94,12 @@ export default {
         if (data.groupWrite !== undefined) form.append('groupWrite', data.groupWrite);
         if (data.ownerWrite !== undefined) form.append('ownerWrite', data.ownerWrite);
         if (data.ownerRead !== undefined) form.append('ownerRead', data.ownerRead);
+        if (data.serialNbr !== undefined) form.append('serialNbr', data.serialNbr);
 
-        return axios.put(url + 'upload/' + edit.fileId, form, config);
+        return axios.put(url + 'upload/' + edit.fileId, form, {
+            ...config,
+            cancelToken: cancelCall.token
+        });
     },
 
     deleteFile(fileId) {
