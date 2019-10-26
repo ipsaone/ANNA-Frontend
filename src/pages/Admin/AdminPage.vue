@@ -11,6 +11,7 @@
         <edit-mission></edit-mission>
         <event-members></event-members>
         <edit-user></edit-user>
+        <edit-group></edit-group>
 
         <section class="content">
             <h1 class="section-title">Administration</h1>
@@ -127,11 +128,11 @@
                             <td> {{ group.name }} </td>
                             <td> {{ group.users.length }} </td>
                             <td>
-                                <a v-if="group.name !== 'root' && group.name !== 'default' "@click.prevent="$modal.show('groupMembers', {group_id: group.id});">
+                                <a v-if="group.name !== 'default' "@click.prevent="$modal.show('groupMembers', {group_id: group.id});">
                                     Manage users,
                                 </a>
-                                <a v-if="group.name == 'root'" @click.prevent="$modal.show('groupMembers', {group_id: group.id});">
-                                    Manage users
+                                <a @click.prevent="$modal.show('editGroup', {group_id: group.id, group_name: group.name});">
+                                    Edit name,
                                 </a>
                                 <a v-if="group.name !== 'root' && group.name !== 'default'" @click.prevent="delItem('group', 'deleteGroup', group.name, group.id)">
                                     Delete
@@ -222,6 +223,7 @@
 
     import NewMission from './NewMission';
     import NewGroup from './NewGroup';
+    import EditGroup from './EditGroup';
     // import NewEvent from './NewEvent';
     import NewUser from './NewUser';
     import MissionMembers from './MissionMembers';
@@ -241,7 +243,7 @@
             Loader,
             Tabs, Tab,
             NewMission, MissionMembers,  EditMission,
-            NewGroup, GroupMembers,
+            NewGroup, GroupMembers, EditGroup,
             // NewEvent, EditEvent,
             EventMembers, EventModal,
             NewUser, EditUser
