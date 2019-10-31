@@ -289,12 +289,15 @@
             },
             async refreshAll() {
                 this.loading = true;
-                await store.dispatch('retrieveMissions', true);
-                await store.dispatch('retrieveUsers', true);
-                await store.dispatch('retrievePosts', true);
-                await store.dispatch('retrieveLogs', true);
-                await store.dispatch('retrieveGroups', true);
-                await store.dispatch('retrieveEvents', true);
+                let reqs = [
+                    store.dispatch('retrieveMissions', true),
+                    store.dispatch('retrieveUsers', true),
+                    store.dispatch('retrievePosts', true),
+                    store.dispatch('retrieveLogs', true),
+                    store.dispatch('retrieveGroups', true),
+                    store.dispatch('retrieveEvents', true)
+                ];
+                await Promise.all(reqs);
                 this.loading = false;
 
             },

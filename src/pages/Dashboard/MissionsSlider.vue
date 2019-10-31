@@ -6,15 +6,19 @@
 
         <div v-if="loggedUserMissions.length > 0">
             <div class="controls">
-                <a href="#" @click.prevent="prev" :class="{disabled: currentSlide === 0}">
-                    <i class="fa fa-chevron-left"></i> Previous
-                </a>
+                <div style="width: 30%; text-align: left;">
+                    <a href="#" @click.prevent="prev" :class="{disabled: currentSlide === 0}">
+                        <i class="fa fa-chevron-left"></i> Previous
+                    </a>
+                </div>
 
                 <h1 style="margin-bottom: 0;">{{ mission.name }}</h1>
 
-                <a href="#" @click.prevent="next" :class="{disabled: currentSlide === missionNumber-1}">
-                    Next <i class="fa fa-chevron-right"></i>
-                </a>
+                <div style="width: 30%; text-align: right">
+                    <a href="#" @click.prevent="next" :class="{disabled: currentSlide === missionNumber-1}">
+                        Next <i class="fa fa-chevron-right"></i>
+                    </a>
+                </div>
             </div>
             <h3 v-if="logged.id === mission.leaderId" style="text-align:center; font-size: 1.2em; margin-top: -5px;">
                 <a @click.prevent="$modal.show('missionModal', {mission_id: mission.id})">Edit</a>
