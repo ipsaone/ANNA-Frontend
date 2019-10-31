@@ -1,16 +1,17 @@
 <template>
     <div id="events">
         <event></event>
-        <event-modal></event-modal>
+        <event-modal class="admin"></event-modal>
 
         <section class="content">
             <h1 class="section-title color-yellow">Events</h1>
 
             <section> <!-- DO NOT REMOVE THE SECTION TAG -->
                 <template v-if="events.length > 0">
-                    <div class="event flex-abstract" v-for="event in events" :key="event.id" @click="showEvent(event)">
+                    <div class="event flex-abstract" v-for="event in events" :key="event.id" >
                         <p class="registered" v-show="event.maxRegistered">{{ event.registeredCount }}/{{ event.maxRegistered }}</p>
-                        <h1 style="text-shadow: 0 0 1px #000000"><a href="#">{{ event.name }}</a></h1>
+                        <h1 style="text-shadow: 0 0 1px #000000"><a href="#" @click.prevent="showEvent(event)">{{ event.name }}</a></h1>
+                        <p><a @click.prevent="$modal.show('eventModal', {event_id: event.id, isEditing: true})" v-if="groupOrganizer">Edit</a></p>
                         <p class="date">The {{ event.startDate | moment('DD/MM/YYYY') }}</p>
                         <p v-if="event.maxRegistered > 0 && event.registeredCount < event.maxRegistered">
                             <a href="#" @click.prevent.stop="addUser(event.id)" class="button success" v-if="!isRegistered(event.id)">
