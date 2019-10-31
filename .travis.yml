@@ -14,6 +14,7 @@ before_install:
 - ssh -i ~/travis_deploy_key travis@ipsaone.space echo $TRAVIS_BRANCH
 
 after_success:
+- ./scripts/test_branch.sh
 - zip -r ./dist.zip ./dist
 - scp -i ~/travis_deploy_key ./dist.zip travis@ipsaone.space:~/dist-$TRAVIS_BRANCH-deploying.zip
 - ssh -i ~/travis_deploy_key travis@ipsaone.space -- unzip ~/dist-$TRAVIS_BRANCH-deploying.zip -d ~/ANNA-Frontend-$TRAVIS_BRANCH-new
