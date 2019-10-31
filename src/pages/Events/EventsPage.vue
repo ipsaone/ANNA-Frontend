@@ -1,6 +1,7 @@
 <template>
     <div id="events">
         <event></event>
+        <event-modal></event-modal>
 
         <section class="content">
             <h1 class="section-title color-yellow">Events</h1>
@@ -35,6 +36,11 @@
                 </template>
             </section>
         </section>
+        <div style="display: grid;grid-template-columns: 3em auto 12em 8em;grid-column-gap: 10px;padding: 0.4em;" v-if="groupOrganizer">
+            <h4 style="grid-column: 4;text-align: center;">
+                <a @click.prevent="$modal.show('eventModal', {isEditing: false})">Add Event</a>
+            </h4>
+        </div>
     </div>
 </template>
 
@@ -42,13 +48,14 @@
     import store from '@/modules/store';
     import Loader from '@/components/Loader';
     import EventsApi from '@/modules/events/events_api';
-
+    import EventModal from '@/pages/Admin/EventModal';
     import Event from './Event';
 
     export default {
         components: {
             Loader,
-            Event
+            Event,
+            EventModal,
         },
         data() {
             return {
@@ -56,6 +63,7 @@
             };
         },
         mounted() {
+            console.log(this);
             store.dispatch('retrieveLoggedUser');
             this.refreshEvents(true, true);
         },
@@ -65,7 +73,10 @@
             },
             canAdd() {
                 return store.getters.loggedUserIsRoot;
-            }
+            },
+            groupOrganizer() {
+                return store.getters.loggedUserGroups.includes('organizers');
+            },
         },
         methods: {
             refreshEvents(force = false, mounted = false) {
