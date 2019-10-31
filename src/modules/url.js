@@ -1,1 +1,1 @@
-export default 'http://192.168.50.5:8080';
+export default process.env.back_url;
