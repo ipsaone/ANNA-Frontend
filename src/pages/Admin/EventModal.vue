@@ -1,7 +1,8 @@
 <template>
     <modal name="eventModal" height="auto" :scrollable="true" @before-open="beforeOpen">
         <div class="content anna-modal eventModal">
-            <h1>Create a new event</h1>
+            <h1 v-if="isEditing"> Edit event</h1>
+            <h1 v-else> Create a new event </h1>
             <form>
                 <input type="text" name="Name" id="Name" placeholder="Name..." v-model="name">
 

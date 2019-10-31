@@ -1,7 +1,7 @@
 <template>
     <section class="mission-slider" :key="missionNumber">
         <new-task></new-task>
-        <edit-mission class="admin"></edit-mission>
+        <mission-modal class="admin"></mission-modal>
         <mission-members class="admin"></mission-members>
 
         <div v-if="loggedUserMissions.length > 0">
@@ -17,7 +17,7 @@
                 </a>
             </div>
             <h3 v-if="logged.id === mission.leaderId" style="text-align:center; font-size: 1.2em; margin-top: -5px;">
-                <a @click.prevent="$modal.show('editMission', {mission_id: mission.id})">Edit</a>
+                <a @click.prevent="$modal.show('missionModal', {mission_id: mission.id})">Edit</a>
             </h3>
             <h3 v-if="logged.id === mission.leaderId" style="text-align:center; font-size: 1.2em; margin-top: -5px;">
                 <a @click.prevent="$modal.show('missionMembers', {mission_id: mission.id})">Manage members</a>
@@ -58,8 +58,8 @@
                     <div class="budget">
                         <h2>Budget</h2>
                         <div class="content">
-                            <div class="used">Used: {{ mission.budgetUsed+0 }} €</div>
                             <div class="assigned">Assigned: {{ mission.budgetAssigned+0 }} €</div>
+                            <div class="used">Used: {{ mission.budgetUsed+0 }} €</div>
                         </div>
                     </div>
 
@@ -99,14 +99,14 @@
 
 <script>
     import store from '@/modules/store';
-    import EditMission from '../Admin/EditMission';
+    import MissionModal from '../Admin/MissionModal';
     import MissionMembers from '../Admin/MissionMembers';
     import newTask from './newTask';
 
     export default {
         components: {
             newTask,
-            EditMission, MissionMembers
+            MissionModal, MissionMembers
         },
         data() {
             return {

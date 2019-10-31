@@ -1,6 +1,6 @@
 <template>
     <div class='admin'>
-        <new-mission></new-mission>
+        <!--new-mission></new-mission-->
         <new-group></new-group>
         <!--new-event></new-event-->
         <new-user></new-user>
@@ -8,7 +8,8 @@
         <mission-members></mission-members>
         <!--edit-event></edit-event-->
         <event-modal></event-modal>
-        <edit-mission></edit-mission>
+        <!--edit-mission></edit-mission-->
+        <mission-modal></mission-modal>
         <event-members></event-members>
         <edit-user></edit-user>
         <edit-group></edit-group>
@@ -37,7 +38,7 @@
                                 <a @click.prevent="$modal.show('missionMembers', {mission_id: mission.id});">
                                     Manage members
                                 </a>,
-                                <a @click.prevent="$modal.show('editMission', {mission_id: mission.id})">Edit</a>,
+                                <a @click.prevent="$modal.show('missionModal', {mission_id: mission.id})">Edit</a>,
                                 <a @click.prevent="delItem('mission', 'deleteMission', mission.name, mission.id)">
                                     Delete
                                 </a>
@@ -49,7 +50,7 @@
                             <td></td>
                             <td></td>
                             <td></td>
-                            <td><a @click.prevent="$modal.show('newMission')">Add mission</a></td>
+                            <td><a @click.prevent="$modal.show('missionModal', {loggedUser: loggedUser})">Add mission</a></td>
                         </tr>
                     </table>
                 </tab>
@@ -163,9 +164,9 @@
                             <td> {{ user.email }} </td>
                             <!-- td> <span> {{userGroups}} </span></td-->
                             <td>
-                                <a v-if="user.id === $store.getters.loggedUserId" @click.prevent="$modal.show('editUser', {user_id: user.id})">Edit</a>
-                                <a v-if="user.id !== $store.getters.loggedUserId" @click.prevent="$modal.show('editUser', {user_id: user.id})">Edit,</a>
-                                <a v-if="user.id !== $store.getters.loggedUserId" @click.prevent="delItem('user', 'deleteUser', user.username, user.id)">Delete</a>
+                                <a v-if="user.id === loggedUser.id" @click.prevent="$modal.show('editUser', {user_id: user.id})">Edit</a>
+                                <a v-if="user.id !== loggedUser.id" @click.prevent="$modal.show('editUser', {user_id: user.id})">Edit,</a>
+                                <a v-if="user.id !== loggedUser.id" @click.prevent="delItem('user', 'deleteUser', user.username, user.id)">Delete</a>
                             </td>
                         </tr>
                         <tr>
@@ -221,7 +222,8 @@
     import UserApi from '@/modules/users/users_api';
     import {Tabs, Tab} from 'vue-tabs-component';
 
-    import NewMission from './NewMission';
+    //import NewMission from './NewMission';
+    import MissionModal from './MissionModal';
     import NewGroup from './NewGroup';
     import EditGroup from './EditGroup';
     // import NewEvent from './NewEvent';
@@ -231,7 +233,7 @@
     import GroupMembers from './GroupMembers';
     // import EditEvent from './EditEvent';
     import EventModal from './EventModal';
-    import EditMission from './EditMission';
+    // import EditMission from './EditMission';
     import EditUser from './EditUser';
 
     import * as moment from 'moment';
@@ -242,7 +244,7 @@
         components: {
             Loader,
             Tabs, Tab,
-            NewMission, MissionMembers,  EditMission,
+            MissionMembers, MissionModal,
             NewGroup, GroupMembers, EditGroup,
             // NewEvent, EditEvent,
             EventMembers, EventModal,
@@ -272,6 +274,9 @@
             },
             orderedUsers() {
                 return _.orderBy(this.users, 'id');
+            },
+            loggedUser() {
+                return store.getters.loggedUser;
             }
         },
         async mounted() {
@@ -279,6 +284,9 @@
             return this.user;
         },
         methods: {
+            bitefunction() {
+                console.log('bite');
+            },
             async refreshAll() {
                 this.loading = true;
                 await store.dispatch('retrieveMissions', true);

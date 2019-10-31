@@ -1,12 +1,13 @@
 <template>
-    <modal name="editMission" height="auto" :scrollable="true" @before-open="beforeOpen">
-        <div class="content anna-modal">
-            <h1>Edit mission</h1>
+    <modal name="missionModal" height="auto" :scrollable="true" @before-open="beforeOpen">
+        <div class="content anna-modal missionModal">
+            <h1 v-if="isEditing"> Edit mission </h1>
+            <h1 v-else> New Mission </h1>
             <form>
                 <input type="text" name="Name" id="Name" placeholder="Name..." v-model="name">
-                <markdown-editor v-model="markdown" :configs="configs"></markdown-editor>
+                <markdown-editor v-model="markdown" :configs="configs" class="md-editor"></markdown-editor>
 
-                <div class="inline-form">
+                <div class="form-group">
                     <label for="leader">Leader: </label>
                     <input list="users" type="text" name="leader" id="leader" v-model="leaderName" autocomplete="off" @change="selectUser(leaderName)"><br/>
                     <!--label v-if="userGroups && userGroups.length != 0" for="group">Group: </label-->
@@ -20,16 +21,17 @@
                     </datalist-->
                 </div>
 
-                <div class="inline-form">
+                <div class="form-group">
                     <label for="budget">Budget assigned: </label>
-                    <input type="number" name="budget" id="budget" step="0.01" v-model="budgetAssigned"> €
-                    </br>
+                    <input type="number" name="budget" id="budget" step="0.01" v-model="budgetAssigned"> <p> € </p>
+                </div>
+                <div v-if="isEditing" class="form-group">
                     <label for="budgetUsed">Budget used: </label>
-                    <input type="number" name="budgetUsed" id="budgetUsed" step="0.01" v-model="budgetUsed"> €
+                    <input type="number" name="budgetUsed" id="budgetUsed" step="0.01" v-model="budgetUsed"> <p> € </p>
                 </div>
 
                 <div class="buttons">
-                    <button type="button" @click.prevent="$modal.hide('editMission')" class="cancel">Cancel</button>
+                    <button type="button" @click.prevent="exit" class="cancel">Cancel</button>
                     <button type="button" @click.prevent="onSubmit" class="submit">Confirm</button>
                 </div>
             </form>
@@ -70,10 +72,11 @@
                 leaderId: 1,
                 leaderName: '',
                 groupId: 1,
-                groupName: '',
+                groupName: 'default',
                 markdown: '',
                 budgetAssigned: '',
                 budgetUsed: '',
+                isEditing: false,
 
                 configs: {
                     placeholder: 'Description...',
@@ -92,28 +95,42 @@
                 this.leaderId = leaderId;
             },
             setGroupId(name) {
-                let groupId = this.userGroups.find(myGroup => myGroup.name == name).id;
+                let groupId = this.groups.find(myGroup => myGroup.name == name).id;
                 this.groupId = groupId;
+                console.log('bite', this.groupId);
             },
             async beforeOpen(event) {
                 await store.dispatch('retrieveMissions');
-                await store.dispatch('retrieveMission', event.params.mission_id);
                 await store.dispatch('retrieveUsers');
                 await store.dispatch('retrieveGroups');
-                await store.dispatch('retrieveGroup', this.mission.groupId);
-                this.id = this.mission.id;
-                this.name = store.getters.selectedMission.name;
-                this.leaderId = this.mission.leaderId ? this.mission.leaderId.toString() : '';
-                this.leaderName = this.mission.leader.username;
-                this.groupId = this.mission.groupId ? this.mission.groupId.toString() : '';
-                this.groupName = this.group.name;
-                this.markdown =   this.mission.markdown.replace(/<br>/gi, '');
-                this.budgetUsed = this.mission.budgetUsed ? this.mission.budgetUsed.toString() : 0;
-                this.budgetAssigned = this.mission.budgetAssigned ? this.mission.budgetAssigned.toString() : 0;
-
+                this.setGroupId('default');
+                if (event.params.mission_id) {
+                    await store.dispatch('retrieveMissions');
+                    await store.dispatch('retrieveMission', event.params.mission_id);
+                    await store.dispatch('retrieveUsers');
+                    await store.dispatch('retrieveGroups');
+                    await store.dispatch('retrieveGroup', this.mission.groupId);
+                    this.id = this.mission.id;
+                    this.name = store.getters.selectedMission.name;
+                    this.leaderId = this.mission.leaderId ? this.mission.leaderId.toString() : '';
+                    this.leaderName = this.mission.leader.username;
+                    this.markdown = this.mission.markdown.replace(/<br>/gi, '');
+                    this.budgetUsed = this.mission.budgetUsed ? this.mission.budgetUsed.toString() : 0;
+                    this.budgetAssigned = this.mission.budgetAssigned ? this.mission.budgetAssigned.toString() : 0;
+                    this.isEditing = true;
+                } else {
+                    this.id = '';
+                    this.name = '';
+                    this.leaderId = event.params.loggedUser.id;
+                    this.leaderName = event.params.loggedUser.username;
+                    this.markdown = '';
+                    this.budgetUsed = '';
+                    this.budgetAssigned = '';
+                    this.isEditing = false;
+                }
             },
             exit() {
-                this.$modal.hide('editMission');
+                this.$modal.hide('missionModal');
             },
             async onSubmit() {
                 if(this.name.trim() == '') {
@@ -125,11 +142,12 @@
                     });
                     return false;
                 }
-                if(!store.getters.users.map(us => us.id).includes(parseInt(this.leaderId, 10)) || !store.getters.groups.map(gp => gp.id).includes(parseInt(this.groupId))) {
+                if(!store.getters.users.map(us => us.id).includes(parseInt(this.leaderId, 10))) {
+                    console.log(this.leaderId);
                     this.$notify({
                         type: 'error',
-                        title: 'Leader or group doesn\'t exist',
-                        text: 'Please select an existing leader and group',
+                        title: 'Leader doesn\'t exist',
+                        text: 'Please select an existing leader',
                         duration: 5000
                     });
                     this.leaderId = 1;
@@ -149,21 +167,35 @@
                 }
                 this.setGroupId('default');
                 this.loading = true;
-                await store.dispatch('updateMission', {
-                    id: this.id,
-                    mission: {
+                if (this.isEditing) {
+                    await store.dispatch('updateMission', {
+                        id: this.id,
+                        mission: {
+                            name: this.name,
+                            markdown: this.markdown.replace(/\n/gi, '\n<br>'),
+                            leaderId: parseInt(this.leaderId, 10),
+                            groupId: parseInt(this.groupId, 10),
+                            budgetAssigned: parseFloat(this.budgetAssigned, 10),
+                            budgetUsed: parseFloat(this.budgetUsed, 10)
+                        }
+                    })
+                    .then(async () => {
+                        await store.dispatch('retrieveMission', this.id);
+                    });
+                } else {
+                    console.log('store', this.leaderId);
+                    await store.dispatch('storeMission', {
                         name: this.name,
                         markdown: this.markdown.replace(/\n/gi, '\n<br>'),
                         leaderId: parseInt(this.leaderId, 10),
                         groupId: parseInt(this.groupId, 10),
-                        budgetAssigned: parseFloat(this.budgetAssigned, 10),
-                        budgetUsed: parseFloat(this.budgetUsed, 10)
-                    }
-                })
-                .then(async () => {
-                    await store.dispatch('retrieveMission', this.id);
-                });
-                this.$modal.hide('editMission');
+                        budgetAssigned: parseFloat(this.budgetAssigned, 10)
+                    })
+                    .then(async (res) => {
+                        await store.dispatch('retrieveMission', res.data.id);
+                    });
+                }
+                this.$modal.hide('missionModal');
                 this.$notify({
                     type: 'success',
                     title: 'Operation successful',
