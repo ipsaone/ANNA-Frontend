@@ -22,8 +22,6 @@
             </div>
             <h3 v-if="logged.id === mission.leaderId" style="text-align:center; font-size: 1.2em; margin-top: -5px;">
                 <a @click.prevent="$modal.show('missionModal', {mission_id: mission.id})">Edit</a>
-            </h3>
-            <h3 v-if="logged.id === mission.leaderId" style="text-align:center; font-size: 1.2em; margin-top: -5px;">
                 <a @click.prevent="$modal.show('missionMembers', {mission_id: mission.id})">Manage members</a>
             </h3>
 
