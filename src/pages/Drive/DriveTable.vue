@@ -3,12 +3,12 @@
       <span style="font-size: 1.1em; cursor: pointer; user-select:none;" @dblclick="goHome" >
           <i class="fas fa-home"></i> <span style="text-decoration: underline"> root</span> <span v-if="folder.name !== 'root'"> > </span>
       </span>
-      <span v-for="parent in folder.dirTree" @dblclick="goHome" v-if="parent !== 'root' && folder.dirTree.length <= 2"
+      <span v-for="parent in folder.dirTree" @dblclick="openFolder(parent)" v-if="parent !== 'root' && folder && folder.dirTree.length <= 2"
       style="font-size: 1.1em; cursor: pointer; user-select:none;">
           <span style="text-decoration: underline">{{wrapName(parent)}}</span> <span> > </span>
       </span>
       <span v-if="folder.dirTree.length > 2" style="cursor: default;"> ... > </span>
-      <span v-for="parent in altDirTree" @dblclick="goHome" v-if="parent !== 'root' && folder.dirTree.length > 2"
+      <span v-for="parent in altDirTree" @dblclick="goHome" v-if="parent !== 'root' && folder && folder.dirTree.length > 2"
       style="font-size: 1.1em; cursor: pointer; user-select:none;" :title="parent.name">
           <span style="text-decoration: underline">{{wrapName(parent.name)}}</span> <span> {{parent.arrow}} </span>
       </span>
@@ -139,6 +139,18 @@
                 altDirTree: []
             };
         },
+        mounted() {
+            if (this.folder && this.folder.dirTree.length > 2) {
+                let a = Array();
+                a[0] = {};
+                a[1] = {};
+                a[0].name = this.folder.dirTree[this.folder.dirTree.length -2];
+                a[0].arrow = '>';
+                a[1].name = this.folder.dirTree[this.folder.dirTree.length -1];
+                this.altDirTree = a;
+                a[1].arrow = '';
+            }
+        },
         computed: {
             results() {
                 return store.getters.searchResultsContent;
@@ -160,6 +172,9 @@
             },
             metaData() {
                 return store.getters.metaData;
+            },
+            foldersList() {
+                return store.getters.foldersList;
             }
         },
         methods: {
@@ -293,6 +308,7 @@
             async openFolder(file) {
                 if (file.type === 'folder') {
                     this.loading = true;
+                    await store.dispatch('getFoldersList', file.fileId);
                     await store.dispatch('retrieveFolder', file.fileId)
                         .then(_ => store.dispatch('selectFile', {}))
                         .then(_ => this.loading = false);
