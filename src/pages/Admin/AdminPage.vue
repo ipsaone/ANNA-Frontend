@@ -132,7 +132,7 @@
                                 <a v-if="group.name !== 'default' "@click.prevent="$modal.show('groupMembers', {group_id: group.id});">
                                     Manage users,
                                 </a>
-                                <a @click.prevent="$modal.show('editGroup', {group_id: group.id, group_name: group.name});">
+                                <a v-if="group.name !== 'root' && group.name !== 'default' && group.name !== 'authors' && group.name !== 'organizers'" @click.prevent="$modal.show('editGroup', {group_id: group.id, group_name: group.name});">
                                     Edit name,
                                 </a>
                                 <a v-if="group.name !== 'root' && group.name !== 'default'" @click.prevent="delItem('group', 'deleteGroup', group.name, group.id)">

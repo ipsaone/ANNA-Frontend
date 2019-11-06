@@ -12,97 +12,83 @@
         margin: 0;
         table {
             tr {
-                td {
-                    table {
-                        tr {
-                            .center {
-                                text-align: center;
-                                color: $green;
-                            }
-                            th {
-                                i{
-                                    margin-left: 5px;
-                                    // border: 1px solid rgba(66, 66, 66, 0.6);
-                                    color: rgba(0, 0, 0, 0.6);
-                                    width: 20px;
-                                    height:  17px;
-                                    text-align: center;
-                                    vertical-align: middle;
-                                    padding-bottom: 20px;
-                                    transition: 0.3s;
-                                }
-                                i:hover {
-                                    color: rgba(0, 0, 0, 1);
-                                }
-                                .rotate{
-                                    transform : rotate(180deg);
-                                }
-                                color: $grey-dark;
-                                line-height: 2em;
-                                padding-bottom: 0;
-
-                               &:first-child {
-                                 padding-left: 1em;
-                                 max-width: 1em;
-                               }
-                           }
-
-                           td:nth-child(1) {
-                               width : 10%;
-                           }
-                           td:nth-child(2) {
-                               width: 40%;
-                           }
-                           td:nth-child(3) {
-                               width: 15%;
-                           }
-                           td:nth-child(4) {
-                               width: 10%;
-                           }
-                           td:nth-child(5) {
-                               width: 15%;
-                           }
-                           td:nth-child(6) {
-                              width: 10%;
-                           }
-                           background-color: $white-bis;
-                           line-height: 2em;
-                           font-size: 1.1em;
-                           cursor: pointer;
-                           border: 1px solid $grey-lighter;
-
-                           &:hover {
-                             background-color: $white-dark;
-                           }
-
-                           &.no-hover {
-                             cursor: inherit;
-
-                             &:hover { background-color: $white-bis; }
-                           }
-
-                           &.selected {
-                             background-color: $white-dark;
-                           }
-
-                           td:first-child {
-                             padding-left: 1em;
-                             max-width: 1em;
-                           }
-
-                           td:last-child {
-                             max-width: 1px;
-                           }
-
-                           .overflow-wrap-hack {
-                             max-width: 1px;
-                           }
-                        }
-                   }
+                .center {
+                    text-align: center;
+                    color: $green;
                 }
+                th {
+                    i {
+                        margin-left: 5px;
+                        // border: 1px solid rgba(66, 66, 66, 0.6);
+                        color: rgba(0, 0, 0, 0.6);
+                        width: 20px;
+                        height:  17px;
+                        text-align: center;
+                        vertical-align: middle;
+                        padding-bottom: 20px;
+                        transition: 0.3s;
+                    }
+                    i:hover {
+                        color: rgba(0, 0, 0, 1);
+                    }
+                    .rotate{
+                        transform : rotate(180deg);
+                    }
+                    color: $grey-dark;
+                    line-height: 2em;
+                    padding-bottom: 0;
 
+                   &:first-child {
+                     text-align: center;
+                     max-width: 1em;
+                   }
+                 }
+
+               td:nth-child(1) {
+                   width : 7.5%;
+                   text-align: center;
+                   padding-left: 0;
+               }
+               td:nth-child(2) {
+                   width: 42.5%;
+               }
+               td:nth-child(3) {
+                   width: 15%;
+               }
+               td:nth-child(4) {
+                   width: 10%;
+               }
+               td:nth-child(5) {
+                   width: 15%;
+               }
+               td:nth-child(6) {
+                  width: 10%;
+               }
+               line-height: 2em;
+               font-size: 1.1em;
+               &.no-hover {
+                 cursor: inherit;
+
+                 &:hover { background-color: $white-bis; }
+               }
+
+               &.selected {
+                 background-color: $white-dark;
+               }
+
+               td:first-child {
+                 padding-left: 0;
+                 max-width: 1em;
+               }
+
+               td:last-child {
+                 max-width: 1px;
+               }
+
+               .overflow-wrap-hack {
+                 max-width: 1px;
+               }
             }
-
             .inside-folder {
                 margin-top: 1.3em;
                 overflow-y: auto;
@@ -124,6 +110,17 @@
               border-radius: 10px;
               -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,.3);
               background-color: #555;
+            }
+        }
+        table:not(.no-border) {
+            tr {
+                background-color: $white-bis;
+                cursor: pointer;
+                border: 1px solid $grey-lighter;
+
+                &:hover {
+                  background-color: $white-dark;
+                }
             }
         }
         &#upload-file {

@@ -1,128 +1,122 @@
 <template>
     <div>
-        <table>
-          <tr style="border-bottom: none">
-            <td>
-                <table>
-                    <tr class="pas-toi no-hover" style="cursor: default">
-                      <th>Type<!--i @click="clique" class="fas fa-caret-up" :class='classR'></i--></th>
-                      <th>Name <!--i @click="clique" class="fas fa-caret-up" :class='classR'></i--> </th>
-                      <th>Serial nbr<!--i @click="clique" class="fas fa-caret-up" :class='classR'></i--></th>
-                      <th>Owner <!--i @click='clique2' class="fas fa-caret-up" :class='classR2'></i--> </th>
-                      <th v-if="showHistory">Date</th>
-                      <th>Size <!--i @click='clique3' class="fas fa-caret-up" :class='classR3'></i--> </th>
-                    </tr>
-                    <tr class="pas-toi" v-if="folder && folder.name !== 'root'" @dblclick="goBack" style="user-select: none">
-                        <td><i class="fa fa-backward" aria-hidden="true"></i></td>
-                        <td>..</td>
-                        <td>&nbsp;</td>
-                        <td>&nbsp;</td>
-                        <td>&nbsp;</td>
-                    </tr>
-                    <tr class="pas-toi no-hover" v-if="folder">
-                        <td><i class="fa fa-folder-open" aria-hidden="true"></i></td>
-                        <td>{{ wrapName(folder.name) }}</td>
-                        <td></td>
-                        <td>{{ wrapName(folder.owner.username) }}</td>
-                        <td v-if="showHistory"> {{ getDate(folder.updatedAt) }} </td>
-                        <td v-if="convertSize(folder) > 0">{{ convertSize(folder) }}</td>
-                        <td v-else></td>
-                    </tr>
-                </table>
-            </td>
+      <span style="font-size: 1.1em; cursor: pointer; user-select:none;" @dblclick="goHome" >
+          <i class="fas fa-home"></i> <span style="text-decoration: underline"> root</span> <span v-if="folder.name !== 'root'"> > </span>
+      </span>
+      <span v-for="parent in folder.dirTree" @dblclick="goHome" v-if="parent !== 'root' && folder.dirTree.length <= 2"
+      style="font-size: 1.1em; cursor: pointer; user-select:none;">
+          <span style="text-decoration: underline">{{wrapName(parent)}}</span> <span> > </span>
+      </span>
+      <span v-if="folder.dirTree.length > 2" style="cursor: default;"> ... > </span>
+      <span v-for="parent in altDirTree" @dblclick="goHome" v-if="parent !== 'root' && folder.dirTree.length > 2"
+      style="font-size: 1.1em; cursor: pointer; user-select:none;" :title="parent.name">
+          <span style="text-decoration: underline">{{wrapName(parent.name)}}</span> <span> {{parent.arrow}} </span>
+      </span>
+
+
+      <table id="file-history" v-if="showHistory" style="margin: 0.3em 0; user-select: none">
+          <tr class="pas-toi no-hover" style="cursor: default">
+              <th>Type<!--i @click="clique" class="fas fa-caret-up" :class='classR'></i--></th>
+              <th>Name <!--i @click="clique" class="fas fa-caret-up" :class='classR'></i--> </th>
+              <th>Serial nbr<!--i @click="clique" class="fas fa-caret-up" :class='classR'></i--></th>
+              <th>Owner <!--i @click='clique2' class="fas fa-caret-up" :class='classR2'></i--> </th>
+              <th v-if="showHistory">Date</th>
+              <th>Size <!--i @click='clique3' class="fas fa-caret-up" :class='classR3'></i--> </th>
           </tr>
           <tr>
-              <td>
-                  <div class="inside-folder">
-                      <table id="file-history" v-if="showHistory">
-                          <tr>
-                              <th colspan="6">
-                                  <p class="center" style="color: #7a7a7a">
-                                      File History
-                                  </p>
-                              </th>
-                          </tr>
-                          <tr v-for="rev in metaData" :key="rev.id" @click="select(rev)"
-                              @dblclick="openFolder(rev)" v-if="rev.exists == true"
-                              :class="{selected: rev.id === selectedFile.id}">
-                              <td v-html="getIcon(rev)"></td>
-                              <td :title="rev.name">
-                                 {{ wrapName(rev.name) }}
-                              </td>
-                              <td>
-                                  {{ wrapName2(rev.serialNbr) }}
-                              </td>
-                              <td>
-                                  {{ wrapName($store.getters.users.find(user => user.id == rev.ownerId).username) }}
-                              </td>
-                              <td>
-                                  {{ getDate(rev.updatedAt) }}
-                              </td>
-                              <td v-if="rev.size > 0">
-                                  {{ convertSize(rev) }}
-                              </td>
-                              <td v-else></td>
-                          </tr>
-                      </table>
-                      <table id="result-search" v-if="keyword && keyword.trim().length >= 2">
-                          <tr v-for="file in results" :key="file.fileId" @click="select(file)"
-                              @dblclick="openFolder(file)"
-                              :class="{selected: file.fileId === selectedFile.fileId}">
-                              <td v-html="getIcon(file)"></td>
-                              <td :title="file.name">
-                                  {{ wrapName(file.name) }}
-                              </td>
-                              <td>
-                                  {{ wrapName2(file.serialNbr) }}
-                              </td>
-                              <td v-if="file.owner">
-                                  {{ wrapName(file.owner.username) }}
-                              </td>
-                              <td v-if="file.size > 0">
-                                  {{ convertSize(file) }}
-                              </td>
-                              <td v-else></td>
-
-                          </tr>
-                          <tr v-if="results.length === 0">
-                              <p class="center" >
-                                  No Results
-                              </p>
-                          </tr>
-                      </table>
-                      <table id="inside-folder-list" v-if="!(keyword && keyword.trim().length >= 2) && !showHistory">
-                          <tr v-for="file in content" :key="file.fileId" @click="select(file)"
-                              @dblclick="openFolder(file)"
-                              :class="{selected: file.fileId === selectedFile.fileId}">
-                              <td v-html="getIcon(file)"></td>
-                              <td :title="file.name">
-                                  {{ wrapName(file.name) }}
-                              </td>
-                              <td>
-                                  {{ wrapName2(file.serialNbr) }}
-                              </td>
-                              <td>
-                                  {{ wrapName(file.owner.username) }}
-                              </td>
-                              <td v-if="file.size > 0">
-                                  {{ convertSize(file) }}
-                              </td>
-                              <td v-else></td>
-                          </tr>
-                          <tr v-if="content.length === 0">
-                              <p class="center" @click.prevent="$modal.show('uploadFile', {isFolder: false, isEditing: false})">
-                                  This folder is still empty.
-                              </p>
-                          </tr>
-                      </table>
-
-                  </div>
-              </td>
+              <th colspan="6">
+                  <p class="center" style="color: #7a7a7a">
+                      File History
+                  </p>
+              </th>
           </tr>
-        </table>
+          <tr v-for="rev in metaData" :key="rev.id" @click="select(rev)"
+              @dblclick="openFolder(rev)" v-if="rev.exists == true"
+              :class="{selected: rev.id === selectedFile.id}">
+              <td v-html="getIcon(rev)"></td>
+              <td :title="rev.name">
+                 {{ wrapName(rev.name) }}
+              </td>
+              <td>
+                  {{ wrapName2(rev.serialNbr) }}
+              </td>
+              <td>
+                  {{ wrapName($store.getters.users.find(user => user.id == rev.ownerId).username) }}
+              </td>
+              <td>
+                  {{ getDate(rev.updatedAt) }}
+              </td>
+              <td v-if="rev.size > 0">
+                  {{ convertSize(rev) }}
+              </td>
+              <td v-else></td>
+          </tr>
+      </table>
+      <table id="result-search" v-if="keyword && keyword.trim().length >= 2" style="margin: 0.3em 0; user-select: none">
+          <tr class="pas-toi no-hover" style="cursor: default">
+              <th>Type<!--i @click="clique" class="fas fa-caret-up" :class='classR'></i--></th>
+              <th>Name <!--i @click="clique" class="fas fa-caret-up" :class='classR'></i--> </th>
+              <th>Serial nbr<!--i @click="clique" class="fas fa-caret-up" :class='classR'></i--></th>
+              <th>Owner <!--i @click='clique2' class="fas fa-caret-up" :class='classR2'></i--> </th>
+              <th v-if="showHistory">Date</th>
+              <th>Size <!--i @click='clique3' class="fas fa-caret-up" :class='classR3'></i--> </th>
+          </tr>
+          <tr v-for="file in results" :key="file.fileId" @click="select(file)"
+              @dblclick="openFolder(file)"
+              :class="{selected: file.fileId === selectedFile.fileId}">
+              <td v-html="getIcon(file)"></td>
+              <td :title="file.name">
+                  {{ wrapName(file.name) }}
+              </td>
+              <td>
+                  {{ wrapName2(file.serialNbr) }}
+              </td>
+              <td v-if="file.owner">
+                  {{ wrapName(file.owner.username) }}
+              </td>
+              <td v-if="file.size > 0">
+                  {{ convertSize(file) }}
+              </td>
+              <td v-else></td>
 
-
-
+          </tr>
+          <tr v-if="results.length === 0">
+              <p class="center" >
+                  No Results
+              </p>
+          </tr>
+      </table>
+      <table id="inside-folder-list" v-if="!(keyword && keyword.trim().length >= 2) && !showHistory" style="margin: 0.3em 0; user-select: none">
+          <tr class="pas-toi no-hover" style="cursor: default">
+              <th>Type<!--i @click="clique" class="fas fa-caret-up" :class='classR'></i--></th>
+              <th>Name <!--i @click="clique" class="fas fa-caret-up" :class='classR'></i--> </th>
+              <th>Serial nbr<!--i @click="clique" class="fas fa-caret-up" :class='classR'></i--></th>
+              <th>Owner <!--i @click='clique2' class="fas fa-caret-up" :class='classR2'></i--> </th>
+              <th v-if="showHistory">Date</th>
+              <th>Size <!--i @click='clique3' class="fas fa-caret-up" :class='classR3'></i--> </th>
+          </tr>
+          <tr v-for="file in content" :key="file.fileId" @click="select(file)"
+              @dblclick="openFolder(file)"
+              :class="{selected: file.fileId === selectedFile.fileId}">
+              <td v-html="getIcon(file)"></td>
+              <td :title="file.name">
+                  {{ wrapName(file.name) }}
+              </td>
+              <td>
+                  {{ wrapName2(file.serialNbr) }}
+              </td>
+              <td>
+                  {{ wrapName(file.owner.username) }}
+              </td>
+              <td v-if="file.size > 0">
+                  {{ convertSize(file) }}
+              </td>
+              <td v-else></td>
+          </tr>
+      </table>
+      <a v-if="content.length === 0" style="text-align: center; font-size: 20px; width: 100%;" @click.prevent="$modal.show('uploadFile', {isFolder: false, isEditing: false})">
+          This folder is still empty.
+      </a>
     </div>
 </template>
 
@@ -142,6 +136,7 @@
                 classR: '',
                 classR2: '',
                 classR3: '',
+                altDirTree: []
             };
         },
         computed: {
@@ -295,17 +290,27 @@
                 }
                 return FileSize(file.size);
             },
-            openFolder(file) {
+            async openFolder(file) {
                 if (file.type === 'folder') {
                     this.loading = true;
-                    store.dispatch('retrieveFolder', file.fileId)
+                    await store.dispatch('retrieveFolder', file.fileId)
                         .then(_ => store.dispatch('selectFile', {}))
                         .then(_ => this.loading = false);
+                    if (this.folder.dirTree.length > 2) {
+                        let a = Array();
+                        a[0] = {};
+                        a[1] = {};
+                        a[0].name = this.folder.dirTree[this.folder.dirTree.length -2];
+                        a[0].arrow = '>';
+                        a[1].name = this.folder.dirTree[this.folder.dirTree.length -1];
+                        this.altDirTree = a;
+                        a[1].arrow = '';
+                    }
                 }
             },
-            async goBack() {
+            async goHome() {
                 this.loading = true;
-                await store.dispatch('retrieveFolder', this.folder.dirId)
+                await store.dispatch('retrieveFolder', 1)
                     .then(() => store.dispatch('selectFile', {}))
                     .then(() => this.loading = false);
             }

@@ -7,7 +7,6 @@
 
         <section class="content">
             <h1 class="color-green section-title">Drive</h1>
-
             <drive-table :search="searchKeyWord" showHistory="false"></drive-table>
         </section>
 
