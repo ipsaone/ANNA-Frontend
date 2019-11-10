@@ -284,9 +284,6 @@
             return this.user;
         },
         methods: {
-            bitefunction() {
-                console.log('bite');
-            },
             async refreshAll() {
                 this.loading = true;
                 let reqs = [
