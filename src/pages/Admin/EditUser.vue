@@ -1,23 +1,23 @@
 <template>
     <modal name="editUser" height="auto" :scrollable="true" @before-open="beforeOpen">
-        <div class="content anna-modal">
+        <div class="content anna-modal userModal">
             <h1>Edit user</h1>
             <form>
                 <div  class="form-group">
-                    <label for="user-name">Username :</label><br>
+                    <label for="user-name">Username :</label>
                     <input type="text" name="user-name" v-model="user_name">
                 </div>
                 <div class="form-group">
-                    <label for="user-email">Email :</label><br>
+                    <label for="user-email">Email :</label>
                     <input type="text" name="user-email" v-model="user_email">
                 </div>
                 <div class="form-group">
-                    <label for="user-pwd">Password :</label><br>
+                    <label for="user-pwd">Password :</label>
                     <input type="password" name="user-pwd" v-model="user_pwd">
                 </div>
 
                 <div class="form-group">
-                    <label for="user-pwd-2">Password again :</label><br>
+                    <label for="user-pwd-2">Password again :</label>
                     <input type="password" name="user-pwd-2" v-model="user_pwd_conf">
                 </div>
 
