@@ -9,11 +9,12 @@
             <section> <!-- DO NOT REMOVE THE SECTION TAG -->
                 <template v-if="events.length > 0">
                     <div class="event flex-abstract" v-for="event in events" :key="event.id" >
-                        <p class="registered" v-show="event.maxRegistered">{{ event.registeredCount }}/{{ event.maxRegistered }}</p>
+                        <p class="registered" v-if="event.maxRegistered != null">{{ event.registeredCount }}/{{ event.maxRegistered }}</p>
+                        <p class="registered" v-else>{{ event.registeredCount }}/∞</p>
                         <h1 style="text-shadow: 0 0 1px #000000"><a href="#" @click.prevent="showEvent(event)">{{ event.name }}</a></h1>
                         <p><a @click.prevent="$modal.show('eventModal', {event_id: event.id, isEditing: true})" v-if="groupOrganizer">Edit</a></p>
-                        <p class="date">The {{ event.startDate | moment('DD/MM/YYYY') }}</p>
-                        <p v-if="event.maxRegistered > 0 && event.registeredCount < event.maxRegistered">
+                        <p class="date">{{ event.startDate | moment('DD/MM/YYYY') }}</p>
+                        <p v-if="(event.maxRegistered > 0 && event.registeredCount < event.maxRegistered) || event.maxRegistered == null">
                             <a href="#" @click.prevent.stop="addUser(event.id)" class="button success" v-if="!isRegistered(event.id)">
                                 Join
                             </a>
@@ -25,7 +26,7 @@
                             <a href="#" @click.prevent.stop="withdrawUser(event.id)" class="button alert" v-if="isRegistered(event.id)">
                                 Withdraw
                             </a>
-                            <a href="#" class="button" disabled v-else>Full</a>
+                            <a href="#" class="button" disabled v-if="event.registeredCount === event.maxRegistered && event.maxRegistered != null && !isRegistered(event.id)">Full</a>
                         </p>
                     </div>
                 </template>

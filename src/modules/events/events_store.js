@@ -44,6 +44,7 @@ const actions = {
     },
 
     async updateEvent({dispatch, commit}, event) {
+        console.log('store', event);
         await EventsApi.update(event);
         await dispatch('retrieveEvents', true);
         commit('SELECT_EVENT', event.id);

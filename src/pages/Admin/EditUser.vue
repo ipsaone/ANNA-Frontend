@@ -3,7 +3,7 @@
         <div class="content anna-modal userModal">
             <h1>Edit user</h1>
             <form @submit.prevent="onSubmit">
-                <div  class="form-group">
+                <div class="form-group">
                     <label for="user-name">Username :</label>
                     <input type="text" name="user-name" v-model="user_name">
                 </div>
