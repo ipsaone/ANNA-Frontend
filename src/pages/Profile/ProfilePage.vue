@@ -1,12 +1,12 @@
 <template>
     <div class="profile">
-        <edit-user></edit-user>
+        <change-password></change-password>
 
         <div class="content">
           <div class="page-title">
               <h1 class="maj-cap"> Profile page : {{ user.username }}</h1>
               <h3 style="font-size: 1.2em">
-                  <a @click.prevent="$modal.show('editUser', {user_id: auth.id})">Change Password</a>
+                  <a @click.prevent="$modal.show('changePassword', {user_id: auth.id})">Change Password</a>
               </h3>
           </div>
 
@@ -65,11 +65,11 @@
     import GroupsApi from '@/modules/groups/groups_api';
     import MissionsApi from '@/modules/missions/missions_api';
     import moment from 'moment';
-    import EditUser from '@/pages/Admin/EditUser';
+    import ChangePassword from './ChangePassword';
 
     export default {
         components: {
-            EditUser
+            ChangePassword
         },
         async mounted() {
             this.loading = true;
