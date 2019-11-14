@@ -312,26 +312,27 @@
                 return FileSize(file.size);
             },
             async openFolder(file) {
-                console.log(file);
-                this.loading = true;
-                await store.dispatch('retrieveFolder', file.fileId)
-                    .then(_ => store.dispatch('selectFile', {}))
-                    .then(_ => this.loading = false);
-                if (this.folder.dirTree.length > 2) {
-                    let a = Array();
-                    a[0] = {
-                        fileId: this.folder.dirTree[this.folder.dirTree.length -2].fileId,
-                        name: this.folder.dirTree[this.folder.dirTree.length -2].name,
-                        arrow: '>',
-                        type: 'folder'
-                    };
-                    a[1] = {
-                        fileId: this.folder.dirTree[this.folder.dirTree.length -1].fileId,
-                        name: this.folder.dirTree[this.folder.dirTree.length -1].name,
-                        arrow: '',
-                        type: 'folder'
-                    };
-                    this.altDirTree = a;
+                if (file.type === 'folder' || !file.hasOwnProperty('type')) {
+                    this.loading = true;
+                    await store.dispatch('retrieveFolder', file.fileId)
+                        .then(_ => store.dispatch('selectFile', {}))
+                        .then(_ => this.loading = false);
+                    if (this.folder.dirTree.length > 2) {
+                        let a = Array();
+                        a[0] = {
+                            fileId: this.folder.dirTree[this.folder.dirTree.length -2].fileId,
+                            name: this.folder.dirTree[this.folder.dirTree.length -2].name,
+                            arrow: '>',
+                            type: 'folder'
+                        };
+                        a[1] = {
+                            fileId: this.folder.dirTree[this.folder.dirTree.length -1].fileId,
+                            name: this.folder.dirTree[this.folder.dirTree.length -1].name,
+                            arrow: '',
+                            type: 'folder'
+                        };
+                        this.altDirTree = a;
+                    }
                 }
             },
             async goHome() {

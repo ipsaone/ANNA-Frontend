@@ -1,7 +1,6 @@
 <template>
     <section class="drive basic-layout">
         <upload-file></upload-file>
-        <new-folder></new-folder>
         <barcode></barcode>
         <move-filev2></move-filev2>
 
@@ -116,7 +115,6 @@
     import driveApi from '@/modules/drive/drive_api';
     import DriveTable from './DriveTable';
     import UploadFile from './UploadFile';
-    import NewFolder from './NewFolder';
     import Barcode from './Barcode';
     import MoveFilev2 from './MoveFilev2';
     import swal from 'sweetalert2';
@@ -125,9 +123,8 @@
         components: {
             DriveTable,
             UploadFile,
-            NewFolder,
             Barcode,
-            MoveFilev2,
+            MoveFilev2
         },
         async beforeRouteEnter(to, from, next) {
             let folderId = 1;
