@@ -2,15 +2,8 @@
 const path = require('path')
 const config = require('../config');
 
-let buildConfig = config.build_prod;
-if(process.env.NODE_ENV == 'staging') {
-  buildConfig = config.build_staging;
-}
-
 exports.assetsPath = function (_path) {
-  const assetsSubDirectory = process.env.NODE_ENV === 'production'
-    ? buildConfig.assetsSubDirectory
-    : config.dev.assetsSubDirectory
+  const assetsSubDirectory = config.assetsSubDirectory
   return path.posix.join(assetsSubDirectory, _path)
 }
 
