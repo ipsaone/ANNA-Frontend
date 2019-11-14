@@ -1,4 +1,4 @@
-.profile .content {
+.profile .content:not(.userModal) {
     padding-top: 3vh;
     display: grid;
     grid-template-columns: 50% 50%;
@@ -118,7 +118,9 @@
         grid-row: 1;
         grid-column: 1 / span 2;
         text-align: center;
-        text-transform: uppercase;
+    }
+    .maj-cap {
+      text-transform: uppercase;
     }
 
 }

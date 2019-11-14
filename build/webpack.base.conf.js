@@ -5,6 +5,11 @@ const config = require('../config');
 const webpack = require('webpack');
 const vueLoaderConfig = require('./vue-loader.conf');
 
+let buildConfig = config.build_prod;
+if(process.env.NODE_ENV == 'staging') {
+  buildConfig = config.build_staging;
+}
+
 function resolve(dir) {
     return path.join(__dirname, '..', dir);
 }
@@ -14,10 +19,10 @@ module.exports = {
         app: './src/main.js'
     },
     output: {
-        path: config.build.assetsRoot,
+        path: buildConfig.assetsRoot,
         filename: '[name].js',
         publicPath: process.env.NODE_ENV === 'production'
-            ? config.build.assetsPublicPath
+            ? buildConfig.assetsPublicPath
             : config.dev.assetsPublicPath
     },
     resolve: {

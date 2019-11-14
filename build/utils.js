@@ -1,10 +1,15 @@
 'use strict'
 const path = require('path')
-const config = require('../config')
+const config = require('../config');
+
+let buildConfig = config.build_prod;
+if(process.env.NODE_ENV == 'staging') {
+  buildConfig = config.build_staging;
+}
 
 exports.assetsPath = function (_path) {
   const assetsSubDirectory = process.env.NODE_ENV === 'production'
-    ? config.build.assetsSubDirectory
+    ? buildConfig.assetsSubDirectory
     : config.dev.assetsSubDirectory
   return path.posix.join(assetsSubDirectory, _path)
 }

@@ -3,6 +3,8 @@ $title-width: auto;
 $info-width: 15em;
 $date-width: 12em;
 $button-width: 8em;
+$edit-width: 8em;
+
 
 .flex-abstract {
   border: 1px solid $grey-lighter;
@@ -43,7 +45,7 @@ $button-width: 8em;
   }
 
   &.event {
-    grid-template-columns: $id-width $title-width $date-width $button-width;
+    grid-template-columns: $id-width $title-width $edit-width $date-width $button-width;
     grid-column-gap: 10px;
   }
 }

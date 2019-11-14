@@ -1,7 +1,8 @@
 <template>
     <modal name="eventModal" height="auto" :scrollable="true" @before-open="beforeOpen">
         <div class="content anna-modal eventModal">
-            <h1>Create a new event</h1>
+            <h1 v-if="isEditing"> Edit event</h1>
+            <h1 v-else> Create a new event </h1>
             <form>
                 <input type="text" name="Name" id="Name" placeholder="Name..." v-model="name">
 
@@ -13,13 +14,23 @@
                 </div>
 
                 <div class="form-group">
+                    <div class="checkbox-container">
+                        <input type="checkbox" name="end-option"
+                               id="end-option" v-model="end_option">
+                        <label class="checkbox" for="end-option"></label>
+                    </div>
                     <label for="evt_end">End date :</label>
-                    <datepicker class="datepicker" placeholder="Select Date" v-model="end"></datepicker>
+                    <datepicker v-if="end_option" class="datepicker" placeholder="Select Date" v-model="end"></datepicker>
                 </div>
 
                 <div class="form-group">
+                    <div class="checkbox-container">
+                      <input type="checkbox" name="max-option"
+                             id="max-option" v-model="max_option">
+                      <label class="checkbox" for="max-option"></label>
+                    </div>
                     <label for="evt_max">Open slots :</label>
-                    <input id="openslots-input" type="number" name="evt_max" v-model="max">
+                    <input v-if="max_option" id="openslots-input" type="number" name="evt_max" v-model="max">
                 </div>
 
                 <div class="buttons">
@@ -51,6 +62,8 @@
                 max: 0,
                 start: new Date(),
                 end:  new Date(),
+                end_option: false,
+                max_option: false,
 
                 configs: {
                     placeholder: 'Description...',
@@ -92,15 +105,44 @@
             async onSubmit() {
                 if (this.isEditing) {
                     this.loading = true;
-                    await store.dispatch('updateEvent', {
-                        id: this.event.id,
-                        event: {
+                    let evt = {};
+                    if (this.max_option && this.end_option) {
+                        evt = {
                             name: this.name,
                             markdown: this.description.replace(/\n/gi, '\n<br>'),
                             maxRegistered: this.max,
                             startDate: this.start,
                             endDate: this.end
-                        }
+                        };
+                    } else if(this.max_option && !this.end_option) {
+                        evt =  {
+                            name: this.name,
+                            markdown: this.description.replace(/\n/gi, '\n<br>'),
+                            maxRegistered: this.max,
+                            startDate: this.start,
+                            endDate: null
+                        };
+                    } else if(!this.max_option && this.end_option) {
+                        evt =  {
+                            name: this.name,
+                            markdown: this.description.replace(/\n/gi, '\n<br>'),
+                            maxRegistered: null,
+                            startDate: this.start,
+                            endDate: this.end
+                        };
+                    } else if(!this.max_option && !this.end_option) {
+                        evt = {
+                            name: this.name,
+                            markdown: this.description.replace(/\n/gi, '\n<br>'),
+                            maxRegistered: null,
+                            startDate: this.start,
+                            endDate: null
+                        };
+                    }
+                    console.log('edit ', evt);
+                    await store.dispatch('updateEvent', {
+                        id: this.event.id,
+                        event: evt
                     });
                     this.$modal.hide('eventModal');
                     // this.$notify({
@@ -112,13 +154,36 @@
                     await store.dispatch('retrieveEvents');
                     this.loading= false;
                 } else {
-                    let evt =  {
-                        name: this.name,
-                        markdown: this.description.replace(/\n/gi, '\n<br>'),
-                        maxRegistered: this.max,
-                        startDate: this.start,
-                        endDate: this.end
-                    };
+                    let evt = {};
+                    if(this.max_option && this.end_option) {
+                        evt =  {
+                            name: this.name,
+                            markdown: this.description.replace(/\n/gi, '\n<br>'),
+                            maxRegistered: this.max,
+                            startDate: this.start,
+                            endDate: this.end
+                        };
+                    } else if(this.max_option && !this.end_option) {
+                        evt =  {
+                            name: this.name,
+                            markdown: this.description.replace(/\n/gi, '\n<br>'),
+                            maxRegistered: this.max,
+                            startDate: this.start
+                        };
+                    } else if(!this.max_option && this.end_option) {
+                        evt =  {
+                            name: this.name,
+                            markdown: this.description.replace(/\n/gi, '\n<br>'),
+                            startDate: this.start,
+                            endDate: this.end
+                        };
+                    } else if(!this.max_option && !this.end_option) {
+                        evt =  {
+                            name: this.name,
+                            markdown: this.description.replace(/\n/gi, '\n<br>'),
+                            startDate: this.start
+                        };
+                    }
                     store.dispatch('storeEvent', evt);
                     this.loading = false;
                     this.$modal.hide('eventModal');

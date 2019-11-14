@@ -14,6 +14,7 @@ const state = {
         // each folder is {type: 'folder', meta: {}, children: []}
         // each file is {type: 'file', meta: {}}
     fileTree: {},
+    foldersList: [],
     curFolder: 0
 };
 
@@ -48,6 +49,9 @@ const mutations = {
 
     SET_META(state, data) {
         state.meta = data;
+    },
+    SET_FOLDERS_LIST(state, data) {
+        state.foldersList = data;
     },
 
     // DRIVE V2
@@ -126,8 +130,9 @@ const actions = {
         return true;
     },
 
-    async getFoldersList({dispatch}, folderId) {
+    async getFoldersList({dispatch, commit}, folderId) {
         let res = await DriveApi.getFoldersList(folderId);
+        commit('SET_FOLDERS_LIST', res.data);
         return res.data;
     },
 
@@ -204,6 +209,9 @@ const getters = {
 
     metaData(state) {
         return state.meta;
+    },
+    foldersList(state) {
+        return state.foldersList;
     },
 
     // DRIVE V2
