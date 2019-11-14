@@ -9,30 +9,23 @@ const CopyWebpackPlugin = require('copy-webpack-plugin')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const OptimizeCSSPlugin = require('optimize-css-assets-webpack-plugin')
 
-let buildConfig = config.build_prod;
-if(process.env.NODE_ENV == 'staging') {
-  buildConfig = config.build_staging;
-}
-
-const env = buildConfig.env
-
 const webpackConfig = merge(baseWebpackConfig, {
   module: {
     rules: utils.styleLoaders({
-      sourceMap: buildConfig.productionSourceMap,
+      sourceMap: config.productionSourceMap,
       extract: true
     })
   },
-  devtool: buildConfig.productionSourceMap ? '#source-map' : false,
+  devtool: config.productionSourceMap ? '#source-map' : false,
   output: {
-    path: buildConfig.assetsRoot,
+    path: config.assetsRoot,
     filename: utils.assetsPath('js/[name].[chunkhash].js'),
     chunkFilename: utils.assetsPath('js/[id].[chunkhash].js')
   },
   plugins: [
     // http://vuejs.github.io/vue-loader/en/workflow/production.html
     new webpack.DefinePlugin({
-      'process.env': buildConfig.env
+      'process.env': config.env
     }),
     // Compress extracted CSS. We are using this plugin so that possible
     // duplicated CSS from different components can be deduped.
@@ -45,7 +38,7 @@ const webpackConfig = merge(baseWebpackConfig, {
     // you can customize output by editing /index.html
     // see https://github.com/ampedandwired/html-webpack-plugin
     new HtmlWebpackPlugin({
-      filename: buildConfig.index,
+      filename: config.index,
       template: 'index.html',
       inject: true,
       minify: {
@@ -62,14 +55,14 @@ const webpackConfig = merge(baseWebpackConfig, {
     new CopyWebpackPlugin([
       {
         from: path.resolve(__dirname, '../static'),
-        to: buildConfig.assetsSubDirectory,
+        to: config.assetsSubDirectory,
         ignore: ['.*']
       }
     ])
   ]
 })
 
-if (buildConfig.productionGzip) {
+if (config.productionGzip) {
   const CompressionWebpackPlugin = require('compression-webpack-plugin')
 
   webpackConfig.plugins.push(
@@ -78,7 +71,7 @@ if (buildConfig.productionGzip) {
       algorithm: 'gzip',
       test: new RegExp(
         '\\.(' +
-        buildConfig.productionGzipExtensions.join('|') +
+        config.productionGzipExtensions.join('|') +
         ')$'
       ),
       threshold: 10240,
@@ -87,7 +80,7 @@ if (buildConfig.productionGzip) {
   )
 }
 
-if (buildConfig.bundleAnalyzerReport) {
+if (config.bundleAnalyzerReport) {
   const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin
   webpackConfig.plugins.push(new BundleAnalyzerPlugin())
 }
