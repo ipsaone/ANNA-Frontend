@@ -4,6 +4,7 @@ require('./check-versions')()
 
 process.env.NODE_ENV = 'production';
 if(process.env.TRAVIS_BRANCH == "staging") {
+  console.log("Switching to staging configuration");
   process.env.NODE_ENV = 'staging';
 }
 
