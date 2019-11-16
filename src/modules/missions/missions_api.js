@@ -33,18 +33,18 @@ export default {
     },
 
     getAllTasks(missionId) {
-        return axios.get(base + '/missions/' + missionId + '/tasks', {withCredentials: true});
+        return axios.get(url + missionId + '/tasks', {withCredentials: true});
     },
 
     saveTask(data) {
-        return axios.post(base +'/missions/' + data.missionId + '/tasks', data.task, {withCredentials: true});
+        return axios.post(url + data.missionId + '/tasks', data.task, {withCredentials: true});
     },
 
     updateTask(data) {
-        return axios.put(base + '/missions/' + data.missionId + '/task/' + data.task.id, data.task, {withCredentials: true});
+        return axios.put(url + data.missionId + '/task/' + data.task.id, data.task, {withCredentials: true});
     },
 
     deleteTask(task) {
-        return axios.delete(base + '/missions/' + task.missionId + '/task/' + task.id, {withCredentials: true});
+        return axios.delete(url + task.missionId + '/task/' + task.id, {withCredentials: true});
     }
 };
