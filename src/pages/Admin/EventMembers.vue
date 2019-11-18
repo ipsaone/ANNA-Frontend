@@ -30,7 +30,7 @@
 
 <script>
     import store from '@/modules/store';
-    import markdownEditor from 'vue-simplemde/src/markdown-editor';
+    import markdownEditor from 'vue-simplemde';
     import EventsApi from '@/modules/events/events_api';
 
     export default {

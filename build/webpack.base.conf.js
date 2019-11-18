@@ -3,7 +3,9 @@ const path = require('path');
 const utils = require('./utils');
 const config = require('../config');
 const webpack = require('webpack');
+const VueLoaderPlugin = require('vue-loader/lib/plugin')
 const vueLoaderConfig = require('./vue-loader.conf');
+
 
 
 function resolve(dir) {
@@ -26,6 +28,9 @@ module.exports = {
             '@': resolve('src'),
         }
     },
+    plugins: [
+        new VueLoaderPlugin
+    ],
 
     module: {
         rules: [

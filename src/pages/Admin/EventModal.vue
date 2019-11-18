@@ -45,7 +45,7 @@
 
 <script>
     import store from '@/modules/store';
-    import markdownEditor from 'vue-simplemde/src/markdown-editor';
+    import markdownEditor from 'vue-simplemde';
     import Datepicker from 'vuejs-datepicker';
     import * as moment from 'moment';
 
