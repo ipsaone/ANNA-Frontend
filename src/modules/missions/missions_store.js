@@ -28,7 +28,7 @@ const actions = {
 
             let missions = await Promise.all(res.data.map(async mi => {
                 let leader = await dispatch('getUserById', mi.leaderId);
-                mi.leader = leader;
+                mi = {...mi, leader: leader};
                 return mi;
             }));
             await commit('SET_ALL_MISSIONS', missions);

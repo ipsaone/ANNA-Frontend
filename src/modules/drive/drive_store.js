@@ -11,8 +11,8 @@ const state = {
     meta: [],
 
     // DRIVE V2
-        // each folder is {type: 'folder', meta: {}, children: []}
-        // each file is {type: 'file', meta: {}}
+    // each folder is {type: 'folder', meta: {}, children: []}
+    // each file is {type: 'file', meta: {}}
     fileTree: {},
     foldersList: [],
     curFolder: 0
@@ -54,25 +54,11 @@ const mutations = {
         state.foldersList = data;
     },
 
-    // DRIVE V2
-    SET_FOLDER_V2(state, folderId) {
-        state.curFolder = folderId;
-    },
-    INSERT_FOLDER_V2(state, parentPath, child) {
-
-    },
-    REMOVE_FOLDER_V2(state, parentPath, childId) {
-
-    },
-    INSERT_FILE_META_V2(state, parentPath, meta) {
-
-    }
-
 };
 
 const actions = {
     // DRIVE V1
-    async retrieveFolder({commit, dispatch}, id, force=false) {
+    async retrieveFolder({commit, dispatch}, id) {
         let folder = await DriveApi.getFolder(id);
         await dispatch('setFolderOwners', folder.data);
         commit('SET_FOLDER', folder.data);
@@ -86,14 +72,14 @@ const actions = {
         });
     },
 
-    async updateProgress({commit, dispatch}, progress) {
+    async updateProgress({commit}, progress) {
         return new Promise(resolve => {
             commit('UPDATE_PROGRESS', progress);
             resolve();
         });
     },
 
-    resetProgress({commit, dispatch}) {
+    resetProgress({commit}) {
         commit('UPDATE_PROGRESS', 0);
     },
 
@@ -107,7 +93,7 @@ const actions = {
     async setFolderOwners({dispatch}, folder) {
 
         let user = await dispatch('getUserById', folder.ownerId);
-        folder.owner = user;
+        folder = {...folder, owner: user};
 
         let promises = [];
         folder.children.forEach(child => {
@@ -130,7 +116,7 @@ const actions = {
         return true;
     },
 
-    async getFoldersList({dispatch, commit}, folderId) {
+    async getFoldersList({commit}, folderId) {
         let res = await DriveApi.getFoldersList(folderId);
         commit('SET_FOLDERS_LIST', res.data);
         return res.data;
@@ -142,39 +128,19 @@ const actions = {
         commit('SET_RESULT', result.data);
     },
 
-    async showHistory({dispatch, commit}, fileId) {
+    async showHistory({commit}, fileId) {
         let res = await DriveApi.getMeta(fileId);
         commit('SET_META', res.data);
         commit('SHOW_HISTORY');
     },
 
-    async hideHistory({dispatch, commit}) {
+    async hideHistory({commit}) {
         commit('HIDE_HISTORY');
     },
 
-
-    // DRIVE V2
-
-    // folderPath : path to folder using IDs [folderId, folderId, folderId]
-    async loadMeta_v2({dispatch, commit}, folderPath, fileId) {
-        // call API to get data
-        //
-    },
-    async loadFolder_v2({dispatch, commit}, folderPath, preload=false) {
-        // load children list
-        // for each children :
-            // load meta
-        // if preload:
-            // preload folder
-    },
-    async preload_v2({dispatch, commit}, folderPath) {
-        // for each child folder:
-            // loadFolder, preload=false
-    }
 };
 
 const getters = {
-    // DRIVE V1
     folder(state) {
         return state.folder;
     },

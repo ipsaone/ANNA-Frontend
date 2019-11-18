@@ -23,7 +23,7 @@ const actions = {
         }
     },
 
-    async selectUser({state, commit, dispatch}, id) {
+    async selectUser({commit}, id) {
         let user = await UsersApi.get(id);
         commit('SELECT_USER', user.data);
         return;
@@ -38,14 +38,14 @@ const actions = {
         return user;
     },
 
-    async insertUser({state, commit, dispatch}, user) {
+    async insertUser({dispatch}, user) {
         if (user.username && user.email && user.password) {
             await UsersApi.add(user);
             await dispatch('retrieveUsers', true);
         }
     },
 
-    async deleteUser({state, commit, dispatch}, id) {
+    async deleteUser({dispatch}, id) {
         await UsersApi.delete(id);
         await dispatch('retrieveUsers', true);
     },

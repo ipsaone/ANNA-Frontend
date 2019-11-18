@@ -1,58 +1,103 @@
 <template>
-    <modal id="move-modal" name="moveFilev2" height="auto" :scrollable="true" @before-open="beforeOpen">
-        <div class="content anna-modal" id="move-file">
-            <h1>Move file</h1>
-            <span style="font-weight: 700;"> File name: </span>{{ file.name }}
-            <div class="big-wrapper">
-
-                <div v-if="firstParent" class="dir-tree">
-                    <div class="firstParent" @dblclick="goBack()">
-                        <i class="fa fa-folder-open folder-icon parentFolderIcon"></i>
-                        <h4 :title="firstParent.name">{{ wrapName(firstParent.name) }}</h4>
-                        <i v-if="firstParent.name != 'root'" class="fas fa-angle-double-up"></i>
-                    </div>
-                    <div class="children" id="children">
-                        <div v-if="firstParent.children.length > 0" v-for="folder in firstParent.children" :key="folder.id"
-                        class="child" @mouseenter="openIcon(folder.id)" @mouseleave="closeIcon(folder.id)"
-                        @dblclick="enterFolder(folder.id)">
-                            <i class="fa fa-folder folder-icon" :id="folder.id"></i>
-                            <span :title="folder.name">{{ wrapName(folder.name) }}</span>
-                        </div>
-                        <div v-else>
-                            No subfolder
-                        </div>
-                    </div>
-                </div>
-
-                <div class="file-info">
-                    <ul v-if="file.owner">
-                        <li>
-                            <span>Owner:</span> {{ file.owner.username }}
-                        </li>
-                        <li>
-                            <span>Group:</span> {{ group.name }}
-                        </li>
-                        <li>
-                            <span>Serial Number:</span> {{ file.serialNbr }}
-                        </li>
-                        <li>
-                            <span>Created at:</span> {{ getDate(file.createdAt) }}
-                        </li>
-                        <li>
-                            <span>Last update:</span> {{ getDate(file.updatedAt) }}
-                        </li>
-                        <li>
-                            <span>Type:</span> {{ file.type }}
-                        </li>
-                    </ul>
-                    <div class="buttons">
-                        <button type="button"class="cancel" @click="$modal.hide('moveFilev2')"> Cancel </button>
-                        <button id="submitButton" type="submit" class="button success" @click.prevent="onSubmit">Move here</button>
-                    </div>
-                </div>
+  <modal
+    id="move-modal"
+    name="moveFilev2"
+    height="auto"
+    :scrollable="true"
+    @before-open="beforeOpen"
+  >
+    <div
+      id="move-file"
+      class="content anna-modal"
+    >
+      <h1>Move file</h1>
+      <span style="font-weight: 700;"> File name: </span>{{ file.name }}
+      <div class="big-wrapper">
+        <div
+          v-if="firstParent"
+          class="dir-tree"
+        >
+          <div
+            class="firstParent"
+            @dblclick="goBack()"
+          >
+            <i class="fa fa-folder-open folder-icon parentFolderIcon" />
+            <h4 :title="firstParent.name">
+              {{ wrapName(firstParent.name) }}
+            </h4>
+            <i
+              v-if="firstParent.name != 'root'"
+              class="fas fa-angle-double-up"
+            />
+          </div>
+          <div
+            id="children"
+            class="children"
+            v-if="firstParent.children.length > 0"
+          >
+            <div
+              v-for="curfolder in firstParent.children"
+              
+              :key="curfolder.id"
+              class="child"
+              @mouseenter="openIcon(folder.id)"
+              @mouseleave="closeIcon(folder.id)"
+              @dblclick="enterFolder(folder.id)"
+            >
+              <i
+                :id="curfolder.id"
+                class="fa fa-folder folder-icon"
+              />
+              <span :title="curfolder.name">{{ wrapName(curfolder.name) }}</span>
             </div>
+          </div>
+          <div v-else id="children" class="children">
+            No subfolder
+          </div>
         </div>
-    </modal>
+
+        <div class="file-info">
+          <ul v-if="file.owner">
+            <li>
+              <span>Owner:</span> {{ file.owner.username }}
+            </li>
+            <li>
+              <span>Group:</span> {{ group.name }}
+            </li>
+            <li>
+              <span>Serial Number:</span> {{ file.serialNbr }}
+            </li>
+            <li>
+              <span>Created at:</span> {{ getDate(file.createdAt) }}
+            </li>
+            <li>
+              <span>Last update:</span> {{ getDate(file.updatedAt) }}
+            </li>
+            <li>
+              <span>Type:</span> {{ file.type }}
+            </li>
+          </ul>
+          <div class="buttons">
+            <button
+              type="button"
+              class="cancel"
+              @click="$modal.hide('moveFilev2')"
+            >
+              Cancel
+            </button>
+            <button
+              id="submitButton"
+              type="submit"
+              class="button success"
+              @click.prevent="onSubmit"
+            >
+              Move here
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </modal>
 </template>
 
 <script>
@@ -81,7 +126,7 @@ export default {
             this.dirTree = this.firstParent.dirTree;
             this.group = await store.dispatch('retrieveGroup', this.file.groupId);
             this.selected = 1;
-            let root = await store.dispatch('getFoldersList', 1);
+            await store.dispatch('getFoldersList', 1);
         },
         getDate(date) {
             return moment(date).format('MMM Do YYYY, HH:mm');
@@ -121,17 +166,17 @@ export default {
                 }
             };
             await driveApi.editFile(edit)
-            .then(_ => {
-                this.$notify({
-                    type: 'success',
-                    title: 'Operation successful',
-                    text: 'File or directory was moved',
-                    duration: 5000
+                .then(() => {
+                    this.$notify({
+                        type: 'success',
+                        title: 'Operation successful',
+                        text: 'File or directory was moved',
+                        duration: 5000
+                    });
+                })
+                .catch(() => {
+                    this.$modal.hide('moveFilev2');
                 });
-            })
-            .catch(_ => {
-                this.$modal.hide('moveFilev2');
-            });
             await store.dispatch('retrieveFolder', store.getters.folder.fileId);
             //this.firstParent = await store.dispatch('getFoldersList', this.file.dirId);
             this.$modal.hide('moveFilev2');
