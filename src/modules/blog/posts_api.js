@@ -12,6 +12,10 @@ export default {
         return axios.get(url + '?published=false', {withCredentials: true});
     },
 
+    getAll() {
+        return axios.get(url, {withCredentials: true});
+    },
+
     save(post) {
         return axios.post(url, post, {withCredentials: true});
     },

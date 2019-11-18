@@ -27,7 +27,7 @@ const mutations = {
 const actions = {
     async retrievePosts({commit, state}, force = false) {
         if (state.posts.length === 0 || force) { // If no posts is loaded
-            let posts = await PostsApi.getPublished();
+            let posts = await PostsApi.getAll();
             commit('SET_ALL_POSTS', posts.data);
         }
         else {
@@ -35,29 +35,23 @@ const actions = {
         }
     },
 
-    async retrieveDrafts({commit, state}, force = false) {
-        let drafts = await PostsApi.getDrafted();
-        commit('SET_ALL_DRAFTS', drafts.data);
-    },
-
     async selectPost({dispatch, commit, state}, id) {
         await dispatch('retrievePosts');
         const post = state.posts.filter(post => post.id === parseInt(id))[0];
+        
 
         if (typeof post !== 'undefined') {
             commit('SELECT_POST', post);
         }
         else {
-            throw Error;
+            const draft = state.drafts.filter(post => post.id === parseInt(id))[0];
+            if (typeof draft !== 'undefined') {
+                commit('SELECT_POST', draft);
+            }
+            else {
+                throw Error;
+            }
         };
-    },
-
-    async selectDraft({dispatch, commit, state}, id) {
-        await dispatch('retrieveDrafts');
-        const post = state.drafts.filter(post => post.id === parseInt(id))[0];
-
-        if (typeof post !== 'undefined') commit('SELECT_POST', post);
-        else throw Error;
     },
 
     async storePost({dispatch}, post) {
@@ -84,9 +78,6 @@ const getters = {
 
     selectedPost(state) {
         return state.post;
-    },
-    drafts(state) {
-        return state.drafts;
     }
 };
 
