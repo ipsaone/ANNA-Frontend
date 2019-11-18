@@ -19,7 +19,7 @@
                             @click="selectPost(post.id)">
                 </post-abstract>
             </template>
-            <template v-else>
+            <template v-if="postsNumber == 0 && drafts.length == 0">
                 <p class="no-post-message">
                     <b>You're out of luck !</b><br>
                     No blog post was found... Sorry !! :-(

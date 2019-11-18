@@ -93,13 +93,27 @@
                             <th>Title</th>
                             <th>Date</th>
                             <th>Author</th>
+                            <th>Type</th>
                             <th>Actions</th>
+                        </tr>
+                        <tr v-for="post in $store.getters.drafts" :key="post.id">
+                            <!--td> {{ post.id }} </td-->
+                            <td> {{ post.title }} </td>
+                            <td> {{ post.createdAt | moment('DD/MM/YYYY') }} </td>
+                            <td> {{ post.author.username }} </td>
+                            <td> Draft </td>
+                            <td>
+                                <router-link :to="{name: 'readPost', params: {id: post.id}}">Show</router-link>,
+                                <router-link :to="{name: 'editPost', params: {id: post.id}}">Edit</router-link>,
+                                <a @click.prevent="delItem('post', 'deletePost', post.title, post.id)">Delete</a>
+                            </td>
                         </tr>
                         <tr v-for="post in $store.getters.posts" :key="post.id">
                             <!--td> {{ post.id }} </td-->
                             <td> {{ post.title }} </td>
                             <td> {{ post.createdAt | moment('DD/MM/YYYY') }} </td>
                             <td> {{ post.author.username }} </td>
+                            <td> Published </td>
                             <td>
                                 <router-link :to="{name: 'readPost', params: {id: post.id}}">Show</router-link>,
                                 <router-link :to="{name: 'editPost', params: {id: post.id}}">Edit</router-link>,
