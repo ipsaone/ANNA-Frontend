@@ -51,12 +51,8 @@
 
 <script>
 import store from '@/modules/store';
-import Loader from '@/components/Loader';
 
 export default {
-    components: {
-        Loader,
-    },
     data() {
         return {
             username: '',
@@ -68,7 +64,7 @@ export default {
         login() {
             this.loading = true;
             store.dispatch('loginUser', {username: this.username, password: this.password})
-                .then(_ => {
+                .then(() => {
                     this.$router.push({name: 'dashboard'});
                     this.$notify({
                         type: 'success',
@@ -76,10 +72,10 @@ export default {
                         duration: 5000
                     });
                 })
-                .catch(err => {
+                .catch(() => {
                     this.loading = false;
                 })
-                .then(_ => {
+                .then(() => {
                     this.loading = false;
                 });
         }

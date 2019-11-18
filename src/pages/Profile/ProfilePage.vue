@@ -80,15 +80,10 @@
       </div>
     </div>
   </div>
-  </div>
 </template>
 
 <script>
 import store from '@/modules/store';
-import Loader from '@/components/Loader';
-import UserApi from '@/modules/users/users_api';
-import GroupsApi from '@/modules/groups/groups_api';
-import MissionsApi from '@/modules/missions/missions_api';
 import moment from 'moment';
 import ChangePassword from './ChangePassword';
 

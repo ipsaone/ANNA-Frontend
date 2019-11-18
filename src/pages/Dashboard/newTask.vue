@@ -30,7 +30,6 @@
 
 <script>
 import store from '@/modules/store';
-import markdownEditor from 'vue-simplemde';
 
 export default {
     data() {
@@ -39,7 +38,7 @@ export default {
         };
     },
     methods: {
-        beforeOpen(mission) {
+        beforeOpen() {
             this.name = '';
         },
         async onSubmit() {

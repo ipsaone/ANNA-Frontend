@@ -28,7 +28,7 @@ const actions = {
         }
     },
 
-    async retrieveGroup({commit, state}, id) {
+    async retrieveGroup({commit}, id) {
         let group = await GroupsApi.getGroup(id);
         commit('SET_SELECTED_GROUP', group.data);
         return group.data;
@@ -49,7 +49,7 @@ const actions = {
         dispatch('retrieveGroups', true);
     },
 
-    async getGroup({dispatch, state}, id) {
+    async getGroup({}, id) {
         return GroupsApi.getGroup(id);
     },
 

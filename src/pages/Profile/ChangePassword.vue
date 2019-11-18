@@ -102,7 +102,7 @@ export default {
                 this.user_pwd = '';
                 this.user_pwd_conf = '';
                 this.loading = false;
-                await store.dispatch('selectUser', this.user.id).then(_ =>{
+                await store.dispatch('selectUser', this.user.id).then(() =>{
                     this.$modal.hide('changePassword');
                     this.$notify({
                         type: 'success',

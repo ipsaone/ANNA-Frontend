@@ -100,14 +100,12 @@
 
 <script>
 import store from '@/modules/store';
-import Loader from '@/components/Loader';
 import EventsApi from '@/modules/events/events_api';
 import EventModal from '@/pages/Admin/EventModal';
 import Event from './Event';
 
 export default {
     components: {
-        Loader,
         Event,
         EventModal,
     },
@@ -141,7 +139,7 @@ export default {
             }
             store.dispatch('retrieveEvents', force)
                 .then(this.loading = false)
-                .then(_ => {
+                .then(() => {
                     if (!mounted) {
                         this.$notify({
                             type: 'success',
@@ -178,9 +176,9 @@ export default {
 
         },
         withdrawUser(event_id) {
-            EventsApi.withdraw(event_id, store.getters.loggedUserId)
-                .then(_ => store.dispatch('retrieveEvents', true))
-                .then(_ => store.dispatch('retrieveLoggedUser'))
+            return EventsApi.withdraw(event_id, store.getters.loggedUserId)
+                .then(() => store.dispatch('retrieveEvents', true))
+                .then(() => store.dispatch('retrieveLoggedUser'))
                 .catch(err => {
                     this.$notify({
                         type: 'error',

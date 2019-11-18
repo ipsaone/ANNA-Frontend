@@ -12,12 +12,10 @@
 
 <script>
 import store from '@/modules/store';
-import Loader from '@/components/Loader';
 import MissionsSlider from './MissionsSlider';
 
 export default {
     components: {
-        Loader,
         MissionsSlider
     },
     data() {

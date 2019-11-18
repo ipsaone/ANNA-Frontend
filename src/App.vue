@@ -72,9 +72,7 @@ export default {
             get: function () {
                 return store.getters.progress;
             },
-            set: function () {
-                var uploadPercentage = 0;
-            }
+            set: function () {}
         }
     }
 };

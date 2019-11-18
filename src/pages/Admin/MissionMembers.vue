@@ -7,7 +7,7 @@
   >
     <div class="content anna-modal mission-members manage-members">
       <h1 v-if="mission.name">
-        Mission: {{ mission.name }}
+        Mission: {{ mission.name }}
       </h1>
       <h1 v-if="mission.leader">
         Leader : {{ mission.leader.username }}
@@ -50,13 +50,8 @@
 
 <script>
 import store from '@/modules/store';
-import markdownEditor from 'vue-simplemde';
-import swal from 'sweetalert2';
 
 export default {
-    components: {
-        markdownEditor
-    },
     data() {
         return {
             shownUsers: []

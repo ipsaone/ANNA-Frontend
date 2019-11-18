@@ -65,8 +65,7 @@
               <ul class="members">
                 Members:
                 <li
-                  v-for="member in mission.members"
-                  v-if="member.id"
+                  v-for="member in missionMembers"
                   :key="member.id"
                 >
                   <router-link :to="{name: 'profile', params:{id: member.id}}">
@@ -175,6 +174,9 @@ export default {
         },
         loggedUserMissions() {
             return store.getters.loggedUserMissions;
+        },
+        missionMembers() {
+          return mission.members.filter(x => x.id)
         }
     },
     async mounted() {

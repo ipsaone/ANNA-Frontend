@@ -7,7 +7,7 @@
   >
     <div class="content anna-modal event-members manage-members">
       <h1 v-if="event.name">
-        Event: {{ event.name }}
+        Event: {{ event.name }}
       </h1>
       <i
         class="fa fa-times"
@@ -47,13 +47,8 @@
 
 <script>
 import store from '@/modules/store';
-import markdownEditor from 'vue-simplemde';
-import EventsApi from '@/modules/events/events_api';
 
 export default {
-    components: {
-        markdownEditor
-    },
     data() {
         return {
             shownUsers: []

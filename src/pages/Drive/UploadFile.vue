@@ -166,6 +166,7 @@
                 </div>
                 <div
                   v-for="box in cases"
+                  :key="box"
                   class="case cochable"
                 >
                   <div class="checkbox-container">
@@ -244,9 +245,7 @@ export default {
             get: function () {
                 return store.getters.selectedUser;
             },
-            set: function () {
-                var selectedUser = {};
-            }
+            set: function () {}
         },
         cases() {
             return Array('ownerRead', 'groupRead', 'allRead', 'ownerWrite', 'groupWrite', 'allWrite');
@@ -258,9 +257,7 @@ export default {
             get: function () {
                 return store.getters.progress;
             },
-            set: function () {
-                var uploadPercentage = 0;
-            }
+            set: function () {}
         },
         userGroups: {
             get: function () {
@@ -424,7 +421,7 @@ export default {
                                 });
                             } else {
                                 await driveApi.uploadFile(data)
-                                    .catch(_ => {
+                                    .catch(() => {
                                         interrupt = true;
                                         if(document.getElementById('submitButton')) {
                                             document.getElementById('submitButton').removeAttribute('disabled', 'disabled');
@@ -446,7 +443,7 @@ export default {
                                 if (confirmation === true) {
                                     document.getElementById('submitButton').setAttribute('disabled', 'disabled');
                                     await driveApi.editFile({fileId: editingFileid, data})
-                                        .catch(_ => {
+                                        .catch(() => {
                                             interrupt = true;
                                             if(document.getElementById('submitButton')) {
                                                 document.getElementById('submitButton').removeAttribute('disabled', 'disabled');
@@ -458,7 +455,7 @@ export default {
                                 }
                             } else {
                                 await driveApi.uploadFile(data)
-                                    .catch(_ => {
+                                    .catch(() => {
                                         interrupt = true;
                                         if(document.getElementById('submitButton')) {
                                             document.getElementById('submitButton').removeAttribute('disabled', 'disabled');
@@ -480,7 +477,7 @@ export default {
                 document.getElementById('submitButton').setAttribute('disabled', 'disabled');
                 if (this.isEditing) {
                     await driveApi.editFile({fileId: this.selectedFile.fileId, data})
-                        .catch(_ => {
+                        .catch(() => {
                             interrupt = true;
                             if(document.getElementById('submitButton')) {
                                 document.getElementById('submitButton').removeAttribute('disabled', 'disabled');
@@ -503,7 +500,7 @@ export default {
                             });
                         } else {
                             await driveApi.uploadFile(data)
-                                .catch(_ => {
+                                .catch(() => {
                                     interrupt = true;
                                     if(document.getElementById('submitButton')) {
                                         document.getElementById('submitButton').removeAttribute('disabled', 'disabled');
@@ -525,7 +522,7 @@ export default {
                             if (confirmation === true) {
                                 document.getElementById('submitButton').setAttribute('disabled', 'disabled');
                                 await driveApi.editFile({fileId: editingFileid, data})
-                                    .catch(_ => {
+                                    .catch(() => {
                                         interrupt = true;
                                         if(document.getElementById('submitButton')) {
                                             document.getElementById('submitButton').removeAttribute('disabled', 'disabled');
@@ -537,7 +534,7 @@ export default {
                             }
                         } else {
                             await driveApi.uploadFile(data)
-                                .catch(_ => {
+                                .catch(() => {
                                     interrupt = true;
                                     if(document.getElementById('submitButton')) {
                                         document.getElementById('submitButton').removeAttribute('disabled', 'disabled');

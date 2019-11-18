@@ -39,12 +39,8 @@
 
 <script>
 import store from '@/modules/store';
-import markdownEditor from 'vue-simplemde';
 
 export default {
-    components: {
-        markdownEditor
-    },
     data() {
         return {
             name: '',
@@ -54,7 +50,7 @@ export default {
         async onSubmit() {
             if (this.name) {
                 await store.dispatch('storeGroup', {name: this.name})
-                    .then(_ => {
+                    .then(() => {
                         this.$notify({
                             type: 'success',
                             title: 'Operation successful',

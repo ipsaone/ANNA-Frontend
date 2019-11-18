@@ -58,8 +58,7 @@
         </th>
       </tr>
       <tr
-        v-for="rev in metaData"
-        v-if="rev.exists == true"
+        v-for="rev in existingRevs"
         :key="rev.id"
         :class="{selected: rev.id === selectedFile.id}"
         @click="select(rev)"
@@ -220,6 +219,9 @@ export default {
         },
         foldersList() {
             return store.getters.foldersList;
+        },
+        existingRevs() {
+            return metaData.filter(x => x.exists);
         }
     },
     mounted() {

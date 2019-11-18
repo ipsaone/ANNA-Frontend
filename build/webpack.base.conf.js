@@ -42,8 +42,7 @@ module.exports = {
                 options: {
                      formatter: require('eslint-friendly-formatter'),
                      cache: true,
-                     configFile: '.eslintrc.js',
-                     fix: true
+                     configFile: '.eslintrc.js'
                 }
             },
             {

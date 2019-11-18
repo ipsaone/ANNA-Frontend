@@ -31,7 +31,6 @@
 
 <script>
 import store from '@/modules/store';
-import logsApi from '@/modules/logs/logs_api';
 import markdownEditor from 'vue-simplemde';
 
 export default {
@@ -57,7 +56,7 @@ export default {
             };
             store.dispatch('storeLog', data)
                 .then(this.$modal.hide('uploadLog'))
-                .then(_ => {
+                .then(() => {
                     this.title = '';
                     this.markdown = '';
                 })

@@ -7,7 +7,7 @@
   >
     <div class="content anna-modal group-members manage-members">
       <h1 v-if="group.name">
-        Group: {{ group.name }}
+        Group: {{ group.name }}
       </h1>
       <i
         class="fa fa-times"
@@ -47,13 +47,9 @@
 
 <script>
 import store from '@/modules/store';
-import markdownEditor from 'vue-simplemde';
 import swal from 'sweetalert2';
 
 export default {
-    components: {
-        markdownEditor
-    },
     data() {
         return {
             shownUsers: []
@@ -98,14 +94,14 @@ export default {
                     confirmButtonColor: '#E74D3C',
                     cancelButtonColor: '#7A7A7A',
                     confirmButtonText: 'Delete'
-                }).then(_ => {
+                }).then(() => {
                     store.dispatch('remGroupMember', id)
-                        .then(_ => {
+                        .then(() => {
                             this.refreshUsers();
                             this.$modal.hide('groupMembers');
                             store.dispatch('retrieveGroups', true);
                             store.dispatch('retrieveLoggedUser', true)
-                                .then(_ => {
+                                .then(() => {
                                     this.showAdmin();
                                     if (!this.showAdmin()) {
                                         window.location.replace('/dashboard');
@@ -126,7 +122,7 @@ export default {
                 this.refreshUsers();
                 await store.dispatch('retrieveGroups', true);
                 await store.dispatch('retrieveLoggedUser')
-                    .then (_ => {
+                    .then (() => {
                         this.showAdmin();
                         if (!this.showAdmin()) {
                             window.location.replace('/dashboard');

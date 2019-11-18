@@ -43,7 +43,7 @@ const actions = {
         return commit('SELECT_LOG', {});
     },
 
-    async storeLog({dispatch}, title, markdown, authorId) {
+    async storeLog({dispatch}, title, markdown) {
         await LogsApi.save({
             title: title,
             markdown: markdown,

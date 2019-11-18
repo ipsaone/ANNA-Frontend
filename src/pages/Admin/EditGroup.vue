@@ -40,12 +40,8 @@
 
 <script>
 import store from '@/modules/store';
-import markdownEditor from 'vue-simplemde';
 
 export default {
-    components: {
-        markdownEditor
-    },
     data() {
         return {
             id: 0,

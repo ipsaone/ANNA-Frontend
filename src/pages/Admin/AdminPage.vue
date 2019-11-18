@@ -264,8 +264,6 @@
 
 <script>
 import store from '@/modules/store';
-import Loader from '@/components/Loader';
-import UserApi from '@/modules/users/users_api';
 import {Tabs, Tab} from 'vue-tabs-component';
 
 //import NewMission from './NewMission';
@@ -282,13 +280,11 @@ import EventModal from './EventModal';
 // import EditMission from './EditMission';
 import EditUser from './EditUser';
 
-import * as moment from 'moment';
 import * as _ from 'lodash';
 import swal from 'sweetalert2';
 
 export default {
     components: {
-        Loader,
         Tabs, Tab,
         MissionMembers, MissionModal,
         NewGroup, GroupMembers, EditGroup,
@@ -352,7 +348,7 @@ export default {
                 confirmButtonColor: '#E74D3C',
                 cancelButtonColor: '#7A7A7A',
                 confirmButtonText: 'Delete'
-            }).then(_ => {
+            }).then(() => {
                 this.loading = true;
                 store.dispatch(action_name, item_id);
                 this.refreshAll();

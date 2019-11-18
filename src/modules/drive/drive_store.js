@@ -58,7 +58,7 @@ const mutations = {
 
 const actions = {
     // DRIVE V1
-    async retrieveFolder({commit, dispatch}, id, force=false) {
+    async retrieveFolder({commit, dispatch}, id) {
         let folder = await DriveApi.getFolder(id);
         await dispatch('setFolderOwners', folder.data);
         commit('SET_FOLDER', folder.data);
@@ -72,14 +72,14 @@ const actions = {
         });
     },
 
-    async updateProgress({commit, dispatch}, progress) {
+    async updateProgress({commit}, progress) {
         return new Promise(resolve => {
             commit('UPDATE_PROGRESS', progress);
             resolve();
         });
     },
 
-    resetProgress({commit, dispatch}) {
+    resetProgress({commit}) {
         commit('UPDATE_PROGRESS', 0);
     },
 
@@ -116,7 +116,7 @@ const actions = {
         return true;
     },
 
-    async getFoldersList({dispatch, commit}, folderId) {
+    async getFoldersList({commit}, folderId) {
         let res = await DriveApi.getFoldersList(folderId);
         commit('SET_FOLDERS_LIST', res.data);
         return res.data;
@@ -128,39 +128,19 @@ const actions = {
         commit('SET_RESULT', result.data);
     },
 
-    async showHistory({dispatch, commit}, fileId) {
+    async showHistory({commit}, fileId) {
         let res = await DriveApi.getMeta(fileId);
         commit('SET_META', res.data);
         commit('SHOW_HISTORY');
     },
 
-    async hideHistory({dispatch, commit}) {
+    async hideHistory({commit}) {
         commit('HIDE_HISTORY');
     },
 
-
-    // DRIVE V2
-
-    // folderPath : path to folder using IDs [folderId, folderId, folderId]
-    async loadMeta_v2({dispatch, commit}, folderPath, fileId) {
-        // call API to get data
-        //
-    },
-    async loadFolder_v2({dispatch, commit}, folderPath, preload=false) {
-        // load children list
-        // for each children :
-        // load meta
-        // if preload:
-        // preload folder
-    },
-    async preload_v2({dispatch, commit}, folderPath) {
-        // for each child folder:
-        // loadFolder, preload=false
-    }
 };
 
 const getters = {
-    // DRIVE V1
     folder(state) {
         return state.folder;
     },

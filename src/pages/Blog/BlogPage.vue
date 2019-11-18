@@ -42,12 +42,10 @@
 <script>
 import store from '@/modules/store';
 import PostAbstract from './PostAbstract';
-import Loader from '@/components/Loader';
 
 export default {
     components: {
-        PostAbstract,
-        Loader
+        PostAbstract
     },
     data() {
         return {
@@ -77,7 +75,7 @@ export default {
                 this.loading = true;
             await store.dispatch('retrievePosts', force)
                 .then(() => {this.loading = false;})
-                .then(_ => {
+                .then(() => {
                     if (!hideNotif) {
                         this.$notify({
                             type: 'success',

@@ -35,19 +35,19 @@
             class="children"
           >
             <div
-              v-for="folder in firstParent.children"
+              v-for="curfolder in firstParent.children"
               v-if="firstParent.children.length > 0"
-              :key="folder.id"
+              :key="curfolder.id"
               class="child"
               @mouseenter="openIcon(folder.id)"
               @mouseleave="closeIcon(folder.id)"
               @dblclick="enterFolder(folder.id)"
             >
               <i
-                :id="folder.id"
+                :id="curfolder.id"
                 class="fa fa-folder folder-icon"
               />
-              <span :title="folder.name">{{ wrapName(folder.name) }}</span>
+              <span :title="curfolder.name">{{ wrapName(curfolder.name) }}</span>
             </div>
             <div v-else>
               No subfolder

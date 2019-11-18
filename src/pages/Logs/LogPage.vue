@@ -64,13 +64,11 @@
 
 <script>
 import store from '@/modules/store';
-import Loader from '@/components/Loader';
 import Log from './Log';
 import UploadLog from './UploadLog';
 
 export default {
     components: {
-        Loader,
         Log,
         UploadLog
     },
