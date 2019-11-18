@@ -47,7 +47,7 @@ const actions = {
         await LogsApi.save({
             title: title,
             markdown: markdown,
-            authorId: loggedUserId
+            // authorId: loggedUserId
         });
         dispatch('retrieveLogs', true);
     },

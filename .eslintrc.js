@@ -8,9 +8,8 @@ module.exports = {
         sourceType: 'module'
     },
     env: {
-        browser: true,
-        amd: true,
-        process: true
+        node: true,
+        amd: true
     },
     // required to lint *.vue files
     plugins: [
@@ -22,7 +21,7 @@ module.exports = {
         "plugin:vue/recommended"
     ],
     // add your custom rules here
-    'rules': {
+    rules: {
         // allow debugger during development
         'no-debugger': process.env.NODE_ENV === 'production' ? 2 : 0,
         // semicolons
@@ -31,5 +30,8 @@ module.exports = {
         'quotes': ['error', 'single', {'allowTemplateLiterals': true}],
         // indentation
         'indent': ['error', 4, {SwitchCase: 1}]
+    },
+    globals: {
+        process: true
     }
 };

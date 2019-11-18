@@ -8,6 +8,7 @@
     </span>
     <span
       v-for="parent in folder.dirTree"
+      :key="parent.id"
       v-if="folder.name !== 'root' && folder.dirTree.length <= 2"
       style="font-size: 1.1em; cursor: pointer; user-select:none;"
       @click="openFolder(parent)"
@@ -20,6 +21,7 @@
     > ... > </span>
     <span
       v-for="parent in altDirTree"
+      :key="parent.id"
       v-if="folder.name !== 'root' && folder.dirTree.length > 2"
       style="font-size: 1.1em; cursor: pointer; user-select:none;"
       :title="parent.name"
@@ -221,7 +223,7 @@ export default {
             return store.getters.foldersList;
         },
         existingRevs() {
-            return metaData.filter(x => x.exists);
+            return store.getters.metaData.filter(x => x.exists);
         }
     },
     mounted() {

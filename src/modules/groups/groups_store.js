@@ -49,7 +49,7 @@ const actions = {
         dispatch('retrieveGroups', true);
     },
 
-    async getGroup({}, id) {
+    async getGroup(_, id) {
         return GroupsApi.getGroup(id);
     },
 

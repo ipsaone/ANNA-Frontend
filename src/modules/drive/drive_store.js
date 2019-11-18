@@ -93,7 +93,7 @@ const actions = {
     async setFolderOwners({dispatch}, folder) {
 
         let user = await dispatch('getUserById', folder.ownerId);
-        folder.owner = user;
+        folder = {...folder, owner: user};
 
         let promises = [];
         folder.children.forEach(child => {

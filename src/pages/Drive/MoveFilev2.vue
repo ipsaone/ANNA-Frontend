@@ -33,10 +33,11 @@
           <div
             id="children"
             class="children"
+            v-if="firstParent.children.length > 0"
           >
             <div
               v-for="curfolder in firstParent.children"
-              v-if="firstParent.children.length > 0"
+              
               :key="curfolder.id"
               class="child"
               @mouseenter="openIcon(folder.id)"
@@ -49,9 +50,9 @@
               />
               <span :title="curfolder.name">{{ wrapName(curfolder.name) }}</span>
             </div>
-            <div v-else>
-              No subfolder
-            </div>
+          </div>
+          <div v-else id="children" class="children">
+            No subfolder
           </div>
         </div>
 
