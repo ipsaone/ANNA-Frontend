@@ -11,8 +11,8 @@ const state = {
     meta: [],
 
     // DRIVE V2
-        // each folder is {type: 'folder', meta: {}, children: []}
-        // each file is {type: 'file', meta: {}}
+    // each folder is {type: 'folder', meta: {}, children: []}
+    // each file is {type: 'file', meta: {}}
     fileTree: {},
     foldersList: [],
     curFolder: 0
@@ -163,13 +163,13 @@ const actions = {
     async loadFolder_v2({dispatch, commit}, folderPath, preload=false) {
         // load children list
         // for each children :
-            // load meta
+        // load meta
         // if preload:
-            // preload folder
+        // preload folder
     },
     async preload_v2({dispatch, commit}, folderPath) {
         // for each child folder:
-            // loadFolder, preload=false
+        // loadFolder, preload=false
     }
 };
 

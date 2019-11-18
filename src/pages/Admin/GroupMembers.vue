@@ -1,99 +1,116 @@
 <template>
-    <modal name="groupMembers" height="auto" :scrollable="true" @before-open="beforeOpen">
-        <div class="content anna-modal group-members manage-members">
+  <modal
+    name="groupMembers"
+    height="auto"
+    :scrollable="true"
+    @before-open="beforeOpen"
+  >
+    <div class="content anna-modal group-members manage-members">
+      <h1 v-if="group.name">
+        Group: {{ group.name }}
+      </h1>
+      <i
+        class="fa fa-times"
+        @click="$modal.hide('groupMembers')"
+      />
 
-            <h1 v-if="group.name"> Group: {{ group.name }}</h1>
-            <i class="fa fa-times" v-on:click="$modal.hide('groupMembers')"></i>
-
-            <div class="lists-wrapper">
-                <div class="left-col">
-                    <h2>Users</h2>
-                    <ul class="users-list">
-                        <a v-for="user in shownUsers" :key="user.id" v-on:click="addUser(user.id)">
-                            {{user.username}}
-                        </a>
-                    </ul>
-                </div>
-                <div class="right-col">
-                    <h2>Members</h2>
-                    <ul class="members-list">
-                        <a v-for="member in group.users" :key="member.id" v-on:click="remUser(member.id)">
-                            {{member.username}}
-                        </a>
-                    </ul>
-                </div>
-            </div>
+      <div class="lists-wrapper">
+        <div class="left-col">
+          <h2>Users</h2>
+          <ul class="users-list">
+            <a
+              v-for="user in shownUsers"
+              :key="user.id"
+              @click="addUser(user.id)"
+            >
+              {{ user.username }}
+            </a>
+          </ul>
         </div>
-    </modal>
+        <div class="right-col">
+          <h2>Members</h2>
+          <ul class="members-list">
+            <a
+              v-for="member in group.users"
+              :key="member.id"
+              @click="remUser(member.id)"
+            >
+              {{ member.username }}
+            </a>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </modal>
 </template>
 
 
 <script>
-    import store from '@/modules/store';
-    import markdownEditor from 'vue-simplemde';
-    import swal from 'sweetalert2';
+import store from '@/modules/store';
+import markdownEditor from 'vue-simplemde';
+import swal from 'sweetalert2';
 
-    export default {
-        components: {
-            markdownEditor
+export default {
+    components: {
+        markdownEditor
+    },
+    data() {
+        return {
+            shownUsers: []
+        };
+    },
+    computed: {
+        users() {
+            return store.getters.users;
         },
-        computed: {
-            users() {
-                return store.getters.users;
-            },
-            groups() {
-                return store.getters.groups;
-            },
-            group() {
-                return store.getters.selectedGroup;
-            }
+        groups() {
+            return store.getters.groups;
         },
-        data() {
-            return {
-                shownUsers: []
-            };
+        group() {
+            return store.getters.selectedGroup;
+        }
+    },
+    methods: {
+        async beforeOpen(event) {
+            await store.dispatch('retrieveGroups');
+            await store.dispatch('retrieveGroup', event.params.group_id);
+            this.refreshUsers();
         },
-        methods: {
-            async beforeOpen(event) {
-                await store.dispatch('retrieveGroups');
-                await store.dispatch('retrieveGroup', event.params.group_id);
-                this.refreshUsers();
-            },
-            async addUser(id) {
-                await store.dispatch('addGroupMember', id);
-                this.refreshUsers();
-                store.dispatch('retrieveGroups', true);
-            },
-            async remUser(id) {
-                if (this.group.name === 'root' && this.group.users.length == 1) {
-                    this.$notify({
-                        type: 'error',
-                        title: 'Empty group',
-                        text: 'Group root must not be empty',
-                        duration: 5000
-                    });
-                    return false;
-                } else if (id == store.getters.loggedUserId) {
-                    swal({
-                        title: 'Leave group?',
-                        type: 'warning',
-                        showCancelButton: true,
-                        confirmButtonColor: '#E74D3C',
-                        cancelButtonColor: '#7A7A7A',
-                        confirmButtonText: 'Delete'
-                    }).then(_ => {
-                        store.dispatch('remGroupMember', id)
+        async addUser(id) {
+            await store.dispatch('addGroupMember', id);
+            this.refreshUsers();
+            store.dispatch('retrieveGroups', true);
+        },
+        async remUser(id) {
+            if (this.group.name === 'root' && this.group.users.length == 1) {
+                this.$notify({
+                    type: 'error',
+                    title: 'Empty group',
+                    text: 'Group root must not be empty',
+                    duration: 5000
+                });
+                return false;
+            } else if (id == store.getters.loggedUserId) {
+                swal({
+                    title: 'Leave group?',
+                    type: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#E74D3C',
+                    cancelButtonColor: '#7A7A7A',
+                    confirmButtonText: 'Delete'
+                }).then(_ => {
+                    store.dispatch('remGroupMember', id)
                         .then(_ => {
                             this.refreshUsers();
                             this.$modal.hide('groupMembers');
                             store.dispatch('retrieveGroups', true);
                             store.dispatch('retrieveLoggedUser', true)
-                            .then(_ => {
-                                this.showAdmin();
-                                if (!this.showAdmin()) {
-                                    window.location.replace('/dashboard');
-                                }
-                            });
+                                .then(_ => {
+                                    this.showAdmin();
+                                    if (!this.showAdmin()) {
+                                        window.location.replace('/dashboard');
+                                    }
+                                });
                         })
                         .catch(err => {
                             this.$notify({
@@ -103,38 +120,38 @@
                                 duration: -1
                             });
                         });
-                    });
-                } else {
-                    await store.dispatch('remGroupMember', id);
-                    this.refreshUsers();
-                    await store.dispatch('retrieveGroups', true);
-                    await store.dispatch('retrieveLoggedUser')
+                });
+            } else {
+                await store.dispatch('remGroupMember', id);
+                this.refreshUsers();
+                await store.dispatch('retrieveGroups', true);
+                await store.dispatch('retrieveLoggedUser')
                     .then (_ => {
                         this.showAdmin();
                         if (!this.showAdmin()) {
                             window.location.replace('/dashboard');
                         }
                     });
-                }
-            },
-            refreshUsers() {
-                if (!this.group.users) {
-                    this.shownUsers = store.getters.users;
-                }
-                this.shownUsers =  store.getters.users.filter(el1 => {
-                    let found = false;
-                    this.group.users.forEach(el2 => {
-                        if (el1.id == el2.id) {
-                            found = true;
-                        }
-                    });
-
-                    return !found;
-                });
-            },
-            showAdmin() {
-                return store.getters.loggedUserIsRoot;
             }
+        },
+        refreshUsers() {
+            if (!this.group.users) {
+                this.shownUsers = store.getters.users;
+            }
+            this.shownUsers =  store.getters.users.filter(el1 => {
+                let found = false;
+                this.group.users.forEach(el2 => {
+                    if (el1.id == el2.id) {
+                        found = true;
+                    }
+                });
+
+                return !found;
+            });
+        },
+        showAdmin() {
+            return store.getters.loggedUserIsRoot;
         }
-    };
+    }
+};
 </script>

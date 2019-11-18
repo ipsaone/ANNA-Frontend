@@ -23,7 +23,6 @@ new Vue({
     el: '#app',
     router,
     store,
-    template: '<App/>',
     components: {App},
     mounted: function() {
         //idleLogout();
@@ -31,7 +30,8 @@ new Vue({
         checkInterval();
         isRoot();
         showAll();
-    }
+    },
+    template: '<App/>'
 });
 
 async function checkLogged() {
@@ -73,7 +73,7 @@ async function checkLogged() {
 function isRoot() {
     if (!store.getters.loggedUserIsRoot && (window.location.href.endsWith('administration')||window.location.href.endsWith('administration/'))) {
         router.push('dashboard');
-    };
+    }
 }
 
 function showAll() {
