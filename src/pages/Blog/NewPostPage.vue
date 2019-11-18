@@ -74,7 +74,6 @@
                         authorId: store.getters.loggedUserId
                     };
                     await store.dispatch('retrievePosts');
-                    await store.dispatch('retrieveDrafts');
                     await store.dispatch('storePost', post)
                         .then(this.$router.push({name: 'blog'}))
                         .catch(err => {
@@ -86,7 +85,6 @@
                             });
                         });
                     await store.dispatch('retrievePosts');
-                    await store.dispatch('retrieveDrafts');
                 }
             },
 
