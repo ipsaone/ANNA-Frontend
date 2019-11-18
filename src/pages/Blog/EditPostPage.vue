@@ -74,8 +74,8 @@
                         text: 'A title and a content are needed to edit.',
                         duration: 2000
                     });
-                }
-                else {
+
+                } else {
                     let post = {
                         id: this.post.id,
                         content: {
@@ -90,42 +90,15 @@
                     // post.isDraft = this.isDraft;
                     // delete post.content;
 
-                    await store.dispatch('updatePost', post)
-                        .then(() => this.$router.push({name: 'readPost', params:{id: post.id}}))
-                        .catch(err => {
-                            this.$notify({
-                                type: 'error',
-                                title: 'Uncaught error',
-                                text: err.message,
-                                duration: -1
-                            });
-                        });
+                    await store.dispatch('updatePost', post);
                     await store.dispatch('selectPost', post.id);
+                    this.$router.push({name: 'readPost', params:{id: post.id}});
                 }
             },
             cancel() {
-                if(this.title || this.markdown) {
-                    let res = confirm('Save current article as draft ?');
-                    if(res) {
-                        const post = {
-                            title: this.title,
-                            markdown: this.markdown.replace(/\n/gi, '\n\n<br>'),
-                            published: false,
-                            authorId: store.getters.loggedUserId
-                        };
-                        store.dispatch('storePost', post)
-                            .then(this.$router.push({name: 'blog'}))
-                            .catch(err => {
-                                this.$notify({
-                                    type: 'error',
-                                    title: 'Uncaught error',
-                                    text: err.message,
-                                    duration: -1
-                                });
-                            });
-                    }
+                if(confirm('Are you sure ? Modifications will be lost.')) {
+                    this.$router.push('/blog');
                 }
-                this.$router.push('/blog');
             }
         }
     };
