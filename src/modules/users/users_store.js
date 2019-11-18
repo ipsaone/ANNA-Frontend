@@ -16,12 +16,10 @@ const mutations = {
 };
 
 const actions = {
-    retrieveUsers({commit, state}, force = false) {
+    async retrieveUsers({commit, state}, force = false) {
         if (state.users.length === 0 || force) {
-            return UsersApi.getAll().then(users => commit('SET_ALL_USERS', users.data));
-        }
-        else {
-            return Promise.resolve();
+            let users = await UsersApi.getAll();
+            commit('SET_ALL_USERS', users.data);
         }
     },
 
@@ -35,7 +33,6 @@ const actions = {
         let user = state.users.filter(us => us.id == id)[0];
         if(!user) {
             let res = await UsersApi.get(id);
-            console.log('TEUB', res.data);
             user = res.data;
         }
         return user;
@@ -55,7 +52,7 @@ const actions = {
 
     async editUser({dispatch}, data) {
         await UsersApi.edit(data.id, data.user);
-        dispatch('retrieveUsers', true);
+        await dispatch('retrieveUsers', true);
     }
 };
 

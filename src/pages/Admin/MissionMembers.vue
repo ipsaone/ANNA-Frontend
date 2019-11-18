@@ -32,6 +32,7 @@
 <script>
     import store from '@/modules/store';
     import markdownEditor from 'vue-simplemde/src/markdown-editor';
+    import swal from 'sweetalert2';
 
     export default {
         components: {
@@ -53,7 +54,6 @@
         methods: {
             async beforeOpen(event) {
                 await store.dispatch('retrieveUsers');
-                await store.dispatch('retrieveMissions', true);
                 await store.dispatch('retrieveMission', event.params.mission_id);
                 this.refreshUsers();
             },
@@ -64,6 +64,7 @@
             async remUser(id) {
                 await store.dispatch('remMissionMember', id);
                 await this.refreshUsers();
+
             },
             async refreshUsers() {
                 await store.dispatch('retrieveUsers');

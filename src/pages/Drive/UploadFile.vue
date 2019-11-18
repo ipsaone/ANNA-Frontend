@@ -1,20 +1,20 @@
 <template>
     <modal name="uploadFile" height="auto" :scrollable="true"  @before-open="beforeOpen">
-        <div class="content anna-modal">
+        <div class="content anna-modal" id="upload-file">
 
             <!-- TITLE -->
-            <h1 v-if="isFolder && !isEditing">Create a new folder</h1>
-            <h1 v-if="isFolder && isEditing">Edit selected folder</h1>
-            <h1 v-if="!isFolder && !isEditing">Upload a new file</h1>
-            <h1 v-if="!isFolder && isEditing">Edit selected file</h1>
+            <h1 v-if="isDir && !isEditing">Create a new folder</h1>
+            <h1 v-if="isDir && isEditing">Edit selected folder</h1>
+            <h1 v-if="!isDir && !isEditing">Upload a new file</h1>
+            <h1 v-if="!isDir && isEditing">Edit selected file</h1>
             <form @submit.prevent="onSubmit">
-                <input v-if="!isFolder && !isEditing" type="file" ref="file" @change="onFileChange">
-                <vm-progress v-if="!isFolder && !isEditing" max="100" :text-inside="true" :stroke-width="18" :percentage="uploadPercentage"></vm-progress>
-                <input v-if="isFolder && !isEditing" type="text" autocomplete="off" v-model="name" placeholder="Folder name">
-                <input v-if="isFolder && isEditing" type="text" autocomplete="off" v-model="name">
+                <input v-if="!isDir && !isEditing" type="file" ref="file" @change="onFileChange">
+                <vm-progress v-if="!isDir && !isEditing" max="100" :text-inside="true" :stroke-width="18" :percentage="uploadPercentage"></vm-progress>
+                <input v-if="isDir && !isEditing" type="text" autocomplete="off" v-model="name" placeholder="Folder name">
+                <input v-if="isDir && isEditing" type="text" autocomplete="off" v-model="name">
                 <div name="managePermissions" height="auto" :scrollable="true">
                         <div class="big-wrapper">
-                            <h2> Manage Permissions </h2>
+                            <h2 id="manage-permissions"> Manage Permissions </h2>
                             <div class="file-information">
                                 <h4> File information </h4>
                                 <ul>
@@ -30,7 +30,7 @@
                                         <option v-for="group in userGroups" :key="group.id" :value="group.name" :label="group.name"/>
                                     </datalist>
 
-                                    <li v-if="!isFolder"><label>Serial number : </label><input type="text" v-model="serialNbr"/></li>
+                                    <li v-if="!isDir"><label>Serial number : </label><input type="text" v-model="serialNbr"/></li>
 
                                 </ul>
                             </div>
@@ -80,7 +80,7 @@
     export default {
         data() {
             return {
-                isFolder: '',
+                isDir: '',
                 isEditing: '',
                 file: '',
                 name: '',
@@ -100,18 +100,26 @@
                 serialNbr: '',
             };
         },
-        computed : {
+        computed: {
             users() {
                 return store.getters.users;
             },
-            user() {
-                return store.getters.selectedUser;
-            },
-            selectedUser() {
-                return store.getters.selectedUser;
+            // user() {
+            //     return store.getters.selectedUser;
+            // },
+            selectedUser: {
+                get: function () {
+                    return store.getters.selectedUser;
+                },
+                set: function () {
+                    var selectedUser = {};
+                }
             },
             cases() {
                 return Array('ownerRead', 'groupRead', 'allRead', 'ownerWrite', 'groupWrite', 'allWrite');
+            },
+            folder() {
+                return store.getters.folder;
             },
             uploadPercentage: {
                 get: function () {
@@ -120,7 +128,6 @@
                 set: function () {
                     var uploadPercentage = 0;
                 }
-
             },
             userGroups: {
                 get: function () {
@@ -146,7 +153,12 @@
             },
             async selectUser(name) {
                 if(name.trim() != '') {
-                    let ownerId =  this.users.find(myUser => myUser.username == name).id;
+                    let ownerId;
+                    if(this.users.find(myUser => myUser.username == name)) {
+                        ownerId =  this.users.find(myUser => myUser.username == name).id;
+                    } else {
+                        return false;
+                    }
                     await store.dispatch('selectUser', ownerId);
                     this.ownerId = ownerId;
                     if (this.groupName.trim() != '') {
@@ -173,7 +185,12 @@
                 }
             },
             async setGroupId(name) {
-                let groupId = this.userGroups.find(myGroup => myGroup.name == name).id;
+                let groupId;
+                if (this.userGroups.find(myGroup => myGroup.name == name)) {
+                    groupId = this.userGroups.find(myGroup => myGroup.name == name).id;
+                } else {
+                    return false;
+                }
                 this.groupId = groupId;
                 if (this.ownerName.trim() != '') {
                     await store.dispatch('retrieveGroup', this.groupId);
@@ -205,7 +222,7 @@
                 if (files.length > 0) this.file = files[0];
             },
             async onSubmit() {
-
+                let interrupt = false;
                 let data = {
                     ownerId: parseInt(this.ownerId, 10),
                     dirId: store.getters.folder.fileId,
@@ -229,7 +246,7 @@
                     return false;
                 }
 
-                if(this.isFolder) {
+                if(this.isDir) {
                     data.name = this.name;
                     data.isDir = true;
                 } else {
@@ -251,42 +268,163 @@
                     let confirmation = confirm('Do you still want to upload without write permissions ?');
                     if (confirmation === true) {
                         document.getElementById('submitButton').setAttribute('disabled', 'disabled');
-                        if(!this.isEditing) {
-                            await driveApi.uploadFile(data);
-                            this.uploadPercentage = store.getters.progress;
-
+                        if (this.isEditing) {
+                            await driveApi.editFile({fileId: this.selectedFile.fileId, data})
+                            .catch(_ => {
+                                interrupt = true;
+                                if(document.getElementById('submitButton')) {
+                                    document.getElementById('submitButton').removeAttribute('disabled', 'disabled');
+                                }
+                            });
                         } else {
-                            await driveApi.editFile({fileId: this.selectedFile.fileId, data});
-                            // useless as long as we can't change file whhen editing
-                            // this.uploadPercentage = store.getters.progress;
+                            let alreadyExists = false;
+                            if(this.isDir) {
+                                this.folder.children.forEach(child => {
+                                    if(child.name == data.name) {
+                                        alreadyExists = true;
+                                    }
+                                });
+                                if(alreadyExists) {
+                                    this.$notify({
+                                        type: 'warning',
+                                        title: 'A folder with this name already exists',
+                                        text: 'Please change folder name',
+                                        duration: 5000
+                                    });
+                                } else {
+                                    await driveApi.uploadFile(data)
+                                    .catch(_ => {
+                                        interrupt = true;
+                                        if(document.getElementById('submitButton')) {
+                                            document.getElementById('submitButton').removeAttribute('disabled', 'disabled');
+                                        }
+                                    });
+                                    this.uploadPercentage = store.getters.progress;
+                                }
+                            } else {
+                                let editingFileid;
+                                this.folder.children.forEach(child => {
+                                    if(child.name == data.name) {
+                                        alreadyExists = true;
+                                        editingFileid = child.fileId;
+                                    }
+                                });
+                                if(alreadyExists) {
+                                    let confirmation = confirm('A file with the name '
+                                    + data.name + ' already exists. \nContinuing will upload a new version of the file.');
+                                    if (confirmation === true) {
+                                        document.getElementById('submitButton').setAttribute('disabled', 'disabled');
+                                        await driveApi.editFile({fileId: editingFileid, data})
+                                        .catch(_ => {
+                                            interrupt = true;
+                                            if(document.getElementById('submitButton')) {
+                                                document.getElementById('submitButton').removeAttribute('disabled', 'disabled');
+                                            }
+                                        });
+                                        this.uploadPercentage = store.getters.progress;
+                                    } else {
+                                        interrupt = true;
+                                    }
+                                } else {
+                                    await driveApi.uploadFile(data)
+                                    .catch(_ => {
+                                        interrupt = true;
+                                        if(document.getElementById('submitButton')) {
+                                            document.getElementById('submitButton').removeAttribute('disabled', 'disabled');
+                                        }
+                                    });
+                                    await store.dispatch('retrieveFolder', store.getters.folder.fileId);
+                                    this.uploadPercentage = store.getters.progress;
+                                }
+                            }
                         }
                         document.getElementById('submitButton').removeAttribute('disabled', 'disabled');
                         await store.dispatch('retrieveFolder', store.getters.folder.fileId);
                         await store.dispatch('resetProgress');
-                        this.$modal.hide('uploadFile');
+                        if (!interrupt) {
+                            this.$modal.hide('uploadFile');
+                        }
                     }
                 } else {
                     document.getElementById('submitButton').setAttribute('disabled', 'disabled');
-                    if(!this.isEditing) {
-                        await driveApi.uploadFile(data);
-                        this.uploadPercentage = store.getters.progress;
+                    if (this.isEditing) {
+                        await driveApi.editFile({fileId: this.selectedFile.fileId, data})
+                        .catch(_ => {
+                            interrupt = true;
+                            if(document.getElementById('submitButton')) {
+                                document.getElementById('submitButton').removeAttribute('disabled', 'disabled');
+                            }
+                        });
                     } else {
-                        await driveApi.editFile({fileId: this.selectedFile.fileId, data});
-                        // useless as long as we can't change file whhen editing
-                        // this.uploadPercentage = store.getters.progress;
+                        let alreadyExists = false;
+                        if(this.isDir) {
+                            this.folder.children.forEach(child => {
+                                if(child.name == data.name) {
+                                    alreadyExists = true;
+                                }
+                            });
+                            if(alreadyExists) {
+                                this.$notify({
+                                    type: 'warning',
+                                    title: 'A folder with this name already exists',
+                                    text: 'Please change folder name',
+                                    duration: 5000
+                                });
+                            } else {
+                                await driveApi.uploadFile(data)
+                                .catch(_ => {
+                                    interrupt = true;
+                                    if(document.getElementById('submitButton')) {
+                                        document.getElementById('submitButton').removeAttribute('disabled', 'disabled');
+                                    }
+                                });
+                                this.uploadPercentage = store.getters.progress;
+                            }
+                        } else {
+                            let editingFileid;
+                            this.folder.children.forEach(child => {
+                                if(child.name == data.name) {
+                                    alreadyExists = true;
+                                    editingFileid = child.fileId;
+                                }
+                            });
+                            if(alreadyExists) {
+                                let confirmation = confirm('A file with the name '
+                                + data.name + ' already exists. \nContinuing will upload a new version of the file.');
+                                if (confirmation === true) {
+                                    document.getElementById('submitButton').setAttribute('disabled', 'disabled');
+                                    await driveApi.editFile({fileId: editingFileid, data})
+                                    .catch(_ => {
+                                        interrupt = true;
+                                        if(document.getElementById('submitButton')) {
+                                            document.getElementById('submitButton').removeAttribute('disabled', 'disabled');
+                                        }
+                                    });
+                                    this.uploadPercentage = store.getters.progress;
+                                } else {
+                                    interrupt = true;
+                                }
+                            } else {
+                                await driveApi.uploadFile(data)
+                                .catch(_ => {
+                                    interrupt = true;
+                                    if(document.getElementById('submitButton')) {
+                                        document.getElementById('submitButton').removeAttribute('disabled', 'disabled');
+                                    }
+                                });
+                                await store.dispatch('retrieveFolder', store.getters.folder.fileId);
+                                this.uploadPercentage = store.getters.progress;
+                            }
+                        }
                     }
-                    /* .then(() => this.$notify({
-                        type: 'success',
-                        title: 'File successfully uploaded',
-                        text: '',
-                        duration: 5000
-                    }))
-                    .catch(() => console.log('Upload successfully canceled')); */
-
-                    document.getElementById('submitButton').removeAttribute('disabled', 'disabled');
+                    if(document.getElementById('submitButton')) {
+                        document.getElementById('submitButton').removeAttribute('disabled', 'disabled');
+                    }
                     await store.dispatch('retrieveFolder', store.getters.folder.fileId);
                     await store.dispatch('resetProgress');
-                    this.$modal.hide('uploadFile');
+                    if (!interrupt) {
+                        this.$modal.hide('uploadFile');
+                    }
                 }
 
 
@@ -306,28 +444,36 @@
             },
             async beforeOpen(event) {
                 await store.dispatch('retrieveUsers');
-                await store.dispatch('retrieveLoggedUser');
+                await store.dispatch('retrieveGroups');
                 if (event && event.params && event.params.isEditing) {
-                    this.ownerId = this.selectedFile.owner.id;
+                    this.ownerId = this.selectedFile.ownerId;
                     this.ownerName = this.selectedFile.owner.username;
                     this.groupId = this.selectedFile.groupId;
                     await store.dispatch('retrieveGroup', this.groupId);
                     this.groupName = this.selectedGroup.name;
                     this.name = this.selectedFile.name;
                     this.serialNbr = this.selectedFile.serialNbr;
+                    this.rights = this.selectedFile.rights;
                 } else {
-                    let user = store.getters.loggedUser;
-                    let group = store.getters.groups.sort((a, b) => a.id - b.id)[0];
+                    let user = event.params.loggedUser;
+                    let group = event.params.loggedUser.groups.sort((a, b) => a.id - b.id)[0];
                     this.ownerId = user.id;
                     this.ownerName = user.username;
                     this.groupId = group.id;
                     this.groupName = group.name;
                     this.name = '';
                     this.serialNbr = '';
+                    this.rights = { ownerRead: true,
+                        ownerWrite: true,
+                        groupRead: true,
+                        groupWrite: true,
+                        allRead: true,
+                        allWrite: true
+                    };
                 }
 
                 this.isEditing = event.params.isEditing;
-                this.isFolder = event.params.isFolder;
+                this.isDir = event.params.isDir;
                 await store.dispatch('retrieveLoggedUser');
             }
         }

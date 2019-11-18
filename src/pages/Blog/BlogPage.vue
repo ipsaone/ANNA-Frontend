@@ -1,19 +1,8 @@
 <template>
     <div class="blog basic-layout">
-        <transition name="loader-fade">
-            <loader v-if="loading"></loader>
-        </transition>
 
         <section class="content">
             <h1 class="section-title color-blue">Blog</h1>
-            <template v-if="drafts.length > 0 && canPost">
-                <post-abstract v-for="(post, index) in drafts"
-                            :key="post.id"
-                            :post="post"
-                            :index="index +1"
-                            @click="selectPost(post.id)">
-                </post-abstract>
-            </template>
             <template v-if="postsNumber > 0">
                 <post-abstract v-for="(post, index) in posts"
                             :key="post.id"
@@ -77,7 +66,6 @@
             async refreshPosts(force = false, hideNotif = false, hideLoader = false) {
                 if(!hideLoader)
                     this.loading = true;
-                await store.dispatch('retrieveDrafts', force);
                 await store.dispatch('retrievePosts', force)
                     .then(() => {this.loading = false;})
                     .then(_ => {

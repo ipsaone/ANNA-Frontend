@@ -1,4 +1,9 @@
 .drive {
+
+    modal {
+        transition: height 3s linear;
+    }
+
     .content {
         &.anna-modal {
             padding: 20px;
@@ -7,96 +12,84 @@
         margin: 0;
         table {
             tr {
-                td {
-                    table {
-                        tr {
-                            .center {
-                                text-align: center;
-                                color: $green;
-                            }
-                            th {
-                                i{
-                                    margin-left: 5px;
-                                    // border: 1px solid rgba(66, 66, 66, 0.6);
-                                    color: rgba(0, 0, 0, 0.6);
-                                    width: 20px;
-                                    height:  17px;
-                                    text-align: center;
-                                    vertical-align: middle;
-                                    padding-bottom: 20px;
-                                    transition: 0.3s;
-                                }
-                                i:hover {
-                                    color: rgba(0, 0, 0, 1);
-                                }
-                                .rotate{
-                                    transform : rotate(180deg);
-                                }
-                                color: $grey-dark;
-                                line-height: 2em;
-                                padding-bottom: 0;
-
-                               &:first-child {
-                                 padding-left: 1em;
-                                 max-width: 1em;
-                               }
-                           }
-                           td {
-                              width: 25%;
-                           }
-                           td:nth-child(1) {
-                               width : 10%;
-                           }
-                           td:nth-child(2) {
-                               width: 40%;
-                           }
-                           td:nth-child(3) {
-                               width: 20%;
-                           }
-                           td:nth-child(4) {
-                               width: 15%;
-                           }
-                           td:nth-child(5) {
-                               width: 10%;
-                           }
-                           background-color: $white-bis;
-                           line-height: 2em;
-                           font-size: 1.1em;
-                           cursor: pointer;
-                           border: 1px solid $grey-lighter;
-
-                           &:hover {
-                             background-color: $white-dark;
-                           }
-
-                           &.no-hover {
-                             cursor: inherit;
-
-                             &:hover { background-color: $white-bis; }
-                           }
-
-                           &.selected {
-                             background-color: $white-dark;
-                           }
-
-                           td:first-child {
-                             padding-left: 1em;
-                             max-width: 1em;
-                           }
-
-                           td:last-child {
-                             max-width: 1px;
-                           }
-
-                           .overflow-wrap-hack {
-                             max-width: 1px;
-                           }
-                        }
-                   }
+                .center {
+                    text-align: center;
+                    color: $green;
                 }
+                th {
+                    i {
+                        margin-left: 5px;
+                        // border: 1px solid rgba(66, 66, 66, 0.6);
+                        color: rgba(0, 0, 0, 0.6);
+                        width: 20px;
+                        height:  17px;
+                        text-align: center;
+                        vertical-align: middle;
+                        padding-bottom: 20px;
+                        transition: 0.3s;
+                    }
+                    i:hover {
+                        color: rgba(0, 0, 0, 1);
+                    }
+                    .rotate{
+                        transform : rotate(180deg);
+                    }
+                    color: $grey-dark;
+                    line-height: 2em;
+                    padding-bottom: 0;
 
+                   &:first-child {
+                     text-align: center;
+                     max-width: 1em;
+                   }
+                 }
+
+               td:nth-child(1) {
+                   width : 7.5%;
+                   text-align: center;
+                   padding-left: 0;
+               }
+               td:nth-child(2) {
+                   width: 42.5%;
+               }
+               td:nth-child(3) {
+                   width: 15%;
+               }
+               td:nth-child(4) {
+                   width: 10%;
+               }
+               td:nth-child(5) {
+                   width: 15%;
+               }
+               td:nth-child(6) {
+                  width: 10%;
+               }
+               line-height: 2em;
+               font-size: 1.1em;
+               &.no-hover {
+                 cursor: inherit;
+
+                 &:hover { background-color: $white-bis; }
+               }
+
+               &.selected {
+                 background-color: $white-dark;
+               }
+
+               td:first-child {
+                 padding-left: 0;
+                 max-width: 1em;
+               }
+
+               td:last-child {
+                 max-width: 1px;
+               }
+
+               .overflow-wrap-hack {
+                 max-width: 1px;
+               }
             }
-            
+
             .inside-folder {
                 margin-top: 1.3em;
                 overflow-y: auto;
@@ -120,185 +113,243 @@
               background-color: #555;
             }
         }
-        .big-wrapper {
-            display: grid;
-            grid-template-columns: 50% 50%;
-            grid-column-gap: 1vh;
-            grid-template-rows: auto auto;
-            grid-row-gap: 5px;
-            padding: 2vh;
+        table:not(.no-border) {
+            tr {
+                // background-color: $white-bis;
+                cursor: pointer;
+                border: 1px solid $grey-lighter;
 
-            h2 {
+                &:hover {
+                  background-color: $white-dark;
+                }
+            }
+        }
+        &#upload-file {
+            .big-wrapper {
+              display: grid;
+              grid-template-columns: 50% 50%;
+              grid-column-gap: 1vh;
+              grid-template-rows: auto auto;
+              grid-row-gap: 5px;
+              padding: 2vh;
+
+              #manage-permissions {
+                  display: grid;
+                  grid-column: 1 / 3;
+                  //grid-template-columns: auto auto;
+              }
+
+              .file-information {
+                  border-right: 1px solid $grey-lighter;
+                  display: grid;
+                  grid-template-rows: 20% 40% 40%;
+
+                  li {
+                      display: grid;
+                      grid-template-columns: 30% 70%;
+                      grid-column: 1 / 3;
+
+                      input, select {
+                          margin: 0.5em auto;
+                      }
+
+                      label {
+                          margin: auto;
+                          grid-column: 1;
+                      }
+                      #replace {
+                          margin: auto;
+                          grid-column: 1 / 3;
+                          width: 80%;
+                          min-height: 80px;
+                      }
+                      input, select {
+                          grid-column: 2;
+                          width: 90%;
+                          height: 70%;
+                      }
+                      input::-webkit-calendar-picker-indicator {
+                          display: none !important;
+                      }
+
+                  }
+
+              }
+
+              .permissions {
+                  min-height: 12vh;
+                  position: relative;
+                  display: grid;
+                  grid-column: 2;
+                  grid-template-rows: 3;
+                  grid-row: 2;
+                  grid-row-gap: 10px;
+                  text-align: center;
+
+                  h4 {
+                    grid-row: 1;
+                  }
+
+                  .tableau-permissions {
+                      display: grid;
+                      grid-template-columns: auto auto;
+                      border: 2px solid $grey;
+
+                      .case {
+                          // border: 1px solid $grey;
+                          // border-bottom: 2px solid $grey-dark;
+                          // border-right: 2px solid $grey-dark;
+                          padding: 5px;
+                      }
+                      #owner, #group, #others {
+                          grid-row: 1;
+                      }
+                      #diagonale {
+                      }
+                      #read, #write {
+                          grid-column: 1;
+                      }
+                      #read {
+                          grid-row: 2;
+                          border-top: 1px solid $grey;
+                      }
+                      #write {
+                          grid-row: 3;
+                          border-top: 1px solid $grey;
+                      }
+                      #owner {
+                          grid-column: 2;
+                          border-left: 1px solid $grey;
+                      }
+                      #group {
+                          grid-column: 3;
+                          border-left: 1px solid $grey;
+                      }
+                      #others {
+                          grid-column: 4;
+                          border-left: 1px solid $grey;
+                      }
+                      .cochable {
+                          border-top: 1px solid $grey;
+                          border-left: 1px solid $grey;
+                      }
+                      .checkbox-container {
+                          position: relative;
+                          height: 100%;
+                        	input[type="checkbox"] {
+                        		  display: none;
+                          }
+                          .checkbox {
+                              cursor: pointer;
+                              margin: 5px auto auto auto;
+                              transform: scale(1.1);
+                          }
+                      }
+
+                      .checkbox-container .checkbox {
+                          display: block;
+                        	width: 15px;
+                        	height: 15px;
+                        	background: #d0d0d0;
+
+              	          &:after {
+          		                content: "";
+                          		position: absolute;
+                              left: 0px;
+                          		width: 0px;
+                          		height: 3px;
+                          		background: #3498db;
+
+                          		transform:translate(4px, 11px) rotate(-45deg);
+                          		transform-origin: left;
+                          		transition: all 150ms;
+                          		transition-delay: 0ms;
+            	            }
+
+                      	  &:before {
+                          		content: "";
+                          		position: absolute;
+                              left: 0;
+                        		  width: 0px;
+                          		height: 3px;
+                          		background: #3498db;
+
+                          		transform:translate(1px, 6px) rotate(45deg);
+                          		transform-origin: left;
+                          		transition: all 150ms;
+                          		transition-delay: 150ms;
+              	          }
+                      }
+
+                      .checkbox-container input[type="checkbox"]:checked {
+                    	     & ~ .checkbox {
+                    		       &:before {
+          			                   width: 7px;
+                    			         transition-delay: 0ms;
+                    		       }
+
+                      		     &:after {
+                        			     width: 13px;
+                            			 transition-delay: 150ms;
+            		               }
+                      	   }
+                      }
+                  }
+                  .buttons {
+                      text-align: right;
+                      button {
+                          transition: 0.3s;
+                          border: 1px solid $grey-lighter;
+                      }
+
+                      .submit {
+                          background-color: $white-dark;
+                      }
+                      .submit:hover {
+                          background-color: $light;
+                      }
+
+                      .cancel {
+                          background-color: $warning;
+                      }
+                      .cancel:hover {
+                          background-color: $orange;
+                      }
+                  }
+              }
+            }
+        }
+
+        &#move-file {
+            .big-wrapper {
                 display: grid;
-                grid-column: 1 / 3;
-                //grid-template-columns: auto auto;
+                grid-template-columns: 50% 50%;
+                grid-column-gap: 1em;
+                grid-template-rows: auto;
+                grid-row-gap: 5px;
+                padding: 1em;
+
             }
 
-            .file-information {
-                border-right: 1px solid $grey-lighter;
+            h4 {
+                margin-top: -5px;
+            }
+
+            .file-info {
+                grid-column: 2;
                 display: grid;
-                grid-template-rows: 20% 40% 40%;
+                text-align: left;
+                padding: 10px;
 
                 li {
-                    display: grid;
-                    grid-template-columns: 30% 70%;
-                    grid-column: 1 / 3;
-
-                    input, select {
-                        margin: 0.5em auto;
-                    }
-
-                    label {
-                        margin: auto;
-                        grid-column: 1;
-                    }
-                    #replace {
-                        margin: auto;
-                        grid-column: 1 / 3;
-                        width: 80%;
-                        min-height: 80px;
-                    }
-                    input, select {
-                        grid-column: 2;
-                        width: 90%;
-                        height: 70%;
-                    };
+                    word-break: break-word;
                 }
 
-            }
-
-            .permissions {
-                min-height: 12vh;
-                position: relative;
-                display: grid;
-                grid-column: 2;
-                grid-template-rows: 3;
-                grid-row: 2;
-                grid-row-gap: 10px;
-                text-align: center;
-
-                h4 {
-                  grid-row: 1;
-                }
-
-                .tableau-permissions {
-                    display: grid;
-                    grid-template-columns: auto auto;
-                    border: 2px solid $grey;
-
-                    .case {
-                        // border: 1px solid $grey;
-                        // border-bottom: 2px solid $grey-dark;
-                        // border-right: 2px solid $grey-dark;
-                        padding: 5px;
-                    }
-                    #owner, #group, #others {
-                        grid-row: 1;
-                    }
-                    #diagonale {
-                    }
-                    #read, #write {
-                        grid-column: 1;
-                    }
-                    #read {
-                        grid-row: 2;
-                        border-top: 1px solid $grey;
-                    }
-                    #write {
-                        grid-row: 3;
-                        border-top: 1px solid $grey;
-                    }
-                    #owner {
-                        grid-column: 2;
-                        border-left: 1px solid $grey;
-                    }
-                    #group {
-                        grid-column: 3;
-                        border-left: 1px solid $grey;
-                    }
-                    #others {
-                        grid-column: 4;
-                        border-left: 1px solid $grey;
-                    }
-                    .cochable {
-                        border-top: 1px solid $grey;
-                        border-left: 1px solid $grey;
-                    }
-                    .checkbox-container {
-                        position: relative;
-                        height: 100%;
-                      	input[type="checkbox"] {
-                      		  display: none;
-                        }
-                        .checkbox {
-                            cursor: pointer;
-                            margin: 5px auto auto auto;
-                            transform: scale(1.1);
-                        }
-                    }
-
-                    .checkbox-container .checkbox {
-                        display: block;
-                      	width: 15px;
-                      	height: 15px;
-                      	background: #d0d0d0;
-
-            	          &:after {
-        		                content: "";
-                        		position: absolute;
-                            left: 0px;
-                        		width: 0px;
-                        		height: 3px;
-                        		background: #3498db;
-
-                        		transform:translate(4px, 11px) rotate(-45deg);
-                        		transform-origin: left;
-                        		transition: all 150ms;
-                        		transition-delay: 0ms;
-          	            }
-
-                    	  &:before {
-                        		content: "";
-                        		position: absolute;
-                            left: 0;
-                      		  width: 0px;
-                        		height: 3px;
-                        		background: #3498db;
-
-                        		transform:translate(1px, 6px) rotate(45deg);
-                        		transform-origin: left;
-                        		transition: all 150ms;
-                        		transition-delay: 150ms;
-            	          }
-                    }
-
-                    .checkbox-container input[type="checkbox"]:checked {
-                  	     & ~ .checkbox {
-                  		       &:before {
-        			                   width: 7px;
-                  			         transition-delay: 0ms;
-                  		       }
-
-                    		     &:after {
-                      			     width: 13px;
-                          			 transition-delay: 150ms;
-          		               }
-                    	   }
-                    }
+                span {
+                    font-weight: 700;
                 }
                 .buttons {
-                    text-align: right;
-                    button {
-                        transition: 0.3s;
-                        border: 1px solid $grey-lighter;
-                    }
-
-                    .submit {
-                        background-color: $white-dark;
-                    }
-                    .submit:hover {
-                        background-color: $light;
-                    }
+                  margin: 15px 0 15px auto;
 
                     .cancel {
                         background-color: $warning;
@@ -308,6 +359,95 @@
                     }
                 }
             }
+
+            .dir-tree {
+                text-align: left;
+                //border-right: 2px solid $grey-lighter;
+                padding: 10px;
+                display: grid;
+                grid-column: 1;
+                grid-template-columns: 10% 90%;
+                grid-template-rows: 10% 90%;
+                grid-column-gap: 0.5em;
+                text-align: left;
+
+                .firstParent {
+                    grid-column: 1 / 3;
+                    display: grid;
+                    grid-template-columns: 10% 75% 10%;
+                    grid-column-gap: 0.5em;
+                    margin: auto 0;
+                    cursor: pointer;
+                    user-select: none;
+                    &:hover {
+                      background-color: $white-dark;
+                    }
+                }
+
+                h4 {
+                    margin: auto 0;
+                    user-select: none;
+                }
+
+                .parentFolderIcon, .fa-angle-double-up {
+                    font-size: 1.3em;
+                    margin: auto 0 1px 0;
+                }
+
+                .folder-icon {
+                    grid-column: 1;
+                    margin: auto 0 1px 0;
+                }
+
+                .children {
+                    margin-top: 1em;
+                    display: grid;
+                    grid-column: 2;
+                    overflow-y: auto;
+                    overflow-x: hidden;
+                    grid-template-rows: minmax(1.5em, 1.5em);
+                    transition: height 1s linear;
+                    max-height: 30vh;
+
+                    &::-webkit-scrollbar-track {
+                        -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+                        border-radius: 10px;
+                        background-color: #F5F5F5;
+                    }
+
+                    &::-webkit-scrollbar {
+                      width: 4px;
+                      background-color: #F5F5F5;
+                    }
+
+                    &::-webkit-scrollbar-thumb {
+                      border-radius: 10px;
+                      -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,.3);
+                      background-color: #555;
+                    }
+                }
+                .child {
+                    display: grid;
+                    grid-template-columns: 10% 90%;
+                    cursor: pointer;
+                    user-select: none;
+                    overflow-y: hidden;
+                    overflow-x: hidden;
+                    word-wrap: normal;
+                    word-break: keep-all;
+                    height: 1.5em;
+                    span {
+                        margin: auto 0 0 0;
+                    }
+                    &:hover {
+                      background-color: $white-dark;
+                    }
+                }
+
+
+
+            }
+
         }
     }
     .actions {

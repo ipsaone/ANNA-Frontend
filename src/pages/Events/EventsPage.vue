@@ -1,18 +1,20 @@
 <template>
-    <div class="events">
-        <loader v-if="loading"></loader>
+    <div id="events">
         <event></event>
+        <event-modal class="admin"></event-modal>
 
         <section class="content">
             <h1 class="section-title color-yellow">Events</h1>
 
             <section> <!-- DO NOT REMOVE THE SECTION TAG -->
                 <template v-if="events.length > 0">
-                    <div class="event flex-abstract" v-for="event in events" :key="event.id" @click="showEvent(event)">
-                        <p class="registered" v-show="event.maxRegistered">{{ event.registeredCount }}/{{ event.maxRegistered }}</p>
-                        <h1><a href="#">{{ event.name }}</a></h1>
-                        <p class="date">The {{ event.startDate | moment('DD/MM/YYYY') }}</p>
-                        <p v-if="event.maxRegistered > 0 && event.registeredCount < event.maxRegistered">
+                    <div class="event flex-abstract" v-for="event in events" :key="event.id" >
+                        <p class="registered" v-if="event.maxRegistered != null">{{ event.registeredCount }}/{{ event.maxRegistered }}</p>
+                        <p class="registered" v-else>{{ event.registeredCount }}/∞</p>
+                        <h1 style="text-shadow: 0 0 1px #000000"><a href="#" @click.prevent="showEvent(event)">{{ event.name }}</a></h1>
+                        <p><a @click.prevent="$modal.show('eventModal', {event_id: event.id, isEditing: true})" v-if="groupOrganizer">Edit</a></p>
+                        <p class="date">{{ event.startDate | moment('DD/MM/YYYY') }}</p>
+                        <p v-if="(event.maxRegistered > 0 && event.registeredCount < event.maxRegistered) || event.maxRegistered == null">
                             <a href="#" @click.prevent.stop="addUser(event.id)" class="button success" v-if="!isRegistered(event.id)">
                                 Join
                             </a>
@@ -24,7 +26,7 @@
                             <a href="#" @click.prevent.stop="withdrawUser(event.id)" class="button alert" v-if="isRegistered(event.id)">
                                 Withdraw
                             </a>
-                            <a href="#" class="button" disabled v-else>Full</a>
+                            <a href="#" class="button" disabled v-if="event.registeredCount === event.maxRegistered && event.maxRegistered != null && !isRegistered(event.id)">Full</a>
                         </p>
                     </div>
                 </template>
@@ -36,6 +38,11 @@
                 </template>
             </section>
         </section>
+        <div style="display: grid;grid-template-columns: 3em auto 12em 8em;grid-column-gap: 10px;padding: 0.4em;" v-if="groupOrganizer">
+            <h4 style="grid-column: 4;text-align: center;">
+                <a @click.prevent="$modal.show('eventModal', {isEditing: false})">Add Event</a>
+            </h4>
+        </div>
     </div>
 </template>
 
@@ -43,13 +50,14 @@
     import store from '@/modules/store';
     import Loader from '@/components/Loader';
     import EventsApi from '@/modules/events/events_api';
-
+    import EventModal from '@/pages/Admin/EventModal';
     import Event from './Event';
 
     export default {
         components: {
             Loader,
-            Event
+            Event,
+            EventModal,
         },
         data() {
             return {
@@ -57,6 +65,7 @@
             };
         },
         mounted() {
+            console.log(this);
             store.dispatch('retrieveLoggedUser');
             this.refreshEvents(true, true);
         },
@@ -66,7 +75,10 @@
             },
             canAdd() {
                 return store.getters.loggedUserIsRoot;
-            }
+            },
+            groupOrganizer() {
+                return store.getters.loggedUserGroups.includes('organizers');
+            },
         },
         methods: {
             refreshEvents(force = false, mounted = false) {

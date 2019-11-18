@@ -29,11 +29,11 @@
                    style="cursor: not-allowed">
                     <i class="fa fa-bell" aria-hidden="true"></i>
                 </a>
-
+                -->
                 <router-link :to="{name: 'profile', params:{id: logged.id}}" class="button" data-text="Profile">
                     <i class="fa fa-user" aria-hidden="true"></i>
                 </router-link>
-                -->
+                
 
                 <a class="button" data-text="Logout" @click.prevent="logout">
                     <i class="fa fa-power-off" aria-hidden="true"></i>

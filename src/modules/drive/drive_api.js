@@ -36,6 +36,14 @@ export default {
         window.open(url + 'files/' + id + '?download=true');
     },
 
+    downloadRev(fileId, dataId) {
+        window.open(url + 'files/' + fileId + '?download=true&data=' + dataId);
+    },
+
+    getMeta(id) {
+        return axios.get(url + 'files/' + id, {withCredentials: true});
+    },
+
 
     async uploadFile(data) {
         let form = new FormData();
@@ -88,7 +96,10 @@ export default {
         if (data.ownerRead !== undefined) form.append('ownerRead', data.ownerRead);
         if (data.serialNbr !== undefined) form.append('serialNbr', data.serialNbr);
 
-        return axios.put(url + 'upload/' + edit.fileId, form, config);
+        return axios.put(url + 'upload/' + edit.fileId, form, {
+            ...config,
+            cancelToken: cancelCall.token
+        });
     },
 
     deleteFile(fileId) {

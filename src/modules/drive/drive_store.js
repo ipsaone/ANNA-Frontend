@@ -7,11 +7,14 @@ const state = {
     percentCompleted: 0,
     searchResults : [],
     searchKeyWord : '',
+    showHistory: false,
+    meta: [],
 
     // DRIVE V2
         // each folder is {type: 'folder', meta: {}, children: []}
         // each file is {type: 'file', meta: {}}
     fileTree: {},
+    foldersList: [],
     curFolder: 0
 };
 
@@ -36,13 +39,27 @@ const mutations = {
         state.searchKeyWord = keyWord;
     },
 
+    SHOW_HISTORY(state) {
+        state.showHistory = true;
+    },
+
+    HIDE_HISTORY(state) {
+        state.showHistory = false;
+    },
+
+    SET_META(state, data) {
+        state.meta = data;
+    },
+    SET_FOLDERS_LIST(state, data) {
+        state.foldersList = data;
+    },
 
     // DRIVE V2
     SET_FOLDER_V2(state, folderId) {
         state.curFolder = folderId;
     },
     INSERT_FOLDER_V2(state, parentPath, child) {
-    
+
     },
     REMOVE_FOLDER_V2(state, parentPath, childId) {
 
@@ -50,18 +67,13 @@ const mutations = {
     INSERT_FILE_META_V2(state, parentPath, meta) {
 
     }
-    
-    
-
-
 
 };
 
 const actions = {
     // DRIVE V1
-    async retrieveFolder({commit, dispatch}, id) {
+    async retrieveFolder({commit, dispatch}, id, force=false) {
         let folder = await DriveApi.getFolder(id);
-        console.log(folder);
         await dispatch('setFolderOwners', folder.data);
         commit('SET_FOLDER', folder.data);
         await dispatch('unselectFile');
@@ -118,8 +130,9 @@ const actions = {
         return true;
     },
 
-    async getFoldersList({dispatch}, folderId) {
+    async getFoldersList({dispatch, commit}, folderId) {
         let res = await DriveApi.getFoldersList(folderId);
+        commit('SET_FOLDERS_LIST', res.data);
         return res.data;
     },
 
@@ -129,15 +142,23 @@ const actions = {
         commit('SET_RESULT', result.data);
     },
 
+    async showHistory({dispatch, commit}, fileId) {
+        let res = await DriveApi.getMeta(fileId);
+        commit('SET_META', res.data);
+        commit('SHOW_HISTORY');
+    },
 
+    async hideHistory({dispatch, commit}) {
+        commit('HIDE_HISTORY');
+    },
 
 
     // DRIVE V2
 
-    // folderPath : path to folder using IDs [folderId, folderId, folderId] 
+    // folderPath : path to folder using IDs [folderId, folderId, folderId]
     async loadMeta_v2({dispatch, commit}, folderPath, fileId) {
         // call API to get data
-        // 
+        //
     },
     async loadFolder_v2({dispatch, commit}, folderPath, preload=false) {
         // load children list
@@ -182,7 +203,16 @@ const getters = {
         return state.searchKeyWord;
     },
 
+    showHistory(state) {
+        return state.showHistory;
+    },
 
+    metaData(state) {
+        return state.meta;
+    },
+    foldersList(state) {
+        return state.foldersList;
+    },
 
     // DRIVE V2
     curFolder_v2(state) {

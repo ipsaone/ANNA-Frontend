@@ -77,6 +77,12 @@ const actions = {
     async checkLoggedUser({commit, state, credentials}){
         let res = await AuthApi.checkUserState();
         commit('IS_USER_LOGGED', res);
+    },
+
+    async changePassword({dispatch}, data) {
+        console.log('data', data);
+        await AuthApi.changePassword(data.user);
+        await dispatch('retrieveLoggedUser');
     }
 
 };

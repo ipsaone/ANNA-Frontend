@@ -40,30 +40,29 @@ const actions = {
 
     async storeEvent({dispatch}, event) {
         await  EventsApi.save(event);
-        dispatch('retrieveEvents', true);
+        return dispatch('retrieveEvents', true);
     },
 
     async updateEvent({dispatch, commit}, event) {
+        console.log('store', event);
         await EventsApi.update(event);
-        dispatch('retrieveEvents', true);
+        await dispatch('retrieveEvents', true);
         commit('SELECT_EVENT', event.id);
     },
 
     async deleteEvent({dispatch}, id) {
         await EventsApi.delete(id);
-        dispatch('retrieveEvents', true);
+        return dispatch('retrieveEvents', true);
     },
 
     async addEventMember({dispatch, state}, user_id) {
-        let data = await EventsApi.register(state.selected.id, user_id);
-        await dispatch('retrieveEvent', state.selected.id);
-        return data;
+        let data = await EventsApi.register(state.event.id, user_id);
+        return dispatch('retrieveEvent', state.event.id);
     },
 
     async remEventMember({dispatch, state}, user_id) {
-        let data = await EventsApi.withdraw(state.selected.id, user_id);
-        await dispatch('retrieveEvent', state.selected.id);
-        return data;
+        let data = await EventsApi.withdraw(state.event.id, user_id);
+        return dispatch('retrieveEvent', state.event.id);
     },
 };
 

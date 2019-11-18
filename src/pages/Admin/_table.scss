@@ -1,24 +1,26 @@
-table {
-    tr {
-        border-bottom: 1px dotted $grey;
+.admin {
+    table {
+        tr {
+            border-bottom: 1px dotted $grey;
 
-        td {
-            padding-top: 0.25em;
-            padding-bottom: 0.25em;
+            td {
+                padding-top: 0.25em;
+                padding-bottom: 0.25em;
+            }
+
+            th {
+                color: $blue;
+                padding-bottom: 0.5em;
+                font-weight: 500;
+            }
         }
 
-        th {
-            color: $blue;
-            padding-bottom: 0.5em;
-            font-weight: 500;
+        tr:first-child {
+            border-bottom: 2px solid $blue;
         }
-    }
 
-    tr:first-child {
-        border-bottom: 2px solid $blue;
-    }
-
-    tr:last-child {
-        border-bottom: none;
+        tr:last-child {
+            border-bottom: none;
+        }
     }
 }

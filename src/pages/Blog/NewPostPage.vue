@@ -69,12 +69,11 @@
                 else {
                     const post = {
                         title: this.title,
-                        markdown: this.markdown.replace(/\n\n/gi, '\n\n<br>'),
+                        markdown: this.markdown.replace(/\n/gi, '\n\n<br>'),
                         published: !this.isDraft,
                         authorId: store.getters.loggedUserId
                     };
                     await store.dispatch('retrievePosts');
-                    await store.dispatch('retrieveDrafts');
                     await store.dispatch('storePost', post)
                         .then(this.$router.push({name: 'blog'}))
                         .catch(err => {
@@ -86,7 +85,6 @@
                             });
                         });
                     await store.dispatch('retrievePosts');
-                    await store.dispatch('retrieveDrafts');
                 }
             },
 
@@ -96,7 +94,7 @@
                     if(res) {
                         const post = {
                             title: this.title,
-                            markdown: this.markdown.replace(/\n\n/gi, '\n\n<br>'),
+                            markdown: this.markdown.replace(/\n/gi, '\n\n<br>'),
                             published: false,
                             authorId: store.getters.loggedUserId
                         };

@@ -1,19 +1,29 @@
 <template>
     <section class="mission-slider" :key="missionNumber">
         <new-task></new-task>
+        <mission-modal class="admin"></mission-modal>
+        <mission-members class="admin"></mission-members>
 
         <div v-if="loggedUserMissions.length > 0">
             <div class="controls">
-                <a href="#" @click.prevent="prev" :class="{disabled: currentSlide === 0}">
-                    <i class="fa fa-chevron-left"></i> Previous
-                </a>
+                <div style="width: 30%; text-align: left;">
+                    <a href="#" @click.prevent="prev" :class="{disabled: currentSlide === 0}">
+                        <i class="fa fa-chevron-left"></i> Previous
+                    </a>
+                </div>
 
-                <h1>{{ mission.name }}</h1>
+                <h1 style="margin-bottom: 0;">{{ mission.name }}</h1>
 
-                <a href="#" @click.prevent="next" :class="{disabled: currentSlide === missionNumber-1}">
-                    Next <i class="fa fa-chevron-right"></i>
-                </a>
+                <div style="width: 30%; text-align: right">
+                    <a href="#" @click.prevent="next" :class="{disabled: currentSlide === missionNumber-1}">
+                        Next <i class="fa fa-chevron-right"></i>
+                    </a>
+                </div>
             </div>
+            <h3 v-if="logged.id === mission.leaderId" style="text-align:center; font-size: 1.2em; margin-top: -5px;">
+                <a @click.prevent="$modal.show('missionModal', {mission_id: mission.id})">Edit</a>, 
+                <a @click.prevent="$modal.show('missionMembers', {mission_id: mission.id})">Manage members</a>
+            </h3>
 
             <div class="mission">
                 <div class="mission-left">
@@ -38,7 +48,7 @@
                                 Members:
                                 <li v-for="member in mission.members" v-if="member.id" :key="member.id">
                                     <router-link :to="{name: 'profile', params:{id: member.id}}">
-                                        - {{ member.username }},
+                                        - {{ member.username }}
                                     </router-link>
                                 </li>
                             </ul>
@@ -50,8 +60,8 @@
                     <div class="budget">
                         <h2>Budget</h2>
                         <div class="content">
-                            <div class="used">Used: {{ mission.budgetUsed+0 }} €</div>
                             <div class="assigned">Assigned: {{ mission.budgetAssigned+0 }} €</div>
+                            <div class="used">Used: {{ mission.budgetUsed+0 }} €</div>
                         </div>
                     </div>
 
@@ -80,7 +90,7 @@
         <div v-else>
             <p class="no-mission-message">
                 <b>Error 404 : mission not found</b><br>
-                You aren't signed-up to any mission. Ask your mission chief !
+                You aren't signed-up to any mission. Ask your mission leader !
                 <br><br>
                 Feel free to go read the <router-link :to="{name: 'blog'}">latest blog entries</router-link> until he finally does his work ;-)
 
@@ -91,12 +101,14 @@
 
 <script>
     import store from '@/modules/store';
-
+    import MissionModal from '../Admin/MissionModal';
+    import MissionMembers from '../Admin/MissionMembers';
     import newTask from './newTask';
 
     export default {
         components: {
-            newTask
+            newTask,
+            MissionModal, MissionMembers
         },
         data() {
             return {

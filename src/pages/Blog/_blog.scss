@@ -19,7 +19,7 @@
         word-wrap: break-word;
 
         .CodeMirror-line {
-            padding-bottom: 1rem;
+            padding-bottom: 0.1rem;
         }
 
     }
@@ -220,4 +220,4 @@
     }
 }
 
-@import "post"
+@import "post";
