@@ -1,14 +1,14 @@
 <template>
     <div>
-      <span style="font-size: 1.1em; cursor: pointer; user-select:none;" @dblclick="goHome" >
+      <span style="font-size: 1.1em; cursor: pointer; user-select:none;" @click="goHome" >
           <i class="fas fa-home"></i> <span style="text-decoration: underline"> root</span> <span v-if="folder.name !== 'root'"> > </span>
       </span>
-      <span v-for="parent in folder.dirTree" @dblclick="openFolder(parent)" v-if="folder.name !== 'root' && folder.dirTree.length <= 2"
+      <span v-for="parent in folder.dirTree" @click="openFolder(parent)" v-if="folder.name !== 'root' && folder.dirTree.length <= 2"
       style="font-size: 1.1em; cursor: pointer; user-select:none;">
           <span style="text-decoration: underline">{{wrapName(parent.name)}}</span> <span> > </span>
       </span>
       <span v-if="folder.dirTree.length > 2" style="cursor: default;"> ... > </span>
-      <span v-for="parent in altDirTree" @dblclick="openFolder(parent)" v-if="folder.name !== 'root' && folder.dirTree.length > 2"
+      <span v-for="parent in altDirTree" @click="openFolder(parent)" v-if="folder.name !== 'root' && folder.dirTree.length > 2"
       style="font-size: 1.1em; cursor: pointer; user-select:none;" :title="parent.name">
           <span style="text-decoration: underline">{{wrapName(parent.name)}}</span> <span> {{parent.arrow}} </span>
       </span>
