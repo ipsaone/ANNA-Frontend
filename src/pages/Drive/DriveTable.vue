@@ -183,14 +183,10 @@
 
 <script>
 import store from '@/modules/store';
-import Loader from '@/components/Loader';
 import FileSize from 'filesize';
 import moment from 'moment';
 
 export default {
-    components: {
-        Loader
-    },
     data() {
         return {
             loading: false,
@@ -299,67 +295,49 @@ export default {
                 // PDF
                 case 'application/pdf':
                     return '<i class="fa fa-file-pdf" aria-hidden="true"></i>';
-                    break;
 
                     // Archive
                 case 'application/zip':
                     return '<i class="fa fa-file-archive" aria-hidden="true"></i>';
-                    break;
 
                     // Image
                 case 'image/gif':
                     return '<i class="fas fa-file-image"></i>';
-                    break;
                 case 'image/png':
                     return '<i class="fas fa-file-image"></i>';
-                    break;
                 case 'image/jpeg':
                     return '<i class="fas fa-file-image"></i>';
-                    break;
                 case 'image/tiff':
                     return '<i class="fa fa-file-image" aria-hidden="true"></i>';
-                    break;
 
                     // Audio
                 case 'audio/mpeg':
                     return '<i class="fas fa-file-audio"></i>';
-                    break;
                 case 'audio/x-ms-wma':
                     return '<i class="fas fa-file-audio"></i>';
-                    break;
                 case 'audio/vnd.rn-realaudio':
                     return '<i class="fas fa-file-audio"></i>';
-                    break;
                 case 'audio/x-wav':
                     return '<i class="fas fa-file-audio"></i>';
-                    break;
 
                     // Video
                 case 'video/mpeg':
                     return '<i class="fas fa-file-video"></i>';
-                    break;
                 case 'video/mp4':
                     return '<i class="fas fa-file-video"></i>';
-                    break;
                 case 'video/quicktime':
                     return '<i class="fas fa-file-video"></i>';
-                    break;
                 case 'video/x-ms-wmv':
                     return '<i class="fas fa-file-video"></i>';
-                    break;
                 case 'video/x-msvideo':
                     return '<i class="fas fa-file-video"></i>';
-                    break;
                 case 'video/x-flv':
                     return '<i class="fas fa-file-video"></i>';
-                    break;
                 case 'video/webm':
                     return '<i class="fas fa-file-video"></i>';
-                    break;
 
                 case 'folder':
                     return '<i class="fa fa-file-folder" aria-hidden="true"></i>';
-                    break;
 
                 case '':
                 default:
@@ -376,8 +354,8 @@ export default {
             if (file.type === 'folder' || !file.hasOwnProperty('type')) {
                 this.loading = true;
                 await store.dispatch('retrieveFolder', file.fileId)
-                    .then(_ => store.dispatch('selectFile', {}))
-                    .then(_ => this.loading = false);
+                    .then(() => store.dispatch('selectFile', {}))
+                    .then(() => this.loading = false);
                 if (this.folder.dirTree.length > 2) {
                     let a = Array();
                     a[0] = {

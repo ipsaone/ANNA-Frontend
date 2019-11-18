@@ -61,13 +61,13 @@ export default {
     methods: {
         beforeOpen(event) {
             store.dispatch('selectLog', event.params.log.id)
-                .then(_ => {
+                .then(() => {
                     this.log = store.getters.selectedLog;
                     this.username = this.log.author.username;
                     this.authorId = this.log.author.id;
                 });
         },
-        beforeClose(event) {
+        beforeClose() {
             store.dispatch('unselectLog');
         },
         deleteLog() {

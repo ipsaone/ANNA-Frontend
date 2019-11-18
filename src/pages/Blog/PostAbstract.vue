@@ -19,8 +19,6 @@
 </template>
 
 <script>
-import store from '@/modules/store';
-
 export default {
     props: ['post', 'index']
 };

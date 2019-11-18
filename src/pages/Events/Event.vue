@@ -44,7 +44,7 @@ export default {
             store.commit('SELECT_EVENT', data.params.event);
             this.event = store.getters.selectedEvent;
         },
-        beforeClose(event) {
+        beforeClose() {
             store.dispatch('unselectEvent');
         },
         deleteEvent() {

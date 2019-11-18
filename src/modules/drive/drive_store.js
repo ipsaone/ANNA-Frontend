@@ -54,20 +54,6 @@ const mutations = {
         state.foldersList = data;
     },
 
-    // DRIVE V2
-    SET_FOLDER_V2(state, folderId) {
-        state.curFolder = folderId;
-    },
-    INSERT_FOLDER_V2(state, parentPath, child) {
-
-    },
-    REMOVE_FOLDER_V2(state, parentPath, childId) {
-
-    },
-    INSERT_FILE_META_V2(state, parentPath, meta) {
-
-    }
-
 };
 
 const actions = {

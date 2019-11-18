@@ -9,6 +9,7 @@ module.exports = {
     },
     env: {
         browser: true,
+        amd: true
     },
     // required to lint *.vue files
     plugins: [

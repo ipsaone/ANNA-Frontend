@@ -74,12 +74,11 @@ export default {
     },
     async mounted() {
         let id = this.$route.params.id;
-        let postIWantToRead = {};
         await store.dispatch('selectPost', id)
             .then(async () => {
                 let postIWantToRead = this.post;
                 await store.dispatch('selectPost', postIWantToRead.id)
-                    .catch(err => {
+                    .catch(() => {
                         this.$notify({
                             type: 'error',
                             title: 'Could not find post.',
@@ -92,7 +91,7 @@ export default {
                     .then(() => {
                         let postIWantToRead = this.post;
                         store.dispatch('selectDraft', postIWantToRead.id)
-                            .catch(err => {
+                            .catch(() => {
                                 this.$notify({
                                     type: 'error',
                                     title: 'Could not find draft',
@@ -112,9 +111,9 @@ export default {
                 confirmButtonColor: '#E74D3C',
                 cancelButtonColor: '#7A7A7A',
                 confirmButtonText: 'Delete'
-            }).then(_ => {
+            }).then(() => {
                 store.dispatch('deletePost', this.post.id)
-                    .then(_ => this.$router.push({name: 'blog'}))
+                    .then(() => this.$router.push({name: 'blog'}))
                     .catch(err => {
                         this.$notify({
                             type: 'error',

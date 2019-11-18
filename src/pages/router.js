@@ -90,7 +90,7 @@ router.beforeEach((to, from, next) => {
                 store.commit('SET_LOGGED_USER', user.data); // Reload the user data
                 next(); // And let him continue his navigation
             })
-            .catch(_ => { // If he is not logged
+            .catch(() => { // If he is not logged
                 next({name: 'login'}); // We redirect him to the login page
             });
     }
