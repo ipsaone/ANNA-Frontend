@@ -34,8 +34,12 @@ export default {
         return this.check();
     },
 
-    async changePassword() {
-        return axios.post(url + '/changePassword', {oldPassword : 'abc', newPassword1: 'def', newPassword2: 'def'});
+    async changePassword(user) {
+        console.log(user);
+        return axios.post(url + '/changePassword', 
+            {oldPassword : user.old_password, newPassword1: user.password, newPassword2: user.password_conf}, 
+            {withCredentials: true}
+        );
     }
 }
 
