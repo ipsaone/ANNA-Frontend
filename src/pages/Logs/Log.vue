@@ -31,7 +31,7 @@
       </button>
       <button
         v-show="canDelete"
-        v-else="!remove"
+        v-else
         class="button alert"
         @click="deleteLog"
       >

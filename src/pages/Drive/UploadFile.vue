@@ -269,9 +269,7 @@ export default {
                 else
                     return store.getters.loggedUser.groups;
             },
-            set: function () {
-                var userGroups = Array();
-            }
+            set: function () {}
         },
         selectedGroup() {
             return store.getters.selectedGroup;
@@ -403,7 +401,7 @@ export default {
                     document.getElementById('submitButton').setAttribute('disabled', 'disabled');
                     if (this.isEditing) {
                         await driveApi.editFile({fileId: this.selectedFile.fileId, data})
-                            .catch(_ => {
+                            .catch(() => {
                                 interrupt = true;
                                 if(document.getElementById('submitButton')) {
                                     document.getElementById('submitButton').removeAttribute('disabled', 'disabled');

@@ -125,7 +125,7 @@ export default {
             this.dirTree = this.firstParent.dirTree;
             this.group = await store.dispatch('retrieveGroup', this.file.groupId);
             this.selected = 1;
-            let root = await store.dispatch('getFoldersList', 1);
+            await store.dispatch('getFoldersList', 1);
         },
         getDate(date) {
             return moment(date).format('MMM Do YYYY, HH:mm');
@@ -165,7 +165,7 @@ export default {
                 }
             };
             await driveApi.editFile(edit)
-                .then(_ => {
+                .then(() => {
                     this.$notify({
                         type: 'success',
                         title: 'Operation successful',
@@ -173,7 +173,7 @@ export default {
                         duration: 5000
                     });
                 })
-                .catch(_ => {
+                .catch(() => {
                     this.$modal.hide('moveFilev2');
                 });
             await store.dispatch('retrieveFolder', store.getters.folder.fileId);

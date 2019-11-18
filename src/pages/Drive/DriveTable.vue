@@ -351,7 +351,7 @@ export default {
             return FileSize(file.size);
         },
         async openFolder(file) {
-            if (file.type === 'folder' || !file.hasOwnProperty('type')) {
+            if (file.type === 'folder' || !file.type) {
                 this.loading = true;
                 await store.dispatch('retrieveFolder', file.fileId)
                     .then(() => store.dispatch('selectFile', {}))
