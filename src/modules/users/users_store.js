@@ -52,7 +52,7 @@ const actions = {
 
     async editUser({dispatch}, data) {
         await UsersApi.edit(data.id, data.user);
-        dispatch('retrieveUsers', true);
+        await dispatch('retrieveUsers', true);
     }
 };
 

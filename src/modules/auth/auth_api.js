@@ -23,18 +23,24 @@ export default {
     async check() {
         try {
             let res = await axios.get(url + '/check', {withCredentials: true});
-            if (res.data.logged === true) {
-                return true;
-            }
+            return res.data.logged === true;
 
-            return false;
         } catch(err) {
             return false;
         }
     },
 
     async checkUserState() {
-        let isUserLogged = await this.check();
-        return isUserLogged;
+        return this.check();
+    },
+
+    async changePassword(user) {
+        console.log(user);
+        return axios.post(url + '/changePassword', 
+            {oldPassword : user.old_password, newPassword1: user.password, newPassword2: user.password_conf}, 
+            {withCredentials: true}
+        );
     }
-};
+}
+
+;

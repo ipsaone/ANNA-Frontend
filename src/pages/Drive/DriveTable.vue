@@ -1,14 +1,14 @@
 <template>
     <div>
-      <span style="font-size: 1.1em; cursor: pointer; user-select:none;" @dblclick="goHome" >
+      <span style="font-size: 1.1em; cursor: pointer; user-select:none;" @click="goHome" >
           <i class="fas fa-home"></i> <span style="text-decoration: underline"> root</span> <span v-if="folder.name !== 'root'"> > </span>
       </span>
-      <span v-for="parent in folder.dirTree" @dblclick="openFolder(parent)" v-if="folder.name !== 'root' && folder.dirTree.length <= 2"
+      <span v-for="parent in folder.dirTree" @click="openFolder(parent)" v-if="folder.name !== 'root' && folder.dirTree.length <= 2"
       style="font-size: 1.1em; cursor: pointer; user-select:none;">
           <span style="text-decoration: underline">{{wrapName(parent.name)}}</span> <span> > </span>
       </span>
       <span v-if="folder.dirTree.length > 2" style="cursor: default;"> ... > </span>
-      <span v-for="parent in altDirTree" @dblclick="openFolder(parent)" v-if="folder.name !== 'root' && folder.dirTree.length > 2"
+      <span v-for="parent in altDirTree" @click="openFolder(parent)" v-if="folder.name !== 'root' && folder.dirTree.length > 2"
       style="font-size: 1.1em; cursor: pointer; user-select:none;" :title="parent.name">
           <span style="text-decoration: underline">{{wrapName(parent.name)}}</span> <span> {{parent.arrow}} </span>
       </span>
@@ -312,26 +312,27 @@
                 return FileSize(file.size);
             },
             async openFolder(file) {
-                console.log(file);
-                this.loading = true;
-                await store.dispatch('retrieveFolder', file.fileId)
-                    .then(_ => store.dispatch('selectFile', {}))
-                    .then(_ => this.loading = false);
-                if (this.folder.dirTree.length > 2) {
-                    let a = Array();
-                    a[0] = {
-                        fileId: this.folder.dirTree[this.folder.dirTree.length -2].fileId,
-                        name: this.folder.dirTree[this.folder.dirTree.length -2].name,
-                        arrow: '>',
-                        type: 'folder'
-                    };
-                    a[1] = {
-                        fileId: this.folder.dirTree[this.folder.dirTree.length -1].fileId,
-                        name: this.folder.dirTree[this.folder.dirTree.length -1].name,
-                        arrow: '',
-                        type: 'folder'
-                    };
-                    this.altDirTree = a;
+                if (file.type === 'folder' || !file.hasOwnProperty('type')) {
+                    this.loading = true;
+                    await store.dispatch('retrieveFolder', file.fileId)
+                        .then(_ => store.dispatch('selectFile', {}))
+                        .then(_ => this.loading = false);
+                    if (this.folder.dirTree.length > 2) {
+                        let a = Array();
+                        a[0] = {
+                            fileId: this.folder.dirTree[this.folder.dirTree.length -2].fileId,
+                            name: this.folder.dirTree[this.folder.dirTree.length -2].name,
+                            arrow: '>',
+                            type: 'folder'
+                        };
+                        a[1] = {
+                            fileId: this.folder.dirTree[this.folder.dirTree.length -1].fileId,
+                            name: this.folder.dirTree[this.folder.dirTree.length -1].name,
+                            arrow: '',
+                            type: 'folder'
+                        };
+                        this.altDirTree = a;
+                    }
                 }
             },
             async goHome() {

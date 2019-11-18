@@ -22,22 +22,29 @@
     Vue.component('VmProgress', Progress);
 
     axios.interceptors.response.use(res => res, err => {
-        let title = 'An error occured';
-        if(err.response) {
-            title += ' (code '+err.response.status+')';
+        if(err.__proto__.__CANCEL__ === true) {
+            Vue.notify({
+                type: 'success',
+                title: 'Upload successfully canceled'
+            });
+        } else {
+            let title = 'An error occured';
+            if(err.response) {
+                title += ' (code '+err.response.status+')';
+            }
+
+            Vue.notify({
+                type: 'error',
+                title,
+                text: ((err && err.response && err.response.data)
+                    ? err.response.data.message || err.response.data.error
+                    : 'Erreur inconnue'),
+                duration: 5000
+            });
+            console.error(err);
+            return Promise.reject(err);
         }
-        Vue.notify({
-            type: 'error',
-            title,
-            text: ((err && err.response && err.response.data)
-                        ? err.response.data.message || err.response.data.error
-                        : 'Erreur inconnue'),
-            duration: 5000
-        });
 
-
-        console.error(err);
-        return Promise.reject(err);
     });
 
 

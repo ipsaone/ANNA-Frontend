@@ -1,7 +1,6 @@
 <template>
     <section class="drive basic-layout">
         <upload-file></upload-file>
-        <new-folder></new-folder>
         <barcode></barcode>
         <move-filev2></move-filev2>
 
@@ -55,7 +54,7 @@
             <div v-if="showOptions">
                 <h1 class="section-title">Options</h1>
                 <ul>
-                    <li v-if="!this.selectedFile.isDir">
+                    <li v-if="this.selectedFile && !this.selectedFile.file.isDir">
                         <a v-if="!showHistory" href="#" @click.prevent="downloadFile">
                             <i class="fa fa-download" aria-hidden="true"></i> Download
                         </a>
@@ -63,12 +62,12 @@
                             <i class="fa fa-download" aria-hidden="true"></i> Download
                         </a>
                     </li>
-                    <li v-else>
+                    <li v-else-if="this.selectedFile">
                         <a href="#" @click.prevent="openFile">
                             <i class="fa fa-download" aria-hidden="true"></i> Open
                         </a>
                     </li>
-                    <li v-if="!this.selectedFile.isDir">
+                    <li v-if="this.selectedFile.file && !this.selectedFile.file.isDir">
                         <a href="#" v-if="!showHistory" @click.prevent="toggleShowHistory">
                           <i v-if="!showHistory" class="fas fa-history"></i> Show history
                         </a>
@@ -116,7 +115,6 @@
     import driveApi from '@/modules/drive/drive_api';
     import DriveTable from './DriveTable';
     import UploadFile from './UploadFile';
-    import NewFolder from './NewFolder';
     import Barcode from './Barcode';
     import MoveFilev2 from './MoveFilev2';
     import swal from 'sweetalert2';
@@ -125,9 +123,8 @@
         components: {
             DriveTable,
             UploadFile,
-            NewFolder,
             Barcode,
-            MoveFilev2,
+            MoveFilev2
         },
         async beforeRouteEnter(to, from, next) {
             let folderId = 1;
