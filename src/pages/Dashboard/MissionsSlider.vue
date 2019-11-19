@@ -176,7 +176,7 @@ export default {
             return store.getters.loggedUserMissions;
         },
         missionMembers() {
-          return mission.members.filter(x => x.id)
+            return store.getters.selectedMission.members.filter(x => x.id);
         }
     },
     async mounted() {

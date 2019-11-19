@@ -41,8 +41,9 @@ module.exports = {
                 include: [resolve('src'), resolve('test')],
                 options: {
                      formatter: require('eslint-friendly-formatter'),
-                     cache: true,
-                     configFile: '.eslintrc.js'
+                     // cache: true,
+                     configFile: '.eslintrc.js',
+                     fix: true
                 }
             },
             {
