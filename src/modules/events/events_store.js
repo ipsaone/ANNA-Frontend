@@ -29,7 +29,7 @@ const actions = {
         return true;
     },
 
-    async retrieveEvent({dispatch, commit, state}, id) {
+    async retrieveEvent({commit}, id) {
         const event = await EventsApi.get(id);
         commit('SELECT_EVENT', event.data);
     },
@@ -56,12 +56,12 @@ const actions = {
     },
 
     async addEventMember({dispatch, state}, user_id) {
-        let data = await EventsApi.register(state.event.id, user_id);
+        await EventsApi.register(state.event.id, user_id);
         return dispatch('retrieveEvent', state.event.id);
     },
 
     async remEventMember({dispatch, state}, user_id) {
-        let data = await EventsApi.withdraw(state.event.id, user_id);
+        await EventsApi.withdraw(state.event.id, user_id);
         return dispatch('retrieveEvent', state.event.id);
     },
 };

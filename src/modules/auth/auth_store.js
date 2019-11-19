@@ -74,7 +74,7 @@ const actions = {
         commit('SET_LOGGED_USER', res.data);
     },
 
-    async checkLoggedUser({commit, state, credentials}){
+    async checkLoggedUser({commit}){
         let res = await AuthApi.checkUserState();
         commit('IS_USER_LOGGED', res);
     },

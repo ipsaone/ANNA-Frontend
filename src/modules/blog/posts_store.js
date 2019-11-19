@@ -51,7 +51,7 @@ const actions = {
             else {
                 throw Error;
             }
-        };
+        }
     },
 
     async storePost({dispatch}, post) {

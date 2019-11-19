@@ -107,6 +107,6 @@ export default {
     },
 
     async getFoldersList(folderId) {
-        return axios.get(url + 'files/list/'+folderId+'?foldersOnly=true', {withCredentials: true});;
+        return axios.get(url + 'files/list/'+folderId+'?foldersOnly=true', {withCredentials: true});
     }
 };
