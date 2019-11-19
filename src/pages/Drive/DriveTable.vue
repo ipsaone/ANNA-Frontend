@@ -6,30 +6,32 @@
     >
       <i class="fas fa-home" /> <span style="text-decoration: underline"> root</span> <span v-if="folder.name !== 'root'"> > </span>
     </span>
-    <span
-      v-for="parent in folder.dirTree"
-      :key="parent.id"
-      v-if="folder.name !== 'root' && folder.dirTree.length <= 2"
-      style="font-size: 1.1em; cursor: pointer; user-select:none;"
-      @click="openFolder(parent)"
-    >
-      <span style="text-decoration: underline">{{ wrapName(parent.name) }}</span> <span> > </span>
+    <span v-if="folder.name !== 'root' && folder.dirTree.length <= 2">
+      <span
+        v-for="parent in folder.dirTree"
+        :key="parent.id"
+        style="font-size: 1.1em; cursor: pointer; user-select:none;"
+        @click="openFolder(parent)"
+      >
+        <span style="text-decoration: underline">{{ wrapName(parent.name) }}</span> <span> > </span>
+      </span>
     </span>
     <span
       v-if="folder.dirTree.length > 2"
       style="cursor: default;"
     > ... > </span>
-    <span
-      v-for="parent in altDirTree"
-      :key="parent.id"
-      v-if="folder.name !== 'root' && folder.dirTree.length > 2"
-      style="font-size: 1.1em; cursor: pointer; user-select:none;"
-      :title="parent.name"
-      @click="openFolder(parent)"
-    >
-      <span style="text-decoration: underline">{{ wrapName(parent.name) }}</span> <span> {{ parent.arrow }} </span>
+    <span v-if="folder.name !== 'root' && folder.dirTree.length > 2">
+      <span
+        v-for="parent in altDirTree"
+      
+        :key="parent.id"
+        style="font-size: 1.1em; cursor: pointer; user-select:none;"
+        :title="parent.name"
+        @click="openFolder(parent)"
+      >
+        <span style="text-decoration: underline">{{ wrapName(parent.name) }}</span> <span> {{ parent.arrow }} </span>
+      </span>
     </span>
-
 
     <table
       v-if="showHistory"

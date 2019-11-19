@@ -31,9 +31,9 @@
             />
           </div>
           <div
+            v-if="firstParent.children.length > 0"
             id="children"
             class="children"
-            v-if="firstParent.children.length > 0"
           >
             <div
               v-for="curfolder in firstParent.children"
@@ -51,7 +51,11 @@
               <span :title="curfolder.name">{{ wrapName(curfolder.name) }}</span>
             </div>
           </div>
-          <div v-else id="children" class="children">
+          <div
+            v-else
+            id="children"
+            class="children"
+          >
             No subfolder
           </div>
         </div>
