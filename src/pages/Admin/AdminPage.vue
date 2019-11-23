@@ -346,6 +346,7 @@ export default {
                 text: 'Remove '+type_name+'?',
                 icon: 'warning',
                 showCancelButton: true,
+                confirmButtonText: 'Delete',
                 confirmButtonColor: '#E74D3C',
                 cancelButtonColor: '#7A7A7A'
             }).then((go) => {
