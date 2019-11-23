@@ -33,15 +33,15 @@ export default {
     },
 
     downloadFile(id) {
-        window.open(url + 'files/' + id + '?download=true');
+        window.open(url + 'files/' + id);
     },
 
     downloadRev(fileId, dataId) {
-        window.open(url + 'files/' + fileId + '?download=true&data=' + dataId);
+        window.open(url + 'files/' + fileId + '?data=' + dataId);
     },
 
     getMeta(id) {
-        return axios.get(url + 'files/' + id, {withCredentials: true});
+        return axios.get(url + 'files/' + id + '/meta', {withCredentials: true});
     },
 
 
