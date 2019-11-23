@@ -41,6 +41,15 @@
           >
         </div>
 
+        <div class="form-group">
+          <label for="user-pwd-2">Send email to user :</label>
+          <input
+            v-model="user_send_email"
+            type="checkbox"
+            name="user-send-email"
+          >
+        </div>
+
         <div class="buttons">
           <button
             type="button"
@@ -74,7 +83,8 @@ export default {
             user_pwd: '',
             user_pwd_conf: '',
             user_name: '',
-            user_email: ''
+            user_email: '',
+            user_send_email: true
         };
     },
     computed: {
@@ -100,12 +110,13 @@ export default {
                 });
             } else {
                 this.loading = true;
-                store.dispatch('insertUser', {username: this.user_name, email: this.user_email, password: this.user_pwd})
+                store.dispatch('insertUser', {username: this.user_name, email: this.user_email, password: this.user_pwd, sendEmail: this.user_send_email})
                     .then(() => {
                         this.user_name = '';
                         this.user_email = '';
                         this.user_pwd = '';
                         this.user_pwd_conf = '';
+                        this.user_send_email = true;
                     })
                     .then(() => {this.loading = false;})
                     .then(() => this.$notify({
