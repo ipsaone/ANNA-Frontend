@@ -341,14 +341,18 @@ export default {
 
         },
         async delItem(type_name, action_name, item_name, item_id) {
-            swal({
-                title: 'Remove '+type_name+'?',
-                type: 'warning',
+            swal.fire({
+                title: 'Deletion warning',
+                text: 'Remove '+type_name+'?',
+                icon: 'warning',
                 showCancelButton: true,
                 confirmButtonColor: '#E74D3C',
-                cancelButtonColor: '#7A7A7A',
-                confirmButtonText: 'Delete'
-            }).then(() => {
+                cancelButtonColor: '#7A7A7A'
+            }).then((go) => {
+                if(!go.value) {
+                    return;
+                }
+
                 this.loading = true;
                 store.dispatch(action_name, item_id);
                 this.refreshAll();
