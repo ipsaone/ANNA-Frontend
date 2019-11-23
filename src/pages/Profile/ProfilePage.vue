@@ -8,7 +8,10 @@
           Profile page : {{ user.username }}
         </h1>
         <h3 style="font-size: 1.2em">
-          <a @click.prevent="$modal.show('changePassword', {user_id: auth.id})">Change Password</a>
+          <a
+            v-if="user.id == auth.id"
+            @click.prevent="$modal.show('changePassword', {user_id: auth.id})"
+          >Change Password</a>
         </h3>
       </div>
 
