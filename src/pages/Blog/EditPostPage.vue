@@ -52,6 +52,13 @@
             type="checkbox"
           > Add to draft</label>
         </li>
+
+        <li>
+          <label><input
+            v-model="isPinned"
+            type="checkbox"
+          > Pin post</label>
+        </li>
         <!-- li class="submit" :class="{active: canConfirm}" @click.prevent="confirm"><a><i class="fa fa-check" aria-hidden="true"></i> Confirm</a></li-->
       </ul>
     </section>
@@ -71,6 +78,7 @@ export default {
             title: '',
             markdown: '',
             isDraft: false,
+            isPinned: false,
 
             configs: {
                 placeholder: 'Description...',
@@ -94,6 +102,7 @@ export default {
         this.title = this.post.title;
         this.markdown = this.post.markdown.replace(/<br>/gi, '');
         this.isDraft = !this.post.published;
+        this.isPinned = this.post.pinned;
 
     },
     methods: {
@@ -113,7 +122,8 @@ export default {
                         authorId: this.loggedUserId,
                         markdown: this.markdown.replace(/\n/gi, '\n<br>'),
                         published: !this.isDraft,
-                        title: this.title
+                        title: this.title,
+                        pinned: this.isPinned
                     }
                 };
                     // post.title = this.title;
