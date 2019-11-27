@@ -52,6 +52,13 @@
             type="checkbox"
           > Add to draft</label>
         </li>
+
+        <li>
+          <label><input
+            v-model="isPinned"
+            type="checkbox"
+          > Pin post</label>
+        </li>
       </ul>
     </section>
   </div>
@@ -70,6 +77,7 @@ export default {
             title: '',
             markdown: '',
             isDraft: false,
+            isPinned: false,
 
             configs: {
                 placeholder: 'Description...',
@@ -97,7 +105,8 @@ export default {
                     title: this.title,
                     markdown: this.markdown.replace(/\n/gi, '\n\n<br>'),
                     published: !this.isDraft,
-                    authorId: store.getters.loggedUserId
+                    authorId: store.getters.loggedUserId,
+                    pinned: this.isPinned
                 };
                 await store.dispatch('retrievePosts');
                 await store.dispatch('storePost', post)
