@@ -7,6 +7,11 @@ if [[ "$TRAVIS_BRANCH" != "master" && "$TRAVIS_BRANCH" != "staging" ]]; then
   exit -1
 fi
 
+if [[ -z "$encrypted_2861304911d5_key" && -z "$encrypted_2861304911d5_iv" ]]; then
+  echo "The encrypted variables aren't set."
+  exit -1
+fi
+
 openssl aes-256-cbc -K $encrypted_2861304911d5_key -iv $encrypted_2861304911d5_iv -in travis_deploy_key.enc -out ~/travis_deploy_key -d
 eval "$(ssh-agent -s)"
 chmod 600 ~/travis_deploy_key
