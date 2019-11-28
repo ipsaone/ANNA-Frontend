@@ -6,6 +6,16 @@
       </h1>
       <template v-if="postsNumber > 0">
         <post-abstract
+          v-for="(post, index) in pinnedPosts"
+          :key="post.id"
+          :post="post"
+          :index="index +1"
+          @click="selectPost(post.id)"
+        />
+
+        <div style="height : 2em;" />
+
+        <post-abstract
           v-for="(post, index) in posts"
           :key="post.id"
           :post="post"
@@ -54,13 +64,16 @@ export default {
     },
     computed: {
         posts() {
-            return store.getters.posts;
+            return store.getters.posts.filter(p => !p.pinned);
+        },
+        pinnedPosts() {
+            return store.getters.posts.filter(p => p.pinned);
         },
         drafts() {
             return store.getters.drafts;
         },
         postsNumber() {
-            return this.posts.length;
+            return store.getters.posts.length;
         },
         canPost() {
             return store.getters.loggedUserIsRoot;

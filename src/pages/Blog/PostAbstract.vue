@@ -2,7 +2,11 @@
   <router-link :to="{name: 'readPost', params: {id: post.id}}">
     <article class="flex-abstract post-abstract">
       <p class="id">
-        #{{ post.id }}
+        <i
+          v-if="post.pinned"
+          class="far fa-bell"
+          style="position: relative; left: 0.4em;"
+        />
       </p>
       <h1
         class="post-title"
