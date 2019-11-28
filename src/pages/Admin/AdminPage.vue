@@ -109,7 +109,7 @@
               <td> {{ post.title }} </td>
               <td> {{ post.createdAt | moment('DD/MM/YYYY') }} </td>
               <td> {{ post.author.username }} </td>
-              <td> {{ post.published ? "Published" : "Draft" }} </td>
+              <td> {{ post.published ? "Published" : "Draft" }}{{ post.pinned ? ", Pinned" : "" }} </td>
               <td>
                 <router-link :to="{name: 'readPost', params: {id: post.id}}">
                   Show
@@ -122,6 +122,7 @@
             </tr>
             <tr>
               <!--td></td-->
+              <td />
               <td />
               <td />
               <td />
@@ -341,14 +342,19 @@ export default {
 
         },
         async delItem(type_name, action_name, item_name, item_id) {
-            swal({
-                title: 'Remove '+type_name+'?',
-                type: 'warning',
+            swal.fire({
+                title: 'Deletion warning',
+                text: 'Remove '+type_name+'?',
+                icon: 'warning',
                 showCancelButton: true,
+                confirmButtonText: 'Delete',
                 confirmButtonColor: '#E74D3C',
-                cancelButtonColor: '#7A7A7A',
-                confirmButtonText: 'Delete'
-            }).then(() => {
+                cancelButtonColor: '#7A7A7A'
+            }).then((go) => {
+                if(!go.value) {
+                    return;
+                }
+
                 this.loading = true;
                 store.dispatch(action_name, item_id);
                 this.refreshAll();
