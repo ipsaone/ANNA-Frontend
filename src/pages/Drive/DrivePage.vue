@@ -106,7 +106,7 @@
           Options
         </h1>
         <ul>
-          <li v-if="this.selectedFile && !this.selectedFile.file.isDir">
+          <li v-if="this.selectedFile && this.selectedFile.file && !this.selectedFile.file.isDir">
             <a
               v-if="!showHistory"
               href="#"
@@ -139,7 +139,7 @@
               /> Open
             </a>
           </li>
-          <li v-if="this.selectedFile.file && !this.selectedFile.file.isDir">
+          <li v-if="this.selectedFile && this.selectedFile.file && !this.selectedFile.file.isDir">
             <a
               v-if="!showHistory"
               href="#"
@@ -179,7 +179,7 @@
           </li>
           <li v-if="!showHistory">
             <a
-              v-if="this.selectedFile.isDir"
+              v-if="this.selectedFile && this.selectedFile.isDir"
               href="#"
               @click.prevent="$modal.show('uploadFile', {isDir: true, isEditing: true})"
             >
@@ -281,7 +281,10 @@ export default {
 
         },
         openFile() {
-            if (this.selectedFile.type === 'folder') {
+            if(!this.selectedFile){
+                return;
+            }
+            if (this.selectedFile.type === 'folder' && this.selectFile.fileId) {
                 this.loading = true;
                 store.dispatch('retrieveFolder', this.selectedFile.fileId)
                     .then(() => store.dispatch('selectFile', {}))
@@ -295,19 +298,31 @@ export default {
             this.$modal.show('barcode');
         },
         downloadFile() {
+            if(!this.selectedFile) {
+                return;
+            }
             driveApi.downloadFile(this.selectedFile.fileId);
         },
         downloadRev() {
+            if(!this.selectedFile) {
+                return;
+            }
             driveApi.downloadRev(this.selectedFile.fileId, this.selectedFile.id);
         },
         // downloadMeta() {
         //     driveApi.downloadMeta(this.selectedFile.fileId);
         // },
         editFile() {
+            if(!this.selectedFile) {
+                return;
+            }
             if (!this.selectedFile.type === 'folder')
                 this.$modal.show('editFile');
         },
         toggleShowHistory() {
+            if(!this.selectedFile) {
+                return;
+            }
             if(!store.getters.showHistory){
                 store.dispatch('showHistory', this.selectedFile.fileId);
             } else {
@@ -315,6 +330,10 @@ export default {
             }
         },
         deleteFile() {
+            if(!this.selectedFile || !store.getters.folder) {
+                return;
+            }
+
             /*swal({
                     title: 'Delete this file?',
                     type: 'warning',
@@ -350,6 +369,9 @@ export default {
             });
         },
         refreshFolder() {
+            if(!this.getters.folder) {
+                return;
+            }
             store.dispatch('retrieveFolder', store.getters.folder.fileId);
         }
     }
