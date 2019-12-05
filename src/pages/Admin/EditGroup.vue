@@ -1,40 +1,40 @@
 <template>
-  <modal
-    name="editGroup"
-    height="auto"
-    :scrollable="true"
-    @before-open="beforeOpen"
-  >
-    <div class="content anna-modal">
-      <h1>Change group name</h1>
-      <form onsubmit="return false;">
-        <input
-          id="Name"
-          v-model="name"
-          type="text"
-          name="Name"
-          placeholder="New name..."
-        >
+    <modal
+        name="editGroup"
+        height="auto"
+        :scrollable="true"
+        @before-open="beforeOpen"
+    >
+        <div class="content anna-modal">
+            <h1>Change group name</h1>
+            <form onsubmit="return false;">
+                <input
+                    id="Name"
+                    v-model="name"
+                    type="text"
+                    name="Name"
+                    placeholder="New name..."
+                >
 
-        <div class="buttons">
-          <button
-            type="button"
-            class="cancel"
-            @click.prevent="$modal.hide('editGroup')"
-          >
-            Cancel
-          </button>
-          <button
-            type="button"
-            class="submit"
-            @click.prevent="onSubmit"
-          >
-            Submit
-          </button>
+                <div class="buttons">
+                    <button
+                        type="button"
+                        class="cancel"
+                        @click.prevent="$modal.hide('editGroup')"
+                    >
+                        Cancel
+                    </button>
+                    <button
+                        type="button"
+                        class="submit"
+                        @click.prevent="onSubmit"
+                    >
+                        Submit
+                    </button>
+                </div>
+            </form>
         </div>
-      </form>
-    </div>
-  </modal>
+    </modal>
 </template>
 
 

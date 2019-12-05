@@ -1,52 +1,52 @@
 <template>
-  <section class="grid">
-    <img
-      src="../../assets/images/logo.png"
-      alt="IPSA ONE logo"
-      class="logo"
-    >
-
-    <section class="content">
-      <div class="card">
-        <h1>A.N.N.<span class="inverted">A</span></h1>
-        <h2>Admin Network for Nanosat Association </h2>
-
-        <form
-          action="#"
-          method="post"
+    <section class="grid">
+        <img
+            src="../../assets/images/logo.png"
+            alt="IPSA ONE logo"
+            class="logo"
         >
-          <input
-            id="username"
-            v-model="username"
-            type="text"
-            name="username"
-            placeholder="Username"
-            autofocus
-            @keyup.enter="login"
-          >
-          <input
-            id="password"
-            v-model="password"
-            type="password"
-            name="password"
-            placeholder="Password"
-            @keyup.enter="login"
-          >
-          <div class="actions">
-            <a
-              class="button nopasswd"
-              href="#"
-            >Forgot your password?</a>
-            <a
-              class="button"
-              href="#"
-              @click="login"
-            >Login</a>
-          </div>
-        </form>
-      </div>
+
+        <section class="content">
+            <div class="card">
+                <h1>A.N.N.<span class="inverted">A</span></h1>
+                <h2>Admin Network for Nanosat Association </h2>
+
+                <form
+                    action="#"
+                    method="post"
+                >
+                    <input
+                        id="username"
+                        v-model="username"
+                        type="text"
+                        name="username"
+                        placeholder="Username"
+                        autofocus
+                        @keyup.enter="login"
+                    >
+                    <input
+                        id="password"
+                        v-model="password"
+                        type="password"
+                        name="password"
+                        placeholder="Password"
+                        @keyup.enter="login"
+                    >
+                    <div class="actions">
+                        <a
+                            class="button nopasswd"
+                            href="#"
+                        >Forgot your password?</a>
+                        <a
+                            class="button"
+                            href="#"
+                            @click="login"
+                        >Login</a>
+                    </div>
+                </form>
+            </div>
+        </section>
     </section>
-  </section>
 </template>
 
 <script>

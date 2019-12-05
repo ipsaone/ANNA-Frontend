@@ -1,210 +1,210 @@
 <template>
-  <modal
-    name="uploadFile"
-    height="auto"
-    :scrollable="true"
-    @before-open="beforeOpen"
-  >
-    <div
-      id="upload-file"
-      class="content anna-modal"
+    <modal
+        name="uploadFile"
+        height="auto"
+        :scrollable="true"
+        @before-open="beforeOpen"
     >
-      <!-- TITLE -->
-      <h1 v-if="isDir && !isEditing">
-        Create a new folder
-      </h1>
-      <h1 v-if="isDir && isEditing">
-        Edit selected folder
-      </h1>
-      <h1 v-if="!isDir && !isEditing">
-        Upload a new file
-      </h1>
-      <h1 v-if="!isDir && isEditing">
-        Edit selected file
-      </h1>
-      <form @submit.prevent="onSubmit">
-        <input
-          v-if="!isDir && !isEditing"
-          ref="file"
-          type="file"
-          @change="onFileChange"
-        >
-        <vm-progress
-          v-if="!isDir && !isEditing"
-          max="100"
-          :text-inside="true"
-          :stroke-width="18"
-          :percentage="uploadPercentage"
-        />
-        <input
-          v-if="isDir && !isEditing"
-          v-model="name"
-          type="text"
-          autocomplete="off"
-          placeholder="Folder name"
-        >
-        <input
-          v-if="isDir && isEditing"
-          v-model="name"
-          type="text"
-          autocomplete="off"
-        >
         <div
-          name="managePermissions"
-          height="auto"
-          :scrollable="true"
+            id="upload-file"
+            class="content anna-modal"
         >
-          <div class="big-wrapper">
-            <h2 id="manage-permissions">
-              Manage Permissions
-            </h2>
-            <div class="file-information">
-              <h4> File information </h4>
-              <ul>
-                <li>
-                  <label for="owner-input">Owner : </label> <input
-                    id="owner-input"
-                    v-model="ownerName"
-                    list="users"
-                    type="text"
-                    name="owner"
-                    value=""
-                    autocomplete="off"
-                    @change="selectUser(ownerName)"
-                  >
-                </li>
-                <li>
-                  <label
-                    v-if="userGroups"
-                    for="group-input"
-                  >Group : </label> <input
-                    v-if="userGroups"
-                    id="group-input"
-                    v-model="groupName"
-                    list="groups"
-                    type="text"
-                    name="group"
-                    value=""
-                    autocomplete="off"
-                    @change="setGroupId(groupName)"
-                  >
-                  <label
-                    v-if="!userGroups"
-                    id="replace"
-                    for="group-input"
-                  >User has no group. Owners need to be in a group</label>
-                </li>
-                <datalist
-                  id="users"
-                  autocomplete="off"
+            <!-- TITLE -->
+            <h1 v-if="isDir && !isEditing">
+                Create a new folder
+            </h1>
+            <h1 v-if="isDir && isEditing">
+                Edit selected folder
+            </h1>
+            <h1 v-if="!isDir && !isEditing">
+                Upload a new file
+            </h1>
+            <h1 v-if="!isDir && isEditing">
+                Edit selected file
+            </h1>
+            <form @submit.prevent="onSubmit">
+                <input
+                    v-if="!isDir && !isEditing"
+                    ref="file"
+                    type="file"
+                    @change="onFileChange"
                 >
-                  <option
-                    v-for="user in users"
-                    :key="user.id"
-                    :value="user.username"
-                    :label="user.username"
-                  />
-                </datalist>
-                <datalist
-                  id="groups"
-                  autocomplete="off"
+                <vm-progress
+                    v-if="!isDir && !isEditing"
+                    max="100"
+                    :text-inside="true"
+                    :stroke-width="18"
+                    :percentage="uploadPercentage"
+                />
+                <input
+                    v-if="isDir && !isEditing"
+                    v-model="name"
+                    type="text"
+                    autocomplete="off"
+                    placeholder="Folder name"
                 >
-                  <option
-                    v-for="group in userGroups"
-                    :key="group.id"
-                    :value="group.name"
-                    :label="group.name"
-                  />
-                </datalist>
+                <input
+                    v-if="isDir && isEditing"
+                    v-model="name"
+                    type="text"
+                    autocomplete="off"
+                >
+                <div
+                    name="managePermissions"
+                    height="auto"
+                    :scrollable="true"
+                >
+                    <div class="big-wrapper">
+                        <h2 id="manage-permissions">
+                            Manage Permissions
+                        </h2>
+                        <div class="file-information">
+                            <h4> File information </h4>
+                            <ul>
+                                <li>
+                                    <label for="owner-input">Owner : </label> <input
+                                        id="owner-input"
+                                        v-model="ownerName"
+                                        list="users"
+                                        type="text"
+                                        name="owner"
+                                        value=""
+                                        autocomplete="off"
+                                        @change="selectUser(ownerName)"
+                                    >
+                                </li>
+                                <li>
+                                    <label
+                                        v-if="userGroups"
+                                        for="group-input"
+                                    >Group : </label> <input
+                                        v-if="userGroups"
+                                        id="group-input"
+                                        v-model="groupName"
+                                        list="groups"
+                                        type="text"
+                                        name="group"
+                                        value=""
+                                        autocomplete="off"
+                                        @change="setGroupId(groupName)"
+                                    >
+                                    <label
+                                        v-if="!userGroups"
+                                        id="replace"
+                                        for="group-input"
+                                    >User has no group. Owners need to be in a group</label>
+                                </li>
+                                <datalist
+                                    id="users"
+                                    autocomplete="off"
+                                >
+                                    <option
+                                        v-for="user in users"
+                                        :key="user.id"
+                                        :value="user.username"
+                                        :label="user.username"
+                                    />
+                                </datalist>
+                                <datalist
+                                    id="groups"
+                                    autocomplete="off"
+                                >
+                                    <option
+                                        v-for="group in userGroups"
+                                        :key="group.id"
+                                        :value="group.name"
+                                        :label="group.name"
+                                    />
+                                </datalist>
 
-                <li v-if="!isDir">
-                  <label>Serial number : </label><input
-                    v-model="serialNbr"
-                    type="text"
-                  >
-                </li>
-              </ul>
-            </div>
-            <div class="permissions">
-              <h4> Permissions </h4>
-              <div class="tableau-permissions">
-                <div
-                  id="diagonale"
-                  class="case"
-                >
-                  \
+                                <li v-if="!isDir">
+                                    <label>Serial number : </label><input
+                                        v-model="serialNbr"
+                                        type="text"
+                                    >
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="permissions">
+                            <h4> Permissions </h4>
+                            <div class="tableau-permissions">
+                                <div
+                                    id="diagonale"
+                                    class="case"
+                                >
+                                    \
+                                </div>
+                                <div
+                                    id="owner"
+                                    class="case"
+                                >
+                                    owner
+                                </div>
+                                <div
+                                    id="group"
+                                    class="case"
+                                >
+                                    group
+                                </div>
+                                <div
+                                    id="others"
+                                    class="case"
+                                >
+                                    others
+                                </div>
+                                <div
+                                    id="read"
+                                    class="case"
+                                >
+                                    read
+                                </div>
+                                <div
+                                    id="write"
+                                    class="case"
+                                >
+                                    write
+                                </div>
+                                <div
+                                    v-for="box in cases"
+                                    :key="box"
+                                    class="case cochable"
+                                >
+                                    <div class="checkbox-container">
+                                        <input
+                                            :id="box"
+                                            v-model="rights[box]"
+                                            type="checkbox"
+                                            :name="box"
+                                        >
+                                        <label
+                                            class="checkbox"
+                                            :for="box"
+                                        />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="buttons">
+                                <button
+                                    type="button"
+                                    class="cancel"
+                                    @click="cancelUpload"
+                                >
+                                    Cancel
+                                </button>
+                                <button
+                                    id="submitButton"
+                                    type="submit"
+                                    class="button success"
+                                >
+                                    Submit
+                                </button>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-                <div
-                  id="owner"
-                  class="case"
-                >
-                  owner
-                </div>
-                <div
-                  id="group"
-                  class="case"
-                >
-                  group
-                </div>
-                <div
-                  id="others"
-                  class="case"
-                >
-                  others
-                </div>
-                <div
-                  id="read"
-                  class="case"
-                >
-                  read
-                </div>
-                <div
-                  id="write"
-                  class="case"
-                >
-                  write
-                </div>
-                <div
-                  v-for="box in cases"
-                  :key="box"
-                  class="case cochable"
-                >
-                  <div class="checkbox-container">
-                    <input
-                      :id="box"
-                      v-model="rights[box]"
-                      type="checkbox"
-                      :name="box"
-                    >
-                    <label
-                      class="checkbox"
-                      :for="box"
-                    />
-                  </div>
-                </div>
-              </div>
-              <div class="buttons">
-                <button
-                  type="button"
-                  class="cancel"
-                  @click="cancelUpload"
-                >
-                  Cancel
-                </button>
-                <button
-                  id="submitButton"
-                  type="submit"
-                  class="button success"
-                >
-                  Submit
-                </button>
-              </div>
-            </div>
-          </div>
+            </form>
         </div>
-      </form>
-    </div>
-  </modal>
+    </modal>
 </template>
 
 <script>

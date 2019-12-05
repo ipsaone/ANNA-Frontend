@@ -1,33 +1,33 @@
 <template>
-  <modal
-    name="event"
-    height="auto"
-    :scrollable="true"
-    @before-open="beforeOpen"
-    @before-close="beforeClose"
-  >
-    <div class="content anna-modal">
-      <h1>{{ event.name }}</h1>
+    <modal
+        name="event"
+        height="auto"
+        :scrollable="true"
+        @before-open="beforeOpen"
+        @before-close="beforeClose"
+    >
+        <div class="content anna-modal">
+            <h1>{{ event.name }}</h1>
 
-      <p class="info">
-        Start the {{ event.startDate | moment('DD/MM/YYYY') }}<br>
-        <span v-show="event.endDate">Finish the {{ event.endDate | moment('DD/MM/YYYY') }}</span>
-      </p>
+            <p class="info">
+                Start the {{ event.startDate | moment('DD/MM/YYYY') }}<br>
+                <span v-show="event.endDate">Finish the {{ event.endDate | moment('DD/MM/YYYY') }}</span>
+            </p>
 
-      <div
-        class="description"
-        v-html="event.content"
-      />
+            <div
+                class="description"
+                v-html="event.content"
+            />
 
-      <button
-        v-if="showAdmin()"
-        class="button alert"
-        @click="deleteEvent"
-      >
-        Delete
-      </button>
-    </div>
-  </modal>
+            <button
+                v-if="showAdmin()"
+                class="button alert"
+                @click="deleteEvent"
+            >
+                Delete
+            </button>
+        </div>
+    </modal>
 </template>
 
 <script>

@@ -1,31 +1,31 @@
 <template>
-  <modal
-    name="newTask"
-    height="auto"
-    :scrollable="true"
-    @before-open="beforeOpen"
-  >
-    <div class="content anna-modal">
-      <h1>Create a new task</h1>
-      <form>
-        <input
-          id="Name"
-          v-model="name"
-          type="text"
-          name="Name"
-          placeholder="Name"
-        >
+    <modal
+        name="newTask"
+        height="auto"
+        :scrollable="true"
+        @before-open="beforeOpen"
+    >
+        <div class="content anna-modal">
+            <h1>Create a new task</h1>
+            <form>
+                <input
+                    id="Name"
+                    v-model="name"
+                    type="text"
+                    name="Name"
+                    placeholder="Name"
+                >
 
-        <button
-          type="submit"
-          class="button success"
-          @click.prevent="onSubmit"
-        >
-          Submit
-        </button>
-      </form>
-    </div>
-  </modal>
+                <button
+                    type="submit"
+                    class="button success"
+                    @click.prevent="onSubmit"
+                >
+                    Submit
+                </button>
+            </form>
+        </div>
+    </modal>
 </template>
 
 <script>

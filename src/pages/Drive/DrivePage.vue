@@ -1,211 +1,211 @@
 <template>
-  <section class="drive basic-layout">
-    <upload-file />
-    <barcode />
-    <move-filev2 />
+    <section class="drive basic-layout">
+        <upload-file />
+        <barcode />
+        <move-filev2 />
 
-    <section class="content">
-      <h1 class="color-green section-title">
-        Drive
-      </h1>
-      <drive-table
-        :search="searchKeyWord"
-        show-history="false"
-      />
-    </section>
-
-    <section class="actions">
-      <h1 class="section-title">
-        Actions
-      </h1>
-      <ul>
-        <li
-          v-if="loggedUser.groups && loggedUser.groups.length !== 0"
-          id="barre"
-        >
-          <a
-            href="#"
-            @input="search(searchKeyWord, searchTypes)"
-          >
-            <i
-              class="fas fa-search"
-              aria-hidden="true"
+        <section class="content">
+            <h1 class="color-green section-title">
+                Drive
+            </h1>
+            <drive-table
+                :search="searchKeyWord"
+                show-history="false"
             />
-            <input
-              v-model="searchKeyWord"
-              class="search"
-              style="padding: 0; margin: 0;"
-              type="search"
-            >
-          </a>
-          <div
-            v-if="searchKeyWord && searchKeyWord.length > 0"
-            class="search_options"
-          >
-            <input
-              v-model="searchTypes"
-              type="checkbox"
-              value="name"
-              @change="search(searchKeyWord, searchTypes)"
-            >Name
-            <input
-              v-model="searchTypes"
-              type="checkbox"
-              value="serialNbr"
-              @change="search(searchKeyWord, searchTypes)"
-            >Serial number
-          </div>
-        </li>
-        <li v-if="loggedUser.groups && loggedUser.groups.length !== 0">
-          <a
-            href="#"
-            @click.prevent="$modal.show('uploadFile', {isDir: false, isEditing: false, loggedUser})"
-          >
-            <i
-              class="fa fa-upload"
-              aria-hidden="true"
-            /> Upload
-          </a>
-        </li>
+        </section>
 
-        <li v-if="loggedUser.groups && loggedUser.groups.length !== 0">
-          <a
-            href="#"
-            @click.prevent="$modal.show('uploadFile', {isDir: true, isEditing: false, loggedUser})"
-          >
-            <i
-              class="fa fa-plus"
-              aria-hidden="true"
-            /> New folder
-          </a>
-        </li>
+        <section class="actions">
+            <h1 class="section-title">
+                Actions
+            </h1>
+            <ul>
+                <li
+                    v-if="loggedUser.groups && loggedUser.groups.length !== 0"
+                    id="barre"
+                >
+                    <a
+                        href="#"
+                        @input="search(searchKeyWord, searchTypes)"
+                    >
+                        <i
+                            class="fas fa-search"
+                            aria-hidden="true"
+                        />
+                        <input
+                            v-model="searchKeyWord"
+                            class="search"
+                            style="padding: 0; margin: 0;"
+                            type="search"
+                        >
+                    </a>
+                    <div
+                        v-if="searchKeyWord && searchKeyWord.length > 0"
+                        class="search_options"
+                    >
+                        <input
+                            v-model="searchTypes"
+                            type="checkbox"
+                            value="name"
+                            @change="search(searchKeyWord, searchTypes)"
+                        >Name
+                        <input
+                            v-model="searchTypes"
+                            type="checkbox"
+                            value="serialNbr"
+                            @change="search(searchKeyWord, searchTypes)"
+                        >Serial number
+                    </div>
+                </li>
+                <li v-if="loggedUser.groups && loggedUser.groups.length !== 0">
+                    <a
+                        href="#"
+                        @click.prevent="$modal.show('uploadFile', {isDir: false, isEditing: false, loggedUser})"
+                    >
+                        <i
+                            class="fa fa-upload"
+                            aria-hidden="true"
+                        /> Upload
+                    </a>
+                </li>
 
-        <li style="padding-right: 15px !important">
-          <p
-            v-if="loggedUser.groups && loggedUser.groups.length == 0"
-            style="margin-right: 160px; word-break: break-word;"
-          >
-            Join a group to be able to upload files and create folders !
-          </p>
-        </li>
+                <li v-if="loggedUser.groups && loggedUser.groups.length !== 0">
+                    <a
+                        href="#"
+                        @click.prevent="$modal.show('uploadFile', {isDir: true, isEditing: false, loggedUser})"
+                    >
+                        <i
+                            class="fa fa-plus"
+                            aria-hidden="true"
+                        /> New folder
+                    </a>
+                </li>
 
-        <li>
-          <a
-            href="#"
-            @click.prevent="newBarcode"
-          >
-            <i class="fa fa-barcode" /> Generate a new barcode
-          </a>
-        </li>
-      </ul>
+                <li style="padding-right: 15px !important">
+                    <p
+                        v-if="loggedUser.groups && loggedUser.groups.length == 0"
+                        style="margin-right: 160px; word-break: break-word;"
+                    >
+                        Join a group to be able to upload files and create folders !
+                    </p>
+                </li>
 
-      <br>
+                <li>
+                    <a
+                        href="#"
+                        @click.prevent="newBarcode"
+                    >
+                        <i class="fa fa-barcode" /> Generate a new barcode
+                    </a>
+                </li>
+            </ul>
 
-      <div v-if="showOptions">
-        <h1 class="section-title">
-          Options
-        </h1>
-        <ul>
-          <li v-if="this.selectedFile && !this.selectedFile.file.isDir">
-            <a
-              v-if="!showHistory"
-              href="#"
-              @click.prevent="downloadFile"
-            >
-              <i
-                class="fa fa-download"
-                aria-hidden="true"
-              /> Download
-            </a>
-            <a
-              v-else
-              href="#"
-              @click.prevent="downloadRev"
-            >
-              <i
-                class="fa fa-download"
-                aria-hidden="true"
-              /> Download
-            </a>
-          </li>
-          <li v-else-if="this.selectedFile">
-            <a
-              href="#"
-              @click.prevent="openFile"
-            >
-              <i
-                class="fa fa-download"
-                aria-hidden="true"
-              /> Open
-            </a>
-          </li>
-          <li v-if="this.selectedFile.file && !this.selectedFile.file.isDir">
-            <a
-              v-if="!showHistory"
-              href="#"
-              @click.prevent="toggleShowHistory"
-            >
-              <i
-                v-if="!showHistory"
-                class="fas fa-history"
-              /> Show history
-            </a>
-            <a
-              v-else
-              href="#"
-              @click.prevent="toggleShowHistory"
-            >
-              <i
-                v-if="showHistory"
-                class="fas fa-times"
-              /> Hide history
-            </a>
-          </li>
-          <!--li>
+            <br>
+
+            <div v-if="showOptions">
+                <h1 class="section-title">
+                    Options
+                </h1>
+                <ul>
+                    <li v-if="this.selectedFile && !this.selectedFile.file.isDir">
+                        <a
+                            v-if="!showHistory"
+                            href="#"
+                            @click.prevent="downloadFile"
+                        >
+                            <i
+                                class="fa fa-download"
+                                aria-hidden="true"
+                            /> Download
+                        </a>
+                        <a
+                            v-else
+                            href="#"
+                            @click.prevent="downloadRev"
+                        >
+                            <i
+                                class="fa fa-download"
+                                aria-hidden="true"
+                            /> Download
+                        </a>
+                    </li>
+                    <li v-else-if="this.selectedFile">
+                        <a
+                            href="#"
+                            @click.prevent="openFile"
+                        >
+                            <i
+                                class="fa fa-download"
+                                aria-hidden="true"
+                            /> Open
+                        </a>
+                    </li>
+                    <li v-if="this.selectedFile.file && !this.selectedFile.file.isDir">
+                        <a
+                            v-if="!showHistory"
+                            href="#"
+                            @click.prevent="toggleShowHistory"
+                        >
+                            <i
+                                v-if="!showHistory"
+                                class="fas fa-history"
+                            /> Show history
+                        </a>
+                        <a
+                            v-else
+                            href="#"
+                            @click.prevent="toggleShowHistory"
+                        >
+                            <i
+                                v-if="showHistory"
+                                class="fas fa-times"
+                            /> Hide history
+                        </a>
+                    </li>
+                    <!--li>
                         <a href="#" @click.prevent="downloadMeta">
                             <i></i> Download Meta
                         </a>
                     </li-->
-          <li v-if="!showHistory">
-            <a
-              href="#"
-              @click.prevent="moveFile"
-            >
-              <i
-                class="fa fa-folder"
-                aria-hidden="true"
-              /> Move
-            </a>
-          </li>
-          <li v-if="!showHistory">
-            <a
-              v-if="this.selectedFile.isDir"
-              href="#"
-              @click.prevent="$modal.show('uploadFile', {isDir: true, isEditing: true})"
-            >
+                    <li v-if="!showHistory">
+                        <a
+                            href="#"
+                            @click.prevent="moveFile"
+                        >
+                            <i
+                                class="fa fa-folder"
+                                aria-hidden="true"
+                            /> Move
+                        </a>
+                    </li>
+                    <li v-if="!showHistory">
+                        <a
+                            v-if="this.selectedFile.isDir"
+                            href="#"
+                            @click.prevent="$modal.show('uploadFile', {isDir: true, isEditing: true})"
+                        >
 
-              <i class="fa fa-pen" /> Edit
-            </a>
-            <a
-              v-else
-              href="#"
-              @click.prevent="$modal.show('uploadFile', {isDir: false, isEditing: true})"
-            >
-              <i class="fa fa-pen" /> Edit
-            </a>
-          </li>
-          <li v-if="!showHistory">
-            <a
-              href="#"
-              @click.prevent="deleteFile"
-            >
-              <i class="fa fa-trash" /> Delete
-            </a>
-          </li>
-        </ul>
-      </div>
+                            <i class="fa fa-pen" /> Edit
+                        </a>
+                        <a
+                            v-else
+                            href="#"
+                            @click.prevent="$modal.show('uploadFile', {isDir: false, isEditing: true})"
+                        >
+                            <i class="fa fa-pen" /> Edit
+                        </a>
+                    </li>
+                    <li v-if="!showHistory">
+                        <a
+                            href="#"
+                            @click.prevent="deleteFile"
+                        >
+                            <i class="fa fa-trash" /> Delete
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </section>
     </section>
-  </section>
 </template>
 
 <script>

@@ -1,101 +1,101 @@
 <template>
-  <modal
-    name="missionModal"
-    height="auto"
-    :scrollable="true"
-    @before-open="beforeOpen"
-  >
-    <div class="content anna-modal missionModal">
-      <h1 v-if="isEditing">
-        Edit mission
-      </h1>
-      <h1 v-else>
-        New Mission
-      </h1>
-      <form>
-        <input
-          id="Name"
-          v-model="name"
-          type="text"
-          name="Name"
-          placeholder="Name..."
-        >
-        <markdown-editor
-          v-model="markdown"
-          :configs="configs"
-          class="md-editor"
-        />
+    <modal
+        name="missionModal"
+        height="auto"
+        :scrollable="true"
+        @before-open="beforeOpen"
+    >
+        <div class="content anna-modal missionModal">
+            <h1 v-if="isEditing">
+                Edit mission
+            </h1>
+            <h1 v-else>
+                New Mission
+            </h1>
+            <form>
+                <input
+                    id="Name"
+                    v-model="name"
+                    type="text"
+                    name="Name"
+                    placeholder="Name..."
+                >
+                <markdown-editor
+                    v-model="markdown"
+                    :configs="configs"
+                    class="md-editor"
+                />
 
-        <div class="form-group">
-          <label for="leader">Leader: </label>
-          <input
-            id="leader"
-            v-model="leaderName"
-            list="users"
-            type="text"
-            name="leader"
-            autocomplete="off"
-            @change="selectUser(leaderName)"
-          ><br>
-          <!--label v-if="userGroups && userGroups.length != 0" for="group">Group: </label-->
-          <!--label v-else for="group">User has no group. Leaders need to be in a group.</label-->
-          <!--input v-if="userGroups && userGroups.length != 0" list="groups" type="text" name="groups" id="group" v-model="groupName" autocomplete="off" @change="setGroupId(groupName)"-->
-          <datalist id="users">
-            <option
-              v-for="user in users"
-              :key="user.id"
-              :value="user.username"
-              :label="user.username"
-            />
-          </datalist>
-          <!--datalist id="groups">
+                <div class="form-group">
+                    <label for="leader">Leader: </label>
+                    <input
+                        id="leader"
+                        v-model="leaderName"
+                        list="users"
+                        type="text"
+                        name="leader"
+                        autocomplete="off"
+                        @change="selectUser(leaderName)"
+                    ><br>
+                    <!--label v-if="userGroups && userGroups.length != 0" for="group">Group: </label-->
+                    <!--label v-else for="group">User has no group. Leaders need to be in a group.</label-->
+                    <!--input v-if="userGroups && userGroups.length != 0" list="groups" type="text" name="groups" id="group" v-model="groupName" autocomplete="off" @change="setGroupId(groupName)"-->
+                    <datalist id="users">
+                        <option
+                            v-for="user in users"
+                            :key="user.id"
+                            :value="user.username"
+                            :label="user.username"
+                        />
+                    </datalist>
+                    <!--datalist id="groups">
                         <option v-for="group in userGroups" :key="group.id" :value="group.name" :label="group.name"/>
                     </datalist-->
-        </div>
+                </div>
 
-        <div class="form-group">
-          <label for="budget">Budget assigned: </label>
-          <input
-            id="budget"
-            v-model="budgetAssigned"
-            type="number"
-            name="budget"
-            step="0.01"
-          > <p> € </p>
-        </div>
-        <div
-          v-if="isEditing"
-          class="form-group"
-        >
-          <label for="budgetUsed">Budget used: </label>
-          <input
-            id="budgetUsed"
-            v-model="budgetUsed"
-            type="number"
-            name="budgetUsed"
-            step="0.01"
-          > <p> € </p>
-        </div>
+                <div class="form-group">
+                    <label for="budget">Budget assigned: </label>
+                    <input
+                        id="budget"
+                        v-model="budgetAssigned"
+                        type="number"
+                        name="budget"
+                        step="0.01"
+                    > <p> € </p>
+                </div>
+                <div
+                    v-if="isEditing"
+                    class="form-group"
+                >
+                    <label for="budgetUsed">Budget used: </label>
+                    <input
+                        id="budgetUsed"
+                        v-model="budgetUsed"
+                        type="number"
+                        name="budgetUsed"
+                        step="0.01"
+                    > <p> € </p>
+                </div>
 
-        <div class="buttons">
-          <button
-            type="button"
-            class="cancel"
-            @click.prevent="exit"
-          >
-            Cancel
-          </button>
-          <button
-            type="button"
-            class="submit"
-            @click.prevent="onSubmit"
-          >
-            Confirm
-          </button>
+                <div class="buttons">
+                    <button
+                        type="button"
+                        class="cancel"
+                        @click.prevent="exit"
+                    >
+                        Cancel
+                    </button>
+                    <button
+                        type="button"
+                        class="submit"
+                        @click.prevent="onSubmit"
+                    >
+                        Confirm
+                    </button>
+                </div>
+            </form>
         </div>
-      </form>
-    </div>
-  </modal>
+    </modal>
 </template>
 
 

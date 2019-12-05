@@ -1,44 +1,44 @@
 <template>
-  <modal
-    name="log"
-    height="auto"
-    :scrollable="true"
-    @before-open="beforeOpen"
-    @before-close="beforeClose"
-  >
-    <div class="content anna-modal">
-      <h1>{{ log.title }}</h1>
+    <modal
+        name="log"
+        height="auto"
+        :scrollable="true"
+        @before-open="beforeOpen"
+        @before-close="beforeClose"
+    >
+        <div class="content anna-modal">
+            <h1>{{ log.title }}</h1>
 
-      <p class="info">
-        By <router-link :to="{name: 'profile', params:{id: authorId}}">
-          {{ username }}
-        </router-link>
-        the {{ log.createdAt | moment('DD/MM/YYYY [at] HH:mm') }}
-      </p>
+            <p class="info">
+                By <router-link :to="{name: 'profile', params:{id: authorId}}">
+                    {{ username }}
+                </router-link>
+                the {{ log.createdAt | moment('DD/MM/YYYY [at] HH:mm') }}
+            </p>
 
-      <p
-        class="description"
-        v-html="log.content"
-      />
+            <p
+                class="description"
+                v-html="log.content"
+            />
 
-      <button
-        v-show="canDelete"
-        v-if="!remove"
-        class="button alert"
-        @click="deleteLog"
-      >
-        Delete
-      </button>
-      <button
-        v-show="canDelete"
-        v-else
-        class="button alert"
-        @click="deleteLog"
-      >
-        Click to confirm
-      </button>
-    </div>
-  </modal>
+            <button
+                v-show="canDelete"
+                v-if="!remove"
+                class="button alert"
+                @click="deleteLog"
+            >
+                Delete
+            </button>
+            <button
+                v-show="canDelete"
+                v-else
+                class="button alert"
+                @click="deleteLog"
+            >
+                Click to confirm
+            </button>
+        </div>
+    </modal>
 </template>
 
 <script>

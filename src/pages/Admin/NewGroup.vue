@@ -1,39 +1,39 @@
 <template>
-  <modal
-    name="newGroup"
-    height="auto"
-    :scrollable="true"
-  >
-    <div class="content anna-modal">
-      <h1>Create a new group</h1>
-      <form onsubmit="return false;">
-        <input
-          id="Name"
-          v-model="name"
-          type="text"
-          name="Name"
-          placeholder="Name..."
-        >
+    <modal
+        name="newGroup"
+        height="auto"
+        :scrollable="true"
+    >
+        <div class="content anna-modal">
+            <h1>Create a new group</h1>
+            <form onsubmit="return false;">
+                <input
+                    id="Name"
+                    v-model="name"
+                    type="text"
+                    name="Name"
+                    placeholder="Name..."
+                >
 
-        <div class="buttons">
-          <button
-            type="button"
-            class="cancel"
-            @click.prevent="$modal.hide('newGroup')"
-          >
-            Cancel
-          </button>
-          <button
-            type="button"
-            class="submit"
-            @click.prevent="onSubmit"
-          >
-            Submit
-          </button>
+                <div class="buttons">
+                    <button
+                        type="button"
+                        class="cancel"
+                        @click.prevent="$modal.hide('newGroup')"
+                    >
+                        Cancel
+                    </button>
+                    <button
+                        type="button"
+                        class="submit"
+                        @click.prevent="onSubmit"
+                    >
+                        Submit
+                    </button>
+                </div>
+            </form>
         </div>
-      </form>
-    </div>
-  </modal>
+    </modal>
 </template>
 
 

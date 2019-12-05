@@ -22,6 +22,9 @@ module.exports = {
     ],
     // add your custom rules here
     rules: {
+        'vue/max-attributes-per-line': 0,
+        'vue/singleline-html-element-content-newline': 0,
+        'vue/html-self-closing': 0,
         // allow debugger during development
         'no-debugger': process.env.NODE_ENV === 'production' ? 2 : 0,
         // semicolons
@@ -29,7 +32,8 @@ module.exports = {
         // quotes
         'quotes': ['error', 'single', {'allowTemplateLiterals': true}],
         // indentation
-        'indent': ['error', 4, {SwitchCase: 1}]
+        'indent': ['error', 4, {SwitchCase: 1}],
+        'vue/html-indent': ["error", 4]
     },
     globals: {
         process: true
