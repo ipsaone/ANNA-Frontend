@@ -9,7 +9,7 @@ const driver = new webdriver.Builder().forBrowser('firefox').setFirefoxOptions(o
 
 
 test('root login works', async t => {
-    await driver.get('http://localhost:8081/login');
+    await driver.get('http://localhost:8080/login');
 
     await driver.findElement(webdriver.By.id('username')).sendKeys('root');
     await driver.sleep(100);
@@ -20,7 +20,7 @@ test('root login works', async t => {
     await driver.sleep(2000);
     
     let url = await driver.getCurrentUrl();
-    t.is(url, 'http://localhost:8081/dashboard');
+    t.is(url, 'http://localhost:8080/dashboard');
 
     await driver.quit();
 
