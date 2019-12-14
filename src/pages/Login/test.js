@@ -11,10 +11,10 @@ options.addArguments("-headless");
 
 const driver = new webdriver.Builder().forBrowser('firefox').setFirefoxOptions(options).build();
 
-async function screen_test(t, curdriver, name) {
-    let login_screen = await curdriver.takeScreenshot();
-    await util.promisify(fs.writeFile)(path.join(__dirname, 'tests', name+'_new.png'), login_screen, 'base64');
-    let result = await util.promisify(same)(path.join(__dirname, 'tests', name+'.png'), path.join(__dirname, 'tests', name+'_new.png'), {
+async function screen_test(t, driver, name) {
+    let login_screen = await driver.takeScreenshot();
+    await util.promisify(fs.writeFile)(path.join(__dirname, name+'_new.png'), login_screen, 'base64');
+    let result = await util.promisify(same)(path.join(__dirname, name+'.png'), path.join(__dirname, name+'_new.png'), {
         strict: false,
         tolerance: 2.5,
         antialiasingTolerance: 0,
@@ -23,7 +23,7 @@ async function screen_test(t, curdriver, name) {
     });
 
     if(result.equal) {
-        await util.promisify(fs.unlink)(path.join(__dirname, 'tests', name+'_new.png'));
+        await util.promisify(fs.unlink)(path.join(__dirname, name+'_new.png'));
     } else {
         const diff = looksSame.createDiff({
             reference: path.join(__dirname, name+'.png'),
@@ -44,7 +44,7 @@ async function screen_test(t, curdriver, name) {
 
 test('root login works', async t => {
     await driver.get('http://localhost:8081/login');
-    await screen_test(t, driver, 'login_screen');
+    screen_test(t, driver, 'login_screen');
 
 
     await driver.findElement(webdriver.By.id('username')).sendKeys('root');
