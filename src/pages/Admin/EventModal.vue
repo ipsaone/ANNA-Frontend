@@ -1,105 +1,105 @@
 <template>
-  <modal
-    name="eventModal"
-    height="auto"
-    :scrollable="true"
-    @before-open="beforeOpen"
-  >
-    <div class="content anna-modal eventModal">
-      <h1 v-if="isEditing">
-        Edit event
-      </h1>
-      <h1 v-else>
-        Create a new event
-      </h1>
-      <form>
-        <input
-          id="Name"
-          v-model="name"
-          type="text"
-          name="Name"
-          placeholder="Name..."
-        >
+    <modal
+        name="eventModal"
+        height="auto"
+        :scrollable="true"
+        @before-open="beforeOpen"
+    >
+        <div class="content anna-modal eventModal">
+            <h1 v-if="isEditing">
+                Edit event
+            </h1>
+            <h1 v-else>
+                Create a new event
+            </h1>
+            <form>
+                <input
+                    id="Name"
+                    v-model="name"
+                    type="text"
+                    name="Name"
+                    placeholder="Name..."
+                >
 
-        <markdown-editor
-          v-model="description"
-          :configs="configs"
-          class="md-editor"
-        />
+                <markdown-editor
+                    v-model="description"
+                    :configs="configs"
+                    class="md-editor"
+                />
 
-        <div class="form-group">
-          <label for="evt_start">Start date :</label>
-          <datepicker
-            v-model="start"
-            class="datepicker"
-            placeholder="Select Date"
-          />
+                <div class="form-group">
+                    <label for="evt_start">Start date :</label>
+                    <datepicker
+                        v-model="start"
+                        class="datepicker"
+                        placeholder="Select Date"
+                    />
+                </div>
+
+                <div class="form-group">
+                    <div class="checkbox-container">
+                        <input
+                            id="end-option"
+                            v-model="end_option"
+                            type="checkbox"
+                            name="end-option"
+                        >
+                        <label
+                            class="checkbox"
+                            for="end-option"
+                        />
+                    </div>
+                    <label for="evt_end">End date :</label>
+                    <datepicker
+                        v-if="end_option"
+                        v-model="end"
+                        class="datepicker"
+                        placeholder="Select Date"
+                    />
+                </div>
+
+                <div class="form-group">
+                    <div class="checkbox-container">
+                        <input
+                            id="max-option"
+                            v-model="max_option"
+                            type="checkbox"
+                            name="max-option"
+                        >
+                        <label
+                            class="checkbox"
+                            for="max-option"
+                        />
+                    </div>
+                    <label for="evt_max">Open slots :</label>
+                    <input
+                        v-if="max_option"
+                        id="openslots-input"
+                        v-model="max"
+                        type="number"
+                        name="evt_max"
+                    >
+                </div>
+
+                <div class="buttons">
+                    <button
+                        type="button"
+                        class="cancel"
+                        @click.prevent="exit"
+                    >
+                        Cancel
+                    </button>
+                    <button
+                        type="button"
+                        class="submit"
+                        @click.prevent="onSubmit"
+                    >
+                        Submit
+                    </button>
+                </div>
+            </form>
         </div>
-
-        <div class="form-group">
-          <div class="checkbox-container">
-            <input
-              id="end-option"
-              v-model="end_option"
-              type="checkbox"
-              name="end-option"
-            >
-            <label
-              class="checkbox"
-              for="end-option"
-            />
-          </div>
-          <label for="evt_end">End date :</label>
-          <datepicker
-            v-if="end_option"
-            v-model="end"
-            class="datepicker"
-            placeholder="Select Date"
-          />
-        </div>
-
-        <div class="form-group">
-          <div class="checkbox-container">
-            <input
-              id="max-option"
-              v-model="max_option"
-              type="checkbox"
-              name="max-option"
-            >
-            <label
-              class="checkbox"
-              for="max-option"
-            />
-          </div>
-          <label for="evt_max">Open slots :</label>
-          <input
-            v-if="max_option"
-            id="openslots-input"
-            v-model="max"
-            type="number"
-            name="evt_max"
-          >
-        </div>
-
-        <div class="buttons">
-          <button
-            type="button"
-            class="cancel"
-            @click.prevent="exit"
-          >
-            Cancel
-          </button>
-          <button
-            type="button"
-            class="submit"
-            @click.prevent="onSubmit"
-          >
-            Submit
-          </button>
-        </div>
-      </form>
-    </div>
-  </modal>
+    </modal>
 </template>
 
 

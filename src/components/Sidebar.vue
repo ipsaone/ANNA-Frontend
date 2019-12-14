@@ -1,85 +1,85 @@
 <template>
-  <section
-    class="sidebar"
-    :class="borderColor"
-  >
-    <img
-      src="../assets/images/logo.png"
-      alt="IPSA ONE logo"
-      class="logo"
-      @click.prevent="redirectToHome"
+    <section
+        class="sidebar"
+        :class="borderColor"
     >
-
-    <h1 class="title">
-      Administration Network for Nanosat Association
-    </h1>
-
-    <nav>
-      <ul>
-        <li
-          v-for="link in links"
-          :key="link.id"
+        <img
+            src="../assets/images/logo.png"
+            alt="IPSA ONE logo"
+            class="logo"
+            @click.prevent="redirectToHome"
         >
-          <router-link
-            v-if="(link.name!='admin')||showAdmin"
-            :to="{name: link.name}"
-            :class="[link.color, link.class]"
-          >
-            {{ link.title }}
-          </router-link>
-        </li>
-      </ul>
-    </nav>
+
+        <h1 class="title">
+            Administration Network for Nanosat Association
+        </h1>
+
+        <nav>
+            <ul>
+                <li
+                    v-for="link in links"
+                    :key="link.id"
+                >
+                    <router-link
+                        v-if="(link.name!='admin')||showAdmin"
+                        :to="{name: link.name}"
+                        :class="[link.color, link.class]"
+                    >
+                        {{ link.title }}
+                    </router-link>
+                </li>
+            </ul>
+        </nav>
 
 
-    <div class="bottom">
-      <transition name="fade">
-        <div
-          v-if="tooltipVisible"
-          :class="{redBorder: tooltipRedBorder}"
-          class="tooltip"
-        >
-          {{ this.tooltipText }}
-        </div>
-      </transition>
+        <div class="bottom">
+            <transition name="fade">
+                <div
+                    v-if="tooltipVisible"
+                    :class="{redBorder: tooltipRedBorder}"
+                    class="tooltip"
+                >
+                    {{ this.tooltipText }}
+                </div>
+            </transition>
 
-      <div
-        class="actions"
-        @mouseover="mouseOverButton"
-        @mouseleave="mouseLeaveButton"
-      >
-        <!--
+            <div
+                class="actions"
+                @mouseover="mouseOverButton"
+                @mouseleave="mouseLeaveButton"
+            >
+                <!--
                 <a class="button badge" data-text="Notifications" @click.prevent="showNotifications"
                    :data-badge="(notifications) ? notifications : false"
                    style="cursor: not-allowed">
                     <i class="fa fa-bell" aria-hidden="true"></i>
                 </a>
                 -->
-        <router-link
-          :to="{name: 'profile', params:{id: logged.id}}"
-          class="button"
-          data-text="Profile"
-        >
-          <i
-            class="fa fa-user"
-            aria-hidden="true"
-          />
-        </router-link>
+                <router-link
+                    :to="{name: 'profile', params:{id: logged.id}}"
+                    class="button"
+                    data-text="Profile"
+                >
+                    <i
+                        class="fa fa-user"
+                        aria-hidden="true"
+                    />
+                </router-link>
                 
 
-        <a
-          class="button"
-          data-text="Logout"
-          @click.prevent="logout"
-        >
-          <i
-            class="fa fa-power-off"
-            aria-hidden="true"
-          />
-        </a>
-      </div>
-    </div>
-  </section>
+                <a
+                    class="button"
+                    data-text="Logout"
+                    @click.prevent="logout"
+                >
+                    <i
+                        class="fa fa-power-off"
+                        aria-hidden="true"
+                    />
+                </a>
+            </div>
+        </div>
+    </section>
 </template>
 
 <script>

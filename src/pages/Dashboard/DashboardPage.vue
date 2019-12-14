@@ -1,13 +1,13 @@
 <template>
-  <section class="dashboard">
-    <section class="content">
-      <h1 class="section-title color-purple">
-        Missions
-      </h1>
+    <section class="dashboard">
+        <section class="content">
+            <h1 class="section-title color-purple">
+                Missions
+            </h1>
 
-      <missions-slider />
+            <missions-slider />
+        </section>
     </section>
-  </section>
 </template>
 
 <script>

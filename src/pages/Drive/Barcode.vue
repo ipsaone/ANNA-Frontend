@@ -1,23 +1,23 @@
 <template>
-  <modal
-    name="barcode"
-    :scrollable="true"
-    height="auto"
-  >
-    <div class="content anna-modal">
-      <h1>Generate a barcode</h1>
+    <modal
+        name="barcode"
+        :scrollable="true"
+        height="auto"
+    >
+        <div class="content anna-modal">
+            <h1>Generate a barcode</h1>
 
-      <input
-        v-model="text"
-        type="text"
-        placeholder="Serial number..."
-      >
-      <canvas
-        id="barcode"
-        ref="barcode"
-      />
-    </div>
-  </modal>
+            <input
+                v-model="text"
+                type="text"
+                placeholder="Serial number..."
+            >
+            <canvas
+                id="barcode"
+                ref="barcode"
+            />
+        </div>
+    </modal>
 </template>
 
 <script>

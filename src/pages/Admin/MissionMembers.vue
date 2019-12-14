@@ -1,50 +1,50 @@
 <template>
-  <modal
-    name="missionMembers"
-    height="auto"
-    :scrollable="true"
-    @before-open="beforeOpen"
-  >
-    <div class="content anna-modal mission-members manage-members">
-      <h1 v-if="mission.name">
-        Mission: {{ mission.name }}
-      </h1>
-      <h1 v-if="mission.leader">
-        Leader : {{ mission.leader.username }}
-      </h1>
-      <i
-        class="fa fa-times"
-        @click="$modal.hide('missionMembers')"
-      />
+    <modal
+        name="missionMembers"
+        height="auto"
+        :scrollable="true"
+        @before-open="beforeOpen"
+    >
+        <div class="content anna-modal mission-members manage-members">
+            <h1 v-if="mission.name">
+                Mission: {{ mission.name }}
+            </h1>
+            <h1 v-if="mission.leader">
+                Leader : {{ mission.leader.username }}
+            </h1>
+            <i
+                class="fa fa-times"
+                @click="$modal.hide('missionMembers')"
+            />
 
-      <div class="lists-wrapper">
-        <div class="left-col">
-          <h2>Users</h2>
-          <ul>
-            <a
-              v-for="user in shownUsers"
-              :key="user.id"
-              @click.prevent="addUser(user.id);"
-            >
-              {{ user.username }}
-            </a>
-          </ul>
+            <div class="lists-wrapper">
+                <div class="left-col">
+                    <h2>Users</h2>
+                    <ul>
+                        <a
+                            v-for="user in shownUsers"
+                            :key="user.id"
+                            @click.prevent="addUser(user.id);"
+                        >
+                            {{ user.username }}
+                        </a>
+                    </ul>
+                </div>
+                <div class="right-col">
+                    <h2>Members</h2>
+                    <ul>
+                        <a
+                            v-for="member in mission.members"
+                            :key="member.id"
+                            @click.prevent="remUser(member.id);"
+                        >
+                            {{ member.username }}
+                        </a>
+                    </ul>
+                </div>
+            </div>
         </div>
-        <div class="right-col">
-          <h2>Members</h2>
-          <ul>
-            <a
-              v-for="member in mission.members"
-              :key="member.id"
-              @click.prevent="remUser(member.id);"
-            >
-              {{ member.username }}
-            </a>
-          </ul>
-        </div>
-      </div>
-    </div>
-  </modal>
+    </modal>
 </template>
 
 

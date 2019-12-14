@@ -1,68 +1,68 @@
 <template>
-  <modal
-    name="editUser"
-    height="auto"
-    :scrollable="true"
-    @before-open="beforeOpen"
-  >
-    <div class="content anna-modal userModal">
-      <h1>Edit user</h1>
-      <form @submit.prevent="onSubmit">
-        <div class="form-group">
-          <label for="user-name">Username:</label>
-          <input
-            v-model="user_name"
-            type="text"
-            name="user-name"
-          >
-        </div>
-        <div class="form-group">
-          <label for="user-email">Email:</label>
-          <input
-            v-model="user_email"
-            type="text"
-            name="user-email"
-          >
-        </div>
-        <div class="form-group">
-          <label for="user-pwd">Password:</label>
-          <input
-            v-model="user_pwd"
-            type="password"
-            name="user-pwd"
-          >
-        </div>
+    <modal
+        name="editUser"
+        height="auto"
+        :scrollable="true"
+        @before-open="beforeOpen"
+    >
+        <div class="content anna-modal userModal">
+            <h1>Edit user</h1>
+            <form @submit.prevent="onSubmit">
+                <div class="form-group">
+                    <label for="user-name">Username:</label>
+                    <input
+                        v-model="user_name"
+                        type="text"
+                        name="user-name"
+                    >
+                </div>
+                <div class="form-group">
+                    <label for="user-email">Email:</label>
+                    <input
+                        v-model="user_email"
+                        type="text"
+                        name="user-email"
+                    >
+                </div>
+                <div class="form-group">
+                    <label for="user-pwd">Password:</label>
+                    <input
+                        v-model="user_pwd"
+                        type="password"
+                        name="user-pwd"
+                    >
+                </div>
 
-        <div class="form-group">
-          <label for="user-pwd-2">Password again:</label>
-          <input
-            v-model="user_pwd_conf"
-            type="password"
-            name="user-pwd-2"
-          >
-        </div>
+                <div class="form-group">
+                    <label for="user-pwd-2">Password again:</label>
+                    <input
+                        v-model="user_pwd_conf"
+                        type="password"
+                        name="user-pwd-2"
+                    >
+                </div>
 
-        <div class="buttons">
-          <!--button type="button" @click.prevent="$modal.hide('editUser')" class="cancel">Cancel</button>
+                <div class="buttons">
+                    <!--button type="button" @click.prevent="$modal.hide('editUser')" class="cancel">Cancel</button>
                     <button type="button" @click.prevent="onSubmit" class="submit">Submit</button!-->
-          <button
-            type="button"
-            class="cancel"
-            @click.prevent="$modal.hide('editUser')"
-          >
-            Cancel
-          </button>
-          <button
-            id="submitButton"
-            type="submit"
-            class="button success"
-          >
-            Submit
-          </button>
+                    <button
+                        type="button"
+                        class="cancel"
+                        @click.prevent="$modal.hide('editUser')"
+                    >
+                        Cancel
+                    </button>
+                    <button
+                        id="submitButton"
+                        type="submit"
+                        class="button success"
+                    >
+                        Submit
+                    </button>
+                </div>
+            </form>
         </div>
-      </form>
-    </div>
-  </modal>
+    </modal>
 </template>
 
 
