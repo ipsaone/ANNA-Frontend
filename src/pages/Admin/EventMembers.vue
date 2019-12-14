@@ -6,13 +6,8 @@
         @before-open="beforeOpen"
     >
         <div class="content anna-modal event-members manage-members">
-            <h1 v-if="event.name">
-                Event: {{ event.name }}
-            </h1>
-            <i
-                class="fa fa-times"
-                @click="$modal.hide('eventMembers')"
-            />
+            <h1 v-if="event.name">Event: {{ event.name }}</h1>
+            <i class="fa fa-times" @click="$modal.hide('eventMembers')" />
 
             <div class="lists-wrapper">
                 <div class="left-col">
@@ -43,7 +38,6 @@
         </div>
     </modal>
 </template>
-
 
 <script>
 import store from '@/modules/store';
@@ -83,7 +77,9 @@ export default {
         async refreshUsers() {
             await store.dispatch('retrieveUsers');
             await store.dispatch('retrieveEvents', true);
-            this.shownUsers = store.getters.users.filter(user => !this.event.registered.map(reg => reg.id).includes(user.id));
+            this.shownUsers = store.getters.users.filter(
+                user => !this.event.registered.map(reg => reg.id).includes(user.id)
+            );
         }
     }
 };

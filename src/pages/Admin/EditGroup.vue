@@ -14,7 +14,7 @@
                     type="text"
                     name="Name"
                     placeholder="New name..."
-                >
+                />
 
                 <div class="buttons">
                     <button
@@ -24,11 +24,7 @@
                     >
                         Cancel
                     </button>
-                    <button
-                        type="button"
-                        class="submit"
-                        @click.prevent="onSubmit"
-                    >
+                    <button type="button" class="submit" @click.prevent="onSubmit">
                         Submit
                     </button>
                 </div>
@@ -37,7 +33,6 @@
     </modal>
 </template>
 
-
 <script>
 import store from '@/modules/store';
 
@@ -45,7 +40,7 @@ export default {
     data() {
         return {
             id: 0,
-            name: '',
+            name: ''
         };
     },
     methods: {
@@ -58,7 +53,7 @@ export default {
             if (this.name) {
                 this.loading = true;
                 console.log('bite', this.id);
-                await store.dispatch('updateGroup', {id: this.id, name: this.name});
+                await store.dispatch('updateGroup', { id: this.id, name: this.name });
                 this.$notify({
                     type: 'success',
                     title: 'Operation successful',

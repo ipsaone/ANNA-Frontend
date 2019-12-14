@@ -6,16 +6,9 @@
         @before-open="beforeOpen"
     >
         <div class="content anna-modal mission-members manage-members">
-            <h1 v-if="mission.name">
-                Mission: {{ mission.name }}
-            </h1>
-            <h1 v-if="mission.leader">
-                Leader : {{ mission.leader.username }}
-            </h1>
-            <i
-                class="fa fa-times"
-                @click="$modal.hide('missionMembers')"
-            />
+            <h1 v-if="mission.name">Mission: {{ mission.name }}</h1>
+            <h1 v-if="mission.leader">Leader : {{ mission.leader.username }}</h1>
+            <i class="fa fa-times" @click="$modal.hide('missionMembers')" />
 
             <div class="lists-wrapper">
                 <div class="left-col">
@@ -24,7 +17,7 @@
                         <a
                             v-for="user in shownUsers"
                             :key="user.id"
-                            @click.prevent="addUser(user.id);"
+                            @click.prevent="addUser(user.id)"
                         >
                             {{ user.username }}
                         </a>
@@ -36,7 +29,7 @@
                         <a
                             v-for="member in mission.members"
                             :key="member.id"
-                            @click.prevent="remUser(member.id);"
+                            @click.prevent="remUser(member.id)"
                         >
                             {{ member.username }}
                         </a>
@@ -46,7 +39,6 @@
         </div>
     </modal>
 </template>
-
 
 <script>
 import store from '@/modules/store';
@@ -78,7 +70,6 @@ export default {
         async remUser(id) {
             await store.dispatch('remMissionMember', id);
             await this.refreshUsers();
-
         },
         async refreshUsers() {
             await store.dispatch('retrieveUsers');
@@ -86,7 +77,7 @@ export default {
             if (!this.mission.members) {
                 this.shownUsers = store.getters.users;
             }
-            this.shownUsers =  store.getters.users.filter(el1 => {
+            this.shownUsers = store.getters.users.filter(el1 => {
                 let found = false;
                 console.log(this.mission);
                 this.mission.members.forEach(el2 => {
@@ -99,7 +90,7 @@ export default {
                 }
                 return !found;
             });
-        },
+        }
     }
 };
 </script>

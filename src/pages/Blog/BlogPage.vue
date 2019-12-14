@@ -9,7 +9,7 @@
                     v-for="(post, index) in pinnedPosts"
                     :key="post.id"
                     :post="post"
-                    :index="index +1"
+                    :index="index + 1"
                     @click="selectPost(post.id)"
                 />
 
@@ -19,13 +19,13 @@
                     v-for="(post, index) in posts"
                     :key="post.id"
                     :post="post"
-                    :index="index +1"
+                    :index="index + 1"
                     @click="selectPost(post.id)"
                 />
             </template>
             <template v-else>
                 <p class="no-post-message">
-                    <b>You're out of luck !</b><br>
+                    <b>You're out of luck !</b><br />
                     No blog post was found... Sorry !! :-(
                 </p>
             </template>
@@ -37,11 +37,8 @@
             </h1>
             <ul>
                 <li v-show="canPost">
-                    <router-link :to="{name: 'newPost'}">
-                        <i
-                            class="fa fa-plus"
-                            aria-hidden="true"
-                        /> New
+                    <router-link :to="{ name: 'newPost' }">
+                        <i class="fa fa-plus" aria-hidden="true" /> New
                     </router-link>
                 </li>
             </ul>
@@ -84,10 +81,12 @@ export default {
     },
     methods: {
         async refreshPosts(force = false, hideNotif = false, hideLoader = false) {
-            if(!hideLoader)
-                this.loading = true;
-            await store.dispatch('retrievePosts', force)
-                .then(() => {this.loading = false;})
+            if (!hideLoader) this.loading = true;
+            await store
+                .dispatch('retrievePosts', force)
+                .then(() => {
+                    this.loading = false;
+                })
                 .then(() => {
                     if (!hideNotif) {
                         this.$notify({
