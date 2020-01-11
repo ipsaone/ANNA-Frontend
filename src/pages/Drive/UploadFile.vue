@@ -5,10 +5,7 @@
         :scrollable="true"
         @before-open="beforeOpen"
     >
-        <div
-            id="upload-file"
-            class="content anna-modal"
-        >
+        <div id="upload-file" class="content anna-modal">
             <!-- TITLE -->
             <h1 v-if="isDir && !isEditing">
                 Create a new folder
@@ -28,7 +25,7 @@
                     ref="file"
                     type="file"
                     @change="onFileChange"
-                >
+                />
                 <vm-progress
                     v-if="!isDir && !isEditing"
                     max="100"
@@ -42,27 +39,24 @@
                     type="text"
                     autocomplete="off"
                     placeholder="Folder name"
-                >
+                />
                 <input
                     v-if="isDir && isEditing"
                     v-model="name"
                     type="text"
                     autocomplete="off"
-                >
-                <div
-                    name="managePermissions"
-                    height="auto"
-                    :scrollable="true"
-                >
+                />
+                <div name="managePermissions" height="auto" :scrollable="true">
                     <div class="big-wrapper">
                         <h2 id="manage-permissions">
                             Manage Permissions
                         </h2>
                         <div class="file-information">
-                            <h4> File information </h4>
+                            <h4>File information</h4>
                             <ul>
                                 <li>
-                                    <label for="owner-input">Owner : </label> <input
+                                    <label for="owner-input">Owner : </label>
+                                    <input
                                         id="owner-input"
                                         v-model="ownerName"
                                         list="users"
@@ -71,13 +65,11 @@
                                         value=""
                                         autocomplete="off"
                                         @change="selectUser(ownerName)"
-                                    >
+                                    />
                                 </li>
                                 <li>
-                                    <label
-                                        v-if="userGroups"
-                                        for="group-input"
-                                    >Group : </label> <input
+                                    <label v-if="userGroups" for="group-input">Group : </label>
+                                    <input
                                         v-if="userGroups"
                                         id="group-input"
                                         v-model="groupName"
@@ -87,17 +79,10 @@
                                         value=""
                                         autocomplete="off"
                                         @change="setGroupId(groupName)"
-                                    >
-                                    <label
-                                        v-if="!userGroups"
-                                        id="replace"
-                                        for="group-input"
-                                    >User has no group. Owners need to be in a group</label>
+                                    />
+                                    <label v-if="!userGroups" id="replace" for="group-input">User has no group. Owners need to be in a group</label>
                                 </li>
-                                <datalist
-                                    id="users"
-                                    autocomplete="off"
-                                >
+                                <datalist id="users" autocomplete="off">
                                     <option
                                         v-for="user in users"
                                         :key="user.id"
@@ -105,10 +90,7 @@
                                         :label="user.username"
                                     />
                                 </datalist>
-                                <datalist
-                                    id="groups"
-                                    autocomplete="off"
-                                >
+                                <datalist id="groups" autocomplete="off">
                                     <option
                                         v-for="group in userGroups"
                                         :key="group.id"
@@ -118,84 +100,48 @@
                                 </datalist>
 
                                 <li v-if="!isDir">
-                                    <label>Serial number : </label><input
-                                        v-model="serialNbr"
-                                        type="text"
-                                    >
+                                    <label>Serial number : </label><input v-model="serialNbr" type="text" />
                                 </li>
                             </ul>
                         </div>
                         <div class="permissions">
-                            <h4> Permissions </h4>
+                            <h4>Permissions</h4>
                             <div class="tableau-permissions">
-                                <div
-                                    id="diagonale"
-                                    class="case"
-                                >
+                                <div id="diagonale" class="case">
                                     \
                                 </div>
-                                <div
-                                    id="owner"
-                                    class="case"
-                                >
+                                <div id="owner" class="case">
                                     owner
                                 </div>
-                                <div
-                                    id="group"
-                                    class="case"
-                                >
+                                <div id="group" class="case">
                                     group
                                 </div>
-                                <div
-                                    id="others"
-                                    class="case"
-                                >
+                                <div id="others" class="case">
                                     others
                                 </div>
-                                <div
-                                    id="read"
-                                    class="case"
-                                >
+                                <div id="read" class="case">
                                     read
                                 </div>
-                                <div
-                                    id="write"
-                                    class="case"
-                                >
+                                <div id="write" class="case">
                                     write
                                 </div>
-                                <div
-                                    v-for="box in cases"
-                                    :key="box"
-                                    class="case cochable"
-                                >
+                                <div v-for="box in cases" :key="box" class="case cochable">
                                     <div class="checkbox-container">
                                         <input
                                             :id="box"
                                             v-model="rights[box]"
                                             type="checkbox"
                                             :name="box"
-                                        >
-                                        <label
-                                            class="checkbox"
-                                            :for="box"
                                         />
+                                        <label class="checkbox" :for="box" />
                                     </div>
                                 </div>
                             </div>
                             <div class="buttons">
-                                <button
-                                    type="button"
-                                    class="cancel"
-                                    @click="cancelUpload"
-                                >
+                                <button type="button" class="cancel" @click="cancelUpload">
                                     Cancel
                                 </button>
-                                <button
-                                    id="submitButton"
-                                    type="submit"
-                                    class="button success"
-                                >
+                                <button id="submitButton" type="submit" class="button success">
                                     Submit
                                 </button>
                             </div>
@@ -231,7 +177,7 @@ export default {
                 allRead: true,
                 allWrite: true
             },
-            serialNbr: '',
+            serialNbr: ''
         };
     },
     computed: {
@@ -242,31 +188,37 @@ export default {
         //     return store.getters.selectedUser;
         // },
         selectedUser: {
-            get: function () {
+            get: function() {
                 return store.getters.selectedUser;
             },
-            set: function () {}
+            set: function() {}
         },
         cases() {
-            return Array('ownerRead', 'groupRead', 'allRead', 'ownerWrite', 'groupWrite', 'allWrite');
+            return Array(
+                'ownerRead',
+                'groupRead',
+                'allRead',
+                'ownerWrite',
+                'groupWrite',
+                'allWrite'
+            );
         },
         folder() {
             return store.getters.folder;
         },
         uploadPercentage: {
-            get: function () {
+            get: function() {
                 return store.getters.progress;
             },
-            set: function () {}
+            set: function() {}
         },
         userGroups: {
-            get: function () {
+            get: function() {
                 if (store.getters.selectedUser)
                     return store.getters.selectedUser.groups;
-                else
-                    return store.getters.loggedUser.groups;
+                else return store.getters.loggedUser.groups;
             },
-            set: function () {}
+            set: function() {}
         },
         selectedGroup() {
             return store.getters.selectedGroup;
@@ -280,10 +232,10 @@ export default {
             this.file = this.$refs.file.files[0];
         },
         async selectUser(name) {
-            if(name.trim() != '') {
+            if (name.trim() != '') {
                 let ownerId;
-                if(this.users.find(myUser => myUser.username == name)) {
-                    ownerId =  this.users.find(myUser => myUser.username == name).id;
+                if (this.users.find(myUser => myUser.username == name)) {
+                    ownerId = this.users.find(myUser => myUser.username == name).id;
                 } else {
                     return false;
                 }
@@ -296,8 +248,7 @@ export default {
                     while (i < this.selectedGroup.users.length) {
                         if (this.selectedGroup.users[i].id == this.ownerId) {
                             contains = true;
-                        }
-                        else {
+                        } else {
                             // console.log('contient pas');
                         }
                         i++;
@@ -327,8 +278,7 @@ export default {
                 while (i < this.selectedGroup.users.length) {
                     if (this.selectedGroup.users[i].id == this.ownerId) {
                         contains = true;
-                    }
-                    else {
+                    } else {
                         // console.log('contient pas');
                     }
                     i++;
@@ -374,7 +324,7 @@ export default {
                 return false;
             }
 
-            if(this.isDir) {
+            if (this.isDir) {
                 data.name = this.name;
                 data.isDir = true;
             } else {
@@ -392,27 +342,38 @@ export default {
                 return false;
             }
 
-            if (this.rights.groupWrite != true && this.rights.ownerWrite != true && this.rights.allWrite !=true) {
-                let confirmation = confirm('Do you still want to upload without write permissions ?');
+            if (
+                this.rights.groupWrite != true &&
+        this.rights.ownerWrite != true &&
+        this.rights.allWrite != true
+            ) {
+                let confirmation = confirm(
+                    'Do you still want to upload without write permissions ?'
+                );
                 if (confirmation === true) {
-                    document.getElementById('submitButton').setAttribute('disabled', 'disabled');
+                    document
+                        .getElementById('submitButton')
+                        .setAttribute('disabled', 'disabled');
                     if (this.isEditing) {
-                        await driveApi.editFile({fileId: this.selectedFile.fileId, data})
+                        await driveApi
+                            .editFile({ fileId: this.selectedFile.fileId, data })
                             .catch(() => {
                                 interrupt = true;
-                                if(document.getElementById('submitButton')) {
-                                    document.getElementById('submitButton').removeAttribute('disabled', 'disabled');
+                                if (document.getElementById('submitButton')) {
+                                    document
+                                        .getElementById('submitButton')
+                                        .removeAttribute('disabled', 'disabled');
                                 }
                             });
                     } else {
                         let alreadyExists = false;
-                        if(this.isDir) {
+                        if (this.isDir) {
                             this.folder.children.forEach(child => {
-                                if(child.name == data.name) {
+                                if (child.name == data.name) {
                                     alreadyExists = true;
                                 }
                             });
-                            if(alreadyExists) {
+                            if (alreadyExists) {
                                 this.$notify({
                                     type: 'warning',
                                     title: 'A folder with this name already exists',
@@ -420,33 +381,42 @@ export default {
                                     duration: 5000
                                 });
                             } else {
-                                await driveApi.uploadFile(data)
-                                    .catch(() => {
-                                        interrupt = true;
-                                        if(document.getElementById('submitButton')) {
-                                            document.getElementById('submitButton').removeAttribute('disabled', 'disabled');
-                                        }
-                                    });
+                                await driveApi.uploadFile(data).catch(() => {
+                                    interrupt = true;
+                                    if (document.getElementById('submitButton')) {
+                                        document
+                                            .getElementById('submitButton')
+                                            .removeAttribute('disabled', 'disabled');
+                                    }
+                                });
                                 this.uploadPercentage = store.getters.progress;
                             }
                         } else {
                             let editingFileid;
                             this.folder.children.forEach(child => {
-                                if(child.name == data.name) {
+                                if (child.name == data.name) {
                                     alreadyExists = true;
                                     editingFileid = child.fileId;
                                 }
                             });
-                            if(alreadyExists) {
-                                let confirmation = confirm('A file with the name '
-                                    + data.name + ' already exists. \nContinuing will upload a new version of the file.');
+                            if (alreadyExists) {
+                                let confirmation = confirm(
+                                    'A file with the name ' +
+                    data.name +
+                    ' already exists. \nContinuing will upload a new version of the file.'
+                                );
                                 if (confirmation === true) {
-                                    document.getElementById('submitButton').setAttribute('disabled', 'disabled');
-                                    await driveApi.editFile({fileId: editingFileid, data})
+                                    document
+                                        .getElementById('submitButton')
+                                        .setAttribute('disabled', 'disabled');
+                                    await driveApi
+                                        .editFile({ fileId: editingFileid, data })
                                         .catch(() => {
                                             interrupt = true;
-                                            if(document.getElementById('submitButton')) {
-                                                document.getElementById('submitButton').removeAttribute('disabled', 'disabled');
+                                            if (document.getElementById('submitButton')) {
+                                                document
+                                                    .getElementById('submitButton')
+                                                    .removeAttribute('disabled', 'disabled');
                                             }
                                         });
                                     this.uploadPercentage = store.getters.progress;
@@ -454,19 +424,25 @@ export default {
                                     interrupt = true;
                                 }
                             } else {
-                                await driveApi.uploadFile(data)
-                                    .catch(() => {
-                                        interrupt = true;
-                                        if(document.getElementById('submitButton')) {
-                                            document.getElementById('submitButton').removeAttribute('disabled', 'disabled');
-                                        }
-                                    });
-                                await store.dispatch('retrieveFolder', store.getters.folder.fileId);
+                                await driveApi.uploadFile(data).catch(() => {
+                                    interrupt = true;
+                                    if (document.getElementById('submitButton')) {
+                                        document
+                                            .getElementById('submitButton')
+                                            .removeAttribute('disabled', 'disabled');
+                                    }
+                                });
+                                await store.dispatch(
+                                    'retrieveFolder',
+                                    store.getters.folder.fileId
+                                );
                                 this.uploadPercentage = store.getters.progress;
                             }
                         }
                     }
-                    document.getElementById('submitButton').removeAttribute('disabled', 'disabled');
+                    document
+                        .getElementById('submitButton')
+                        .removeAttribute('disabled', 'disabled');
                     await store.dispatch('retrieveFolder', store.getters.folder.fileId);
                     await store.dispatch('resetProgress');
                     if (!interrupt) {
@@ -474,24 +450,29 @@ export default {
                     }
                 }
             } else {
-                document.getElementById('submitButton').setAttribute('disabled', 'disabled');
+                document
+                    .getElementById('submitButton')
+                    .setAttribute('disabled', 'disabled');
                 if (this.isEditing) {
-                    await driveApi.editFile({fileId: this.selectedFile.fileId, data})
+                    await driveApi
+                        .editFile({ fileId: this.selectedFile.fileId, data })
                         .catch(() => {
                             interrupt = true;
-                            if(document.getElementById('submitButton')) {
-                                document.getElementById('submitButton').removeAttribute('disabled', 'disabled');
+                            if (document.getElementById('submitButton')) {
+                                document
+                                    .getElementById('submitButton')
+                                    .removeAttribute('disabled', 'disabled');
                             }
                         });
                 } else {
                     let alreadyExists = false;
-                    if(this.isDir) {
+                    if (this.isDir) {
                         this.folder.children.forEach(child => {
-                            if(child.name == data.name) {
+                            if (child.name == data.name) {
                                 alreadyExists = true;
                             }
                         });
-                        if(alreadyExists) {
+                        if (alreadyExists) {
                             this.$notify({
                                 type: 'warning',
                                 title: 'A folder with this name already exists',
@@ -499,33 +480,42 @@ export default {
                                 duration: 5000
                             });
                         } else {
-                            await driveApi.uploadFile(data)
-                                .catch(() => {
-                                    interrupt = true;
-                                    if(document.getElementById('submitButton')) {
-                                        document.getElementById('submitButton').removeAttribute('disabled', 'disabled');
-                                    }
-                                });
+                            await driveApi.uploadFile(data).catch(() => {
+                                interrupt = true;
+                                if (document.getElementById('submitButton')) {
+                                    document
+                                        .getElementById('submitButton')
+                                        .removeAttribute('disabled', 'disabled');
+                                }
+                            });
                             this.uploadPercentage = store.getters.progress;
                         }
                     } else {
                         let editingFileid;
                         this.folder.children.forEach(child => {
-                            if(child.name == data.name) {
+                            if (child.name == data.name) {
                                 alreadyExists = true;
                                 editingFileid = child.fileId;
                             }
                         });
-                        if(alreadyExists) {
-                            let confirmation = confirm('A file with the name '
-                                + data.name + ' already exists. \nContinuing will upload a new version of the file.');
+                        if (alreadyExists) {
+                            let confirmation = confirm(
+                                'A file with the name ' +
+                  data.name +
+                  ' already exists. \nContinuing will upload a new version of the file.'
+                            );
                             if (confirmation === true) {
-                                document.getElementById('submitButton').setAttribute('disabled', 'disabled');
-                                await driveApi.editFile({fileId: editingFileid, data})
+                                document
+                                    .getElementById('submitButton')
+                                    .setAttribute('disabled', 'disabled');
+                                await driveApi
+                                    .editFile({ fileId: editingFileid, data })
                                     .catch(() => {
                                         interrupt = true;
-                                        if(document.getElementById('submitButton')) {
-                                            document.getElementById('submitButton').removeAttribute('disabled', 'disabled');
+                                        if (document.getElementById('submitButton')) {
+                                            document
+                                                .getElementById('submitButton')
+                                                .removeAttribute('disabled', 'disabled');
                                         }
                                     });
                                 this.uploadPercentage = store.getters.progress;
@@ -533,20 +523,26 @@ export default {
                                 interrupt = true;
                             }
                         } else {
-                            await driveApi.uploadFile(data)
-                                .catch(() => {
-                                    interrupt = true;
-                                    if(document.getElementById('submitButton')) {
-                                        document.getElementById('submitButton').removeAttribute('disabled', 'disabled');
-                                    }
-                                });
-                            await store.dispatch('retrieveFolder', store.getters.folder.fileId);
+                            await driveApi.uploadFile(data).catch(() => {
+                                interrupt = true;
+                                if (document.getElementById('submitButton')) {
+                                    document
+                                        .getElementById('submitButton')
+                                        .removeAttribute('disabled', 'disabled');
+                                }
+                            });
+                            await store.dispatch(
+                                'retrieveFolder',
+                                store.getters.folder.fileId
+                            );
                             this.uploadPercentage = store.getters.progress;
                         }
                     }
                 }
-                if(document.getElementById('submitButton')) {
-                    document.getElementById('submitButton').removeAttribute('disabled', 'disabled');
+                if (document.getElementById('submitButton')) {
+                    document
+                        .getElementById('submitButton')
+                        .removeAttribute('disabled', 'disabled');
                 }
                 await store.dispatch('retrieveFolder', store.getters.folder.fileId);
                 await store.dispatch('resetProgress');
@@ -554,8 +550,6 @@ export default {
                     this.$modal.hide('uploadFile');
                 }
             }
-
-
         },
         async cancelUpload() {
             this.file = '';
@@ -563,7 +557,7 @@ export default {
             this.ownerId = '';
             this.ownerName = '';
             this.groupId = '';
-            this.groupName  = '';
+            this.groupName = '';
             this.name = '';
             this.serialNbr = '';
             await driveApi.cancelUpload();
@@ -584,14 +578,17 @@ export default {
                 this.rights = this.selectedFile.rights;
             } else {
                 let user = event.params.loggedUser;
-                let group = event.params.loggedUser.groups.sort((a, b) => a.id - b.id)[0];
+                let group = event.params.loggedUser.groups.sort(
+                    (a, b) => a.id - b.id
+                )[0];
                 this.ownerId = user.id;
                 this.ownerName = user.username;
                 this.groupId = group.id;
                 this.groupName = group.name;
                 this.name = '';
                 this.serialNbr = '';
-                this.rights = { ownerRead: true,
+                this.rights = {
+                    ownerRead: true,
                     ownerWrite: true,
                     groupRead: true,
                     groupWrite: true,

@@ -1,34 +1,70 @@
 <template>
     <div>
-        <span style="font-size: 1.1em; cursor: pointer; user-select:none;" @click="goHome">
+        <span
+            style="font-size: 1.1em; cursor: pointer; user-select:none;"
+            @click="goHome"
+        >
             <i class="fas fa-home">
                 <span style="text-decoration: underline"> root</span>
                 <span v-if="folder.name !== 'root'"> > </span>
             </i></span>
         <span v-if="folder.name !== 'root' && folder.dirTree.length <= 2">
-            <span v-for="parent in folder.dirTree" :key="parent.id" style="font-size: 1.1em; cursor: pointer; user-select:none;" @click="openFolder(parent)">
-                <span style="text-decoration: underline"> {{ wrapName(parent.name) }} </span>
+            <span
+                v-for="parent in folder.dirTree"
+                :key="parent.id"
+                style="font-size: 1.1em; cursor: pointer; user-select:none;"
+                @click="openFolder(parent)"
+            >
+                <span style="text-decoration: underline">
+                    {{ wrapName(parent.name) }}
+                </span>
                 <span> > </span>
             </span>
         </span>
-        <span v-if="folder.dirTree.length > 2" style="cursor: default;"> ... > </span>
+        <span v-if="folder.dirTree.length > 2" style="cursor: default;">
+            ... >
+        </span>
         <span v-if="folder.name !== 'root' && folder.dirTree.length > 2">
-            <span v-for="parent in altDirTree" :key="parent.id" style="font-size: 1.1em; cursor: pointer; user-select:none;" :title="parent.name" @click="openFolder(parent)">
-                <span style="text-decoration: underline"> {{ wrapName(parent.name) }} </span>
+            <span
+                v-for="parent in altDirTree"
+                :key="parent.id"
+                style="font-size: 1.1em; cursor: pointer; user-select:none;"
+                :title="parent.name"
+                @click="openFolder(parent)"
+            >
+                <span style="text-decoration: underline">
+                    {{ wrapName(parent.name) }}
+                </span>
                 <span> {{ parent.arrow }} </span>
             </span>
         </span>
 
-        <table v-if="showHistory" id="file-history" style="margin: 0.3em 0; user-select: none">
+        <table
+            v-if="showHistory"
+            id="file-history"
+            style="margin: 0.3em 0; user-select: none"
+        >
             <tr class="pas-toi no-hover" style="cursor: default;">
-                <th> Type<!--i @click="clique" class="fas fa-caret-up" :class='classR'></i--></th>
-                <th> Name<!--i @click="clique" class="fas fa-caret-up" :class='classR'></i--></th>
-                <th> Serial nbr<!--i @click="clique" class="fas fa-caret-up" :class='classR'></i--> </th>
-                <th> Owner <!--i @click='clique2' class="fas fa-caret-up" :class='classR2'></i--> </th>
+                <th>
+                    Type<!--i @click="clique" class="fas fa-caret-up" :class='classR'></i-->
+                </th>
+                <th>
+                    Name<!--i @click="clique" class="fas fa-caret-up" :class='classR'></i-->
+                </th>
+                <th>
+                    Serial nbr<!--i @click="clique" class="fas fa-caret-up" :class='classR'></i-->
+                </th>
+                <th>
+                    Owner
+                    <!--i @click='clique2' class="fas fa-caret-up" :class='classR2'></i-->
+                </th>
                 <th v-if="showHistory">
                     Date
                 </th>
-                <th> Size <!--i @click='clique3' class="fas fa-caret-up" :class='classR3'></i--> </th>
+                <th>
+                    Size
+                    <!--i @click='clique3' class="fas fa-caret-up" :class='classR3'></i-->
+                </th>
             </tr>
             <tr>
                 <th colspan="6">
@@ -37,7 +73,13 @@
                     </p>
                 </th>
             </tr>
-            <tr v-for="rev in existingRevs" :key="rev.id" :class="{ selected: rev.id === selectedFile.id }" @click="select(rev)" @dblclick="openFolder(rev)">
+            <tr
+                v-for="rev in existingRevs"
+                :key="rev.id"
+                :class="{ selected: rev.id === selectedFile.id }"
+                @click="select(rev)"
+                @dblclick="openFolder(rev)"
+            >
                 <td v-html="getIcon(rev)" />
                 <td :title="rev.name">
                     {{ wrapName(rev.name) }}
@@ -46,7 +88,11 @@
                     {{ wrapName2(rev.serialNbr) }}
                 </td>
                 <td>
-                    {{ wrapName(store.getters.users.find(user => user.id == rev.ownerId).username) }}
+                    {{
+                        wrapName(
+                            store.getters.users.find(user => user.id == rev.ownerId).username
+                        )
+                    }}
                 </td>
                 <td>
                     {{ getDate(rev.updatedAt) }}
@@ -58,7 +104,11 @@
             </tr>
         </table>
 
-        <table v-if="keyword && keyword.trim().length >= 2" id="result-search" style="margin: 0.3em 0; user-select: none">
+        <table
+            v-if="keyword && keyword.trim().length >= 2"
+            id="result-search"
+            style="margin: 0.3em 0; user-select: none"
+        >
             <tr class="pas-toi no-hover" style="cursor: default">
                 <th>
                     Type<!--i @click="clique" class="fas fa-caret-up" :class='classR'></i-->
@@ -82,7 +132,13 @@
                     <!--i @click='clique3' class="fas fa-caret-up" :class='classR3'></i-->
                 </th>
             </tr>
-            <tr v-for="file in results" :key="file.fileId" :class="{ selected: file.fileId === selectedFile.fileId }" @click="select(file)" @dblclick="openFolder(file)">
+            <tr
+                v-for="file in results"
+                :key="file.fileId"
+                :class="{ selected: file.fileId === selectedFile.fileId }"
+                @click="select(file)"
+                @dblclick="openFolder(file)"
+            >
                 <td v-html="getIcon(file)"></td>
                 <td :title="file.name">
                     {{ wrapName(file.name) }}
@@ -105,7 +161,11 @@
             </tr>
         </table>
 
-        <table v-if="!(keyword && keyword.trim().length >= 2) && !showHistory" id="inside-folder-list" style="margin: 0.3em 0; user-select: none">
+        <table
+            v-if="!(keyword && keyword.trim().length >= 2) && !showHistory"
+            id="inside-folder-list"
+            style="margin: 0.3em 0; user-select: none"
+        >
             <tr class="pas-toi no-hover" style="cursor: default">
                 <th>
                     Type<!--i @click="clique" class="fas fa-caret-up" :class='classR'></i-->
@@ -129,7 +189,13 @@
                     <!--i @click='clique3' class="fas fa-caret-up" :class='classR3'></i-->
                 </th>
             </tr>
-            <tr v-for="file in content" :key="file.fileId" :class="{ selected: file.fileId === selectedFile.fileId }" @click="select(file)" @dblclick="openFolder(file)">
+            <tr
+                v-for="file in content"
+                :key="file.fileId"
+                :class="{ selected: file.fileId === selectedFile.fileId }"
+                @click="select(file)"
+                @dblclick="openFolder(file)"
+            >
                 <td v-html="getIcon(file)"></td>
                 <td :title="file.name">
                     {{ wrapName(file.name) }}
@@ -147,8 +213,12 @@
             </tr>
         </table>
 
-        <a v-if="content.length === 0" style="text-align: center; font-size: 20px; width: 100%;"
-           @click.prevent="$modal.show('uploadFile', { isFolder: false, isEditing: false })"
+        <a
+            v-if="content.length === 0"
+            style="text-align: center; font-size: 20px; width: 100%;"
+            @click.prevent="
+                $modal.show('uploadFile', { isFolder: false, isEditing: false })
+            "
         >
             This folder is still empty.
         </a>
@@ -243,7 +313,10 @@ export default {
             }
         },
         select(file) {
-            if (file.fileId === this.selectedFile.fileId && this.selectedFile.exists === undefined)
+            if (
+                file.fileId === this.selectedFile.fileId &&
+        this.selectedFile.exists === undefined
+            )
                 store.dispatch('selectFile', {});
             else store.dispatch('selectFile', file);
         },

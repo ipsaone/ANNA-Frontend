@@ -6,21 +6,12 @@
         :scrollable="true"
         @before-open="beforeOpen"
     >
-        <div
-            id="move-file"
-            class="content anna-modal"
-        >
+        <div id="move-file" class="content anna-modal">
             <h1>Move file</h1>
             <span style="font-weight: 700;"> File name: </span>{{ file.name }}
             <div class="big-wrapper">
-                <div
-                    v-if="firstParent"
-                    class="dir-tree"
-                >
-                    <div
-                        class="firstParent"
-                        @dblclick="goBack()"
-                    >
+                <div v-if="firstParent" class="dir-tree">
+                    <div class="firstParent" @dblclick="goBack()">
                         <i class="fa fa-folder-open folder-icon parentFolderIcon" />
                         <h4 :title="firstParent.name">
                             {{ wrapName(firstParent.name) }}
@@ -37,49 +28,31 @@
                     >
                         <div
                             v-for="curfolder in firstParent.children"
-              
                             :key="curfolder.id"
                             class="child"
                             @mouseenter="openIcon(folder.id)"
                             @mouseleave="closeIcon(folder.id)"
                             @dblclick="enterFolder(folder.id)"
                         >
-                            <i
-                                :id="curfolder.id"
-                                class="fa fa-folder folder-icon"
-                            />
-                            <span :title="curfolder.name">{{ wrapName(curfolder.name) }}</span>
+                            <i :id="curfolder.id" class="fa fa-folder folder-icon" />
+                            <span :title="curfolder.name">{{
+                                wrapName(curfolder.name)
+                            }}</span>
                         </div>
                     </div>
-                    <div
-                        v-else
-                        id="children"
-                        class="children"
-                    >
+                    <div v-else id="children" class="children">
                         No subfolder
                     </div>
                 </div>
 
                 <div class="file-info">
                     <ul v-if="file.owner">
-                        <li>
-                            <span>Owner:</span> {{ file.owner.username }}
-                        </li>
-                        <li>
-                            <span>Group:</span> {{ group.name }}
-                        </li>
-                        <li>
-                            <span>Serial Number:</span> {{ file.serialNbr }}
-                        </li>
-                        <li>
-                            <span>Created at:</span> {{ getDate(file.createdAt) }}
-                        </li>
-                        <li>
-                            <span>Last update:</span> {{ getDate(file.updatedAt) }}
-                        </li>
-                        <li>
-                            <span>Type:</span> {{ file.type }}
-                        </li>
+                        <li><span>Owner:</span> {{ file.owner.username }}</li>
+                        <li><span>Group:</span> {{ group.name }}</li>
+                        <li><span>Serial Number:</span> {{ file.serialNbr }}</li>
+                        <li><span>Created at:</span> {{ getDate(file.createdAt) }}</li>
+                        <li><span>Last update:</span> {{ getDate(file.updatedAt) }}</li>
+                        <li><span>Type:</span> {{ file.type }}</li>
                     </ul>
                     <div class="buttons">
                         <button
@@ -126,7 +99,10 @@ export default {
     methods: {
         async beforeOpen(event) {
             this.file = event.params.file;
-            this.firstParent = await store.dispatch('getFoldersList', this.file.dirId);
+            this.firstParent = await store.dispatch(
+                'getFoldersList',
+                this.file.dirId
+            );
             this.dirTree = this.firstParent.dirTree;
             this.group = await store.dispatch('retrieveGroup', this.file.groupId);
             this.selected = 1;
@@ -150,7 +126,10 @@ export default {
             // }
         },
         async goBack() {
-            this.firstParent = await store.dispatch('getFoldersList', this.firstParent.dirId);
+            this.firstParent = await store.dispatch(
+                'getFoldersList',
+                this.firstParent.dirId
+            );
             // if(this.firstParent.children.length > 8) {
             //     document.getElementById('children').classList.toggle('expanded');
             // }
@@ -169,7 +148,8 @@ export default {
                     dirId: this.firstParent.id
                 }
             };
-            await driveApi.editFile(edit)
+            await driveApi
+                .editFile(edit)
                 .then(() => {
                     this.$notify({
                         type: 'success',
@@ -187,7 +167,5 @@ export default {
             await store.dispatch('resetProgress');
         }
     }
-
-
 };
 </script>

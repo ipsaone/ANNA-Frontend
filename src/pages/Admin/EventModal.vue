@@ -19,7 +19,7 @@
                     type="text"
                     name="Name"
                     placeholder="Name..."
-                >
+                />
 
                 <markdown-editor
                     v-model="description"
@@ -43,11 +43,8 @@
                             v-model="end_option"
                             type="checkbox"
                             name="end-option"
-                        >
-                        <label
-                            class="checkbox"
-                            for="end-option"
                         />
+                        <label class="checkbox" for="end-option" />
                     </div>
                     <label for="evt_end">End date :</label>
                     <datepicker
@@ -65,11 +62,8 @@
                             v-model="max_option"
                             type="checkbox"
                             name="max-option"
-                        >
-                        <label
-                            class="checkbox"
-                            for="max-option"
                         />
+                        <label class="checkbox" for="max-option" />
                     </div>
                     <label for="evt_max">Open slots :</label>
                     <input
@@ -78,22 +72,14 @@
                         v-model="max"
                         type="number"
                         name="evt_max"
-                    >
+                    />
                 </div>
 
                 <div class="buttons">
-                    <button
-                        type="button"
-                        class="cancel"
-                        @click.prevent="exit"
-                    >
+                    <button type="button" class="cancel" @click.prevent="exit">
                         Cancel
                     </button>
-                    <button
-                        type="button"
-                        class="submit"
-                        @click.prevent="onSubmit"
-                    >
+                    <button type="button" class="submit" @click.prevent="onSubmit">
                         Submit
                     </button>
                 </div>
@@ -101,7 +87,6 @@
         </div>
     </modal>
 </template>
-
 
 <script>
 import store from '@/modules/store';
@@ -121,14 +106,14 @@ export default {
             description: '',
             max: 0,
             start: new Date(),
-            end:  new Date(),
+            end: new Date(),
             end_option: false,
             max_option: false,
 
             configs: {
                 placeholder: 'Description...',
                 spellChecker: false
-            },
+            }
         };
     },
     computed: {
@@ -136,7 +121,11 @@ export default {
             return store.getters.selectedEvent;
         },
         canSubmit() {
-            return this.name.trim() !== '' && this.description.trim() !== '' && this.max >= 0;
+            return (
+                this.name.trim() !== '' &&
+        this.description.trim() !== '' &&
+        this.max >= 0
+            );
         }
     },
     methods: {
@@ -145,7 +134,7 @@ export default {
         },
         async beforeOpen(event) {
             this.isEditing = event.params.isEditing;
-            if(!this.isEditing) {
+            if (!this.isEditing) {
                 this.name = '';
                 this.description = '';
                 this.max = 0;
@@ -174,23 +163,23 @@ export default {
                         startDate: this.start,
                         endDate: this.end
                     };
-                } else if(this.max_option && !this.end_option) {
-                    evt =  {
+                } else if (this.max_option && !this.end_option) {
+                    evt = {
                         name: this.name,
                         markdown: this.description.replace(/\n/gi, '\n<br>'),
                         maxRegistered: this.max,
                         startDate: this.start,
                         endDate: null
                     };
-                } else if(!this.max_option && this.end_option) {
-                    evt =  {
+                } else if (!this.max_option && this.end_option) {
+                    evt = {
                         name: this.name,
                         markdown: this.description.replace(/\n/gi, '\n<br>'),
                         maxRegistered: null,
                         startDate: this.start,
                         endDate: this.end
                     };
-                } else if(!this.max_option && !this.end_option) {
+                } else if (!this.max_option && !this.end_option) {
                     evt = {
                         name: this.name,
                         markdown: this.description.replace(/\n/gi, '\n<br>'),
@@ -212,33 +201,33 @@ export default {
                 //     duration: 5000
                 // });
                 await store.dispatch('retrieveEvents');
-                this.loading= false;
+                this.loading = false;
             } else {
                 let evt = {};
-                if(this.max_option && this.end_option) {
-                    evt =  {
+                if (this.max_option && this.end_option) {
+                    evt = {
                         name: this.name,
                         markdown: this.description.replace(/\n/gi, '\n<br>'),
                         maxRegistered: this.max,
                         startDate: this.start,
                         endDate: this.end
                     };
-                } else if(this.max_option && !this.end_option) {
-                    evt =  {
+                } else if (this.max_option && !this.end_option) {
+                    evt = {
                         name: this.name,
                         markdown: this.description.replace(/\n/gi, '\n<br>'),
                         maxRegistered: this.max,
                         startDate: this.start
                     };
-                } else if(!this.max_option && this.end_option) {
-                    evt =  {
+                } else if (!this.max_option && this.end_option) {
+                    evt = {
                         name: this.name,
                         markdown: this.description.replace(/\n/gi, '\n<br>'),
                         startDate: this.start,
                         endDate: this.end
                     };
-                } else if(!this.max_option && !this.end_option) {
-                    evt =  {
+                } else if (!this.max_option && !this.end_option) {
+                    evt = {
                         name: this.name,
                         markdown: this.description.replace(/\n/gi, '\n<br>'),
                         startDate: this.start
