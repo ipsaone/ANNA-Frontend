@@ -1,20 +1,13 @@
 <template>
     <section class="grid">
-        <img
-            src="../../assets/images/logo.png"
-            alt="IPSA ONE logo"
-            class="logo"
-        >
+        <img src="../../assets/images/logo.png" alt="IPSA ONE logo" class="logo" />
 
         <section class="content">
             <div class="card">
                 <h1>A.N.N.<span class="inverted">A</span></h1>
-                <h2>Admin Network for Nanosat Association </h2>
+                <h2>Admin Network for Nanosat Association</h2>
 
-                <form
-                    action="#"
-                    method="post"
-                >
+                <form action="#" method="post">
                     <input
                         id="username"
                         v-model="username"
@@ -23,7 +16,7 @@
                         placeholder="Username"
                         autofocus
                         @keyup.enter="login"
-                    >
+                    />
                     <input
                         id="password"
                         v-model="password"
@@ -31,17 +24,10 @@
                         name="password"
                         placeholder="Password"
                         @keyup.enter="login"
-                    >
+                    />
                     <div class="actions">
-                        <a
-                            class="button nopasswd"
-                            href="#"
-                        >Forgot your password?</a>
-                        <a
-                            class="button"
-                            href="#"
-                            @click="login"
-                        >Login</a>
+                        <a class="button nopasswd" href="#">Forgot your password?</a>
+                        <a class="button" href="#" @click="login">Login</a>
                     </div>
                 </form>
             </div>
@@ -63,9 +49,13 @@ export default {
     methods: {
         login() {
             this.loading = true;
-            store.dispatch('loginUser', {username: this.username, password: this.password})
+            store
+                .dispatch('loginUser', {
+                    username: this.username,
+                    password: this.password
+                })
                 .then(() => {
-                    this.$router.push({name: 'dashboard'});
+                    this.$router.push({ name: 'dashboard' });
                     this.$notify({
                         type: 'success',
                         title: `Welcome back <b>${this.$store.getters.loggedUser.username}</b>`,

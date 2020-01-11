@@ -14,13 +14,9 @@
                     type="text"
                     name="Name"
                     placeholder="Name"
-                >
+                />
 
-                <button
-                    type="submit"
-                    class="button success"
-                    @click.prevent="onSubmit"
-                >
+                <button type="submit" class="button success" @click.prevent="onSubmit">
                     Submit
                 </button>
             </form>
@@ -61,7 +57,6 @@ export default {
                     duration: -1
                 });
             }
-
         }
     }
 };
