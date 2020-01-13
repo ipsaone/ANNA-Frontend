@@ -6,38 +6,18 @@
                     New post
                 </h1>
 
-                <input
-                    v-model="title"
-                    type="text"
-                    name="title"
-                    placeholder="Title"
-                >
-                <markdown-editor
-                    v-model="markdown"
-                    :configs="configs"
-                />
+                <input v-model="title" type="text" name="title" placeholder="Title" />
+                <markdown-editor v-model="markdown" :configs="configs" />
             </div>
 
-            <button
-                type="submit"
-                class="btn-green"
-                @click.prevent="submit"
-            >
-                <i
-                    class="icon-circle-arrow-right icon-large"
-                    aria-hidden="true"
-                /> Submit
+            <button type="submit" class="btn-green" @click.prevent="submit">
+                <i class="icon-circle-arrow-right icon-large" aria-hidden="true" />
+                Submit
             </button>
 
-            <button
-                type="submit"
-                class="btn-red"
-                @click.prevent="cancel"
-            >
-                <i
-                    class="icon-circle-arrow-right icon-large"
-                    aria-hidden="true"
-                /> Cancel
+            <button type="submit" class="btn-red" @click.prevent="cancel">
+                <i class="icon-circle-arrow-right icon-large" aria-hidden="true" />
+                Cancel
             </button>
         </section>
 
@@ -47,17 +27,11 @@
             </h1>
             <ul>
                 <li>
-                    <label><input
-                        v-model="isDraft"
-                        type="checkbox"
-                    > Add to draft</label>
+                    <label><input v-model="isDraft" type="checkbox" /> Add to draft</label>
                 </li>
 
                 <li>
-                    <label><input
-                        v-model="isPinned"
-                        type="checkbox"
-                    > Pin post</label>
+                    <label><input v-model="isPinned" type="checkbox" /> Pin post</label>
                 </li>
             </ul>
         </section>
@@ -82,7 +56,7 @@ export default {
             configs: {
                 placeholder: 'Description...',
                 spellChecker: false
-            },
+            }
         };
     },
     computed: {
@@ -99,8 +73,7 @@ export default {
                     text: 'A title and a content are needed to submit.',
                     duration: 2000
                 });
-            }
-            else {
+            } else {
                 const post = {
                     title: this.title,
                     markdown: this.markdown.replace(/\n/gi, '\n\n<br>'),
@@ -109,8 +82,9 @@ export default {
                     pinned: this.isPinned
                 };
                 await store.dispatch('retrievePosts');
-                await store.dispatch('storePost', post)
-                    .then(this.$router.push({name: 'blog'}))
+                await store
+                    .dispatch('storePost', post)
+                    .then(this.$router.push({ name: 'blog' }))
                     .catch(err => {
                         this.$notify({
                             type: 'error',
@@ -124,17 +98,18 @@ export default {
         },
 
         cancel() {
-            if(this.title || this.markdown) {
+            if (this.title || this.markdown) {
                 let res = confirm('Save current article as draft ?');
-                if(res) {
+                if (res) {
                     const post = {
                         title: this.title,
                         markdown: this.markdown.replace(/\n/gi, '\n\n<br>'),
                         published: false,
                         authorId: store.getters.loggedUserId
                     };
-                    store.dispatch('storePost', post)
-                        .then(this.$router.push({name: 'blog'}))
+                    store
+                        .dispatch('storePost', post)
+                        .then(this.$router.push({ name: 'blog' }))
                         .catch(err => {
                             this.$notify({
                                 type: 'error',

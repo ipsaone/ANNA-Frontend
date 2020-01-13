@@ -14,24 +14,16 @@
                         v-model="user_old_pwd"
                         type="password"
                         name="user-current-pwd"
-                    >
+                    />
                 </div>
                 <div class="form-group">
                     <label for="user-pwd">Password:</label>
-                    <input
-                        v-model="user_pwd"
-                        type="password"
-                        name="user-pwd"
-                    >
+                    <input v-model="user_pwd" type="password" name="user-pwd" />
                 </div>
 
                 <div class="form-group">
                     <label for="user-pwd-2">Password again:</label>
-                    <input
-                        v-model="user_pwd_conf"
-                        type="password"
-                        name="user-pwd-2"
-                    >
+                    <input v-model="user_pwd_conf" type="password" name="user-pwd-2" />
                 </div>
 
                 <div class="buttons">
@@ -44,11 +36,7 @@
                     >
                         Cancel
                     </button>
-                    <button
-                        id="submitButton"
-                        type="submit"
-                        class="button success"
-                    >
+                    <button id="submitButton" type="submit" class="button success">
                         Submit
                     </button>
                 </div>
@@ -61,13 +49,12 @@
 import store from '@/modules/store';
 
 export default {
-    components: {
-    },
+    components: {},
     data() {
         return {
             user_old_pwd: '',
             user_pwd: '',
-            user_pwd_conf: '',
+            user_pwd_conf: ''
         };
     },
     computed: {
@@ -80,7 +67,7 @@ export default {
             await store.dispatch('selectUser', event.params.user_id);
         },
         async onSubmit() {
-            if(this.user_pwd && this.user_pwd !== this.user_pwd_conf) {
+            if (this.user_pwd && this.user_pwd !== this.user_pwd_conf) {
                 this.$notify({
                     type: 'error',
                     title: 'Please retry',
@@ -90,19 +77,19 @@ export default {
             } else {
                 this.loading = true;
                 let user = {};
-                if(this.user_pwd && this.user_pwd === this.user_pwd_conf) {
+                if (this.user_pwd && this.user_pwd === this.user_pwd_conf) {
                     user.old_password = this.user_old_pwd;
                     user.password = this.user_pwd;
                     user.password_conf = this.user_pwd_conf;
                 }
                 console.log('this', this.user);
                 console.log('user', user);
-                await store.dispatch('changePassword', {user});
+                await store.dispatch('changePassword', { user });
                 this.user_old_pwd = '';
                 this.user_pwd = '';
                 this.user_pwd_conf = '';
                 this.loading = false;
-                await store.dispatch('selectUser', this.user.id).then(() =>{
+                await store.dispatch('selectUser', this.user.id).then(() => {
                     this.$modal.hide('changePassword');
                     this.$notify({
                         type: 'success',
@@ -111,7 +98,6 @@ export default {
                         duration: 5000
                     });
                 });
-
             }
         }
     }

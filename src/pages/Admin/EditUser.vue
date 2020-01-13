@@ -10,36 +10,20 @@
             <form @submit.prevent="onSubmit">
                 <div class="form-group">
                     <label for="user-name">Username:</label>
-                    <input
-                        v-model="user_name"
-                        type="text"
-                        name="user-name"
-                    >
+                    <input v-model="user_name" type="text" name="user-name" />
                 </div>
                 <div class="form-group">
                     <label for="user-email">Email:</label>
-                    <input
-                        v-model="user_email"
-                        type="text"
-                        name="user-email"
-                    >
+                    <input v-model="user_email" type="text" name="user-email" />
                 </div>
                 <div class="form-group">
                     <label for="user-pwd">Password:</label>
-                    <input
-                        v-model="user_pwd"
-                        type="password"
-                        name="user-pwd"
-                    >
+                    <input v-model="user_pwd" type="password" name="user-pwd" />
                 </div>
 
                 <div class="form-group">
                     <label for="user-pwd-2">Password again:</label>
-                    <input
-                        v-model="user_pwd_conf"
-                        type="password"
-                        name="user-pwd-2"
-                    >
+                    <input v-model="user_pwd_conf" type="password" name="user-pwd-2" />
                 </div>
 
                 <div class="buttons">
@@ -52,11 +36,7 @@
                     >
                         Cancel
                     </button>
-                    <button
-                        id="submitButton"
-                        type="submit"
-                        class="button success"
-                    >
+                    <button id="submitButton" type="submit" class="button success">
                         Submit
                     </button>
                 </div>
@@ -65,19 +45,17 @@
     </modal>
 </template>
 
-
 <script>
 import store from '@/modules/store';
 
 export default {
-    components: {
-    },
+    components: {},
     data() {
         return {
             user_pwd: '',
             user_pwd_conf: '',
             user_name: '',
-            user_email: '',
+            user_email: ''
         };
     },
     computed: {
@@ -85,7 +63,12 @@ export default {
             return store.getters.selectedUser;
         },
         canSubmit() {
-            return this.user_name.trim() !== '' && this.user_email.includes('@') && this.user_email.includes('.') && this.user_pwd.trim() !== '';
+            return (
+                this.user_name.trim() !== '' &&
+        this.user_email.includes('@') &&
+        this.user_email.includes('.') &&
+        this.user_pwd.trim() !== ''
+            );
         }
     },
     methods: {
@@ -95,7 +78,7 @@ export default {
             this.user_email = this.user.email;
         },
         async onSubmit() {
-            if(this.user_pwd && this.user_pwd != this.user_pwd_conf) {
+            if (this.user_pwd && this.user_pwd != this.user_pwd_conf) {
                 this.$notify({
                     type: 'error',
                     title: 'Please retry',
@@ -108,16 +91,16 @@ export default {
                     username: this.user_name,
                     email: this.user_email
                 };
-                if(this.user_pwd && this.user_pwd == this.user_pwd_conf) {
+                if (this.user_pwd && this.user_pwd == this.user_pwd_conf) {
                     user.password = this.user_pwd;
                 }
-                await store.dispatch('editUser',  {id: this.user.id, user});
+                await store.dispatch('editUser', { id: this.user.id, user });
                 this.user_name = '';
                 this.user_email = '';
                 this.user_pwd = '';
                 this.user_pwd_conf = '';
                 this.loading = false;
-                await store.dispatch('selectUser', this.user.id).then(() =>{
+                await store.dispatch('selectUser', this.user.id).then(() => {
                     this.$modal.hide('editUser');
                     this.$notify({
                         type: 'success',
@@ -126,7 +109,6 @@ export default {
                         duration: 5000
                     });
                 });
-
             }
         }
     }

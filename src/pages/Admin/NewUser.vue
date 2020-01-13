@@ -1,44 +1,24 @@
 <template>
-    <modal
-        name="newUser"
-        height="auto"
-        :scrollable="true"
-    >
+    <modal name="newUser" height="auto" :scrollable="true">
         <div class="content anna-modal userModal">
             <h1>Create a new user</h1>
             <form>
                 <div class="form-group">
                     <label for="user-name">Username :</label>
-                    <input
-                        v-model="user_name"
-                        type="text"
-                        name="user-name"
-                    >
+                    <input v-model="user_name" type="text" name="user-name" />
                 </div>
                 <div class="form-group">
                     <label for="user-email">Email :</label>
-                    <input
-                        v-model="user_email"
-                        type="text"
-                        name="user-email"
-                    >
+                    <input v-model="user_email" type="text" name="user-email" />
                 </div>
                 <div class="form-group">
                     <label for="user-pwd">Password :</label>
-                    <input
-                        v-model="user_pwd"
-                        type="password"
-                        name="user-pwd"
-                    >
+                    <input v-model="user_pwd" type="password" name="user-pwd" />
                 </div>
 
                 <div class="form-group">
                     <label for="user-pwd-2">Password again :</label>
-                    <input
-                        v-model="user_pwd_conf"
-                        type="password"
-                        name="user-pwd-2"
-                    >
+                    <input v-model="user_pwd_conf" type="password" name="user-pwd-2" />
                 </div>
 
                 <div class="form-group">
@@ -47,7 +27,7 @@
                         v-model="user_send_email"
                         type="checkbox"
                         name="user-send-email"
-                    >
+                    />
                 </div>
 
                 <div class="buttons">
@@ -58,11 +38,7 @@
                     >
                         Cancel
                     </button>
-                    <button
-                        type="button"
-                        class="submit"
-                        @click.prevent="onSubmit"
-                    >
+                    <button type="button" class="submit" @click.prevent="onSubmit">
                         Submit
                     </button>
                 </div>
@@ -71,13 +47,11 @@
     </modal>
 </template>
 
-
 <script>
 import store from '@/modules/store';
 
 export default {
-    components: {
-    },
+    components: {},
     data() {
         return {
             user_pwd: '',
@@ -89,12 +63,17 @@ export default {
     },
     computed: {
         canSubmit() {
-            return this.user_name.trim() !== '' && this.user_email.includes('@') && this.user_email.includes('.') && this.user_pwd.trim() !== '';
+            return (
+                this.user_name.trim() !== '' &&
+        this.user_email.includes('@') &&
+        this.user_email.includes('.') &&
+        this.user_pwd.trim() !== ''
+            );
         }
     },
     methods: {
         async onSubmit() {
-            if(this.user_pwd != this.user_pwd_conf) {
+            if (this.user_pwd != this.user_pwd_conf) {
                 this.$notify({
                     type: 'error',
                     title: 'Please retry',
@@ -110,7 +89,13 @@ export default {
                 });
             } else {
                 this.loading = true;
-                store.dispatch('insertUser', {username: this.user_name, email: this.user_email, password: this.user_pwd, sendEmail: this.user_send_email})
+                store
+                    .dispatch('insertUser', {
+                        username: this.user_name,
+                        email: this.user_email,
+                        password: this.user_pwd,
+                        sendEmail: this.user_send_email
+                    })
                     .then(() => {
                         this.user_name = '';
                         this.user_email = '';
@@ -118,13 +103,17 @@ export default {
                         this.user_pwd_conf = '';
                         this.user_send_email = true;
                     })
-                    .then(() => {this.loading = false;})
-                    .then(() => this.$notify({
-                        type: 'success',
-                        title: 'Operation successful',
-                        text: 'User was successfully added',
-                        duration: 5000
-                    }))
+                    .then(() => {
+                        this.loading = false;
+                    })
+                    .then(() =>
+                        this.$notify({
+                            type: 'success',
+                            title: 'Operation successful',
+                            text: 'User was successfully added',
+                            duration: 5000
+                        })
+                    )
                     .then(async () => {
                         await store.dispatch('retrieveGroups', true);
                     })

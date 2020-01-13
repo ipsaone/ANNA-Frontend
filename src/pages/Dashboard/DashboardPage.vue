@@ -26,7 +26,7 @@ export default {
     computed: {
         logs() {
             return store.getters.logs;
-        },
+        }
     },
     async mounted() {
         await store.dispatch('retrieveLoggedUser');
@@ -36,7 +36,7 @@ export default {
             this.$modal.show('uploadLog');
         },
         showLog(log) {
-            this.$modal.show('log', {'log': log});
+            this.$modal.show('log', { log: log });
         }
     }
 };

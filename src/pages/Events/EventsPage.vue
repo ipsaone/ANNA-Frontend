@@ -16,34 +16,34 @@
                         :key="event.id"
                         class="event flex-abstract"
                     >
-                        <p
-                            v-if="event.maxRegistered != null"
-                            class="registered"
-                        >
+                        <p v-if="event.maxRegistered != null" class="registered">
                             {{ event.registeredCount }}/{{ event.maxRegistered }}
                         </p>
-                        <p
-                            v-else
-                            class="registered"
-                        >
-                            {{ event.registeredCount }}/∞
-                        </p>
+                        <p v-else class="registered">{{ event.registeredCount }}/∞</p>
                         <h1 style="text-shadow: 0 0 1px #000000">
-                            <a
-                                href="#"
-                                @click.prevent="showEvent(event)"
-                            >{{ event.name }}</a>
+                            <a href="#" @click.prevent="showEvent(event)">{{ event.name }}</a>
                         </h1>
                         <p>
                             <a
                                 v-if="groupOrganizer"
-                                @click.prevent="$modal.show('eventModal', {event_id: event.id, isEditing: true})"
+                                @click.prevent="
+                                    $modal.show('eventModal', {
+                                        event_id: event.id,
+                                        isEditing: true
+                                    })
+                                "
                             >Edit</a>
                         </p>
                         <p class="date">
-                            {{ event.startDate | moment('DD/MM/YYYY') }}
+                            {{ event.startDate | moment("DD/MM/YYYY") }}
                         </p>
-                        <p v-if="(event.maxRegistered > 0 && event.registeredCount < event.maxRegistered) || event.maxRegistered == null">
+                        <p
+                            v-if="
+                                (event.maxRegistered > 0 &&
+                                    event.registeredCount < event.maxRegistered) ||
+                                    event.maxRegistered == null
+                            "
+                        >
                             <a
                                 v-if="!isRegistered(event.id)"
                                 href="#"
@@ -71,7 +71,11 @@
                                 Withdraw
                             </a>
                             <a
-                                v-if="event.registeredCount === event.maxRegistered && event.maxRegistered != null && !isRegistered(event.id)"
+                                v-if="
+                                    event.registeredCount === event.maxRegistered &&
+                                        event.maxRegistered != null &&
+                                        !isRegistered(event.id)
+                                "
                                 href="#"
                                 class="button"
                                 disabled
@@ -81,8 +85,9 @@
                 </template>
                 <template v-else>
                     <p class="no-event-message">
-                        <b>No event yet, but you are encouraged to share any idea with the Comm team.</b>
-                        <br>It will be their pleasure to organize it!
+                        <b>No event yet, but you are encouraged to share any idea with the
+                            Comm team.</b>
+                        <br />It will be their pleasure to organize it!
                     </p>
                 </template>
             </section>
@@ -92,7 +97,7 @@
             style="display: grid;grid-template-columns: 3em auto 12em 8em;grid-column-gap: 10px;padding: 0.4em;"
         >
             <h4 style="grid-column: 4;text-align: center;">
-                <a @click.prevent="$modal.show('eventModal', {isEditing: false})">Add Event</a>
+                <a @click.prevent="$modal.show('eventModal', { isEditing: false })">Add Event</a>
             </h4>
         </div>
     </div>
@@ -107,7 +112,7 @@ import Event from './Event';
 export default {
     components: {
         Event,
-        EventModal,
+        EventModal
     },
     data() {
         return {
@@ -123,7 +128,7 @@ export default {
         },
         groupOrganizer() {
             return store.getters.loggedUserGroups.includes('organizers');
-        },
+        }
     },
     mounted() {
         console.log(this);
@@ -137,8 +142,9 @@ export default {
             for (i = 0; i < store.getters.events.length; i++) {
                 this.isRegistered(store.getters.events[i].id);
             }
-            store.dispatch('retrieveEvents', force)
-                .then(this.loading = false)
+            store
+                .dispatch('retrieveEvents', force)
+                .then((this.loading = false))
                 .then(() => {
                     if (!mounted) {
                         this.$notify({
@@ -158,7 +164,7 @@ export default {
                 });
         },
         showEvent(event) {
-            this.$modal.show('event', {'event': event});
+            this.$modal.show('event', { event: event });
         },
         isRegistered(event_id) {
             return store.getters.loggedUserEvents.includes(event_id);
@@ -173,7 +179,6 @@ export default {
                 title: 'You joined the event!',
                 duration: 1000
             });
-
         },
         withdrawUser(event_id) {
             return EventsApi.withdraw(event_id, store.getters.loggedUserId)

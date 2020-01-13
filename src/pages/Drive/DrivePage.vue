@@ -8,10 +8,7 @@
             <h1 class="color-green section-title">
                 Drive
             </h1>
-            <drive-table
-                :search="searchKeyWord"
-                show-history="false"
-            />
+            <drive-table :search="searchKeyWord" show-history="false" />
         </section>
 
         <section class="actions">
@@ -23,20 +20,14 @@
                     v-if="loggedUser.groups && loggedUser.groups.length !== 0"
                     id="barre"
                 >
-                    <a
-                        href="#"
-                        @input="search(searchKeyWord, searchTypes)"
-                    >
-                        <i
-                            class="fas fa-search"
-                            aria-hidden="true"
-                        />
+                    <a href="#" @input="search(searchKeyWord, searchTypes)">
+                        <i class="fas fa-search" aria-hidden="true" />
                         <input
                             v-model="searchKeyWord"
                             class="search"
                             style="padding: 0; margin: 0;"
                             type="search"
-                        >
+                        />
                     </a>
                     <div
                         v-if="searchKeyWord && searchKeyWord.length > 0"
@@ -47,36 +38,42 @@
                             type="checkbox"
                             value="name"
                             @change="search(searchKeyWord, searchTypes)"
-                        >Name
+                        />Name
                         <input
                             v-model="searchTypes"
                             type="checkbox"
                             value="serialNbr"
                             @change="search(searchKeyWord, searchTypes)"
-                        >Serial number
+                        />Serial number
                     </div>
                 </li>
                 <li v-if="loggedUser.groups && loggedUser.groups.length !== 0">
                     <a
                         href="#"
-                        @click.prevent="$modal.show('uploadFile', {isDir: false, isEditing: false, loggedUser})"
+                        @click.prevent="
+                            $modal.show('uploadFile', {
+                                isDir: false,
+                                isEditing: false,
+                                loggedUser
+                            })
+                        "
                     >
-                        <i
-                            class="fa fa-upload"
-                            aria-hidden="true"
-                        /> Upload
+                        <i class="fa fa-upload" aria-hidden="true" /> Upload
                     </a>
                 </li>
 
                 <li v-if="loggedUser.groups && loggedUser.groups.length !== 0">
                     <a
                         href="#"
-                        @click.prevent="$modal.show('uploadFile', {isDir: true, isEditing: false, loggedUser})"
+                        @click.prevent="
+                            $modal.show('uploadFile', {
+                                isDir: true,
+                                isEditing: false,
+                                loggedUser
+                            })
+                        "
                     >
-                        <i
-                            class="fa fa-plus"
-                            aria-hidden="true"
-                        /> New folder
+                        <i class="fa fa-plus" aria-hidden="true" /> New folder
                     </a>
                 </li>
 
@@ -90,16 +87,13 @@
                 </li>
 
                 <li>
-                    <a
-                        href="#"
-                        @click.prevent="newBarcode"
-                    >
+                    <a href="#" @click.prevent="newBarcode">
                         <i class="fa fa-barcode" /> Generate a new barcode
                     </a>
                 </li>
             </ul>
 
-            <br>
+            <br />
 
             <div v-if="showOptions">
                 <h1 class="section-title">
@@ -107,59 +101,25 @@
                 </h1>
                 <ul>
                     <li v-if="this.selectedFile && !this.selectedFile.file.isDir">
-                        <a
-                            v-if="!showHistory"
-                            href="#"
-                            @click.prevent="downloadFile"
-                        >
-                            <i
-                                class="fa fa-download"
-                                aria-hidden="true"
-                            /> Download
+                        <a v-if="!showHistory" href="#" @click.prevent="downloadFile">
+                            <i class="fa fa-download" aria-hidden="true" /> Download
                         </a>
-                        <a
-                            v-else
-                            href="#"
-                            @click.prevent="downloadRev"
-                        >
-                            <i
-                                class="fa fa-download"
-                                aria-hidden="true"
-                            /> Download
+                        <a v-else href="#" @click.prevent="downloadRev">
+                            <i class="fa fa-download" aria-hidden="true" /> Download
                         </a>
                     </li>
                     <li v-else-if="this.selectedFile">
-                        <a
-                            href="#"
-                            @click.prevent="openFile"
-                        >
-                            <i
-                                class="fa fa-download"
-                                aria-hidden="true"
-                            /> Open
+                        <a href="#" @click.prevent="openFile">
+                            <i class="fa fa-download" aria-hidden="true" /> Open
                         </a>
                     </li>
 
                     <li v-if="this.selectedFile.file && !this.selectedFile.file.isDir">
-                        <a
-                            v-if="!showHistory"
-                            href="#"
-                            @click.prevent="toggleShowHistory"
-                        >
-                            <i
-                                v-if="!showHistory"
-                                class="fas fa-history"
-                            /> Show history
+                        <a v-if="!showHistory" href="#" @click.prevent="toggleShowHistory">
+                            <i v-if="!showHistory" class="fas fa-history" /> Show history
                         </a>
-                        <a
-                            v-else
-                            href="#"
-                            @click.prevent="toggleShowHistory"
-                        >
-                            <i
-                                v-if="showHistory"
-                                class="fas fa-times"
-                            /> Hide history
+                        <a v-else href="#" @click.prevent="toggleShowHistory">
+                            <i v-if="showHistory" class="fas fa-times" /> Hide history
                         </a>
                     </li>
                     <!--li>
@@ -169,34 +129,31 @@
                     </li-->
                     <li v-if="!showHistory">
                         <a href="#" @click.prevent="moveFile">
-                            <i
-                                class="fa fa-folder"
-                                aria-hidden="true"
-                            /> Move
+                            <i class="fa fa-folder" aria-hidden="true" /> Move
                         </a>
                     </li>
                     <li v-if="!showHistory">
                         <a
                             v-if="this.selectedFile.isDir"
                             href="#"
-                            @click.prevent="$modal.show('uploadFile', {isDir: true, isEditing: true})"
+                            @click.prevent="
+                                $modal.show('uploadFile', { isDir: true, isEditing: true })
+                            "
                         >
-
                             <i class="fa fa-pen" /> Edit
                         </a>
                         <a
                             v-else
                             href="#"
-                            @click.prevent="$modal.show('uploadFile', {isDir: false, isEditing: true})"
+                            @click.prevent="
+                                $modal.show('uploadFile', { isDir: false, isEditing: true })
+                            "
                         >
                             <i class="fa fa-pen" /> Edit
                         </a>
                     </li>
                     <li v-if="!showHistory">
-                        <a
-                            href="#"
-                            @click.prevent="deleteFile"
-                        >
+                        <a href="#" @click.prevent="deleteFile">
                             <i class="fa fa-trash" /> Delete
                         </a>
                     </li>
@@ -223,7 +180,7 @@ export default {
     },
     async beforeRouteEnter(to, from, next) {
         let folderId = 1;
-        if(store.getters.folder && store.getters.folder.fileId) {
+        if (store.getters.folder && store.getters.folder.fileId) {
             folderId = store.getters.folder.fileId;
         }
 
@@ -233,12 +190,11 @@ export default {
         } catch (err) {
             await store.dispatch('retrieveFolder', 1);
         }
-
     },
     data() {
         return {
             searchKeyWord: '',
-            searchTypes: ['name', 'serialNbr'],
+            searchTypes: ['name', 'serialNbr']
         };
     },
     computed: {
@@ -246,7 +202,11 @@ export default {
             return store.getters.selectedFile;
         },
         showOptions() {
-            return typeof this.selectedFile !== 'undefined' && typeof this.selectedFile.fileId !== 'undefined' || this.showHistory;
+            return (
+                (typeof this.selectedFile !== 'undefined' &&
+          typeof this.selectedFile.fileId !== 'undefined') ||
+        this.showHistory
+            );
         },
         showHistory() {
             return store.getters.showHistory;
@@ -261,29 +221,27 @@ export default {
     methods: {
         async search(str, searchTypes) {
             if (str.trim().length >= 2) {
-
                 if (typeof str === 'undefined') {
                     str = '';
                 }
                 if (searchTypes.length === 0) {
-                    searchTypes = [ 'name', 'serialNbr'];
+                    searchTypes = ['name', 'serialNbr'];
                 }
                 let searchPara = {
                     keywords: str,
-                    types: searchTypes,
+                    types: searchTypes
                 };
                 await store.dispatch('search', searchPara);
             }
             store.commit('SET_KEYWORD', str);
-
-
         },
         openFile() {
             if (this.selectedFile.type === 'folder') {
                 this.loading = true;
-                store.dispatch('retrieveFolder', this.selectedFile.fileId)
+                store
+                    .dispatch('retrieveFolder', this.selectedFile.fileId)
                     .then(() => store.dispatch('selectFile', {}))
-                    .then(() => this.loading = false);
+                    .then(() => (this.loading = false));
             }
         },
         moveFile() {
@@ -302,11 +260,10 @@ export default {
         //     driveApi.downloadMeta(this.selectedFile.fileId);
         // },
         editFile() {
-            if (!this.selectedFile.type === 'folder')
-                this.$modal.show('editFile');
+            if (!this.selectedFile.type === 'folder') this.$modal.show('editFile');
         },
         toggleShowHistory() {
-            if(!store.getters.showHistory){
+            if (!store.getters.showHistory) {
                 store.dispatch('showHistory', this.selectedFile.fileId);
             } else {
                 store.dispatch('hideHistory');
@@ -329,14 +286,20 @@ export default {
                 });*/
             this.$modal.show('dialog', {
                 title: 'Are you sure?',
-                text: 'You will delete ' + this.selectedFile.name + ' from the IPSA ONE drive.',
+                text:
+          'You will delete ' +
+          this.selectedFile.name +
+          ' from the IPSA ONE drive.',
                 buttons: [
                     {
                         title: 'Delete it',
                         default: true,
                         handler: async () => {
                             await driveApi.deleteFile(this.selectedFile.fileId);
-                            await store.dispatch('retrieveFolder', store.getters.folder.fileId);
+                            await store.dispatch(
+                                'retrieveFolder',
+                                store.getters.folder.fileId
+                            );
                             await store.dispatch('unselectFile');
                             this.$modal.hide('dialog');
                         }
