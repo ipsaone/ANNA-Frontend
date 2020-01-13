@@ -2,7 +2,7 @@
     <section class="drive basic-layout">
         <upload-file />
         <barcode />
-        <move-filev2 />
+        <move-file />
 
         <section class="content">
             <h1 class="color-green section-title">
@@ -113,6 +113,7 @@
                             <i class="fa fa-download" aria-hidden="true" /> Open
                         </a>
                     </li>
+
                     <li v-if="this.selectedFile.file && !this.selectedFile.file.isDir">
                         <a v-if="!showHistory" href="#" @click.prevent="toggleShowHistory">
                             <i v-if="!showHistory" class="fas fa-history" /> Show history
@@ -168,14 +169,14 @@ import driveApi from '@/modules/drive/drive_api';
 import DriveTable from './DriveTable';
 import UploadFile from './UploadFile';
 import Barcode from './Barcode';
-import MoveFilev2 from './MoveFilev2';
+import MoveFile from './MoveFilev2';
 
 export default {
     components: {
         DriveTable,
         UploadFile,
         Barcode,
-        MoveFilev2
+        MoveFile
     },
     async beforeRouteEnter(to, from, next) {
         let folderId = 1;
@@ -244,7 +245,7 @@ export default {
             }
         },
         moveFile() {
-            this.$modal.show('moveFilev2', { file: this.selectedFile });
+            this.$modal.show('moveFile', {file: this.selectedFile});
         },
         newBarcode() {
             this.$modal.show('barcode');

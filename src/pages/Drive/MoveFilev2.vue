@@ -1,7 +1,7 @@
 <template>
     <modal
         id="move-modal"
-        name="moveFilev2"
+        name="moveFile"
         height="auto"
         :scrollable="true"
         @before-open="beforeOpen"
@@ -22,7 +22,7 @@
                         />
                     </div>
                     <div
-                        v-if="firstParent.children.length > 0"
+                        v-if="firstParent && firstParent.children && firstParent.children.length > 0"
                         id="children"
                         class="children"
                     >
@@ -98,6 +98,7 @@ export default {
     },
     methods: {
         async beforeOpen(event) {
+            console.log('ABCDEF');
             this.file = event.params.file;
             this.firstParent = await store.dispatch(
                 'getFoldersList',
