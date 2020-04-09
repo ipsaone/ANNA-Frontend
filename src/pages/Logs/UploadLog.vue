@@ -1,32 +1,22 @@
 <template>
-  <modal
-    name="uploadLog"
-    height="auto"
-    :scrollable="true"
-  >
-    <div class="content anna-modal">
-      <h1>Create a new log</h1>
-      <form @submit.prevent="onSubmit">
-        <input
-          id="title"
-          v-model="title"
-          type="text"
-          name="title"
-          placeholder="Title..."
-        >
-        <markdown-editor
-          v-model="markdown"
-          :configs="configs"
-        />
-        <button
-          type="submit"
-          class="button success"
-        >
-          Submit
-        </button>
-      </form>
-    </div>
-  </modal>
+    <modal name="uploadLog" height="auto" :scrollable="true">
+        <div class="content anna-modal">
+            <h1>Create a new log</h1>
+            <form @submit.prevent="onSubmit">
+                <input
+                    id="title"
+                    v-model="title"
+                    type="text"
+                    name="title"
+                    placeholder="Title..."
+                />
+                <markdown-editor v-model="markdown" :configs="configs" />
+                <button type="submit" class="button success">
+                    Submit
+                </button>
+            </form>
+        </div>
+    </modal>
 </template>
 
 <script>
@@ -54,7 +44,8 @@ export default {
                 markdown: this.markdown,
                 authorId: store.getters.loggedUserId
             };
-            store.dispatch('storeLog', data)
+            store
+                .dispatch('storeLog', data)
                 .then(this.$modal.hide('uploadLog'))
                 .then(() => {
                     this.title = '';
