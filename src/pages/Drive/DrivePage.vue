@@ -95,110 +95,109 @@
 
             <br />
 
-            <div v-if="showOptions">
-                <h1 class="section-title">
-                    Options
-                </h1>
-                <ul>
-                    <li v-if="this.selectedFile && this.selectedFile.file && !this.selectedFile.file.isDir">
-                        <a
-                            v-if="!showHistory"
-                            href="#"
-                            @click.prevent="downloadFile"
-                        >
-                            <i
-                                class="fa fa-download"
-                                aria-hidden="true"
-                            /> Download
-                        </a>
-                        <a
-                            v-else
-                            href="#"
-                            @click.prevent="downloadRev"
-                        >
-                            <i
-                                class="fa fa-download"
-                                aria-hidden="true"
-                            /> Download
-                        </a>
-                    </li>
-                    <li v-else-if="this.selectedFile">
-                        <a
-                            href="#"
-                            @click.prevent="openFile"
-                        >
-                            <i
-                                class="fa fa-download"
-                                aria-hidden="true"
-                            /> Open
-                        </a>
-                    </li>
-                    <li v-if="this.selectedFile && this.selectedFile.file && !this.selectedFile.file.isDir">
-                        <a
-                            v-if="!showHistory"
-                            href="#"
-                            @click.prevent="toggleShowHistory"
-                        >
-                            <i
-                                v-if="!showHistory"
-                                class="fas fa-history"
-                            /> Show history
-                        </a>
-                        <a
-                            v-else
-                            href="#"
-                            @click.prevent="toggleShowHistory"
-                        >
-                            <i
-                                v-if="showHistory"
-                                class="fas fa-times"
-                            /> Hide history
-                        </a>
-                    </li>
-                    <!--li>
+      <div v-if="showOptions">
+        <h1 class="section-title">
+          Options
+        </h1>
+        <ul>
+          <li v-if="this.selectedFile && this.selectedFile.file && !this.selectedFile.file.isDir">
+            <a
+              v-if="!showHistory"
+              href="#"
+              @click.prevent="downloadFile"
+            >
+              <i
+                class="fa fa-download"
+                aria-hidden="true"
+              /> Download
+            </a>
+            <a
+              v-else
+              href="#"
+              @click.prevent="downloadRev"
+            >
+              <i
+                class="fa fa-download"
+                aria-hidden="true"
+              /> Download
+            </a>
+          </li>
+          <li v-else-if="this.selectedFile">
+            <a
+              href="#"
+              @click.prevent="openFile"
+            >
+              <i
+                class="fa fa-download"
+                aria-hidden="true"
+              /> Open
+            </a>
+          </li>
+          <li v-if="this.selectedFile && this.selectedFile.file && !this.selectedFile.file.isDir">
+            <a
+              v-if="!showHistory"
+              href="#"
+              @click.prevent="toggleShowHistory"
+            >
+              <i
+                v-if="!showHistory"
+                class="fas fa-history"
+              /> Show history
+            </a>
+            <a
+              v-else
+              href="#"
+              @click.prevent="toggleShowHistory"
+            >
+              <i
+                v-if="showHistory"
+                class="fas fa-times"
+              /> Hide history
+            </a>
+          </li>
+          <!--li>
                         <a href="#" @click.prevent="downloadMeta">
                             <i></i> Download Meta
                         </a>
                     </li-->
-                    <li v-if="!showHistory">
-                        <a
-                            href="#"
-                            @click.prevent="moveFile"
-                        >
-                            <i
-                                class="fa fa-folder"
-                                aria-hidden="true"
-                            /> Move
-                        </a>
-                    </li>
-                    <li v-if="!showHistory">
-                        <a
-                            v-if="this.selectedFile && this.selectedFile.isDir"
-                            href="#"
-                            @click.prevent="$modal.show('uploadFile', {isDir: true, isEditing: true})"
-                        >
+          <li v-if="!showHistory">
+            <a
+              href="#"
+              @click.prevent="moveFile"
+            >
+              <i
+                class="fa fa-folder"
+                aria-hidden="true"
+              /> Move
+            </a>
+          </li>
+          <li v-if="!showHistory">
+            <a
+              v-if="this.selectedFile && this.selectedFile.isDir"
+              href="#"
+              @click.prevent="$modal.show('uploadFile', {isDir: true, isEditing: true})"
+            >
 
-                            <i class="fa fa-pen" /> Edit
-                        </a>
-                        <a
-                            v-else
-                            href="#"
-                            @click.prevent="$modal.show('uploadFile', {isDir: false, isEditing: true})"
-                        >
-                            <i class="fa fa-pen" /> Edit
-                        </a>
-                    </li>
-                    <li v-if="!showHistory">
-                        <a
-                            href="#"
-                            @click.prevent="deleteFile"
-                        >
-                            <i class="fa fa-trash" /> Delete
-                        </a>
-                    </li>
-                </ul>
-            </div>
-        </section>
+              <i class="fa fa-pen" /> Edit
+            </a>
+            <a
+              v-else
+              href="#"
+              @click.prevent="$modal.show('uploadFile', {isDir: false, isEditing: true})"
+            >
+              <i class="fa fa-pen" /> Edit
+            </a>
+          </li>
+          <li v-if="!showHistory">
+            <a
+              href="#"
+              @click.prevent="deleteFile"
+            >
+              <i class="fa fa-trash" /> Delete
+            </a>
+          </li>
+        </ul>
+      </div>
     </section>
 </template>
 
