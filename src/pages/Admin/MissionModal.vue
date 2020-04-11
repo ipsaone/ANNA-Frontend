@@ -1,103 +1,93 @@
 <template>
-  <modal
-    name="missionModal"
-    height="auto"
-    :scrollable="true"
-    @before-open="beforeOpen"
-  >
-    <div class="content anna-modal missionModal">
-      <h1 v-if="isEditing">
-        Edit mission
-      </h1>
-      <h1 v-else>
-        New Mission
-      </h1>
-      <form>
-        <input
-          id="Name"
-          v-model="name"
-          type="text"
-          name="Name"
-          placeholder="Name..."
-        >
-        <markdown-editor
-          v-model="markdown"
-          :configs="configs"
-          class="md-editor"
-        />
+    <modal
+        name="missionModal"
+        height="auto"
+        :scrollable="true"
+        @before-open="beforeOpen"
+    >
+        <div class="content anna-modal missionModal">
+            <h1 v-if="isEditing">
+                Edit mission
+            </h1>
+            <h1 v-else>
+                New Mission
+            </h1>
+            <form>
+                <input
+                    id="Name"
+                    v-model="name"
+                    type="text"
+                    name="Name"
+                    placeholder="Name..."
+                />
+                <markdown-editor
+                    v-model="markdown"
+                    :configs="configs"
+                    class="md-editor"
+                />
 
-        <div class="form-group">
-          <label for="leader">Leader: </label>
-          <input
-            id="leader"
-            v-model="leaderName"
-            list="users"
-            type="text"
-            name="leader"
-            autocomplete="off"
-            @change="selectUser(leaderName)"
-          ><br>
-          <!--label v-if="userGroups && userGroups.length != 0" for="group">Group: </label-->
-          <!--label v-else for="group">User has no group. Leaders need to be in a group.</label-->
-          <!--input v-if="userGroups && userGroups.length != 0" list="groups" type="text" name="groups" id="group" v-model="groupName" autocomplete="off" @change="setGroupId(groupName)"-->
-          <datalist id="users">
-            <option
-              v-for="user in users"
-              :key="user.id"
-              :value="user.username"
-              :label="user.username"
-            />
-          </datalist>
-          <!--datalist id="groups">
+                <div class="form-group">
+                    <label for="leader">Leader: </label>
+                    <input
+                        id="leader"
+                        v-model="leaderName"
+                        list="users"
+                        type="text"
+                        name="leader"
+                        autocomplete="off"
+                        @change="selectUser(leaderName)"
+                    /><br />
+                    <!--label v-if="userGroups && userGroups.length != 0" for="group">Group: </label-->
+                    <!--label v-else for="group">User has no group. Leaders need to be in a group.</label-->
+                    <!--input v-if="userGroups && userGroups.length != 0" list="groups" type="text" name="groups" id="group" v-model="groupName" autocomplete="off" @change="setGroupId(groupName)"-->
+                    <datalist id="users">
+                        <option
+                            v-for="user in users"
+                            :key="user.id"
+                            :value="user.username"
+                            :label="user.username"
+                        />
+                    </datalist>
+                    <!--datalist id="groups">
                         <option v-for="group in userGroups" :key="group.id" :value="group.name" :label="group.name"/>
                     </datalist-->
-        </div>
+                </div>
 
-        <div class="form-group">
-          <label for="budget">Budget assigned: </label>
-          <input
-            id="budget"
-            v-model="budgetAssigned"
-            type="number"
-            name="budget"
-            step="0.01"
-          > <p> € </p>
-        </div>
-        <div
-          v-if="isEditing"
-          class="form-group"
-        >
-          <label for="budgetUsed">Budget used: </label>
-          <input
-            id="budgetUsed"
-            v-model="budgetUsed"
-            type="number"
-            name="budgetUsed"
-            step="0.01"
-          > <p> € </p>
-        </div>
+                <div class="form-group">
+                    <label for="budget">Budget assigned: </label>
+                    <input
+                        id="budget"
+                        v-model="budgetAssigned"
+                        type="number"
+                        name="budget"
+                        step="0.01"
+                    />
+                    <p>€</p>
+                </div>
+                <div v-if="isEditing" class="form-group">
+                    <label for="budgetUsed">Budget used: </label>
+                    <input
+                        id="budgetUsed"
+                        v-model="budgetUsed"
+                        type="number"
+                        name="budgetUsed"
+                        step="0.01"
+                    />
+                    <p>€</p>
+                </div>
 
-        <div class="buttons">
-          <button
-            type="button"
-            class="cancel"
-            @click.prevent="exit"
-          >
-            Cancel
-          </button>
-          <button
-            type="button"
-            class="submit"
-            @click.prevent="onSubmit"
-          >
-            Confirm
-          </button>
+                <div class="buttons">
+                    <button type="button" class="cancel" @click.prevent="exit">
+                        Cancel
+                    </button>
+                    <button type="button" class="submit" @click.prevent="onSubmit">
+                        Confirm
+                    </button>
+                </div>
+            </form>
         </div>
-      </form>
-    </div>
-  </modal>
+    </modal>
 </template>
-
 
 <script>
 import store from '@/modules/store';
@@ -123,7 +113,7 @@ export default {
             configs: {
                 placeholder: 'Description...',
                 spellChecker: false
-            },
+            }
         };
     },
     computed: {
@@ -171,11 +161,17 @@ export default {
                 await store.dispatch('retrieveGroup', this.mission.groupId);
                 this.id = this.mission.id;
                 this.name = store.getters.selectedMission.name;
-                this.leaderId = this.mission.leaderId ? this.mission.leaderId.toString() : '';
+                this.leaderId = this.mission.leaderId
+                    ? this.mission.leaderId.toString()
+                    : '';
                 this.leaderName = this.mission.leader.username;
                 this.markdown = this.mission.markdown.replace(/<br>/gi, '');
-                this.budgetUsed = this.mission.budgetUsed ? this.mission.budgetUsed.toString() : 0;
-                this.budgetAssigned = this.mission.budgetAssigned ? this.mission.budgetAssigned.toString() : 0;
+                this.budgetUsed = this.mission.budgetUsed
+                    ? this.mission.budgetUsed.toString()
+                    : 0;
+                this.budgetAssigned = this.mission.budgetAssigned
+                    ? this.mission.budgetAssigned.toString()
+                    : 0;
                 this.isEditing = true;
             } else {
                 this.id = '';
@@ -192,7 +188,7 @@ export default {
             this.$modal.hide('missionModal');
         },
         async onSubmit() {
-            if(this.name.trim() == '') {
+            if (this.name.trim() == '') {
                 this.$notify({
                     type: 'error',
                     title: 'Name must be specified',
@@ -201,7 +197,11 @@ export default {
                 });
                 return false;
             }
-            if(!store.getters.users.map(us => us.id).includes(parseInt(this.leaderId, 10))) {
+            if (
+                !store.getters.users
+                    .map(us => us.id)
+                    .includes(parseInt(this.leaderId, 10))
+            ) {
                 console.log(this.leaderId);
                 this.$notify({
                     type: 'error',
@@ -213,7 +213,10 @@ export default {
                 this.groupId = 1;
                 return false;
             }
-            if(parseFloat(this.budgetAssigned, 10) < 0 || parseFloat(this.budgetUsed, 10) < 0) {
+            if (
+                parseFloat(this.budgetAssigned, 10) < 0 ||
+        parseFloat(this.budgetUsed, 10) < 0
+            ) {
                 this.$notify({
                     type: 'error',
                     title: 'Budgets must be positive',
@@ -227,30 +230,32 @@ export default {
             this.setGroupId('default');
             this.loading = true;
             if (this.isEditing) {
-                await store.dispatch('updateMission', {
-                    id: this.id,
-                    mission: {
-                        name: this.name,
-                        markdown: this.markdown.replace(/\n/gi, '\n<br>'),
-                        leaderId: parseInt(this.leaderId, 10),
-                        groupId: parseInt(this.groupId, 10),
-                        budgetAssigned: parseFloat(this.budgetAssigned, 10),
-                        budgetUsed: parseFloat(this.budgetUsed, 10)
-                    }
-                })
+                await store
+                    .dispatch('updateMission', {
+                        id: this.id,
+                        mission: {
+                            name: this.name,
+                            markdown: this.markdown.replace(/\n/gi, '\n<br>'),
+                            leaderId: parseInt(this.leaderId, 10),
+                            groupId: parseInt(this.groupId, 10),
+                            budgetAssigned: parseFloat(this.budgetAssigned, 10),
+                            budgetUsed: parseFloat(this.budgetUsed, 10)
+                        }
+                    })
                     .then(async () => {
                         await store.dispatch('retrieveMission', this.id);
                     });
             } else {
                 console.log('store', this.leaderId);
-                await store.dispatch('storeMission', {
-                    name: this.name,
-                    markdown: this.markdown.replace(/\n/gi, '\n<br>'),
-                    leaderId: parseInt(this.leaderId, 10),
-                    groupId: parseInt(this.groupId, 10),
-                    budgetAssigned: parseFloat(this.budgetAssigned, 10)
-                })
-                    .then(async (res) => {
+                await store
+                    .dispatch('storeMission', {
+                        name: this.name,
+                        markdown: this.markdown.replace(/\n/gi, '\n<br>'),
+                        leaderId: parseInt(this.leaderId, 10),
+                        groupId: parseInt(this.groupId, 10),
+                        budgetAssigned: parseFloat(this.budgetAssigned, 10)
+                    })
+                    .then(async res => {
                         await store.dispatch('retrieveMission', res.data.id);
                     });
             }

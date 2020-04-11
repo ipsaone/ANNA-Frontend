@@ -1,112 +1,106 @@
 <template>
-  <section class="drive basic-layout">
-    <upload-file />
-    <barcode />
-    <move-filev2 />
+    <section class="drive basic-layout">
+        <upload-file />
+        <barcode />
+        <move-filev2 />
 
-    <section class="content">
-      <h1 class="color-green section-title">
-        Drive
-      </h1>
-      <drive-table
-        :search="searchKeyWord"
-        show-history="false"
-      />
-    </section>
+        <section class="content">
+            <h1 class="color-green section-title">
+                Drive
+            </h1>
+            <drive-table :search="searchKeyWord" show-history="false" />
+        </section>
 
-    <section class="actions">
-      <h1 class="section-title">
-        Actions
-      </h1>
-      <ul>
-        <li
-          v-if="loggedUser.groups && loggedUser.groups.length !== 0"
-          id="barre"
-        >
-          <a
-            href="#"
-            @input="search(searchKeyWord, searchTypes)"
-          >
-            <i
-              class="fas fa-search"
-              aria-hidden="true"
-            />
-            <input
-              v-model="searchKeyWord"
-              class="search"
-              style="padding: 0; margin: 0;"
-              type="search"
-            >
-          </a>
-          <div
-            v-if="searchKeyWord && searchKeyWord.length > 0"
-            class="search_options"
-          >
-            <input
-              v-model="searchTypes"
-              type="checkbox"
-              value="name"
-              @change="search(searchKeyWord, searchTypes)"
-            >Name
-            <input
-              v-model="searchTypes"
-              type="checkbox"
-              value="serialNbr"
-              @change="search(searchKeyWord, searchTypes)"
-            >Serial number
-          </div>
-        </li>
-        <li v-if="loggedUser.groups && loggedUser.groups.length !== 0">
-          <a
-            href="#"
-            @click.prevent="$modal.show('uploadFile', {isDir: false, isEditing: false, loggedUser})"
-          >
-            <i
-              class="fa fa-upload"
-              aria-hidden="true"
-            /> Upload
-          </a>
-        </li>
+        <section class="actions">
+            <h1 class="section-title">
+                Actions
+            </h1>
+            <ul>
+                <li
+                    v-if="loggedUser.groups && loggedUser.groups.length !== 0"
+                    id="barre"
+                >
+                    <a href="#" @input="search(searchKeyWord, searchTypes)">
+                        <i class="fas fa-search" aria-hidden="true" />
+                        <input
+                            v-model="searchKeyWord"
+                            class="search"
+                            style="padding: 0; margin: 0;"
+                            type="search"
+                        />
+                    </a>
+                    <div
+                        v-if="searchKeyWord && searchKeyWord.length > 0"
+                        class="search_options"
+                    >
+                        <input
+                            v-model="searchTypes"
+                            type="checkbox"
+                            value="name"
+                            @change="search(searchKeyWord, searchTypes)"
+                        />Name
+                        <input
+                            v-model="searchTypes"
+                            type="checkbox"
+                            value="serialNbr"
+                            @change="search(searchKeyWord, searchTypes)"
+                        />Serial number
+                    </div>
+                </li>
+                <li v-if="loggedUser.groups && loggedUser.groups.length !== 0">
+                    <a
+                        href="#"
+                        @click.prevent="
+                            $modal.show('uploadFile', {
+                                isDir: false,
+                                isEditing: false,
+                                loggedUser
+                            })
+                        "
+                    >
+                        <i class="fa fa-upload" aria-hidden="true" /> Upload
+                    </a>
+                </li>
 
-        <li v-if="loggedUser.groups && loggedUser.groups.length !== 0">
-          <a
-            href="#"
-            @click.prevent="$modal.show('uploadFile', {isDir: true, isEditing: false, loggedUser})"
-          >
-            <i
-              class="fa fa-plus"
-              aria-hidden="true"
-            /> New folder
-          </a>
-        </li>
+                <li v-if="loggedUser.groups && loggedUser.groups.length !== 0">
+                    <a
+                        href="#"
+                        @click.prevent="
+                            $modal.show('uploadFile', {
+                                isDir: true,
+                                isEditing: false,
+                                loggedUser
+                            })
+                        "
+                    >
+                        <i class="fa fa-plus" aria-hidden="true" /> New folder
+                    </a>
+                </li>
 
-        <li style="padding-right: 15px !important">
-          <p
-            v-if="loggedUser.groups && loggedUser.groups.length == 0"
-            style="margin-right: 160px; word-break: break-word;"
-          >
-            Join a group to be able to upload files and create folders !
-          </p>
-        </li>
+                <li style="padding-right: 15px !important">
+                    <p
+                        v-if="loggedUser.groups && loggedUser.groups.length == 0"
+                        style="margin-right: 160px; word-break: break-word;"
+                    >
+                        Join a group to be able to upload files and create folders !
+                    </p>
+                </li>
 
-        <li>
-          <a
-            href="#"
-            @click.prevent="newBarcode"
-          >
-            <i class="fa fa-barcode" /> Generate a new barcode
-          </a>
-        </li>
-      </ul>
+                <li>
+                    <a href="#" @click.prevent="newBarcode">
+                        <i class="fa fa-barcode" /> Generate a new barcode
+                    </a>
+                </li>
+            </ul>
 
-      <br>
+            <br />
 
       <div v-if="showOptions">
         <h1 class="section-title">
           Options
         </h1>
         <ul>
-          <li v-if="this.selectedFile && !this.selectedFile.file.isDir">
+          <li v-if="this.selectedFile && this.selectedFile.file && !this.selectedFile.file.isDir">
             <a
               v-if="!showHistory"
               href="#"
@@ -139,7 +133,7 @@
               /> Open
             </a>
           </li>
-          <li v-if="this.selectedFile.file && !this.selectedFile.file.isDir">
+          <li v-if="this.selectedFile && this.selectedFile.file && !this.selectedFile.file.isDir">
             <a
               v-if="!showHistory"
               href="#"
@@ -179,7 +173,7 @@
           </li>
           <li v-if="!showHistory">
             <a
-              v-if="this.selectedFile.isDir"
+              v-if="this.selectedFile && this.selectedFile.isDir"
               href="#"
               @click.prevent="$modal.show('uploadFile', {isDir: true, isEditing: true})"
             >
@@ -205,7 +199,6 @@
         </ul>
       </div>
     </section>
-  </section>
 </template>
 
 <script>
@@ -225,7 +218,7 @@ export default {
     },
     async beforeRouteEnter(to, from, next) {
         let folderId = 1;
-        if(store.getters.folder && store.getters.folder.fileId) {
+        if (store.getters.folder && store.getters.folder.fileId) {
             folderId = store.getters.folder.fileId;
         }
 
@@ -235,12 +228,11 @@ export default {
         } catch (err) {
             await store.dispatch('retrieveFolder', 1);
         }
-
     },
     data() {
         return {
             searchKeyWord: '',
-            searchTypes: ['name', 'serialNbr'],
+            searchTypes: ['name', 'serialNbr']
         };
     },
     computed: {
@@ -248,7 +240,11 @@ export default {
             return store.getters.selectedFile;
         },
         showOptions() {
-            return typeof this.selectedFile !== 'undefined' && typeof this.selectedFile.fileId !== 'undefined' || this.showHistory;
+            return (
+                (typeof this.selectedFile !== 'undefined' &&
+          typeof this.selectedFile.fileId !== 'undefined') ||
+        this.showHistory
+            );
         },
         showHistory() {
             return store.getters.showHistory;
@@ -263,51 +259,64 @@ export default {
     methods: {
         async search(str, searchTypes) {
             if (str.trim().length >= 2) {
-
                 if (typeof str === 'undefined') {
                     str = '';
                 }
                 if (searchTypes.length === 0) {
-                    searchTypes = [ 'name', 'serialNbr'];
+                    searchTypes = ['name', 'serialNbr'];
                 }
                 let searchPara = {
                     keywords: str,
-                    types: searchTypes,
+                    types: searchTypes
                 };
                 await store.dispatch('search', searchPara);
             }
             store.commit('SET_KEYWORD', str);
-
-
         },
         openFile() {
-            if (this.selectedFile.type === 'folder') {
+            if(!this.selectedFile){
+                return;
+            }
+            if (this.selectedFile.type === 'folder' && this.selectFile.fileId) {
                 this.loading = true;
-                store.dispatch('retrieveFolder', this.selectedFile.fileId)
+                store
+                    .dispatch('retrieveFolder', this.selectedFile.fileId)
                     .then(() => store.dispatch('selectFile', {}))
-                    .then(() => this.loading = false);
+                    .then(() => (this.loading = false));
             }
         },
         moveFile() {
-            this.$modal.show('moveFilev2', {file: this.selectedFile});
+            this.$modal.show('moveFilev2', { file: this.selectedFile });
         },
         newBarcode() {
             this.$modal.show('barcode');
         },
         downloadFile() {
+            if(!this.selectedFile) {
+                return;
+            }
             driveApi.downloadFile(this.selectedFile.fileId);
         },
         downloadRev() {
+            if(!this.selectedFile) {
+                return;
+            }
             driveApi.downloadRev(this.selectedFile.fileId, this.selectedFile.id);
         },
         // downloadMeta() {
         //     driveApi.downloadMeta(this.selectedFile.fileId);
         // },
         editFile() {
+            if(!this.selectedFile) {
+                return;
+            }
             if (!this.selectedFile.type === 'folder')
                 this.$modal.show('editFile');
         },
         toggleShowHistory() {
+            if(!this.selectedFile) {
+                return;
+            }
             if(!store.getters.showHistory){
                 store.dispatch('showHistory', this.selectedFile.fileId);
             } else {
@@ -315,6 +324,10 @@ export default {
             }
         },
         deleteFile() {
+            if(!this.selectedFile || !store.getters.folder) {
+                return;
+            }
+
             /*swal({
                     title: 'Delete this file?',
                     type: 'warning',
@@ -331,14 +344,20 @@ export default {
                 });*/
             this.$modal.show('dialog', {
                 title: 'Are you sure?',
-                text: 'You will delete ' + this.selectedFile.name + ' from the IPSA ONE drive.',
+                text:
+          'You will delete ' +
+          this.selectedFile.name +
+          ' from the IPSA ONE drive.',
                 buttons: [
                     {
                         title: 'Delete it',
                         default: true,
                         handler: async () => {
                             await driveApi.deleteFile(this.selectedFile.fileId);
-                            await store.dispatch('retrieveFolder', store.getters.folder.fileId);
+                            await store.dispatch(
+                                'retrieveFolder',
+                                store.getters.folder.fileId
+                            );
                             await store.dispatch('unselectFile');
                             this.$modal.hide('dialog');
                         }
@@ -350,6 +369,9 @@ export default {
             });
         },
         refreshFolder() {
+            if(!this.getters.folder) {
+                return;
+            }
             store.dispatch('retrieveFolder', store.getters.folder.fileId);
         }
     }
