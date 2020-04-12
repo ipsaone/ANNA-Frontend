@@ -1,17 +1,35 @@
 <template>
-    <div class="blog basic-layout">
-        <section class="content">
-            <h1 class="section-title color-blue">
-                Blog
-            </h1>
-            <template v-if="postsNumber > 0">
-                <post-abstract
-                    v-for="(post, index) in pinnedPosts"
-                    :key="post.id"
-                    :post="post"
-                    :index="index + 1"
-                    @click="selectPost(post.id)"
-                />
+  <div class="blog basic-layout">
+    <section class="content">
+      <h1 class="section-title color-blue">
+        Blog
+      </h1>
+      <template v-if="postsNumber > 0">
+        <post-abstract
+          v-for="(post, index) in pinnedPosts"
+          :key="post.id"
+          :post="post"
+          :index="index +1"
+          @click="selectPost(post.id)"
+        />
+
+        <div style="height : 2em;" />
+
+        <post-abstract
+          v-for="(post, index) in posts"
+          :key="post.id"
+          :post="post"
+          :index="index +1"
+          @click="selectPost(post.id)"
+        />
+      </template>
+      <template v-else>
+        <p class="no-post-message">
+          <b>You're out of luck !</b><br>
+          No blog post was found... Sorry !! :-(
+        </p>
+      </template>
+    </section>
 
                 <div style="height : 2em;" />
 
