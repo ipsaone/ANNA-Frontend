@@ -426,6 +426,7 @@ export default {
                     text: type_name+' was successfully deleted',
                     duration: 5000
                 });
+            });
         }
     }
 };
