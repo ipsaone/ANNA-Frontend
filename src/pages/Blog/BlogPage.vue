@@ -30,7 +30,7 @@
             </template>
         </section>
 
-        <section class="actions" style="grid-column: 2;">
+        <section class="actions">
             <h1 class="section-title">
                 Actions
             </h1>
