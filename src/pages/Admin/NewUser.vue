@@ -30,30 +30,32 @@
                     />
                 </div>
 
-        <div class="form-group">
-          <label for="user-pwd-2">Send email to user :</label>
-          <input
-            v-model="user_send_email"
-            type="checkbox"
-            name="user-send-email"
-          >
-        </div>
+                <div class="form-group">
+                    <label for="user-pwd-2">Send email to user :</label>
+                    <input
+                        v-model="user_send_email"
+                        type="checkbox"
+                        name="user-send-email"
+                    >
+                </div>
 
-        <div class="buttons">
-          <button
-            type="button"
-            class="cancel"
-            @click.prevent="$modal.hide('newUser')"
-          >
-            Cancel
-          </button>
-          <button
-            type="button"
-            class="submit"
-            @click.prevent="onSubmit"
-          >
-            Submit
-          </button>
+                <div class="buttons">
+                    <button
+                        type="button"
+                        class="cancel"
+                        @click.prevent="$modal.hide('newUser')"
+                    >
+                        Cancel
+                    </button>
+                    <button
+                        type="button"
+                        class="submit"
+                        @click.prevent="onSubmit"
+                    >
+                        Submit
+                    </button>
+                </div>
+            </form>
         </div>
     </modal>
 </template>

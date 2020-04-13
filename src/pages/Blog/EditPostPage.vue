@@ -21,28 +21,28 @@
             </button>
         </section>
 
-    <section class="actions">
-      <h1 class="section-title">
-        Options
-      </h1>
-      <ul>
-        <li>
-          <label><input
-            v-model="isDraft"
-            type="checkbox"
-          > Add to draft</label>
-        </li>
+        <section class="actions">
+            <h1 class="section-title">
+                Options
+            </h1>
+            <ul>
+                <li>
+                    <label><input
+                        v-model="isDraft"
+                        type="checkbox"
+                    > Add to draft</label>
+                </li>
 
-        <li>
-          <label><input
-            v-model="isPinned"
-            type="checkbox"
-          > Pin post</label>
-        </li>
-        <!-- li class="submit" :class="{active: canConfirm}" @click.prevent="confirm"><a><i class="fa fa-check" aria-hidden="true"></i> Confirm</a></li-->
-      </ul>
-    </section>
-  </div>
+                <li>
+                    <label><input
+                        v-model="isPinned"
+                        type="checkbox"
+                    > Pin post</label>
+                </li>
+                <!-- li class="submit" :class="{active: canConfirm}" @click.prevent="confirm"><a><i class="fa fa-check" aria-hidden="true"></i> Confirm</a></li-->
+            </ul>
+        </section>
+    </div>
 </template>
 
 <script>
