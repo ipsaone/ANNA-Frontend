@@ -1,5 +1,5 @@
 <template>
-    <div class="blog basic-layout">
+    <section class="blog basic-layout">
         <section class="content">
             <h1 class="section-title color-blue">
                 Blog
@@ -30,8 +30,6 @@
             </template>
         </section>
 
-        <div style="height : 2em;" />
-
         <section class="actions">
             <h1 class="section-title">
                 Actions
@@ -44,7 +42,7 @@
                 </li>
             </ul>
         </section>
-    </div>
+    </section>
 </template>
 
 <script>
