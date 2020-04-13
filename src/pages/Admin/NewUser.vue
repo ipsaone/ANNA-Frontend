@@ -27,15 +27,6 @@
                         v-model="user_send_email"
                         type="checkbox"
                         name="user-send-email"
-                    />
-                </div>
-
-                <div class="form-group">
-                    <label for="user-pwd-2">Send email to user :</label>
-                    <input
-                        v-model="user_send_email"
-                        type="checkbox"
-                        name="user-send-email"
                     >
                 </div>
 
