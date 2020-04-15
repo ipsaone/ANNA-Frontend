@@ -20,7 +20,7 @@
     "jsbarcode": "^3.11.0",
     "lodash": "^4.17.15",
     "moment": "^2.22.2",
-    "npm": "^6.13.1",
+    "npm": "^6.13.4",
     "sweetalert2": "^9.4.0",
     "vue": "^2.6.10",
     "vue-context-menu": "^2.0.6",
