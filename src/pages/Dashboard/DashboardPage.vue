@@ -1,13 +1,13 @@
 <template>
-  <section class="dashboard">
-    <section class="content">
-      <h1 class="section-title color-purple">
-        Missions
-      </h1>
+    <section class="dashboard">
+        <section class="content">
+            <h1 class="section-title color-purple">
+                Missions
+            </h1>
 
-      <missions-slider />
+            <missions-slider />
+        </section>
     </section>
-  </section>
 </template>
 
 <script>
@@ -26,7 +26,7 @@ export default {
     computed: {
         logs() {
             return store.getters.logs;
-        },
+        }
     },
     async mounted() {
         await store.dispatch('retrieveLoggedUser');
@@ -36,7 +36,7 @@ export default {
             this.$modal.show('uploadLog');
         },
         showLog(log) {
-            this.$modal.show('log', {'log': log});
+            this.$modal.show('log', { log: log });
         }
     }
 };
