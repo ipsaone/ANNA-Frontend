@@ -27,7 +27,7 @@
                         v-model="user_send_email"
                         type="checkbox"
                         name="user-send-email"
-                    />
+                    >
                 </div>
 
                 <div class="buttons">
@@ -38,7 +38,11 @@
                     >
                         Cancel
                     </button>
-                    <button type="button" class="submit" @click.prevent="onSubmit">
+                    <button
+                        type="button"
+                        class="submit"
+                        @click.prevent="onSubmit"
+                    >
                         Submit
                     </button>
                 </div>

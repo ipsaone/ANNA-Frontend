@@ -4,7 +4,7 @@
             <p class="id">
                 <i
                     v-if="post.pinned"
-                    class="far fa-bell"
+                    class="fas fa-thumbtack"
                     style="position: relative; left: 0.4em;"
                 />
             </p>

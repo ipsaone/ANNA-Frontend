@@ -27,11 +27,17 @@
             </h1>
             <ul>
                 <li>
-                    <label><input v-model="isDraft" type="checkbox" /> Add to draft</label>
+                    <label><input
+                        v-model="isDraft"
+                        type="checkbox"
+                    > Add to draft</label>
                 </li>
 
                 <li>
-                    <label><input v-model="isPinned" type="checkbox" /> Pin post</label>
+                    <label><input
+                        v-model="isPinned"
+                        type="checkbox"
+                    > Pin post</label>
                 </li>
             </ul>
         </section>

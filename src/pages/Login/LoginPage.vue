@@ -27,7 +27,7 @@
                     />
                     <div class="actions">
                         <a class="button nopasswd" href="#">Forgot your password?</a>
-                        <a class="button" href="#" @click="login">Login</a>
+                        <a id="login_btn" class="button" href="#" @click="login">Login</a>
                     </div>
                 </form>
             </div>

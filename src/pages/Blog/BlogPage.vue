@@ -1,5 +1,5 @@
 <template>
-    <div class="blog basic-layout">
+    <section class="blog basic-layout">
         <section class="content">
             <h1 class="section-title color-blue">
                 Blog
@@ -9,23 +9,22 @@
                     v-for="(post, index) in pinnedPosts"
                     :key="post.id"
                     :post="post"
-                    :index="index + 1"
+                    :index="index +1"
                     @click="selectPost(post.id)"
                 />
 
                 <div style="height : 2em;" />
-
                 <post-abstract
                     v-for="(post, index) in posts"
                     :key="post.id"
                     :post="post"
-                    :index="index + 1"
+                    :index="index +1"
                     @click="selectPost(post.id)"
                 />
             </template>
             <template v-else>
                 <p class="no-post-message">
-                    <b>You're out of luck !</b><br />
+                    <b>You're out of luck !</b><br>
                     No blog post was found... Sorry !! :-(
                 </p>
             </template>
@@ -43,7 +42,7 @@
                 </li>
             </ul>
         </section>
-    </div>
+    </section>
 </template>
 
 <script>

@@ -4,11 +4,13 @@
 
         <div class="content">
             <div class="page-title">
-                <h1 class="maj-cap">Profile page : {{ user.username }}</h1>
+                <h1 class="maj-cap">
+                    Profile page : {{ user.username }}
+                </h1>
                 <h3 style="font-size: 1.2em">
                     <a
                         v-if="user.id == auth.id"
-                        @click.prevent="$modal.show('changePassword', { user_id: auth.id })"
+                        @click.prevent="$modal.show('changePassword', {user_id: auth.id})"
                     >Change Password</a>
                 </h3>
             </div>

@@ -100,25 +100,59 @@
                     Options
                 </h1>
                 <ul>
-                    <li v-if="this.selectedFile && !this.selectedFile.file.isDir">
-                        <a v-if="!showHistory" href="#" @click.prevent="downloadFile">
-                            <i class="fa fa-download" aria-hidden="true" /> Download
+                    <li v-if="this.selectedFile && this.selectedFile.file && !this.selectedFile.file.isDir">
+                        <a
+                            v-if="!showHistory"
+                            href="#"
+                            @click.prevent="downloadFile"
+                        >
+                            <i
+                                class="fa fa-download"
+                                aria-hidden="true"
+                            /> Download
                         </a>
-                        <a v-else href="#" @click.prevent="downloadRev">
-                            <i class="fa fa-download" aria-hidden="true" /> Download
+                        <a
+                            v-else
+                            href="#"
+                            @click.prevent="downloadRev"
+                        >
+                            <i
+                                class="fa fa-download"
+                                aria-hidden="true"
+                            /> Download
                         </a>
                     </li>
                     <li v-else-if="this.selectedFile">
-                        <a href="#" @click.prevent="openFile">
-                            <i class="fa fa-download" aria-hidden="true" /> Open
+                        <a
+                            href="#"
+                            @click.prevent="openFile"
+                        >
+                            <i
+                                class="fa fa-download"
+                                aria-hidden="true"
+                            /> Open
                         </a>
                     </li>
-                    <li v-if="this.selectedFile.file && !this.selectedFile.file.isDir">
-                        <a v-if="!showHistory" href="#" @click.prevent="toggleShowHistory">
-                            <i v-if="!showHistory" class="fas fa-history" /> Show history
+                    <li v-if="this.selectedFile && this.selectedFile.file && !this.selectedFile.file.isDir">
+                        <a
+                            v-if="!showHistory"
+                            href="#"
+                            @click.prevent="toggleShowHistory"
+                        >
+                            <i
+                                v-if="!showHistory"
+                                class="fas fa-history"
+                            /> Show history
                         </a>
-                        <a v-else href="#" @click.prevent="toggleShowHistory">
-                            <i v-if="showHistory" class="fas fa-times" /> Hide history
+                        <a
+                            v-else
+                            href="#"
+                            @click.prevent="toggleShowHistory"
+                        >
+                            <i
+                                v-if="showHistory"
+                                class="fas fa-times"
+                            /> Hide history
                         </a>
                     </li>
                     <!--li>
@@ -127,32 +161,38 @@
                         </a>
                     </li-->
                     <li v-if="!showHistory">
-                        <a href="#" @click.prevent="moveFile">
-                            <i class="fa fa-folder" aria-hidden="true" /> Move
+                        <a
+                            href="#"
+                            @click.prevent="moveFile"
+                        >
+                            <i
+                                class="fa fa-folder"
+                                aria-hidden="true"
+                            /> Move
                         </a>
                     </li>
                     <li v-if="!showHistory">
                         <a
-                            v-if="this.selectedFile.isDir"
+                            v-if="this.selectedFile && this.selectedFile.isDir"
                             href="#"
-                            @click.prevent="
-                                $modal.show('uploadFile', { isDir: true, isEditing: true })
-                            "
+                            @click.prevent="$modal.show('uploadFile', {isDir: true, isEditing: true})"
                         >
+
                             <i class="fa fa-pen" /> Edit
                         </a>
                         <a
                             v-else
                             href="#"
-                            @click.prevent="
-                                $modal.show('uploadFile', { isDir: false, isEditing: true })
-                            "
+                            @click.prevent="$modal.show('uploadFile', {isDir: false, isEditing: true})"
                         >
                             <i class="fa fa-pen" /> Edit
                         </a>
                     </li>
                     <li v-if="!showHistory">
-                        <a href="#" @click.prevent="deleteFile">
+                        <a
+                            href="#"
+                            @click.prevent="deleteFile"
+                        >
                             <i class="fa fa-trash" /> Delete
                         </a>
                     </li>
@@ -235,7 +275,10 @@ export default {
             store.commit('SET_KEYWORD', str);
         },
         openFile() {
-            if (this.selectedFile.type === 'folder') {
+            if(!this.selectedFile){
+                return;
+            }
+            if (this.selectedFile.type === 'folder' && this.selectFile.fileId) {
                 this.loading = true;
                 store
                     .dispatch('retrieveFolder', this.selectedFile.fileId)
@@ -250,25 +293,42 @@ export default {
             this.$modal.show('barcode');
         },
         downloadFile() {
+            if(!this.selectedFile) {
+                return;
+            }
             driveApi.downloadFile(this.selectedFile.fileId);
         },
         downloadRev() {
+            if(!this.selectedFile) {
+                return;
+            }
             driveApi.downloadRev(this.selectedFile.fileId, this.selectedFile.id);
         },
         // downloadMeta() {
         //     driveApi.downloadMeta(this.selectedFile.fileId);
         // },
         editFile() {
-            if (!this.selectedFile.type === 'folder') this.$modal.show('editFile');
+            if(!this.selectedFile) {
+                return;
+            }
+            if (!this.selectedFile.type === 'folder')
+                this.$modal.show('editFile');
         },
         toggleShowHistory() {
-            if (!store.getters.showHistory) {
+            if(!this.selectedFile) {
+                return;
+            }
+            if(!store.getters.showHistory){
                 store.dispatch('showHistory', this.selectedFile.fileId);
             } else {
                 store.dispatch('hideHistory');
             }
         },
         deleteFile() {
+            if(!this.selectedFile || !store.getters.folder) {
+                return;
+            }
+
             /*swal({
                     title: 'Delete this file?',
                     type: 'warning',
@@ -310,6 +370,9 @@ export default {
             });
         },
         refreshFolder() {
+            if(!this.getters.folder) {
+                return;
+            }
             store.dispatch('retrieveFolder', store.getters.folder.fileId);
         }
     }
