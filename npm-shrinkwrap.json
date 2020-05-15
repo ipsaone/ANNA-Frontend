@@ -13717,9 +13717,9 @@
       "integrity": "sha512-gwt2904sWbMUuUcHwKQ510IEs4G7S3bqVWLYeTOc2eEyWMmmnT9UmojDsXIexFnPVM7cZTua37z3Jm/h0i0y8Q=="
     },
     "vue-loader": {
-      "version": "15.9.1",
-      "resolved": "https://registry.npmjs.org/vue-loader/-/vue-loader-15.9.1.tgz",
-      "integrity": "sha512-IaPU2KOPjs/QjMlxFs/TiTtQUSbftQ7lsAvoxe21rtcQohsMhx+1AltXCNhZIpIn46PtODiAgz+o8RbMpKtmJw==",
+      "version": "15.9.2",
+      "resolved": "https://registry.npmjs.org/vue-loader/-/vue-loader-15.9.2.tgz",
+      "integrity": "sha512-oXBubaY//CYEISBlHX+c2YPJbmOH68xXPXjFv4MAgPqQvUsnjrBAjCJi8HXZ/r/yfn0tPL5VZj1Zcp8mJPI8VA==",
       "requires": {
         "@vue/component-compiler-utils": "^3.1.0",
         "hash-sum": "^1.0.2",
