@@ -480,6 +480,21 @@
       "integrity": "sha512-rr+OQyAjxze7GgWrSaJwydHStIhHq2lvY3BOC2Mj7KnzI7XK0Uw1TOOdI9lDoajEbSWLiYgoo4f1R51erQfhPQ==",
       "dev": true
     },
+    "@types/http-proxy": {
+      "version": "1.17.4",
+      "resolved": "https://registry.npmjs.org/@types/http-proxy/-/http-proxy-1.17.4.tgz",
+      "integrity": "sha512-IrSHl2u6AWXduUaDLqYpt45tLVCtYv7o4Z0s1KghBCDgIIS9oW5K1H8mZG/A2CfeLdEa7rTd1ACOiHBc1EMT2Q==",
+      "dev": true,
+      "requires": {
+        "@types/node": "*"
+      }
+    },
+    "@types/node": {
+      "version": "14.0.1",
+      "resolved": "https://registry.npmjs.org/@types/node/-/node-14.0.1.tgz",
+      "integrity": "sha512-FAYBGwC+W6F9+huFIDtn43cpy7+SzG+atzRiTfdp3inUKL2hXnd4rG8hylJLIh4+hqrQy1P17kvJByE/z825hA==",
+      "dev": true
+    },
     "@types/q": {
       "version": "1.5.2",
       "resolved": "https://registry.npmjs.org/@types/q/-/q-1.5.2.tgz",
@@ -4527,9 +4542,9 @@
       "dev": true
     },
     "eventemitter3": {
-      "version": "4.0.0",
-      "resolved": "https://registry.npmjs.org/eventemitter3/-/eventemitter3-4.0.0.tgz",
-      "integrity": "sha512-qerSRB0p+UDEssxTtm6EDKcE7W4OaoisfIMl4CngyEhjpYglocpNg6UEqCvemdGhosAsg4sO2dXJOdyBifPGCg==",
+      "version": "4.0.4",
+      "resolved": "https://registry.npmjs.org/eventemitter3/-/eventemitter3-4.0.4.tgz",
+      "integrity": "sha512-rlaVLnVxtxvoyLsQQFBx53YmXHDxRIzzTLbdfxqi4yocpSjAxXwkU0cScM5JgSKMqEhrZpnvQ2D9gjylR0AimQ==",
       "dev": true
     },
     "events": {
@@ -6263,9 +6278,9 @@
       }
     },
     "http-proxy": {
-      "version": "1.18.0",
-      "resolved": "https://registry.npmjs.org/http-proxy/-/http-proxy-1.18.0.tgz",
-      "integrity": "sha512-84I2iJM/n1d4Hdgc6y2+qY5mDaz2PUVjlg9znE9byl+q0uC3DeByqBGReQu5tpLK0TAqTIXScRUV+dg7+bUPpQ==",
+      "version": "1.18.1",
+      "resolved": "https://registry.npmjs.org/http-proxy/-/http-proxy-1.18.1.tgz",
+      "integrity": "sha512-7mz/721AbnJwIVbnaSv1Cz3Am0ZLT/UBwkC92VlxhXv/k/BBQfM2fXElQNC27BVGr0uwUpplYPQM9LnaBMR5NQ==",
       "dev": true,
       "requires": {
         "eventemitter3": "^4.0.0",
@@ -6274,14 +6289,15 @@
       }
     },
     "http-proxy-middleware": {
-      "version": "0.20.0",
-      "resolved": "https://registry.npmjs.org/http-proxy-middleware/-/http-proxy-middleware-0.20.0.tgz",
-      "integrity": "sha512-dNJAk71nEJhPiAczQH9hGvE/MT9kEs+zn2Dh+Hi94PGZe1GluQirC7mw5rdREUtWx6qGS1Gu0bZd4qEAg+REgw==",
+      "version": "1.0.3",
+      "resolved": "https://registry.npmjs.org/http-proxy-middleware/-/http-proxy-middleware-1.0.3.tgz",
+      "integrity": "sha512-GHvPeBD+A357zS5tHjzj6ISrVOjjCiy0I92bdyTJz0pNmIjFxO0NX/bX+xkGgnclKQE/5hHAB9JEQ7u9Pw4olg==",
       "dev": true,
       "requires": {
-        "http-proxy": "^1.17.0",
+        "@types/http-proxy": "^1.17.3",
+        "http-proxy": "^1.18.0",
         "is-glob": "^4.0.1",
-        "lodash": "^4.17.14",
+        "lodash": "^4.17.15",
         "micromatch": "^4.0.2"
       },
       "dependencies": {
@@ -11217,9 +11233,9 @@
       "dev": true
     },
     "picomatch": {
-      "version": "2.1.1",
-      "resolved": "https://registry.npmjs.org/picomatch/-/picomatch-2.1.1.tgz",
-      "integrity": "sha512-OYMyqkKzK7blWO/+XZYP6w8hH0LDvkBvdvKukti+7kqYFCiEAk+gI3DWnryapc0Dau05ugGTy0foQ6mqn4AHYA==",
+      "version": "2.2.2",
+      "resolved": "https://registry.npmjs.org/picomatch/-/picomatch-2.2.2.tgz",
+      "integrity": "sha512-q0M/9eZHzmr0AulXyPwNfZjtwZ/RBZlbN3K3CErVrk50T2ASYI7Bye0EvekFY3IP1Nt2DHu0re+V2ZHIpMkuWg==",
       "dev": true
     },
     "pify": {
