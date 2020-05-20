@@ -13915,18 +13915,11 @@
       }
     },
     "vue-sweetalert2": {
-      "version": "2.1.5",
-      "resolved": "https://registry.npmjs.org/vue-sweetalert2/-/vue-sweetalert2-2.1.5.tgz",
-      "integrity": "sha512-7sYg0NHz9Tj9GbkzCRBwe/rUBsq49gr/aQLh0cZjK1bqMd5UucmxGGn2AKhSdXyqswlHElAGWXI0Yub9l3ZrRQ==",
+      "version": "3.0.5",
+      "resolved": "https://registry.npmjs.org/vue-sweetalert2/-/vue-sweetalert2-3.0.5.tgz",
+      "integrity": "sha512-X1Jj7bNC7uTDXeHjOnW/PAMn96yiFzF740R5kW++xDaYYymXReo/zi1F7iqVyfZccsZMb4Y+5u3DFBlPNSuRIg==",
       "requires": {
-        "sweetalert2": "8.x"
-      },
-      "dependencies": {
-        "sweetalert2": {
-          "version": "8.19.0",
-          "resolved": "https://registry.npmjs.org/sweetalert2/-/sweetalert2-8.19.0.tgz",
-          "integrity": "sha512-nFL++N3bitkEkd487Tv4i5ZxusmnoAAXHjtk7lp603Opxb8wlvVnz3hqa7qiIw6QFL04JC810E6qVQNf8s0vYQ=="
-        }
+        "sweetalert2": "9.x"
       }
     },
     "vue-tabs-component": {
