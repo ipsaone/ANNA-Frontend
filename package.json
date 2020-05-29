@@ -21,7 +21,7 @@
     "lodash": "^4.17.15",
     "moment": "^2.26.0",
     "npm": "^6.13.1",
-    "sweetalert2": "^9.13.1",
+    "sweetalert2": "^9.13.2",
     "vue": "^2.6.11",
     "vue-context-menu": "^2.0.6",
     "vue-cookie": "^1.1.4",
