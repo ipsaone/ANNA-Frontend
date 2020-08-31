@@ -33,7 +33,7 @@
     "vue-notification": "^1.3.20",
     "vue-router": "^3.4.3",
     "vue-simplemde": "^1.1.2",
-    "vue-sweetalert2": "^3.0.6",
+    "vue-sweetalert2": "^3.0.8",
     "vue-tabs-component": "^1.5.0",
     "vuejs-datepicker": "^1.6.2",
     "vuex": "^3.5.1",
